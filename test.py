@@ -244,8 +244,8 @@ GOOD_PAIRS = [
 
     # stripping style inline commands
     ("{\\tiny x}", x),
-    ("{\\tiny x + y}", x + y),
-    ("{\\tiny 21}", 21),
+    ("{\\LARGE x + y}", x + y),
+    ("{\\Huge 21}", 21),
 
     # lin alg processing
     ("\\theta\\begin{matrix}1&2\\\\3&4\\end{matrix}", MatMul(theta,Matrix([[1,2],[3,4]])) ),

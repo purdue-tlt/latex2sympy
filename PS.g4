@@ -137,7 +137,7 @@ DIFFERENTIAL: 'd' WS_CHAR*? ([a-zA-Z] | '\\' [a-zA-Z]+);
 EXP_E: 'e';
 E_NOTATION_E: 'E';
 LETTER: [a-df-zA-DF-Z];//exclude e for exponential function and e notation
-COLOR: [#a-zA-Z0-9]+;
+COLOR: '#' [a-zA-Z0-9]*;
 fragment DIGIT: [0-9];
 NUMBER:
     DIGIT+ (',' DIGIT DIGIT DIGIT)*

@@ -256,21 +256,30 @@ class PSListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PSParser#mathit.
-    def enterMathit(self, ctx):
+    # Enter a parse tree produced by PSParser#style_func.
+    def enterStyle_func(self, ctx):
         pass
 
-    # Exit a parse tree produced by PSParser#mathit.
-    def exitMathit(self, ctx):
+    # Exit a parse tree produced by PSParser#style_func.
+    def exitStyle_func(self, ctx):
         pass
 
 
-    # Enter a parse tree produced by PSParser#mathit_text.
-    def enterMathit_text(self, ctx):
+    # Enter a parse tree produced by PSParser#style_func_arg.
+    def enterStyle_func_arg(self, ctx):
         pass
 
-    # Exit a parse tree produced by PSParser#mathit_text.
-    def exitMathit_text(self, ctx):
+    # Exit a parse tree produced by PSParser#style_func_arg.
+    def exitStyle_func_arg(self, ctx):
+        pass
+
+
+    # Enter a parse tree produced by PSParser#style_inline.
+    def enterStyle_inline(self, ctx):
+        pass
+
+    # Exit a parse tree produced by PSParser#style_inline.
+    def exitStyle_inline(self, ctx):
         pass
 
 
