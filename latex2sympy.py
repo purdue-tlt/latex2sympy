@@ -134,9 +134,9 @@ def convert_matrix(matrix):
     # build matrix
     row = matrix.matrix_row()
     tmp = []
-    rows = 0;
+    rows = 0
     for r in row:
-        tmp.append([]);
+        tmp.append([])
         for expr in r.expr():
             tmp[rows].append(convert_expr(expr))
         rows = rows + 1
@@ -332,8 +332,14 @@ def convert_comp(comp):
         return convert_binom(comp.binom())
     elif comp.matrix():
         return convert_matrix(comp.matrix())
+    elif comp.style_inline():
+        return convert_expr(comp.style_inline().expr())
     elif comp.func():
         return convert_func(comp.func())
+    elif comp.style_func():
+        return convert_expr(comp.style_func().expr())
+    elif comp.style_func_arg():
+        return convert_expr(comp.style_func_arg().expr())
 
 def convert_atom(atom):
     if atom.LETTER():
@@ -404,9 +410,6 @@ def convert_atom(atom):
     elif atom.DIFFERENTIAL():
         var = get_differential_var(atom.DIFFERENTIAL())
         return sympy.Symbol('d' + var.name, real=True)
-    elif atom.mathit():
-        text = rule2text(atom.mathit().mathit_text())
-        return sympy.Symbol(text, real=True)
     elif atom.PLACEHOLDER():
         name = atom.PLACEHOLDER().getText()[2:]
         name = name[0:len(name)-2]

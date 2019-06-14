@@ -78,7 +78,36 @@ CMD_FRAC:  '\\frac';
 CMD_BINOM: '\\binom';
 CMD_CHOOSE: '\\choose';
 
+// math fonts
+CMD_MATHNORMAL: '\\mathnormal';
+CMD_MATHRM: '\\mathrm';
+CMD_MATHBF: '\\mathbf';
+CMD_MATHSF: '\\mathsf';
 CMD_MATHIT: '\\mathit';
+CMD_MATHTT: '\\mathtt';
+CMD_MATHCAL: '\\mathcal';
+CMD_MATHBB: '\\mathbb';
+CMD_MATHSCR: '\\mathscr';
+CMD_MATHFRAK: '\\mathfrak';
+
+// fonts
+CMD_FONTFAMILY: '\\fontfamily';
+CMD_FONTSHAPE: '\\fontshape';
+CMD_FONTSERIES: '\\fontseries';
+CMD_UPSHAPE: '\\upshape';
+
+// font sizes
+CMD_TINY: '\\tiny';
+CMD_SCRIPTSIZE: '\\scriptsize';
+CMD_FOOTNOTESIZE: '\\footnotesize';
+CMD_SMALL: '\\small';
+CMD_NORMALSIZE: '\\normalsize';
+CMD_LARGE: '\\large' | '\\Large' | '\\LARGE';
+CMD_HUGE: '\\huge' | '\\Huge';
+
+// colors
+CMD_TEXTCOLOR: '\\textcolor';
+CMD_COLORBOX: '\\colorbox';
 
 CMD_OPERATORNAME: '\\operatorname';
 
@@ -108,6 +137,7 @@ DIFFERENTIAL: 'd' WS_CHAR*? ([a-zA-Z] | '\\' [a-zA-Z]+);
 EXP_E: 'e';
 E_NOTATION_E: 'E';
 LETTER: [a-df-zA-DF-Z];//exclude e for exponential function and e notation
+COLOR: [#a-zA-Z0-9]+;
 fragment DIGIT: [0-9];
 NUMBER:
     DIGIT+ (',' DIGIT DIGIT DIGIT)*
@@ -259,6 +289,9 @@ comp:
     group
     | abs_group
     | func
+    | style_func
+    | style_func_arg
+    | style_inline
     | atom
     | frac
     | binom
@@ -267,6 +300,7 @@ comp:
 comp_nofunc:
     group
     | abs_group
+    | style_inline
     | atom
     | frac
     | binom
@@ -297,10 +331,22 @@ accent:
     accent_symbol
     L_BRACE base=expr R_BRACE;
 
-atom: (LETTER | GREEK_LETTER | accent) subexpr? | SYMBOL | NUMBER | E_NOTATION | DIFFERENTIAL | mathit | PLACEHOLDER;
+atom: (LETTER | GREEK_LETTER | accent) subexpr? | SYMBOL | NUMBER | E_NOTATION | DIFFERENTIAL | PLACEHOLDER;
 
-mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
-mathit_text: (LETTER | E_NOTATION_E | EXP_E)+;
+style_func:
+    (CMD_MATHNORMAL | CMD_MATHRM | CMD_MATHBF | CMD_MATHSF | CMD_MATHIT | CMD_MATHTT | CMD_MATHCAL | CMD_MATHBB | CMD_MATHSCR | CMD_MATHFRAK) L_BRACE
+    expr
+    R_BRACE;
+
+style_func_arg:
+    (CMD_FONTFAMILY | CMD_FONTSHAPE | CMD_FONTSERIES | CMD_TEXTCOLOR | CMD_COLORBOX) L_BRACE
+    (COLOR | args)
+    R_BRACE L_BRACE
+    expr
+    R_BRACE;
+
+style_inline:
+    (CMD_TINY | CMD_SCRIPTSIZE | CMD_FOOTNOTESIZE | CMD_SMALL | CMD_NORMALSIZE | CMD_LARGE | CMD_HUGE | CMD_UPSHAPE) expr;
 
 frac:
     CMD_FRAC L_BRACE

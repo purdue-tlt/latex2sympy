@@ -133,7 +133,7 @@ GOOD_PAIRS = [
     ("\\int \\frac{3 dz}{z}", Integral(3*Pow(z, -1), z)),
     ("\\int \\frac{1}{x} dx", Integral(Pow(x, -1), x)),
     ("\\int \\frac{1}{a} + \\frac{1}{b} dx", Integral(_Add(_Pow(a,-1), Pow(b,-1)),x)),
-    ("\\int \\frac{3 \cdot d\\theta}{\\theta}", Integral(3*_Pow(theta,-1), theta)),
+    ("\\int \\frac{3 \\cdot d\\theta}{\\theta}", Integral(3*_Pow(theta,-1), theta)),
     ("\\int \\frac{1}{x} + 1 dx", Integral(_Add(_Pow(x, -1), 1), x)),
     ("x_0", Symbol('x_{0}', real=True)),
     ("x_{1}", Symbol('x_{1}', real=True)),
@@ -159,10 +159,6 @@ GOOD_PAIRS = [
     ("x \\leq y", LessThan(x, y)),
     ("x > y", StrictGreaterThan(x, y)),
     ("x \\geq y", GreaterThan(x, y)),
-    ("\\mathit{x}", Symbol('x', real=True)),
-    ("\\mathit{test}", Symbol('test', real=True)),
-    ("\\mathit{TEST}", Symbol('TEST', real=True)),
-    ("\\mathit{HELLO world}", Symbol('HELLO world', real=True)),
     ("\\sum_{k = 1}^{3} c", Sum(c, (k, 1, 3))),
     ("\\sum_{k = 1}^3 c", Sum(c, (k, 1, 3))),
     ("\\sum^{3}_{k = 1} c", Sum(c, (k, 1, 3))),
@@ -192,7 +188,7 @@ GOOD_PAIRS = [
     ("\\frac{\\sin(x)}{\\overline{x}_n}", sin(Symbol('x', real=True))/Symbol('xbar_{n}', real=True)),
     ("2\\bar{x}", 2*Symbol('xbar', real=True)),
     ("2\\bar{x}_n", 2*Symbol('xbar_{n}', real=True)),
-    ("\\sin\\left(\\theta\\right) \cdot4", sin(theta)*4),
+    ("\\sin\\left(\\theta\\right) \\cdot4", sin(theta)*4),
     ("\\ln\\left(\\theta\\right)", _log(theta, E)),
     ("\\ln\\left(x-\\theta\\right)", _log(x-theta, E)),
     ("\\ln\\left(\\left(x-\\theta\\right)\\right)", _log(x-theta, E)),
@@ -210,7 +206,7 @@ GOOD_PAIRS = [
     ("\\choose{x}{y}", binomial(x,y) ),
     ("\\choose{\\theta}{\\gamma}", binomial(theta,Symbol('gamma', real=True)) ),
     ("\\begin{matrix}1&2\\\\3&4\\end{matrix}", Matrix([[1,2],[3,4]])),
-    ("\\begin{matrix}x&x^2\\\\\sqrt{x}&x\\end{matrix}", Matrix([[x,x**2],[sqrt(x),x]])),
+    ("\\begin{matrix}x&x^2\\\\\\sqrt{x}&x\\end{matrix}", Matrix([[x,x**2],[sqrt(x),x]])),
     ("\\begin{matrix}\\sqrt{x}\\\\\\sin(\\theta)\\end{matrix}", Matrix([sqrt(x),sin(theta)])),
     ("\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}", Matrix([[1,2],[3,4]])),
     ("\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}", Matrix([[1,2],[3,4]])),
@@ -235,6 +231,21 @@ GOOD_PAIRS = [
     # e in scientific e notation
     ("2.5E2", 250),
     ("1,500E-1", 150),
+
+    # stripping style function
+    ("\\mathit{x}", x),
+    ("\\mathbf{x + y}", x + y),
+    ("\\mathsf{21}", 21),
+
+    # stripping style function with arguments
+    ("\\fontfamily{cmr}{x}", x),
+    ("\\fontseries{m}{x + y}", x + y),
+    ("\\textcolor{#CC2428}{21}", 21),
+
+    # stripping style inline commands
+    ("{\\tiny x}", x),
+    ("{\\tiny x + y}", x + y),
+    ("{\\tiny 21}", 21),
 
     # lin alg processing
     ("\\theta\\begin{matrix}1&2\\\\3&4\\end{matrix}", MatMul(theta,Matrix([[1,2],[3,4]])) ),
@@ -267,8 +278,7 @@ BAD_STRINGS = [
     "{",
     "}",
     # "1.1.1",
-    "\\mathit{x + y}",
-    "\\mathit{21}",
+    "\\mathit{TEST}"
     "\\frac{2}{}",
     "\\frac{}{2}",
     "\\int",
@@ -338,7 +348,7 @@ for s, eq, *args in GOOD_PAIRS:
             passed_good += 1
             try:
                 subs={x: 1, y: 2, z: 3, a: 4, b: 5, c: 6, f: 7, t: 8, k: 9, n: 10, theta: 3.5}
-                print("%s => %s => %s" % (s, parsed, parsed.evalf(subs=subs)))
+                # print("%s => %s => %s" % (s, parsed, parsed.evalf(subs=subs)))
             except:
                 print("INFO: Parsed successfully, but could not evaluate: \"%s\"" % s)
     except Exception as e:
