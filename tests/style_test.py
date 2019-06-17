@@ -1,6 +1,6 @@
 from .context import assert_equal
 import pytest
-from sympy import Symbol
+from sympy import Symbol, sin
 
 x = Symbol('x', real=True)
 y = Symbol('y', real=True)
@@ -28,3 +28,6 @@ def test_strip_style_inline_expr():
 	assert_equal("{\\LARGE x + y}", x + y)
 def test_strip_style_inline_numeric():
 	assert_equal("{\\Huge 21}", 21),
+
+def test_strip_style_partial_math():
+	assert_equal("\\mathrm{\\sin }x", sin(x)),
