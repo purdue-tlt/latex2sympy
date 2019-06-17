@@ -1,0 +1,15 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pylint = "*"
+pytest = "*"
+
+[packages]
+sympy = "==1.4"
+antlr4-python3-runtime = ">=4.7.2"
+
+[requires]
+python_version = "3.6"

@@ -4,12 +4,10 @@ from latex2sympy import process_sympy
 
 x = Symbol('x', real=True)
 
-latex = '\\textcolor{#CC2428}{x + 1}'
+latex = '\\mathrm{\\sin }\\mleft(0\\mright)'
 parsed = process_sympy(latex)
-answer = parsed.evalf()
-print(parsed, answer)
+print('parsed:', parsed)
 
-# latex = 'x'
-# parsed = process_sympy(latex)
+# answer = parsed.evalf()
 # answer = parsed.evalf(subs={x: '1'})
-# print(answer)
+# print('answer:', answer)

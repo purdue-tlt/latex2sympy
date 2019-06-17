@@ -4,7 +4,7 @@ from sympy.core import S
 class AsciiMathPrinter(StrPrinter):
 
     def _print_Limit(self, expr):
-        e, z, z0, dir = expr.args
+        e, z = expr.args
 
         return "lim_(%s -> %s) %s" % (self._print(z), self._print(z), self._print(e))
 
