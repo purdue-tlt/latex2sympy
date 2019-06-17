@@ -1,7 +1,8 @@
-import sys
-sys.path.append("..")
-from latex2sympy import process_sympy
+from .context import assert_equal
+import pytest
+from sympy import sin, Symbol
 
-latex = "\\sin\\left(x\\right)\\cdot x"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
+x = Symbol('x', real=True)
+
+def test_left_right_cdot():
+	assert_equal("\\sin\\left(x\\right)\\cdot x", sin(x)*x)

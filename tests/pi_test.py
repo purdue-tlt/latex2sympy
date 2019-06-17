@@ -1,19 +1,10 @@
-from sympy import *
-import sys
-sys.path.append("..")
-from latex2sympy import process_sympy
-print(acos(-1))
-print(acos(0))
-print(acos(1))
+from .context import assert_equal
+import pytest
+from sympy import pi, Symbol
 
-latex = "\\frac{\\pi}{3}"
-math = process_sympy(latex)
-print("latex: %s to math: %s to simplify: %s to evalf: %s" %(latex,math,simplify(math),math.evalf()))
-
-latex = "\\arccos{\\cos{\\frac{\\pi}{3}}}"
-math = process_sympy(latex)
-print("latex: %s to math: %s to simplify: %s to evalf: %s" %(latex,math,simplify(math),math.evalf()))
-
-latex = "\\arccos{-1}"
-math = process_sympy(latex)
-print("latex: %s to math: %s to simplify: %s to evalf: %s" %(latex,math,simplify(math),math.evalf()))
+def test_pi_frac():
+	assert_equal("\\frac{\\pi}{3}", pi/3)
+def test_pi_nested():
+	assert_equal("\\arccos{\\cos{\\frac{\\pi}{3}}}", pi/3)
+def test_pi_arccos():
+	assert_equal("\\arccos{-1}", pi)

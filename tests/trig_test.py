@@ -1,9 +1,8 @@
-from sympy import *
-import sys
-sys.path.append("..")
-from latex2sympy import process_sympy
+from .context import assert_equal
+import pytest
+from sympy import asinh, Symbol
 
-x = Symbol('x', real=True);
+# x = Symbol('x', real=True);
 
 # latex = "\\sinh(x)"
 # math = process_sympy(latex)
@@ -17,6 +16,5 @@ x = Symbol('x', real=True);
 # math = process_sympy(latex)
 # print("latex: %s to math: %s" %(latex,math))
 
-latex = "\\operatorname{arcsinh}\\left(1\\right)"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
+def test_arcsinh():
+	assert_equal("\\operatorname{arcsinh}\\left(1\\right)", asinh(1))

@@ -1,7 +1,8 @@
-import sys
-sys.path.append("..")
-from latex2sympy import process_sympy
+from .context import assert_equal
+import pytest
+from sympy import sin, Symbol
 
-latex = "\\frac{\\sin(x)}{\\overline{x}_n}"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
+x = Symbol('x', real=True)
+
+def test_overline():
+	assert_equal("\\frac{\\sin(x)}{\\overline{x}_n}", sin(x)/Symbol('xbar_{n}', real=True))

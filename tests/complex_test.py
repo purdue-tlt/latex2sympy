@@ -1,16 +1,16 @@
-from sympy import *
-import sys
-sys.path.append("..")
-from latex2sympy import process_sympy
+from .context import assert_equal
+import pytest
+from sympy import Sum, I, Symbol
 
-latex = "a+Ib"
-math = process_sympy(latex)
-print("latex: %s to math: %s to simplify: %s to evalf: %s" %(latex,math,simplify(math),math.evalf()))
+a = Symbol('a', real=True)
+b = Symbol('b', real=True)
+i = Symbol('i', real=True)
+n = Symbol('n', real=True)
+x = Symbol('x', real=True)
 
-latex = "e^{I\\cdot\\pi}"
-math = process_sympy(latex)
-print("latex: %s to math: %s to simplify: %s to evalf: %s" %(latex,math,simplify(math),math.evalf()))
-
-latex = "\\sum_{i=0}^{n} i \\cdot x"
-math = process_sympy(latex)
-print("latex: %s to math: %s to simplify: %s to evalf: %s" %(latex,math,simplify(math),math.evalf()))
+def test_complex():
+	assert_equal("a+Ib", a+I*b)
+def test_complex_e():
+	assert_equal("e^{I\\pi}", -1)
+def test_complex_sum():
+	assert_equal("\\sum_{i=0}^{n} i \\cdot x", Sum(i*x, (i, 0, n)))

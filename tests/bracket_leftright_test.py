@@ -1,35 +1,21 @@
-import sys
-sys.path.append("..")
-from latex2sympy import process_sympy
+from .context import assert_equal
+import pytest
+from sympy import Integral, sin, Symbol
 
-latex = "\\int x dx"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
+a = Symbol('a', real=True)
+b = Symbol('b', real=True)
+x = Symbol('x', real=True)
+theta = Symbol('theta', real=True)
 
-latex = "\\sin(\\theta)"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
-
-latex = "\\sin\\left(\\theta\\right)"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
-
-latex = "\\sin{\\theta}"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
-
-latex = "\\sin\\left{\\theta\\right}"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
-
-latex = "P(x)"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
-
-latex = "P\\left(x\\right)"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
-
-latex = "\\frac{1}{2}ab(a+b)"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
+def test_bracket_none():
+	assert_equal("\\int x dx", Integral(x, x))
+def test_bracket_paren():
+	assert_equal("\\sin(\\theta)", sin(theta))
+def test_bracket_leftright_paren():
+	assert_equal("\\sin\\left(\\theta\\right)", sin(theta))
+def test_brackets():
+	assert_equal("\\sin{\\theta}", sin(theta))
+def test_bracket_leftright():
+	assert_equal("\\sin\\left{\\theta\\right}", sin(theta))
+def test_bracket_mixed():
+	assert_equal("\\frac{1}{2}ab(a+b)", 1/2*a*b*(a+b))

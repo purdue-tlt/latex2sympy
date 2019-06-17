@@ -1,27 +1,25 @@
-import sys
-sys.path.append("..")
-from latex2sympy import process_sympy
+from .context import assert_equal
+import pytest
+from sympy import exp, sin, Symbol
 
-latex = "e^3"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
+x = Symbol('x', real=True)
+y = Symbol('y', real=True)
 
-latex = "e^x"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
-
-latex = "\\sin(x)*e^x"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
-
-latex = "e^{(x+y)}"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
-
-latex = "e"
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
-
-latex = '\\mathit{test}'
-math = process_sympy(latex)
-print("latex: %s to math: %s" %(latex,math))
+def test_exp():
+	assert_equal("e", exp(1))
+def test_exp_func():
+	assert_equal("\\exp(3)", exp(3))
+def test_exp_func_no_delim():
+	assert_equal("\\exp3", exp(3))
+def test_exp_command():
+	assert_equal("\\exponentialE(3)", exp(3))
+def test_exp_numeric():
+	assert_equal("e^3", exp(3))
+def test_exp_symbol():
+	assert_equal("e^x", exp(x))
+def test_exp_symbol_expr():
+	assert_equal("e^{x+y}", exp(x+y))
+def test_exp_symbol_expr_group():
+	assert_equal("e^{(x+y)}", exp(x+y))
+def test_exp_expr():
+	assert_equal("\\sin(x)*e^x", sin(x)*exp(x))
