@@ -1,4 +1,4 @@
-from sympy import Symbol, sympify, simplify, Eq, factor, srepr, pi, Number, Mul, Pow, Integer, Float, N, Rational, Add, sin, latex
+from sympy import Symbol, sympify, simplify, Eq, factor, srepr, pi, Number, Mul, Pow, Integer, Float, N, Rational, Add, sin, latex, S
 from latex2sympy import process_sympy
 from math import isclose
 import signal
@@ -20,19 +20,35 @@ def time_limit(seconds):
     finally:
         signal.alarm(0)
 
+
 #
 # Zeroes, Infinity, doit(), and evalf()
 #
 
 
-examples = [
-    ('\\frac{\\variable{A}}{\\variable{B}}', {'A': '2', 'B': '0'}),
+# print(process_sympy('\\tilde{\\infty}'))
 
-    ('\\sin \\mleft(\\variable{a}\\mright)+\\left(\\frac{\\variable{b}}{\\variable{c}}\\cdot \\pi \\right)+\\variable{b}^{\\variable{c}}\\cdot \\sqrt{\\variable{a}}', {'a': process_sympy('853.5764'), 'b': process_sympy('658.95998'), 'c': process_sympy('185,083.8060')}),
+
+examples = [
+    ('\\frac{\\variable{A}}{\\variable{B}}', {'A': '1', 'B': '0'}),
+
+    ('\\variable{b}^{\\variable{c}}', {'a': process_sympy('853.5764'), 'b': process_sympy('658.95998'), 'c': process_sympy('185,083.8060')}),
 
     ('\\lim _{x\\to 1 }(x^2-1)/(x-1)', {}),
 
-    ('\\lim _{x\\to 1 }(x^2-1)/(x-1) + \\sin \\mleft(\\variable{a}\\mright)+\\left(\\frac{\\variable{b}}{\\variable{c}}\\cdot \\pi \\right)+\\variable{b}^{\\variable{c}}\\cdot \\sqrt{\\variable{a}}', {'a': process_sympy('853.5764'), 'b': process_sympy('658.95998'), 'c': process_sympy('185,083.8060')}),
+    ('\\lim _{x\\to 1 }(x^2-1)/(x-1) + \\variable{b}^{\\variable{c}}', {'a': process_sympy('853.5764'), 'b': process_sympy('658.95998'), 'c': process_sympy('185,083.8060')}),
+
+    ('\\frac{1}{0} \\cdot \\variable{b}^{\\variable{c}}', {'a': process_sympy('853.5764'), 'b': process_sympy('658.95998'), 'c': process_sympy('185,083.8060')}),
+
+    ('\\frac{1}{0} + \\variable{b}^{\\variable{c}}', {'a': process_sympy('853.5764'), 'b': process_sympy('658.95998'), 'c': process_sympy('185,083.8060')}),
+
+    ('\\frac{1}{0} \\cdot \\lim _{x\\to 1 }(x^2-1)/(x-1)', {'a': process_sympy('853.5764'), 'b': process_sympy('658.95998'), 'c': process_sympy('185,083.8060')}),
+
+    ('\\frac{1}{0} + \\lim _{x\\to 1 }(x^2-1)/(x-1)', {'a': process_sympy('853.5764'), 'b': process_sympy('658.95998'), 'c': process_sympy('185,083.8060')}),
+
+    ('\\frac{1}{0} + \\lim _{x\\to 1 }(x^2-1)/(x-1) + \\variable{b}^{\\variable{c}}', {'a': process_sympy('853.5764'), 'b': process_sympy('658.95998'), 'c': process_sympy('185,083.8060')}),
+
+    ('\\frac{1}{0} \\cdot \\lim _{x\\to 1 }(x^2-1)/(x-1) \\cdot \\variable{b}^{\\variable{c}}', {'a': process_sympy('853.5764'), 'b': process_sympy('658.95998'), 'c': process_sympy('185,083.8060')}),
 ]
 
 for (latex, variables) in examples:
@@ -41,55 +57,55 @@ for (latex, variables) in examples:
     print('variables: ', variables)
 
     expr = process_sympy(latex, variables)
-    # print('expr: ', expr)
-    # print('srepr(expr): ', srepr(expr))
+    print('expr: ', expr)
+    print('srepr(expr): ', srepr(expr))
 
     ans = None
     try:
-        with time_limit(5):
+        with time_limit(3):
             ans = expr.doit().evalf(chop=True)
             print('ans: ', ans)
             print('srepr(ans): ', srepr(ans))
     except TimeoutException as e:
         print('ERROR: doit().evalf() timed out!')
 
-    if ans is not None:
+    if ans is not None and (ans.is_Number or ans.is_infinite):
         print('SUCCESS: doit().evalf() worked!')
         continue
 
     try:
-        with time_limit(5):
+        with time_limit(3):
             ans = expr.doit(deep=False).evalf(chop=True)
             print('ans: ', ans)
             print('srepr(ans): ', srepr(ans))
     except TimeoutException as e:
         print('ERROR: doit(deep=False).evalf() timed out!')
 
-    if ans is not None:
+    if ans is not None and (ans.is_Number or ans.is_infinite):
         print('SUCCESS: doit(deep=False).evalf() worked!')
         continue
 
     try:
-        with time_limit(5):
+        with time_limit(3):
             ans = expr.evalf(chop=True).doit()
             print('ans: ', ans)
             print('srepr(ans): ', srepr(ans))
     except TimeoutException as e:
         print('ERROR: evalf().doit() timed out!')
 
-    if ans is not None:
+    if ans is not None and (ans.is_Number or ans.is_infinite):
         print('SUCCESS: evalf().doit() worked!')
         continue
 
     try:
-        with time_limit(5):
+        with time_limit(3):
             ans = expr.evalf(chop=True).doit(deep=False)
             print('ans: ', ans)
             print('srepr(ans): ', srepr(ans))
     except TimeoutException as e:
         print('ERROR: evalf().doit(deep=False) timed out!')
 
-    if ans is not None:
+    if ans is not None and (ans.is_Number or ans.is_infinite):
         print('SUCCESS: evalf().doit(deep=False) worked!')
         continue
 
@@ -98,17 +114,28 @@ for (latex, variables) in examples:
 # Number Testing
 #
 
-# latex = '14.0,6.0,6.0'
-# print(process_sympy(latex))
-# print(process_sympy(latex) - process_sympy(latex))
-# print(srepr(process_sympy(latex)))
-
-# c_ans = Float('4.21972215369185e+521726', 15)
+# latex = '\\variable{a}^{\\variable{b}}'
+# variables = {'a': process_sympy('658.95998'), 'b': process_sympy('185083.8060')}
+# c_ans_expr = process_sympy(latex, variables)
+# print(c_ans_expr)
+# print(srepr(c_ans_expr))
+# c_ans = c_ans_expr.doit(deep=False).evalf(chop=True)
 # print(c_ans)
 # print(srepr(c_ans))
 
-# print('==', ans == c_ans)
-# print('isclose', isclose(ans, c_ans))
+# print()
+
+# latex = '1.44431744348608\\times 10^521725'
+# ans = process_sympy(latex)
+# print(ans)
+# print(srepr(ans))
+
+# ans_eval = ans.doit(deep=False).evalf(chop=True)
+# print(ans_eval)
+# print(srepr(ans_eval))
+
+# print('==', ans_eval == c_ans)
+# print('isclose', isclose(ans_eval, c_ans))
 
 # numeric_responses = ['1', '1.0', '-1', '-1.0', '.5', '-.5', '3x10^3', '3E3', '3,000x10^{-3}', '0.5E-1', '\\frac{1}{3}', '(5\\times 3)^3', '\\sin(1)']
 # for latex in numeric_responses:
