@@ -2,7 +2,7 @@ from .context import assert_equal, process_sympy, _Add, _Mul, _Pow
 import pytest
 import hashlib
 from sympy import (
-    E, I, oo, pi, sqrt, root, Symbol, Add, Mul, Pow, Abs, factorial, log, Eq, Ne, S, Rational, Integer,
+    E, I, oo, zoo, pi, sqrt, root, Symbol, Add, Mul, Pow, Abs, factorial, log, Eq, Ne, S, Rational, Integer,
     sin, cos, tan, sinh, cosh, tanh, asin, acos, atan, asinh, acosh, atanh,
     csc, sec, Sum, Product, Limit, Integral, Derivative,
     LessThan, StrictLessThan, GreaterThan, StrictGreaterThan,
@@ -106,13 +106,6 @@ class TestAllGood(object):
         ("\\lim_{x \\Longrightarrow 3} a", Limit(a, x, 3)),
         ("\\lim_{x \\to 3^{+}} a", Limit(a, x, 3, dir='+')),
         ("\\lim_{x \\to 3^{-}} a", Limit(a, x, 3, dir='-')),
-        ("\\infty", oo),
-        ("\\infty\\%", oo),
-        ("\\$\\infty", oo),
-        ("-\\infty", -oo),
-        ("-\\infty\\%", -oo),
-        ("-\\$\\infty", -oo),
-        ("\\lim_{x \\to \\infty} \\frac{1}{x}", Limit(_Mul(1, _Pow(x, -1)), x, oo)),
         ("\\frac{d}{dx} x", Derivative(x, x)),
         ("\\frac{d}{dt} x", Derivative(x, t)),
         # ("f(x)", f(x)),
@@ -257,7 +250,19 @@ class TestAllGood(object):
         # percentages
         ("100\\%", 1),
         ("1.5\\%", 0.015),
-        ("0.05\\%", 0.0005)
+        ("0.05\\%", 0.0005),
+
+        # infinity
+        ("\\infty", oo),
+        ("\\infty\\%", oo),
+        ("\\$\\infty", oo),
+        ("-\\infty", -oo),
+        ("-\\infty\\%", -oo),
+        ("-\\$\\infty", -oo),
+        ("\\lim_{x \\to \\infty} \\frac{1}{x}", Limit(_Mul(1, _Pow(x, -1)), x, oo)),
+
+        # complex infinity
+        ("\\tilde{\\infty}", zoo)
     ]
 
     def test_good_pair(self, s, eq):

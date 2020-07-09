@@ -447,6 +447,8 @@ def convert_atom(atom):
         s = atom.SYMBOL().getText().replace("\\$", "").replace("\\%", "")
         if s == "\\infty":
             return sympy.oo
+        elif s == "\\tilde{\\infty}":
+            return sympy.zoo
         elif s == '\\pi':
             return sympy.pi
         else:
