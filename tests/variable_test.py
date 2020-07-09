@@ -1,7 +1,7 @@
 from .context import assert_equal
 import pytest
 import hashlib
-from sympy import Symbol
+from sympy import Symbol, Mul, Pow
 
 x = Symbol('x', real=True)
 
@@ -69,3 +69,11 @@ def test_variable_braced_subscript():
 
 def test_variable_complex_expr():
     assert_equal("4\\cdot\\variable{value1}\\frac{\\variable{value_2}}{\\variable{a}}\\cdot x^2", 4 * Symbol('value1' + hashlib.md5('value1'.encode()).hexdigest(), real=True) * Symbol('value_2' + hashlib.md5('value_2'.encode()).hexdigest(), real=True) / Symbol('a' + hashlib.md5('a'.encode()).hexdigest(), real=True) * x**2)
+
+
+def test_variable_dollars():
+    assert_equal("\\$\\variable{x}", Symbol('x' + hashlib.md5('x'.encode()).hexdigest(), real=True))
+
+
+def test_variable_percentage():
+    assert_equal("\\variable{x}\\%", Mul(Symbol('x' + hashlib.md5('x'.encode()).hexdigest(), real=True), Pow(100, -1, evaluate=False), evaluate=False))

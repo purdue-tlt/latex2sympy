@@ -250,6 +250,13 @@ def convert_mp(mp):
             return sympy.MatMul(lh, sympy.Pow(rh, -1, evaluate=False), evaluate=False)
         else:
             return sympy.Mul(lh, sympy.Pow(rh, -1, evaluate=False), evaluate=False)
+    elif mp.CMD_MOD():
+        lh = convert_mp(mp_left)
+        rh = convert_mp(mp_right)
+        if rh.is_Matrix:
+            raise Exception("Cannot perform modulo operation with a matrix as an operand")
+        else:
+            return sympy.Mod(lh, rh, evaluate=False)
     else:
         if hasattr(mp, 'unary'):
             return convert_unary(mp.unary())
@@ -437,10 +444,10 @@ def convert_atom(atom):
             s += '_{' + subscriptName + '}'
         return sympy.Symbol(s, real=True)
     elif atom.SYMBOL():
-        s = atom.SYMBOL().getText()[1:]
-        if s == "infty":
+        s = atom.SYMBOL().getText().replace("\\$", "").replace("\\%", "")
+        if s == "\\infty":
             return sympy.oo
-        elif s == 'pi':
+        elif s == '\\pi':
             return sympy.pi
         else:
             raise Exception("Unrecognized symbol")
@@ -465,8 +472,11 @@ def convert_atom(atom):
         text = rule2text(atom.mathit().mathit_text())
         return sympy.Symbol(text, real=True)
     elif atom.VARIABLE():
-        name = atom.VARIABLE().getText()[10:]
-        name = name[0:len(name) - 1]
+        text = atom.VARIABLE().getText()
+        is_percent = text.endswith("\\%")
+        trim_amount = 3 if is_percent else 1
+        name = text[10:]
+        name = name[0:len(name) - trim_amount]
 
         # add hash to distinguish from regular symbols
         hash = hashlib.md5(name.encode()).hexdigest()
@@ -484,8 +494,19 @@ def convert_atom(atom):
         else:
             symbol = sympy.Symbol(symbol_name, real=True)
 
+        if is_percent:
+            return sympy.Mul(symbol, sympy.Pow(100, -1, evaluate=False), evaluate=False)
+
         # return the symbol
         return symbol
+    elif atom.PERCENT_NUMBER():
+        text = atom.PERCENT_NUMBER().getText().replace("\\%", "").replace(",", "")
+        try:
+            number = sympy.Rational(text)
+        except (TypeError, ValueError):
+            number = sympy.Number(text)
+        percent = sympy.Rational(number, 100)
+        return percent
 
 
 def rule2text(ctx):

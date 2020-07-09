@@ -8,13 +8,13 @@ equivalent SymPy form.
 [ANTLR](http://www.antlr.org/) is used to generate the parser:
 
 ```
-$ antlr-4.7.2-complete.jar PS.g4 -o gen
+antlr-4.7.2-complete.jar PS.g4 -o gen
 ```
 
 or
 
 ```
-$ java -jar antlr-4.7.2-complete.jar PS.g4 -o gen
+java -jar antlr-4.7.2-complete.jar PS.g4 -o gen
 ```
 
 ## Usage

@@ -5,6 +5,7 @@ options {
 }
 
 WS: [ \t\r\n]+ -> skip;
+DOLLAR_SIGN: '\\$' -> skip;
 
 ADD: '+';
 SUB: '-';
@@ -77,6 +78,7 @@ CMD_DIV:   '\\div';
 CMD_FRAC:  '\\frac';
 CMD_BINOM: '\\binom';
 CMD_CHOOSE: '\\choose';
+CMD_MOD: '\\mod';
 
 CMD_MATHIT: '\\mathit';
 
@@ -101,6 +103,7 @@ CARET: '^';
 COLON: ':';
 SEMICOLON: ';';
 COMMA: ',';
+PERIOD: '.';
 
 fragment WS_CHAR: [ \t\r\n];
 DIFFERENTIAL: 'd' WS_CHAR*? ([a-zA-Z] | '\\' [a-zA-Z]+);
@@ -111,8 +114,8 @@ LETTER_NO_E: [a-df-zA-DF-Z]; // exclude e for exponential function and e notatio
 fragment LETTER: [a-zA-Z];
 fragment DIGIT: [0-9];
 NUMBER:
-    DIGIT+ (',' DIGIT DIGIT DIGIT)*
-    | DIGIT* (',' DIGIT DIGIT DIGIT)* '.' DIGIT+;
+    DIGIT+ (COMMA DIGIT DIGIT DIGIT)*
+    | DIGIT* (COMMA DIGIT DIGIT DIGIT)* PERIOD DIGIT+;
 
 E_NOTATION: NUMBER E_NOTATION_E (SUB | ADD)? DIGIT+;
 
@@ -124,6 +127,9 @@ GTE: '\\geq' | '\\ge';
 UNEQUAL: '!=' | '\\ne' | '\\neq';
 
 BANG: '!';
+
+fragment PERCENT_SIGN: '\\%';
+PERCENT_NUMBER: NUMBER PERCENT_SIGN;
 
 //Excludes some letters for use as e.g. constants in SYMBOL
 GREEK_LETTER:
@@ -182,12 +188,13 @@ GREEK_LETTER:
     '\\omega';
 
 fragment PI: '\\pi';
-fragment INFTY: '\\infty';
+fragment INFTY_CMD: '\\infty';
+fragment INFTY: INFTY_CMD | DOLLAR_SIGN INFTY_CMD | INFTY_CMD PERCENT_SIGN;
 SYMBOL: PI | INFTY;
 
 fragment VARIABLE_CMD: '\\variable';
 fragment VARIABLE_SYMBOL: (GREEK_LETTER [ ]? | LETTER | DIGIT)+ (UNDERSCORE ((L_BRACE (GREEK_LETTER [ ]? | LETTER | DIGIT | COMMA)+ R_BRACE) | (GREEK_LETTER [ ]? | LETTER | DIGIT)))?;
-VARIABLE: VARIABLE_CMD L_BRACE VARIABLE_SYMBOL R_BRACE;
+VARIABLE: VARIABLE_CMD L_BRACE VARIABLE_SYMBOL R_BRACE PERCENT_SIGN?;
 
 //collection of accents
 accent_symbol:
@@ -232,11 +239,11 @@ additive:
 
 // mult part
 mp:
-    mp (MUL | CMD_TIMES | CMD_CDOT | DIV | CMD_DIV | COLON) mp
+    mp (MUL | CMD_TIMES | CMD_CDOT | DIV | CMD_DIV | COLON | CMD_MOD) mp
     | unary;
 
 mp_nofunc:
-    mp_nofunc (MUL | CMD_TIMES | CMD_CDOT | DIV | CMD_DIV | COLON) mp_nofunc
+    mp_nofunc (MUL | CMD_TIMES | CMD_CDOT | DIV | CMD_DIV | COLON | CMD_MOD) mp_nofunc
     | unary_nofunc;
 
 unary:
@@ -314,7 +321,7 @@ accent:
     accent_symbol
     L_BRACE base=expr R_BRACE;
 
-atom: (LETTER_NO_E | GREEK_LETTER | accent) subexpr? | SYMBOL | NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE;
+atom: (LETTER_NO_E | GREEK_LETTER | accent) subexpr? | SYMBOL | NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE;
 
 mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
 mathit_text: (LETTER_NO_E | E_NOTATION_E | EXP_E)+;
@@ -326,7 +333,7 @@ frac:
     lower=expr
     R_BRACE;
 
-//a binomial experssion
+//a binomial expression
 binom:
     (CMD_BINOM | CMD_CHOOSE) L_BRACE
     upper=expr

@@ -32,6 +32,7 @@ class TestAllBad(object):
         # "a // b",
         # "a \\cdot \\cdot b",
         # "a \\div \\div b",
+        "a\\mod \\begin{matrix}b\\end{matrix}"
         "|",
         "||x|",
         "()",
@@ -51,7 +52,12 @@ class TestAllBad(object):
         "\\frac{(2 + x}{1 - x)}",
         "\\lim_{\\pi \\to 3} a",
         # because mix of COMMA and SEMICOLON
-        "\\left\\{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix},\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix};\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\\right\\}"
+        "\\left\\{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix},\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix};\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\\right\\}",
+        # percentages without numbers before-hand
+        "a\\%",
+        "\\%100",
+        # dollar signs without numbers after
+        "\\$"
     ]
 
     def test_bad_string(self, s):

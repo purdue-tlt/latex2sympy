@@ -6,7 +6,8 @@ from sympy import (
     sin, cos, tan, sinh, cosh, tanh, asin, acos, atan, asinh, acosh, atanh,
     csc, sec, Sum, Product, Limit, Integral, Derivative,
     LessThan, StrictLessThan, GreaterThan, StrictGreaterThan,
-    exp, binomial, Matrix, MatMul, MatAdd
+    exp, binomial, Matrix, MatMul, MatAdd,
+    Mod
 )
 
 x = Symbol('x', real=True)
@@ -63,6 +64,7 @@ class TestAllGood(object):
         ("a + b - a", Add(a, b, _Mul(-1, a), evaluate=False)),
         ("a^2 + b^2 = c^2", Eq(a**2 + b**2, c**2)),
         ("a^2 + b^2 != 2c^2", Ne(a**2 + b**2, 2 * c**2)),
+        ("a\\mod b", Mod(a, b)),
         ("\\sin \\theta", sin(theta)),
         ("\\sin(\\theta)", sin(theta)),
         ("\\sin\\left(\\theta\\right)", sin(theta)),
@@ -105,6 +107,11 @@ class TestAllGood(object):
         ("\\lim_{x \\to 3^{+}} a", Limit(a, x, 3, dir='+')),
         ("\\lim_{x \\to 3^{-}} a", Limit(a, x, 3, dir='-')),
         ("\\infty", oo),
+        ("\\infty\\%", oo),
+        ("\\$\\infty", oo),
+        ("-\\infty", -oo),
+        ("-\\infty\\%", -oo),
+        ("-\\$\\infty", -oo),
         ("\\lim_{x \\to \\infty} \\frac{1}{x}", Limit(_Mul(1, _Pow(x, -1)), x, oo)),
         ("\\frac{d}{dx} x", Derivative(x, x)),
         ("\\frac{d}{dt} x", Derivative(x, t)),
@@ -241,6 +248,16 @@ class TestAllGood(object):
         ("\\left\\{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}\\right\\}", Matrix([1, 2, 3])),
         ("\\left{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}\\right}", Matrix([1, 2, 3])),
         ("{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}}", Matrix([1, 2, 3])),
+
+        # us dollars
+        ("\\$1,000.00", 1000),
+        ("\\$543.21", 543.21),
+        ("\\$0.009", 0.009),
+
+        # percentages
+        ("100\\%", 1),
+        ("1.5\\%", 0.015),
+        ("0.05\\%", 0.0005)
     ]
 
     def test_good_pair(self, s, eq):
