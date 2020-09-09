@@ -487,8 +487,9 @@ def convert_atom(atom):
         name = name[0:len(name) - trim_amount]
 
         # add hash to distinguish from regular symbols
-        hash = hashlib.md5(name.encode()).hexdigest()
-        symbol_name = name + hash
+        # hash = hashlib.md5(name.encode()).hexdigest()
+        # symbol_name = name + hash
+        symbol_name = name
 
         # replace the variable for already known variable values
         if name in VARIABLE_VALUES:

@@ -130,3 +130,4 @@ appsettings.json
 local.settings.json
 .python_packages
 stemgen-solution-engine.zip
+.idea
