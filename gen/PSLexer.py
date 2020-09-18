@@ -1,4 +1,4 @@
-# Generated from PS.g4 by ANTLR 4.7.2
+# Generated from PS.g4 by ANTLR 4.8
 # encoding: utf-8
 from __future__ import print_function
 from antlr4 import *
@@ -858,7 +858,7 @@ class PSLexer(Lexer):
 
     def __init__(self, input=None, output=sys.stdout):
         super(PSLexer, self).__init__(input, output=output)
-        self.checkVersion("4.7.2")
+        self.checkVersion("4.8")
         self._interp = LexerATNSimulator(self, self.atn, self.decisionsToDFA, PredictionContextCache())
         self._actions = None
         self._predicates = None
