@@ -493,7 +493,7 @@ def convert_atom(atom):
         # replace the variable for already known variable values
         if name in VARIABLE_VALUES:
             # if a sympy class
-            if isinstance(VARIABLE_VALUES[name], tuple(sympy.core.all_classes)):
+            if isinstance(VARIABLE_VALUES[name], tuple(sympy.core.core.all_classes)):
                 symbol = VARIABLE_VALUES[name]
 
             # if NOT a sympy class
@@ -533,14 +533,10 @@ def convert_frac(frac):
     partial_op = False
     lower_itv = frac.lower.getSourceInterval()
     lower_itv_len = lower_itv[1] - lower_itv[0] + 1
-    if (frac.lower.start == frac.lower.stop and
-            frac.lower.start.type == PSLexer.DIFFERENTIAL):
+    if (frac.lower.start == frac.lower.stop and frac.lower.start.type == PSLexer.DIFFERENTIAL):
         wrt = get_differential_var_str(frac.lower.start.text)
         diff_op = True
-    elif (lower_itv_len == 2 and
-          frac.lower.start.type == PSLexer.SYMBOL and
-          frac.lower.start.text == '\\partial' and
-          (frac.lower.stop.type == PSLexer.LETTER_NO_E or frac.lower.stop.type == PSLexer.SYMBOL)):
+    elif (lower_itv_len == 2 and frac.lower.start.type == PSLexer.SYMBOL and frac.lower.start.text == '\\partial' and (frac.lower.stop.type == PSLexer.LETTER_NO_E or frac.lower.stop.type == PSLexer.SYMBOL)):
         partial_op = True
         wrt = frac.lower.stop.text
         if frac.lower.stop.type == PSLexer.SYMBOL:
@@ -548,13 +544,9 @@ def convert_frac(frac):
 
     if diff_op or partial_op:
         wrt = sympy.Symbol(wrt, real=True)
-        if (diff_op and frac.upper.start == frac.upper.stop and
-            frac.upper.start.type == PSLexer.LETTER_NO_E and
-                frac.upper.start.text == 'd'):
+        if (diff_op and frac.upper.start == frac.upper.stop and frac.upper.start.type == PSLexer.LETTER_NO_E and frac.upper.start.text == 'd'):
             return [wrt]
-        elif (partial_op and frac.upper.start == frac.upper.stop and
-              frac.upper.start.type == PSLexer.SYMBOL and
-              frac.upper.start.text == '\\partial'):
+        elif (partial_op and frac.upper.start == frac.upper.stop and frac.upper.start.type == PSLexer.SYMBOL and frac.upper.start.text == '\\partial'):
             return [wrt]
         upper_text = rule2text(frac.upper)
 
