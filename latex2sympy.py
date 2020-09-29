@@ -296,7 +296,7 @@ def convert_postfix_list(arr, i=0):
 
     res = convert_postfix(arr[i])
 
-    if isinstance(res, sympy.Expr) or isinstance(res, sympy.logic.And) or isinstance(res, sympy.logic.Or) or isinstance(res,
+    if isinstance(res, sympy.Expr) or isinstance(res, sympy.And) or isinstance(res, sympy.Or) or isinstance(res,
                                                                                    sympy.Matrix) or res is sympy.S.EmptySet or isinstance(
             res,
             bool) or isinstance(
@@ -614,12 +614,130 @@ def convert_atom(atom):
             return sympy.Ne(process_sympy(blank[0]), process_sympy(blank[1]))
         elif '\\and' in s:
             blank = atom.EQUALITY_CMD().getText().split('\\and')
-            return sympy.logic.And(process_sympy(blank[0]).name, process_sympy(blank[1]).name)
+            return sympy.And(process_sympy(blank[0]), process_sympy(blank[1]))
         elif '\\or' in s:
             blank = atom.EQUALITY_CMD().getText().split('\\or')
-            return sympy.logic.Or(process_sympy(blank[0]).name, process_sympy(blank[1]).name)
+            return sympy.Or(process_sympy(blank[0]), process_sympy(blank[1]))
         else:
             raise Exception("Unrecognized symbol")
+
+    elif atom.PROPER_SUBSET():
+        text = atom.PROPER_SUBSET().getText()
+        is_percent = text.endswith("\\%")
+        trim_amount = 3 if is_percent else 1
+        name = text[14:]
+        name = name[0:len(name) - trim_amount]
+        symbol_name = name
+        symbol = process_sympy(symbol_name)
+        symbol_subset = (symbol[1].free_symbols).issubset(symbol[0].free_symbols)
+        if symbol_subset == True and symbol[0].name != symbol[1].name:
+            return True
+        return False
+    elif atom.SUBSET():
+        text = atom.SUBSET().getText()
+        is_percent = text.endswith("\\%")
+        trim_amount = 3 if is_percent else 1
+        name = text[8:]
+        name = name[0:len(name) - trim_amount]
+        print(name)
+        symbol_name = name
+        symbol = process_sympy(symbol_name)
+        symbol_subset = (symbol[0].free_symbols).issubset(symbol[1].free_symbols)
+        return symbol_subset
+
+    elif atom.SUPERSET():
+        text = atom.SUPERSET().getText()
+        is_percent = text.endswith("\\%")
+        trim_amount = 3 if is_percent else 1
+        name = text[10:]
+        name = name[0:len(name) - trim_amount]
+        print(name)
+        symbol_name = name
+        symbol = process_sympy(symbol_name)
+        symbol_subset = (symbol[1].free_symbols).issuperset(symbol[0].free_symbols)
+        return symbol_subset
+
+    elif atom.INTERSECTION():
+        text = atom.INTERSECTION().getText()
+        is_percent = text.endswith("\\%")
+        trim_amount = 3 if is_percent else 1
+        print("TRIM AMOUNT", trim_amount)
+        # intersection
+        # union{}
+        name = text[14:]
+        print(name)
+        name = name[0:len(name) - trim_amount]
+        print("ACTION", name)
+        # add hash to distinguish from regular symbols
+        # hash = hashlib.md5(name.encode()).hexdigest()
+        # symbol_name = name + hash
+        symbol_name = name
+
+        # replace the variable for already known variable values
+        if name in VARIABLE_VALUES:
+            # if a sympy class
+            if isinstance(VARIABLE_VALUES[name], tuple(sympy.core.all_classes)):
+                symbol = VARIABLE_VALUES[name]
+
+            # if NOT a sympy class
+            else:
+                symbol = parse_expr(str(VARIABLE_VALUES[name]))
+        else:
+            temps = symbol_name.replace('},', '}//').split('//')
+            blank = []
+            for temp in temps:
+                val = set(map(str, set(process_sympy(temp).name.split(','))))
+                blank.append(val)
+
+            def cus_intersection(lis1, lis2):
+                res = set().intersection(lis1, lis2)
+                return res
+
+            for i in blank[1:]:
+                a = cus_intersection(blank[0], i)
+                blank[0] = a
+            symbol = blank[0]
+
+        if is_percent:
+            return sympy.Mul(symbol, sympy.Pow(100, -1, evaluate=False), evaluate=False)
+
+        # return the symbol
+        return symbol
+
+    elif atom.ABSOLUTE():
+        text = atom.ABSOLUTE().getText().split('\\absolute')
+        text = sympy.Abs(process_sympy(text[1]))
+        return text
+
+    elif atom.INTERVAL():
+        t = atom.INTERVAL().getText()
+        if '\\close_int' in t:
+            s = atom.INTERVAL().getText().split('\\close_int')
+            s = sympy.Interval(list(process_sympy(s[1]).free_symbols)[0],
+                               list(process_sympy(s[1]).free_symbols)[1]).contains(
+                list(process_sympy(s[0]).free_symbols)[0])
+            return s
+
+        elif '\\open_int' in t:
+            s = atom.INTERVAL().getText().split('\\open_int')
+            s = sympy.Interval.open(list(process_sympy(s[1]).free_symbols)[0],
+                                    list(process_sympy(s[1]).free_symbols)[1]).contains(
+                list(process_sympy(s[0]).free_symbols)[0])
+            return s
+
+        elif '\\lopen_int' in t:
+            s = atom.INTERVAL().getText().split('\\lopen_int')
+            s = sympy.Interval.Lopen(list(process_sympy(s[1]).free_symbols)[0],
+                                     list(process_sympy(s[1]).free_symbols)[1]).contains(
+                list(process_sympy(s[0]).free_symbols)[0])
+            return s
+
+        elif '\\ropen_int' in t:
+            s = atom.INTERVAL().getText().split('\\ropen_int')
+            s = sympy.Interval.Ropen(list(process_sympy(s[1]).free_symbols)[0],
+                                     list(process_sympy(s[1]).free_symbols)[1]).contains(
+                list(process_sympy(s[0]).free_symbols)[0])
+            return s
 
 
     elif atom.PERCENT_NUMBER():
