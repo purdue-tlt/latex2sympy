@@ -37,7 +37,7 @@ a, b, c = symbols('a b c')
 #
 # a = r"\variable{p}\neq\variable{q}"
 #
-# a = r"\variable{x}\and\variable{y}"
+a = r"\variable{x}\and\variable{y}"
 
 # a = r"\variable{p}\or\variable{q}"
 
@@ -49,12 +49,12 @@ a, b, c = symbols('a b c')
 # a = r"\superset{\variable{p},\variable{q}}"
 
 # a = r"\variable{p}\open_int\variable{x}\variable{y}"
-a = r"\absolute\variable{x}"
+# a = r"\absolute\variable{x}"
 
 res = latex2sympy.process_sympy(a)
 print('Result: ', res)
 
-print(res.evalf(subs={x:True,y:False}))
+# print(res._eval_relation(2,2))
 
 # for i in b.free_symbols:
 #     if "_" in i.name:

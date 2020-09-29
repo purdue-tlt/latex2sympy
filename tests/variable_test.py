@@ -1,4 +1,4 @@
-from .context import assert_equal
+from tests.context import assert_equal
 import pytest
 import hashlib
 from sympy import UnevaluatedExpr, Symbol, Mul, Pow, Max, Min, gcd, lcm, floor, ceiling
@@ -90,3 +90,5 @@ def test_variable_multi_arg_func():
     assert_equal("\\lcm(\\variable{x}, \\variable{y})", UnevaluatedExpr(lcm(Symbol('x' + hashlib.md5('x'.encode()).hexdigest(), real=True), Symbol('y' + hashlib.md5('y'.encode()).hexdigest(), real=True))))
     assert_equal("\\max(\\variable{x}, \\variable{y})", Max(Symbol('x' + hashlib.md5('x'.encode()).hexdigest(), real=True), Symbol('y' + hashlib.md5('y'.encode()).hexdigest(), real=True), evaluate=False))
     assert_equal("\\min(\\variable{x}, \\variable{y})", Min(Symbol('x' + hashlib.md5('x'.encode()).hexdigest(), real=True), Symbol('y' + hashlib.md5('y'.encode()).hexdigest(), real=True), evaluate=False))
+
+

@@ -1,4 +1,4 @@
-from .context import assert_equal
+from tests.context import assert_equal
 import pytest
 from sympy import Symbol, Rational, ceiling, sqrt, pi
 
@@ -162,3 +162,6 @@ def test_ceil_symbol():
     assert_equal("⌈9x/4⌉", ceiling(9 * x / 4), symbolically=True)
     assert_equal("⌈y\\pi⌉", ceiling(y * pi), symbolically=True)
     assert_equal("⌈2y-y-y⌉", ceiling(2 * y - y - y), symbolically=True)
+
+
+test_ceil_usual()
