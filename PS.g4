@@ -107,6 +107,7 @@ CMD_MATRIX_END: '\\end' L_BRACE MATRIX_TYPES R_BRACE;
 MATRIX_DEL_COL: '&';
 MATRIX_DEL_ROW: '\\\\';
 
+
 //accents such as overline and hat
 ACCENT_OVERLINE:  '\\overline';
 ACCENT_BAR:  '\\bar';
@@ -133,17 +134,20 @@ NUMBER:
 
 E_NOTATION: NUMBER E_NOTATION_E (SUB | ADD)? DIGIT+;
 
-EQUAL: '=';
-LT: '<';
-LTE: '\\leq' | '\\le';
-GT: '>';
-GTE: '\\geq' | '\\ge';
+EQUAL: '=' | '\\eq';
+LT: '<' | '\\lt';
+LTE: '\\leq';
+GT: '>' | '\\gt';
+GTE: '\\geq';
 UNEQUAL: '!=' | '\\ne' | '\\neq';
+AND: '\\and';
+OR: '\\or';
 
 BANG: '!';
 
 fragment PERCENT_SIGN: '\\%';
-PERCENT_NUMBER: NUMBER PERCENT_SIGN;
+fragment PERCENT_SIGN_K: '\\‰' | '\\per_thousand';
+PERCENT_NUMBER: NUMBER (PERCENT_SIGN | PERCENT_SIGN_K);
 
 //Excludes some letters for use as e.g. constants in SYMBOL
 GREEK_LETTER:
@@ -202,14 +206,24 @@ GREEK_LETTER:
     '\\omega';
 
 fragment PI: '\\pi';
+
 fragment INFTY_CMD: '\\infty';
 fragment INFTY: INFTY_CMD | DOLLAR_SIGN INFTY_CMD | INFTY_CMD PERCENT_SIGN;
 fragment EMPTYSET: '\\emptyset';
-SYMBOL: PI | INFTY | EMPTYSET;
+SYMBOL: PI | INFTY | EMPTYSET ;
 
 fragment VARIABLE_CMD: '\\variable';
-fragment VARIABLE_SYMBOL: (GREEK_LETTER [ ]? | LETTER | DIGIT)+ (UNDERSCORE ((L_BRACE (GREEK_LETTER [ ]? | LETTER | DIGIT | COMMA)+ R_BRACE) | (GREEK_LETTER [ ]? | LETTER | DIGIT)))?;
+fragment VARIABLE_SYMBOL: (GREEK_LETTER [ ]? | LETTER | DIGIT | COMMA)+ (UNDERSCORE ((L_BRACE (GREEK_LETTER [ ]? | LETTER | DIGIT | COMMA)+ R_BRACE) | (GREEK_LETTER [ ]? | LETTER | DIGIT)))?;
 VARIABLE: VARIABLE_CMD L_BRACE VARIABLE_SYMBOL R_BRACE PERCENT_SIGN?;
+
+fragment UNION_CMD: '\\union';
+fragment UNION_SYMBOL: L_PAREN  (DIGIT | COMMA | LETTER)+ R_PAREN COMMA L_PAREN (DIGIT | COMMA | LETTER)+ R_PAREN;
+UNION : UNION_CMD L_BRACE (VARIABLE | COMMA)+ R_BRACE;
+
+fragment EPSILON_CMD: '\\epsilon';
+EPSILON:  EPSILON_CMD L_BRACE (VARIABLE | COMMA)+ R_BRACE;
+
+EQUALITY_CMD: VARIABLE (EQUAL | LT | LTE | GT | GTE | UNEQUAL | AND | OR) VARIABLE;
 
 //collection of accents
 accent_symbol:
@@ -352,7 +366,7 @@ accent:
     accent_symbol
     L_BRACE base=expr R_BRACE;
 
-atom: (LETTER_NO_E | GREEK_LETTER | accent) subexpr? | SYMBOL | NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE;
+atom: (LETTER_NO_E | GREEK_LETTER | accent) subexpr? | SYMBOL | NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE | UNION | EPSILON | EQUALITY_CMD;
 
 mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
 mathit_text: (LETTER_NO_E | E_NOTATION_E | EXP_E)+;

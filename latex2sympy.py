@@ -2,6 +2,7 @@ import sympy
 import antlr4
 from antlr4.error.ErrorListener import ErrorListener
 from sympy.core.operations import AssocOp
+from sympy.logic import boolalg
 
 try:
     from gen.PSParser import PSParser
@@ -22,7 +23,6 @@ VARIABLE_VALUES = {}
 
 
 def process_sympy(sympy, variable_values={}):
-
     # variable values
     global VARIABLE_VALUES
     if len(variable_values) > 0:
@@ -121,7 +121,6 @@ def convert_expr(expr):
 
 
 def convert_matrix(matrix):
-
     # build matrix
     row = matrix.matrix_row()
     tmp = []
@@ -297,7 +296,14 @@ def convert_postfix_list(arr, i=0):
 
     res = convert_postfix(arr[i])
 
-    if isinstance(res, sympy.Expr) or isinstance(res, sympy.Matrix) or res is sympy.S.EmptySet:
+    if isinstance(res, sympy.Expr) or isinstance(res, sympy.logic.And) or isinstance(res, sympy.logic.Or) or isinstance(res,
+                                                                                   sympy.Matrix) or res is sympy.S.EmptySet or isinstance(
+            res,
+            bool) or isinstance(
+        res,
+        set) or isinstance(
+        res,
+        sympy.Set) or isinstance(res, list):
         if i == len(arr) - 1:
             return res  # nothing to multiply by
         else:
@@ -413,9 +419,9 @@ def convert_atom(atom):
             return sympy.I
         if atom.subexpr():
             subscript = None
-            if atom.subexpr().expr():           # subscript is expr
+            if atom.subexpr().expr():  # subscript is expr
                 subscript = convert_expr(atom.subexpr().expr())
-            else:                               # subscript is atom
+            else:  # subscript is atom
                 subscript = convert_atom(atom.subexpr().atom())
             subscriptName = '_{' + StrPrinter().doprint(subscript) + '}'
         return sympy.Symbol(atom.LETTER_NO_E().getText() + subscriptName, real=True)
@@ -423,9 +429,9 @@ def convert_atom(atom):
         s = atom.GREEK_LETTER().getText()[1:]
         if atom.subexpr():
             subscript = None
-            if atom.subexpr().expr():           # subscript is expr
+            if atom.subexpr().expr():  # subscript is expr
                 subscript = convert_expr(atom.subexpr().expr())
-            else:                               # subscript is atom
+            else:  # subscript is atom
                 subscript = convert_atom(atom.subexpr().atom())
             subscriptName = StrPrinter().doprint(subscript)
             s += '_{' + subscriptName + '}'
@@ -442,9 +448,9 @@ def convert_atom(atom):
         s = base + name
         if atom.subexpr():
             subscript = None
-            if atom.subexpr().expr():           # subscript is expr
+            if atom.subexpr().expr():  # subscript is expr
                 subscript = convert_expr(atom.subexpr().expr())
-            else:                               # subscript is atom
+            else:  # subscript is atom
                 subscript = convert_atom(atom.subexpr().atom())
             subscriptName = StrPrinter().doprint(subscript)
             s += '_{' + subscriptName + '}'
@@ -485,7 +491,6 @@ def convert_atom(atom):
         trim_amount = 3 if is_percent else 1
         name = text[10:]
         name = name[0:len(name) - trim_amount]
-
         # add hash to distinguish from regular symbols
         # hash = hashlib.md5(name.encode()).hexdigest()
         # symbol_name = name + hash
@@ -509,14 +514,140 @@ def convert_atom(atom):
         # return the symbol
         return symbol
 
+    elif atom.UNION():
+        text = atom.UNION().getText()
+        is_percent = text.endswith("\\%")
+        trim_amount = 3 if is_percent else 1
+        name = text[7:]
+        name = name[0:len(name) - trim_amount]
+        # add hash to distinguish from regular symbols
+        # hash = hashlib.md5(name.encode()).hexdigest()
+        # symbol_name = name + hash
+        symbol_name = name
+
+        # replace the variable for already known variable values
+        if name in VARIABLE_VALUES:
+            # if a sympy class
+            if isinstance(VARIABLE_VALUES[name], tuple(sympy.core.all_classes)):
+                symbol = VARIABLE_VALUES[name]
+
+            # if NOT a sympy class
+            else:
+                symbol = parse_expr(str(VARIABLE_VALUES[name]))
+        else:
+            temps = symbol_name.replace('},', '}//').split('//')
+            blank = []
+            for temp in temps:
+                val = set(map(str, set(process_sympy(temp).name.split(','))))
+                blank.append(val)
+
+            def cus_union(lis1, lis2):
+                res = set().union(lis1, lis2)
+                return res
+
+            for i in blank[1:]:
+                a = cus_union(blank[0], i)
+                blank[0] = a
+            symbol = blank[0]
+
+        if is_percent:
+            return sympy.Mul(symbol, sympy.Pow(100, -1, evaluate=False), evaluate=False)
+
+        # return the symbol
+        return symbol
+
+    elif atom.EPSILON():
+        text = atom.EPSILON().getText()
+        is_percent = text.endswith("\\%")
+        trim_amount = 3 if is_percent else 1
+        name = text[9:]
+        name = name[0:len(name) - trim_amount]
+        # add hash to distinguish from regular symbols
+        # hash = hashlib.md5(name.encode()).hexdigest()
+        # symbol_name = name + hash
+        symbol_name = name
+
+        # replace the variable for already known variable values
+        if name in VARIABLE_VALUES:
+            # if a sympy class
+            if isinstance(VARIABLE_VALUES[name], tuple(sympy.core.all_classes)):
+                symbol = VARIABLE_VALUES[name]
+
+            # if NOT a sympy class
+            else:
+                symbol = parse_expr(str(VARIABLE_VALUES[name]))
+        else:
+            symbol = process_sympy(symbol_name)
+            if (symbol[0].free_symbols) in (symbol[1].free_symbols):
+                symbol = True
+
+            # symbol = list(map(list, [symbol[0].name, symbol[1].name]))
+
+        if is_percent:
+            return sympy.Mul(symbol, sympy.Pow(100, -1, evaluate=False), evaluate=False)
+
+        # return the symbol
+        return symbol
+
+    elif atom.EQUALITY_CMD():
+        s = atom.EQUALITY_CMD().getText()
+        if '\\lt' in s:
+            blank = atom.EQUALITY_CMD().getText().split('\\lt')
+            return sympy.StrictLessThan(process_sympy(blank[0]), process_sympy(blank[1]))
+        elif '\\gt' in s:
+            blank = atom.EQUALITY_CMD().getText().split('\\gt')
+            return sympy.StrictGreaterThan(process_sympy(blank[0]), process_sympy(blank[1]))
+        elif '\\leq' in s:
+            blank = atom.EQUALITY_CMD().getText().split('\\leq')
+            return sympy.LessThan(process_sympy(blank[0]), process_sympy(blank[1]))
+        elif '\\geq' in s:
+            blank = atom.EQUALITY_CMD().getText().split('\\geq')
+            return sympy.GreaterThan(process_sympy(blank[0]), process_sympy(blank[1]))
+        elif '\\eq' in s:
+            blank = atom.EQUALITY_CMD().getText().split('\\eq')
+            return sympy.Eq(process_sympy(blank[0]), process_sympy(blank[1]))
+        elif '\\neq' in s:
+            blank = atom.EQUALITY_CMD().getText().split('\\neq')
+            return sympy.Ne(process_sympy(blank[0]), process_sympy(blank[1]))
+        elif '\\neq' in s:
+            blank = atom.EQUALITY_CMD().getText().split('\\neq')
+            return sympy.Ne(process_sympy(blank[0]), process_sympy(blank[1]))
+        elif '\\and' in s:
+            blank = atom.EQUALITY_CMD().getText().split('\\and')
+            return sympy.logic.And(process_sympy(blank[0]).name, process_sympy(blank[1]).name)
+        elif '\\or' in s:
+            blank = atom.EQUALITY_CMD().getText().split('\\or')
+            return sympy.logic.Or(process_sympy(blank[0]).name, process_sympy(blank[1]).name)
+        else:
+            raise Exception("Unrecognized symbol")
+
+
     elif atom.PERCENT_NUMBER():
-        text = atom.PERCENT_NUMBER().getText().replace("\\%", "").replace(",", "")
-        try:
-            number = sympy.Rational(text)
-        except (TypeError, ValueError):
-            number = sympy.Number(text)
-        percent = sympy.Rational(number, 100)
-        return percent
+        s = atom.PERCENT_NUMBER().getText()
+        if '\\%' in s:
+            text = atom.PERCENT_NUMBER().getText().replace("\\%", "").replace(",", "")
+            try:
+                number = sympy.Rational(text)
+            except (TypeError, ValueError):
+                number = sympy.Number(text)
+            percent = sympy.Rational(number, 100)
+            return percent
+        elif '\\‰' in s:
+            text = atom.PERCENT_NUMBER().getText().replace("\\‰", "").replace(",", "")
+            try:
+                number = sympy.Rational(text)
+            except (TypeError, ValueError):
+                number = sympy.Number(text)
+            percent = sympy.Rational(number, 1000)
+            return percent
+        elif '\\per_thousand' in s:
+            text = atom.PERCENT_NUMBER().getText().replace("\\per_thousand", "").replace(",", "")
+            try:
+                number = sympy.Rational(text)
+            except (TypeError, ValueError):
+                number = sympy.Number(text)
+            percent = sympy.Rational(number, 1000)
+            return percent
 
 
 def rule2text(ctx):
@@ -550,7 +681,7 @@ def convert_frac(frac):
     if diff_op or partial_op:
         wrt = sympy.Symbol(wrt, real=True)
         if (diff_op and frac.upper.start == frac.upper.stop and
-            frac.upper.start.type == PSLexer.LETTER_NO_E and
+                frac.upper.start.type == PSLexer.LETTER_NO_E and
                 frac.upper.start.text == 'd'):
             return [wrt]
         elif (partial_op and frac.upper.start == frac.upper.stop and

@@ -1,4 +1,4 @@
-# Generated from PS.g4 by ANTLR 4.8
+# Generated from PS.g4 by ANTLR 4.7.2
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .PSParser import PSParser
@@ -467,5 +467,3 @@ class PSListener(ParseTreeListener):
         pass
 
 
-
-del PSParser
