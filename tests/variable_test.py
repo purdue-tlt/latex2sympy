@@ -3,8 +3,8 @@ import pytest
 import hashlib
 from sympy import UnevaluatedExpr, Symbol, Mul, Pow, Max, Min, gcd, lcm, floor, ceiling
 
-x = Symbol('x', real=True)
-y = Symbol('y', real=True)
+x = Symbol('x', real=True, positive=True)
+y = Symbol('y', real=True, positive=True)
 
 
 def test_variable_letter():
@@ -47,11 +47,11 @@ def test_variable_in_expr():
 
 
 def test_variable_greek_letter():
-    assert_equal("\\variable{\\alpha }\\alpha", Symbol('\\alpha ' + hashlib.md5('\\alpha '.encode()).hexdigest(), real=True) * Symbol('alpha', real=True))
+    assert_equal("\\variable{\\alpha }\\alpha", Symbol('\\alpha ' + hashlib.md5('\\alpha '.encode()).hexdigest(), real=True) * Symbol('alpha', real=True, positive=True))
 
 
 def test_variable_greek_letter_subscript():
-    assert_equal("\\variable{\\alpha _{\\beta }}\\alpha ", Symbol('\\alpha _{\\beta }' + hashlib.md5('\\alpha _{\\beta }'.encode()).hexdigest(), real=True) * Symbol('alpha', real=True))
+    assert_equal("\\variable{\\alpha _{\\beta }}\\alpha ", Symbol('\\alpha _{\\beta }' + hashlib.md5('\\alpha _{\\beta }'.encode()).hexdigest(), real=True) * Symbol('alpha', real=True, positive=True))
 
 
 def test_variable_bad_unbraced_long_subscript():

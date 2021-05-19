@@ -3,8 +3,8 @@ import pytest
 from sympy import Symbol, Rational, Mod, sqrt, nsimplify, pi, GoldenRatio
 from sympy.physics.units import hbar
 
-x = Symbol('x', real=True)
-y = Symbol('y', real=True)
+x = Symbol('x', real=True, positive=True)
+y = Symbol('y', real=True, positive=True)
 
 
 def test_mod_usual():

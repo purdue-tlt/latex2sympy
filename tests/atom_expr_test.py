@@ -28,31 +28,31 @@ for symbol in symbols:
 
 @pytest.mark.parametrize('label, text, symbol_text, subscript', examples)
 def test_with_supexpr(label, text, symbol_text, subscript):
-    assert_equal(text + '^2', Pow(Symbol(symbol_text, real=True), Integer(2)))
+    assert_equal(text + '^2', Pow(Symbol(symbol_text, real=True, positive=True), Integer(2)))
 
 
 @pytest.mark.parametrize('label, text, symbol_text, subscript', examples)
 def test_with_subexpr(label, text, symbol_text, subscript):
-    assert_equal(text + '_' + subscript, Symbol(symbol_text + '_' + subscript, real=True))
+    assert_equal(text + '_' + subscript, Symbol(symbol_text + '_' + subscript, real=True, positive=True))
 
 
 @pytest.mark.parametrize('label, text, symbol_text, subscript', examples)
 def test_with_subexpr_before_supexpr(label, text, symbol_text, subscript):
-    assert_equal(text + '_' + subscript + '^2', Pow(Symbol(symbol_text + '_' + subscript, real=True), Integer(2)))
+    assert_equal(text + '_' + subscript + '^2', Pow(Symbol(symbol_text + '_' + subscript, real=True, positive=True), Integer(2)))
 
 
 @pytest.mark.parametrize('label, text, symbol_text, subscript', examples)
 def test_with_subexpr_before_supexpr_with_braces(label, text, symbol_text, subscript):
     wrapped_subscript = subscript if '{' in subscript else '{' + subscript + '}'
-    assert_equal(text + '_' + wrapped_subscript + '^{2}', Pow(Symbol(symbol_text + '_' + subscript, real=True), Integer(2)))
+    assert_equal(text + '_' + wrapped_subscript + '^{2}', Pow(Symbol(symbol_text + '_' + subscript, real=True, positive=True), Integer(2)))
 
 
 @pytest.mark.parametrize('label, text, symbol_text, subscript', examples)
 def test_with_supexpr_before_subexpr(label, text, symbol_text, subscript):
-    assert_equal(text + '^2_' + subscript, Pow(Symbol(symbol_text + '_' + subscript, real=True), Integer(2)))
+    assert_equal(text + '^2_' + subscript, Pow(Symbol(symbol_text + '_' + subscript, real=True, positive=True), Integer(2)))
 
 
 @pytest.mark.parametrize('label, text, symbol_text, subscript', examples)
 def test_with_supexpr_before_subexpr_with_braces(label, text, symbol_text, subscript):
     wrapped_subscript = subscript if '{' in subscript else '{' + subscript + '}'
-    assert_equal(text + '^{2}_' + wrapped_subscript, Pow(Symbol(symbol_text + '_' + subscript, real=True), Integer(2)))
+    assert_equal(text + '^{2}_' + wrapped_subscript, Pow(Symbol(symbol_text + '_' + subscript, real=True, positive=True), Integer(2)))
