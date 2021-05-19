@@ -447,7 +447,7 @@ def convert_atom(atom):
                 subscript_text = '_' + subscript_inner_text
 
         # construct the symbol using the text and optional subscript
-        atom_symbol = sympy.Symbol(atom_text + subscript_text, real=True)
+        atom_symbol = sympy.Symbol(atom_text + subscript_text, real=True, positive=True)
 
         # find the atom's superscript, and return as a Pow if found
         if atom_expr.supexpr():
