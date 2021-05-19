@@ -2,9 +2,9 @@ from .context import assert_equal
 import pytest
 from sympy import Symbol, Rational, Float, Max, sqrt, exp, pi, nsimplify
 
-x = Symbol('x', real=True)
-y = Symbol('y', real=True)
-z = Symbol('z', real=True)
+x = Symbol('x', real=True, positive=True)
+y = Symbol('y', real=True, positive=True)
+z = Symbol('z', real=True, positive=True)
 
 
 def test_max_usual():

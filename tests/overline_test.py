@@ -2,8 +2,8 @@ from .context import assert_equal
 import pytest
 from sympy import sin, Symbol
 
-x = Symbol('x', real=True)
+x = Symbol('x', real=True, positive=True)
 
 
 def test_overline():
-    assert_equal("\\frac{\\sin(x)}{\\overline{x}_n}", sin(x) / Symbol('xbar_n', real=True))
+    assert_equal("\\frac{\\sin(x)}{\\overline{x}_n}", sin(x) / Symbol('xbar_n', real=True, positive=True))
