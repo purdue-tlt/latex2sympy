@@ -2,10 +2,10 @@ from .context import assert_equal, _Add, _Mul, _Pow
 import pytest
 from sympy import binomial, Symbol
 
-x = Symbol('x', real=True)
-y = Symbol('y', real=True)
-theta = Symbol('theta', real=True)
-gamma = Symbol('gamma', real=True)
+x = Symbol('x', real=True, positive=True)
+y = Symbol('y', real=True, positive=True)
+theta = Symbol('theta', real=True, positive=True)
+gamma = Symbol('gamma', real=True, positive=True)
 
 
 def test_binomial_numeric():

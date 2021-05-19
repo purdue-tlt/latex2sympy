@@ -2,8 +2,8 @@ from .context import assert_equal
 import pytest
 from sympy import exp, sin, Symbol, E
 
-x = Symbol('x', real=True)
-y = Symbol('y', real=True)
+x = Symbol('x', real=True, positive=True)
+y = Symbol('y', real=True, positive=True)
 
 
 def test_exp_letter():

@@ -447,7 +447,7 @@ def convert_atom(atom):
                 subscript_text = '_' + subscript_inner_text
 
         # construct the symbol using the text and optional subscript
-        atom_symbol = sympy.Symbol(atom_text + subscript_text, real=True)
+        atom_symbol = sympy.Symbol(atom_text + subscript_text, real=True, positive=True)
 
         # find the atom's superscript, and return as a Pow if found
         if atom_expr.supexpr():
@@ -486,10 +486,10 @@ def convert_atom(atom):
             return sympy.Number(s)
     elif atom.DIFFERENTIAL():
         var = get_differential_var(atom.DIFFERENTIAL())
-        return sympy.Symbol('d' + var.name, real=True)
+        return sympy.Symbol('d' + var.name, real=True, positive=True)
     elif atom.mathit():
         text = rule2text(atom.mathit().mathit_text())
-        return sympy.Symbol(text, real=True)
+        return sympy.Symbol(text, real=True, positive=True)
     elif atom.VARIABLE():
         text = atom.VARIABLE().getText()
         is_percent = text.endswith("\\%")
@@ -558,7 +558,7 @@ def convert_frac(frac):
             wrt = wrt[1:]
 
     if diff_op or partial_op:
-        wrt = sympy.Symbol(wrt, real=True)
+        wrt = sympy.Symbol(wrt, real=True, positive=True)
         if (diff_op and frac.upper.start == frac.upper.stop and
             frac.upper.start.type == PSLexer.LETTER_NO_E and
                 frac.upper.start.text == 'd'):
@@ -735,15 +735,15 @@ def handle_integral(func):
             s = str(sym)
             if len(s) > 1 and s[0] == 'd':
                 if s[1] == '\\':
-                    int_var = sympy.Symbol(s[2:], real=True)
+                    int_var = sympy.Symbol(s[2:], real=True, positive=True)
                 else:
-                    int_var = sympy.Symbol(s[1:], real=True)
+                    int_var = sympy.Symbol(s[1:], real=True, positive=True)
                 int_sym = sym
         if int_var:
             integrand = integrand.subs(int_sym, 1)
         else:
             # Assume dx by default
-            int_var = sympy.Symbol('x', real=True)
+            int_var = sympy.Symbol('x', real=True, positive=True)
 
     if func.subexpr():
         if func.subexpr().atom():
@@ -777,11 +777,11 @@ def handle_sum_or_prod(func, name):
 def handle_limit(func):
     sub = func.limit_sub()
     if sub.LETTER_NO_E():
-        var = sympy.Symbol(sub.LETTER_NO_E().getText(), real=True)
+        var = sympy.Symbol(sub.LETTER_NO_E().getText(), real=True, positive=True)
     elif sub.GREEK_CMD():
-        var = sympy.Symbol(sub.GREEK_CMD().getText()[1:].strip(), real=True)
+        var = sympy.Symbol(sub.GREEK_CMD().getText()[1:].strip(), real=True, positive=True)
     else:
-        var = sympy.Symbol('x', real=True)
+        var = sympy.Symbol('x', real=True, positive=True)
     if sub.SUB():
         direction = "-"
     else:
@@ -837,7 +837,7 @@ def handle_ceil(expr):
 
 def get_differential_var(d):
     text = get_differential_var_str(d.getText())
-    return sympy.Symbol(text, real=True)
+    return sympy.Symbol(text, real=True, positive=True)
 
 
 def get_differential_var_str(text):

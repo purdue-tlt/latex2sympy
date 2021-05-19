@@ -3,10 +3,10 @@ import pytest
 from sympy import Integral, sin, Symbol, Mul, Integer, Pow
 from latex2sympy.latex2sympy import process_sympy
 
-a = Symbol('a', real=True)
-b = Symbol('b', real=True)
-x = Symbol('x', real=True)
-theta = Symbol('theta', real=True)
+a = Symbol('a', real=True, positive=True)
+b = Symbol('b', real=True, positive=True)
+x = Symbol('x', real=True, positive=True)
+theta = Symbol('theta', real=True, positive=True)
 
 
 func_arg_examples = [

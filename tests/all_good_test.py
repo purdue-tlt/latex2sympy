@@ -10,17 +10,17 @@ from sympy import (
     Mod, gcd, lcm, floor, ceiling, Max, Min
 )
 
-x = Symbol('x', real=True)
-y = Symbol('y', real=True)
-z = Symbol('z', real=True)
-a = Symbol('a', real=True)
-b = Symbol('b', real=True)
-c = Symbol('c', real=True)
-f = Symbol('f', real=True)
-t = Symbol('t', real=True)
-k = Symbol('k', real=True)
-n = Symbol('n', real=True)
-theta = Symbol('theta', real=True)
+x = Symbol('x', real=True, positive=True)
+y = Symbol('y', real=True, positive=True)
+z = Symbol('z', real=True, positive=True)
+a = Symbol('a', real=True, positive=True)
+b = Symbol('b', real=True, positive=True)
+c = Symbol('c', real=True, positive=True)
+f = Symbol('f', real=True, positive=True)
+t = Symbol('t', real=True, positive=True)
+k = Symbol('k', real=True, positive=True)
+n = Symbol('n', real=True, positive=True)
+theta = Symbol('theta', real=True, positive=True)
 
 # shorthand definitions
 
@@ -136,7 +136,7 @@ class TestAllGood(object):
         # ("\\frac{d\\theta(x)}{dx}", Derivative(theta(x), x)),
         ("|x|", _Abs(x)),
         ("\\left|x\\right|", _Abs(x)),
-        ("||x||", _Abs(Abs(x))),
+        ("||x||", _Abs(_Abs(x))),
         ("|x||y|", _Abs(x) * _Abs(y)),
         ("||x||y||", _Abs(_Abs(x) * _Abs(y))),
         ("\\lfloor x\\rfloor", floor(x)),
@@ -169,13 +169,13 @@ class TestAllGood(object):
         ("\\int \\frac{1}{a} + \\frac{1}{b} dx", Integral(_Add(_Pow(a, -1), Pow(b, -1)), x)),
         ("\\int \\frac{3 \\cdot d\\theta}{\\theta}", Integral(3 * _Pow(theta, -1), theta)),
         ("\\int \\frac{1}{x} + 1 dx", Integral(_Add(_Pow(x, -1), 1), x)),
-        ("x_0", Symbol('x_0', real=True)),
-        ("x_{1}", Symbol('x_1', real=True)),
-        ("x_a", Symbol('x_a', real=True)),
-        ("x_{b}", Symbol('x_b', real=True)),
-        ("h_\\theta", Symbol('h_{\\theta}', real=True)),
-        ("h_\\theta ", Symbol('h_{\\theta}', real=True)),
-        ("h_{\\theta}", Symbol('h_{\\theta}', real=True)),
+        ("x_0", Symbol('x_0', real=True, positive=True)),
+        ("x_{1}", Symbol('x_1', real=True, positive=True)),
+        ("x_a", Symbol('x_a', real=True, positive=True)),
+        ("x_{b}", Symbol('x_b', real=True, positive=True)),
+        ("h_\\theta", Symbol('h_{\\theta}', real=True, positive=True)),
+        ("h_\\theta ", Symbol('h_{\\theta}', real=True, positive=True)),
+        ("h_{\\theta}", Symbol('h_{\\theta}', real=True, positive=True)),
         # ("h_{\\theta}(x_0, x_1)", Symbol('h_{theta}', real=True)(Symbol('x_{0}', real=True), Symbol('x_{1}', real=True))),
         ("x!", _factorial(x)),
         ("100!", _factorial(100)),
@@ -217,12 +217,12 @@ class TestAllGood(object):
         ("[x]", x),
         ("[a + b]", _Add(a, b)),
         ("\\frac{d}{dx} [ \\tan x ]", Derivative(tan(x), x)),
-        ("2\\overline{x}", 2 * Symbol('xbar', real=True)),
-        ("2\\overline{x}_n", 2 * Symbol('xbar_n', real=True)),
-        ("\\frac{x}{\\overline{x}_n}", x / Symbol('xbar_n', real=True)),
-        ("\\frac{\\sin(x)}{\\overline{x}_n}", sin(Symbol('x', real=True)) / Symbol('xbar_n', real=True)),
-        ("2\\bar{x}", 2 * Symbol('xbar', real=True)),
-        ("2\\bar{x}_n", 2 * Symbol('xbar_n', real=True)),
+        ("2\\overline{x}", 2 * Symbol('xbar', real=True, positive=True)),
+        ("2\\overline{x}_n", 2 * Symbol('xbar_n', real=True, positive=True)),
+        ("\\frac{x}{\\overline{x}_n}", x / Symbol('xbar_n', real=True, positive=True)),
+        ("\\frac{\\sin(x)}{\\overline{x}_n}", sin(x) / Symbol('xbar_n', real=True, positive=True)),
+        ("2\\bar{x}", 2 * Symbol('xbar', real=True, positive=True)),
+        ("2\\bar{x}_n", 2 * Symbol('xbar_n', real=True, positive=True)),
         ("\\sin\\left(\\theta\\right) \\cdot4", sin(theta) * 4),
         ("\\ln\\left(\\theta\\right)", _log(theta, E)),
         ("\\ln\\left(x-\\theta\\right)", _log(x - theta, E)),

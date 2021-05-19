@@ -4,8 +4,8 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-x = Symbol('x', real=True)
-y = Symbol('y', real=True)
+x = Symbol('x', real=True, positive=True)
+y = Symbol('y', real=True, positive=True)
 
 # shorthand definitions
 
