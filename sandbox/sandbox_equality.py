@@ -1,4 +1,5 @@
 from sympy import *
+from itertools import product
 from latex2sympy import process_sympy
 
 
@@ -43,31 +44,66 @@ def replace_rationals(expr, replacement):
 
 
 def find_symbols(expr):
-    symbols = []
+    symbols = {}
 
     # recurse args, if any
     if hasattr(expr, 'args') and len(expr.args) > 0:
         for arg in expr.args:
             if len(arg.args) > 0:
                 new_symbols = find_symbols(arg)
-                symbols = [*symbols, *new_symbols]
+                symbols = {**symbols, **new_symbols}
             elif isinstance(arg, Symbol):
-                symbols.append(arg)
+                symbols[arg] = True
 
     return symbols
 
 
-def sample(expr):
-    symbols = find_symbols(expr)
-
-    subs = {}
-    for symbol in symbols:
-        subs[symbol] = Integer(1)
-
+def evaluate(expr, subs):
     try:
         return expr.evalf(subs=subs)
     except Exception as e:
         return 'ERROR'
+
+
+def get_sample_diff(expr1, expr2):
+    symbols_1 = find_symbols(expr1)
+    symbols_2 = find_symbols(expr2)
+
+    if symbols_2.keys() != symbols_1.keys():
+        return 'ERROR'
+
+    sample_values = [
+        # -100,
+        # -1,
+        0,
+        1,
+        100
+    ]
+    values_per_symbol = []
+    symbols_list = []
+    for symbol in symbols_1.keys():
+        symbols_list.append(symbol)
+        values_per_symbol.append(sample_values)
+
+    values_product = list(product(*values_per_symbol))
+
+    results_1 = []
+    results_2 = []
+    for combination in values_product:
+        subs = {}
+        for i in range(len(combination)):
+            symbol = symbols_list[i]
+            subs[symbol] = combination[i]
+        result_1 = evaluate(expr1, subs)
+        result_2 = evaluate(expr2, subs)
+        if result_1 == 'ERROR' or result_2 == 'ERROR':
+            return 'ERROR'
+        results_1.append(result_1)
+        results_2.append(result_2)
+
+    error_percentage = 100 * abs(sum(results_1) - sum(results_2)) / sum(results_1)
+
+    return error_percentage
 
 
 def compare(correct_answer, student_answer):
@@ -82,15 +118,18 @@ def compare(correct_answer, student_answer):
     # print('')
 
     equals_diff = factor_terms(simplify(correct_answer_parsed - student_answer_parsed), radical=True)
-    print('.equals() (c.equals(a)) =>', correct_answer_parsed.equals(student_answer_parsed))
+    equals_result = correct_answer_parsed.equals(student_answer_parsed)
+    print('.equals() (c.equals(a)) =>', equals_result)
     print('\tdiff =>', equals_diff)
-    print('\tsampled =>', sample(equals_diff))
     print('')
 
     simplify_result = simplify(correct_answer_parsed - student_answer_parsed)
     print('Symbolic (simplify(c - a) == 0) =>', simplify_result == 0)
     print('\tsimplified =>', simplify_result)
-    print('\tsampled =>', sample(simplify_result))
+    print('')
+
+    sample_result = get_sample_diff(correct_answer_parsed, student_answer_parsed)
+    print('Sampled =>', sample_result)
     print('')
 
     c_rep = srepr(correct_answer_parsed)
@@ -171,6 +210,12 @@ answer_sets = [
         ]
     },
     {
+        'correct_answer': '99.9x',
+        'student_answers': [
+            '99.86x'
+        ]
+    },
+    {
         'correct_answer': '\\frac{(1+1)\\cdot (100-20-5\\cdot w_t)+0.8\\cdot (340-5-1\\cdot w_c)}{(1+1)\\cdot (1+3)-0.8\\cdot 0.8}',
         'student_answers': [
             '\\frac{428 - 0.8w_c - 10w_t}{7.36}',
@@ -181,9 +226,13 @@ answer_sets = [
     {
         'correct_answer': '\\frac{2675}{46} - \\frac{5}{46}w_c - \\frac{125}{92}w_t',
         'student_answers': [
-            '\\frac{(1+1)\\cdot (100-20-5\\cdot w_t)+0.8\\cdot (340-5-1\\cdot w_c)}{(1+1)\\cdot (1+3)-0.8\\cdot 0.8}',
-            '\\frac{428 - 0.8w_c - 10w_t}{7.36}',
-            '58.15220 - 0.1087w_c - 1.3587w_t'
+            # '\\frac{(1+1)\\cdot (100-20-5\\cdot w_t)+0.8\\cdot (340-5-1\\cdot w_c)}{(1+1)\\cdot (1+3)-0.8\\cdot 0.8}',
+            # '\\frac{428 - 0.8w_c - 10w_t}{7.36}',
+            '58.15220 - 0.1087w_c - 1.3587w_t',
+            '58.15220 - 1.3587w_t - 0.1087w_c',
+            # '58.15220 - 0.1087w_c - 1.3587w_t + x',
+            # '58.15220 - 0.1087w_c + x',
+            # '58.15220 - 0.1087w_c'
         ]
     }
 ]
