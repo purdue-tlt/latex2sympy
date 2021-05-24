@@ -477,6 +477,13 @@ def convert_atom(atom):
             return sr
         except (TypeError, ValueError):
             return sympy.Number(s)
+    elif atom.FRACTION_NUMBER():
+        s = atom.FRACTION_NUMBER().getText().replace("\\frac{", "").replace("}{", "/").replace("}", "").replace(",", "")
+        try:
+            sr = sympy.Rational(s)
+            return sr
+        except (TypeError, ValueError):
+            return sympy.Number(s)
     elif atom.E_NOTATION():
         s = atom.E_NOTATION().getText().replace(",", "")
         try:

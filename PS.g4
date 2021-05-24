@@ -147,6 +147,12 @@ NUMBER:
     DIGIT+ (COMMA DIGIT DIGIT DIGIT)*
     | DIGIT* (COMMA DIGIT DIGIT DIGIT)* PERIOD DIGIT+;
 
+FRACTION_NUMBER: CMD_FRAC L_BRACE
+    NUMBER
+    R_BRACE L_BRACE
+    NUMBER
+    R_BRACE;
+
 E_NOTATION: NUMBER E_NOTATION_E (SUB | ADD)? DIGIT+;
 
 EQUAL: '=';
@@ -392,7 +398,7 @@ accent:
     L_BRACE base=expr R_BRACE;
 
 atom_expr: (LETTER_NO_E | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
-atom: atom_expr | SYMBOL | NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE;
+atom: atom_expr | SYMBOL | NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE;
 
 mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
 mathit_text: (LETTER_NO_E | E_NOTATION_E | EXP_E)+;
