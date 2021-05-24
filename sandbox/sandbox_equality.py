@@ -119,12 +119,12 @@ def compare(correct_answer, student_answer):
 
     equals_diff = factor_terms(simplify(correct_answer_parsed - student_answer_parsed), radical=True)
     equals_result = correct_answer_parsed.equals(student_answer_parsed)
-    print('.equals() (c.equals(a)) =>', equals_result)
+    print('Symbolic using .equals(), (c.equals(a)) =>', equals_result)
     print('\tdiff =>', equals_diff)
     print('')
 
     simplify_result = simplify(correct_answer_parsed - student_answer_parsed)
-    print('Symbolic (simplify(c - a) == 0) =>', simplify_result == 0)
+    print('Symbolic using simplify(), (simplify(c - a) == 0) =>', simplify_result == 0)
     print('\tsimplified =>', simplify_result)
     print('')
 
@@ -134,7 +134,7 @@ def compare(correct_answer, student_answer):
 
     c_rep = srepr(correct_answer_parsed)
     a_rep = srepr(student_answer_parsed)
-    print('String Rep (srepr(c) == srepr(a)) =>', c_rep == a_rep)
+    print('Form and Symbolic using srepr(), (srepr(c) == srepr(a)) =>', c_rep == a_rep)
     print('\tsrepr(c) =>', c_rep)
     print('\tsrepr(a) =>', a_rep)
     print('')
