@@ -42,6 +42,34 @@ def replace_rationals(expr, replacement):
     return new_expr
 
 
+def find_symbols(expr):
+    symbols = []
+
+    # recurse args, if any
+    if hasattr(expr, 'args') and len(expr.args) > 0:
+        for arg in expr.args:
+            if len(arg.args) > 0:
+                new_symbols = find_symbols(arg)
+                symbols = [*symbols, *new_symbols]
+            elif isinstance(arg, Symbol):
+                symbols.append(arg)
+
+    return symbols
+
+
+def sample(expr):
+    symbols = find_symbols(expr)
+
+    subs = {}
+    for symbol in symbols:
+        subs[symbol] = Integer(1)
+
+    try:
+        return expr.evalf(subs=subs)
+    except Exception as e:
+        return 'ERROR'
+
+
 def compare(correct_answer, student_answer):
     print('correct_answer (c): ', correct_answer)
     print('student_answer (a): ', student_answer)
@@ -53,12 +81,16 @@ def compare(correct_answer, student_answer):
     # print('Double Equals (c == a) =>', correct_answer_parsed == student_answer_parsed)
     # print('')
 
+    equals_diff = factor_terms(simplify(correct_answer_parsed - student_answer_parsed), radical=True)
     print('.equals() (c.equals(a)) =>', correct_answer_parsed.equals(student_answer_parsed))
+    print('\tdiff =>', equals_diff)
+    print('\tsampled =>', sample(equals_diff))
     print('')
 
     simplify_result = simplify(correct_answer_parsed - student_answer_parsed)
     print('Symbolic (simplify(c - a) == 0) =>', simplify_result == 0)
     print('\tsimplified =>', simplify_result)
+    print('\tsampled =>', sample(simplify_result))
     print('')
 
     c_rep = srepr(correct_answer_parsed)
