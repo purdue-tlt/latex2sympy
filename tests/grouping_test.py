@@ -15,7 +15,7 @@ func_arg_examples = [
 ]
 
 example_groups = [
-    ('1+2', '3-4', _Mul(_Add(1, 2), _Add(3, _Mul(-1, 4))))
+    ('1+2', '3-4', _Mul(_Add(1, 2), _Add(3, -4)))
 ]
 
 modifiable_delimiter_pairs = {
