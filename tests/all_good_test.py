@@ -277,7 +277,8 @@ class TestAllGood(object):
         ("0.05\\%", Rational(5, 10000)),
 
         # empty set
-        ("\\emptyset", S.EmptySet)
+        ("\\emptyset", S.EmptySet),
+        ("\\frac{1}{0}", S.EmptySet)
     ]
 
     def test_good_pair(self, s, eq):

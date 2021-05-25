@@ -501,6 +501,8 @@ def convert_atom(atom):
         try:
             sr = sympy.Rational(s)
             return sr
+        except ZeroDivisionError:
+            return sympy.S.EmptySet
         except (TypeError, ValueError):
             return sympy.Number(s)
     elif atom.E_NOTATION():
