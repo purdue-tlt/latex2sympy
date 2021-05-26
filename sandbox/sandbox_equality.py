@@ -65,19 +65,20 @@ def evaluate(expr, subs):
         return 'ERROR'
 
 
-def get_sample_diff(expr1, expr2):
-    symbols_1 = find_symbols(expr1)
-    symbols_2 = find_symbols(expr2)
+def get_sample_diff(expr_1, expr_2):
+    symbols_1 = find_symbols(expr_1)
+    symbols_2 = find_symbols(expr_2)
 
+    # cannot compare if the two expressions have different symbols
     if symbols_2.keys() != symbols_1.keys():
         return 'ERROR'
 
     sample_values = [
-        # -1000,
-        # -100,
-        # -10,
-        # -1,
-        # -0.5,
+        -1000,
+        -100,
+        -10,
+        -1,
+        -0.5,
         0,
         0.5,
         1,
@@ -89,7 +90,9 @@ def get_sample_diff(expr1, expr2):
     symbols_list = []
     for symbol in symbols_1.keys():
         symbols_list.append(symbol)
-        values_per_symbol.append(sample_values)
+        # filter the sample values based on if the Symbol is positive/negative/either
+        filtered_values = list(filter(lambda v: v >= 0, sample_values)) if symbol.is_positive else sample_values
+        values_per_symbol.append(filtered_values)
 
     values_product = list(product(*values_per_symbol))
 
@@ -100,8 +103,8 @@ def get_sample_diff(expr1, expr2):
         for i in range(len(combination)):
             symbol = symbols_list[i]
             subs[symbol] = combination[i]
-        result_1 = evaluate(expr1, subs)
-        result_2 = evaluate(expr2, subs)
+        result_1 = evaluate(expr_1, subs)
+        result_2 = evaluate(expr_2, subs)
         if result_1 == 'ERROR' or result_2 == 'ERROR':
             return 'ERROR'
         results_1.append(result_1)
@@ -111,6 +114,7 @@ def get_sample_diff(expr1, expr2):
     sum_2 = sum(results_2)
     abs_diff = abs(sum_1 - sum_2)
 
+    # avoid error from possible 0/0
     if abs_diff == 0:
         return 0
 
@@ -134,8 +138,8 @@ def compare(correct_answer, student_answer):
     equals_diff = factor_terms(simplify(correct_answer_parsed - student_answer_parsed), radical=True)
     equals_result = correct_answer_parsed.equals(student_answer_parsed)
     print('Symbolic using .equals(), (c.equals(a)) =>', equals_result)
-    print('\tdiff =>', equals_diff)
-    print('')
+    # print('\tdiff =>', equals_diff)
+    # print('')
 
     # simplify_result = simplify(correct_answer_parsed - student_answer_parsed)
     # print('Symbolic using simplify(), (simplify(c - a) == 0) =>', simplify_result == 0)
@@ -143,15 +147,15 @@ def compare(correct_answer, student_answer):
     # print('')
 
     sample_result = get_sample_diff(correct_answer_parsed, student_answer_parsed)
-    print('Sampled =>', sample_result)
-    print('')
+    print('Sampled =>', sample_result, ', < 2% =>', False if isinstance(sample_result, str) else sample_result <= 0.02)
+    # print('')
 
     c_rep = srepr(correct_answer_parsed)
     a_rep = srepr(student_answer_parsed)
     print('Form and Symbolic using srepr(), (srepr(c) == srepr(a)) =>', c_rep == a_rep)
-    print('\tsrepr(c) =>', c_rep)
-    print('\tsrepr(a) =>', a_rep)
-    print('')
+    # print('\tsrepr(c) =>', c_rep)
+    # print('\tsrepr(a) =>', a_rep)
+    # print('')
 
     r = Symbol('replacement', real=True, positive=True)
     correct_answer_replaced = replace_rationals(correct_answer_parsed, r)
@@ -164,10 +168,10 @@ def compare(correct_answer, student_answer):
     # print('')
 
     print('Form w/o Numbers using srepr(), (srepr(replace_rationals(c)) == srepr(replace_rationals(a))) =>', srepr(correct_answer_replaced) == srepr(student_answer_replaced))
-    print('\treplace_rationals(c):', correct_answer_replaced)
-    print('\treplace_rationals(a):', student_answer_replaced)
-    print('\tsrepr(replace_rationals(c)):', srepr(correct_answer_replaced))
-    print('\tsrepr(replace_rationals(a)):', srepr(student_answer_replaced))
+    # print('\treplace_rationals(c):', correct_answer_replaced)
+    # print('\treplace_rationals(a):', student_answer_replaced)
+    # print('\tsrepr(replace_rationals(c)):', srepr(correct_answer_replaced))
+    # print('\tsrepr(replace_rationals(a)):', srepr(student_answer_replaced))
 
     print('-----------------------------------------------------')
 
