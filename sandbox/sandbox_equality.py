@@ -91,13 +91,15 @@ def get_sample_diff(expr_1, expr_2):
     for symbol in symbols_1.keys():
         symbols_list.append(symbol)
         # filter the sample values based on if the Symbol is positive/negative/either
-        filtered_values = list(filter(lambda v: v >= 0, sample_values)) if symbol.is_positive else sample_values
-        values_per_symbol.append(filtered_values)
+        # filtered_values = list(filter(lambda v: v >= 0, sample_values)) if symbol.is_positive else sample_values
+        values_per_symbol.append(sample_values)
 
     values_product = list(product(*values_per_symbol))
 
     results_1 = []
     results_2 = []
+    diffs = []
+    diff_percentages = []
     for combination in values_product:
         subs = {}
         for i in range(len(combination)):
@@ -109,19 +111,26 @@ def get_sample_diff(expr_1, expr_2):
             return 'ERROR'
         results_1.append(result_1)
         results_2.append(result_2)
+        diff = result_1 - result_2
+        diffs.append(0 if diff == 0 else diff / result_1)
+        diff_percentages.append(0 if diff == 0 else 100 * abs(diff / result_1))
 
-    sum_1 = sum(results_1)
-    sum_2 = sum(results_2)
-    abs_diff = abs(sum_1 - sum_2)
+    # # percentage of sums
+    # sum_1 = sum(results_1)
+    # sum_2 = sum(results_2)
+    # abs_diff = abs(sum_1 - sum_2)
+    # # avoid error from possible 0/0
+    # if abs_diff == 0:
+    #     return 0
+    # error_ratio = abs_diff / sum_1
+    # error_percentage = 100 * error_ratio
+    # return error_percentage
 
-    # avoid error from possible 0/0
-    if abs_diff == 0:
-        return 0
+    # # average of percentages
+    # return sum(diff_percentages) / len(diff_percentages)
 
-    error_ratio = abs_diff / sum_1
-    error_percentage = 100 * error_ratio
-
-    return error_percentage
+    # max of percentages
+    return max(diff_percentages)
 
 
 def compare(correct_answer, student_answer):
