@@ -12,4 +12,4 @@ def test_pi_nested():
 
 
 def test_pi_arccos():
-    assert_equal("\\arccos{-1}", pi, symbolically=True)
+    assert_equal("\\arccos{-1}", acos(-1, evaluate=False))
