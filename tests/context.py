@@ -53,7 +53,7 @@ def get_simple_examples(func):
         ("\\frac{\\pi }{2}", func(_Mul(_Pow(2, -1), pi))),
         ("\\frac{1+6}{3}", func(_Mul(_Pow(3, -1), _Add(1, 6)))),
         ("\\frac{7*4}{5}", func(_Mul(_Pow(5, -1), _Mul(7, 4)))),
-        ("15-2.3", func(_Add(15, Rational(-23, 10)))),
+        ("15-2.3", func(_Add(15, _Mul(-1, Rational(23, 10))))),
         ("x", func(x)),
         ("x + y", func(x + y)),
         ("\\frac{9x}{4}", func(_Mul(_Pow(4, -1), _Mul(9, x)))),
@@ -101,7 +101,7 @@ def get_min_max_examples(cmd, func):
         (f"{cmd}(58*9)", func(_Mul(58, 9))),
         (f"{cmd}(1+\\frac{{6}}{{3}}, -5)", func(_Add(1, Rational(6, 3)), -5)),
         (f"{cmd}(7*\\frac{{4}}{{5}}, 092) * 2", func(_Mul(7, Rational(4, 5)), 92) * 2),
-        (f"38+{cmd}(13, 15-2.3)", 38 + func(13, _Add(15, Rational(-23, 10)))),
+        (f"38+{cmd}(13, 15-2.3)", 38 + func(13, _Add(15, _Mul(-1, Rational(23, 10))))),
         (f"\\sqrt{{{cmd}(99.9999999999999, 100)}}", sqrt(func(Rational('99.9999999999999'), 100), evaluate=False)),
         (f"{cmd}(\\frac{{274}}{{5+2}}, \\exp(12.4), 1.4E2)", func(_Mul(_Pow(_Add(5, 2), -1), 274), exp(Rational('12.4')), Rational('1.4E2'))),
 

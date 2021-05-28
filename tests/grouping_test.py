@@ -1,11 +1,8 @@
-from .context import assert_equal, _Pow, _Add, _Mul
+from .context import assert_equal, _Add, _Mul, x
 import pytest
-from sympy import Integral, sin, Symbol, Mul, Integer, Pow
-from latex2sympy.latex2sympy import process_sympy
+from sympy import Integral, sin, Symbol
 
-a = Symbol('a', real=True, positive=True)
-b = Symbol('b', real=True, positive=True)
-x = Symbol('x', real=True, positive=True)
+
 theta = Symbol('theta', real=True, positive=True)
 
 
@@ -15,7 +12,7 @@ func_arg_examples = [
 ]
 
 example_groups = [
-    ('1+2', '3-4', _Mul(_Add(1, 2), _Add(3, -4)))
+    ('1+2', '3-4', _Mul(_Add(1, 2), _Add(3, _Mul(-1, 4))))
 ]
 
 modifiable_delimiter_pairs = {

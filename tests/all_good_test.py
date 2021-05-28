@@ -47,7 +47,7 @@ class TestAllGood(object):
         ("0", Rational(0)),
         ("1", Rational(1)),
         ("-3.14", Rational(-314, 100)),
-        ("5-3", _Add(5, -3)),
+        ("5-3", _Add(5, _Mul(-1, 3))),
         ("(-7.13)(1.5)", _Mul(Rational('-7.13'), Rational('1.5'))),
         ("\\left(-7.13\\right)\\left(1.5\\right)", _Mul(Rational('-7.13'), Rational('1.5'))),
         ("x", x),

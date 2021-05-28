@@ -216,12 +216,7 @@ def convert_add(add):
         if lh.is_Matrix or rh.is_Matrix:
             return mat_add_flat(lh, mat_mul_flat(-1, rh))
         else:
-            # If we want to force ordering for variables this should be:
-            # return Sub(lh, rh, evaluate=False)
-            if not rh.is_Matrix and rh.func.is_Number:
-                rh = -rh
-            else:
-                rh = mul_flat(-1, rh)
+            rh = mul_flat(-1, rh)
             return add_flat(lh, rh)
     else:
         return convert_mp(add.mp())
