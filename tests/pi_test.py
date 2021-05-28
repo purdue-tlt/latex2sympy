@@ -9,7 +9,3 @@ def test_pi_frac():
 
 def test_pi_nested():
     assert_equal("\\arccos{\\cos{\\frac{\\pi}{3}}}", acos(cos(_Mul(pi, _Pow(3, -1)), evaluate=False), evaluate=False))
-
-
-def test_pi_arccos():
-    assert_equal("\\arccos{-1}", acos(-1, evaluate=False))
