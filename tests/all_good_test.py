@@ -44,10 +44,10 @@ def pytest_generate_tests(metafunc):
 class TestAllGood(object):
     # These latex strings should parse to the corresponding SymPy expression
     GOOD_PAIRS = [
-        ("0", 0),
-        ("1", 1),
-        ("-3.14", -3.14),
-        ("5-3", _Add(5, -3)),
+        ("0", Rational(0)),
+        ("1", Rational(1)),
+        ("-3.14", Rational(-314, 100)),
+        ("5-3", _Add(5, _Mul(-1, 3))),
         ("(-7.13)(1.5)", _Mul(Rational('-7.13'), Rational('1.5'))),
         ("\\left(-7.13\\right)\\left(1.5\\right)", _Mul(Rational('-7.13'), Rational('1.5'))),
         ("x", x),
@@ -111,7 +111,7 @@ class TestAllGood(object):
         ("\\min(a, b)", Min(a, b)),
         ("\\frac{a}{b}", a / b),
         ("\\frac{a + b}{c}", _Mul(a + b, _Pow(c, -1))),
-        ("\\frac{7}{3}", _Mul(7, _Pow(3, -1))),
+        ("\\frac{7}{3}", Rational(7, 3)),
         ("(\\csc x)(\\sec y)", csc(x) * sec(y)),
         ("\\lim_{x \\to 3} a", Limit(a, x, 3)),
         ("\\lim_{x \\rightarrow 3} a", Limit(a, x, 3)),
@@ -145,7 +145,7 @@ class TestAllGood(object):
         ("\\frac{\\pi}{3}", _Mul(pi, _Pow(3, -1))),
         ("\\sin{\\frac{\\pi}{2}}", sin(_Mul(pi, _Pow(2, -1)), evaluate=False)),
         ("a+bI", a + I * b),
-        ("e^{I\\pi}", -1),
+        ("e^{I\\pi}", Integer(-1)),
         ("\\int x dx", Integral(x, x)),
         ("\\int x d\\theta", Integral(x, theta)),
         ("\\int (x^2 - y)dx", Integral(x**2 - y, x)),
@@ -230,8 +230,8 @@ class TestAllGood(object):
         ("\\ln\\left(\\left[x-\\theta\\right]\\right)", _log(x - theta, E)),
         ("\\ln\\left(\\left\\{x-\\theta\\right\\}\\right)", _log(x - theta, E)),
         ("\\ln\\left(\\left|x-\\theta\\right|\\right)", _log(_Abs(x - theta), E)),
-        ("\\frac{1}{2}xy(x+y)", Mul(_Pow(2, -1), x, y, (x + y), evaluate=False)),
-        ("\\frac{1}{2}\\theta(x+y)", Mul(_Pow(2, -1), theta, (x + y), evaluate=False)),
+        ("\\frac{1}{2}xy(x+y)", Mul(Rational(1, 2), x, y, (x + y), evaluate=False)),
+        ("\\frac{1}{2}\\theta(x+y)", Mul(Rational(1, 2), theta, (x + y), evaluate=False)),
         ("1-f(x)", 1 - f * x),
 
         ("\\begin{matrix}1&2\\\\3&4\\end{matrix}", Matrix([[1, 2], [3, 4]])),
@@ -241,12 +241,12 @@ class TestAllGood(object):
         ("\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}", Matrix([[1, 2], [3, 4]])),
 
         # scientific notation
-        ("2.5\\times 10^2", 250),
-        ("1,500\\times 10^{-1}", 150),
+        ("2.5\\times 10^2", Rational(250)),
+        ("1,500\\times 10^{-1}", Rational(150)),
 
         # e notation
-        ("2.5E2", 250),
-        ("1,500E-1", 150),
+        ("2.5E2", Rational(250)),
+        ("1,500E-1", Rational(150)),
 
         # multiplication without cmd
         ("2x2y", Mul(2, x, 2, y, evaluate=False)),
@@ -257,7 +257,7 @@ class TestAllGood(object):
         ("\\theta\\begin{matrix}1&2\\\\3&4\\end{matrix}", MatMul(theta, Matrix([[1, 2], [3, 4]]), evaluate=False)),
         ("\\theta\\begin{matrix}1\\\\3\\end{matrix} - \\begin{matrix}-1\\\\2\\end{matrix}", MatAdd(MatMul(theta, Matrix([[1], [3]]), evaluate=False), MatMul(-1, Matrix([[-1], [2]]), evaluate=False), evaluate=False)),
         ("\\theta\\begin{matrix}1&0\\\\0&1\\end{matrix}*\\begin{matrix}3\\\\-2\\end{matrix}", MatMul(theta, Matrix([[1, 0], [0, 1]]), Matrix([3, -2]), evaluate=False)),
-        ("\\frac{1}{9}\\theta\\begin{matrix}1&2\\\\3&4\\end{matrix}", MatMul(Pow(9, -1, evaluate=False), theta, Matrix([[1, 2], [3, 4]]), evaluate=False)),
+        ("\\frac{1}{9}\\theta\\begin{matrix}1&2\\\\3&4\\end{matrix}", MatMul(Rational(1, 9), theta, Matrix([[1, 2], [3, 4]]), evaluate=False)),
         ("\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix},\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix}", [Matrix([1, 2, 3]), Matrix([4, 3, 1])]),
         ("\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix};\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix}", [Matrix([1, 2, 3]), Matrix([4, 3, 1])]),
         ("\\left\\{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix},\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix}\\right\\}", [Matrix([1, 2, 3]), Matrix([4, 3, 1])]),
@@ -267,17 +267,18 @@ class TestAllGood(object):
         ("{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}}", Matrix([1, 2, 3])),
 
         # us dollars
-        ("\\$1,000.00", 1000),
-        ("\\$543.21", 543.21),
-        ("\\$0.009", 0.009),
+        ("\\$1,000.00", Rational(1000)),
+        ("\\$543.21", Rational(54321, 100)),
+        ("\\$0.009", Rational(9, 1000)),
 
         # percentages
-        ("100\\%", 1),
-        ("1.5\\%", 0.015),
-        ("0.05\\%", 0.0005),
+        ("100\\%", Rational(1)),
+        ("1.5\\%", Rational(15, 1000)),
+        ("0.05\\%", Rational(5, 10000)),
 
         # empty set
-        ("\\emptyset", S.EmptySet)
+        ("\\emptyset", S.EmptySet),
+        ("\\frac{1}{0}", S.EmptySet)
     ]
 
     def test_good_pair(self, s, eq):

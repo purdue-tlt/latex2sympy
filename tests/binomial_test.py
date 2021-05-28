@@ -1,6 +1,6 @@
 from .context import assert_equal, _Add, _Mul, _Pow
 import pytest
-from sympy import binomial, Symbol
+from sympy import binomial, Symbol, Rational
 
 x = Symbol('x', real=True, positive=True)
 y = Symbol('y', real=True, positive=True)
@@ -21,7 +21,7 @@ def test_binomial_greek_symbols():
 
 
 def test_binomial_expr():
-    assert_equal("\\binom{16+2}{\\frac{4}{2}}", binomial(_Add(16, 2), _Mul(4, _Pow(2, -1)), evaluate=False))
+    assert_equal("\\binom{16+2}{\\frac{4}{2}}", binomial(_Add(16, 2), Rational(4, 2)))
 
 
 def test_choose_numeric():

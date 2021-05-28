@@ -216,12 +216,7 @@ def convert_add(add):
         if lh.is_Matrix or rh.is_Matrix:
             return mat_add_flat(lh, mat_mul_flat(-1, rh))
         else:
-            # If we want to force ordering for variables this should be:
-            # return Sub(lh, rh, evaluate=False)
-            if not rh.is_Matrix and rh.func.is_Number:
-                rh = -rh
-            else:
-                rh = mul_flat(-1, rh)
+            rh = mul_flat(-1, rh)
             return add_flat(lh, rh)
     else:
         return convert_mp(add.mp())
@@ -475,6 +470,34 @@ def convert_atom(atom):
         try:
             sr = sympy.Rational(s)
             return sr
+        except (TypeError, ValueError):
+            return sympy.Number(s)
+    elif atom.SCI_NOTATION_NUMBER():
+        s = atom.SCI_NOTATION_NUMBER().getText()
+        s_parts = s.split('\\times 10^')
+        s1 = s_parts[0].replace(',', '')
+        try:
+            n1 = sympy.Rational(s1)
+        except (TypeError, ValueError):
+            n1 = sympy.Number(s1)
+        s2 = s_parts[1].replace('{', '').replace(',', '').replace('}', '')
+        try:
+            n2 = sympy.Rational(s2)
+        except (TypeError, ValueError):
+            n2 = sympy.Number(s2)
+        n_exp = sympy.Mul(n1, sympy.Pow(10, n2))
+        try:
+            n = sympy.Rational(n_exp)
+        except (TypeError, ValueError):
+            n = sympy.Number(n_exp)
+        return n
+    elif atom.FRACTION_NUMBER():
+        s = atom.FRACTION_NUMBER().getText().replace("\\frac{", "").replace("}{", "/").replace("}", "").replace(",", "")
+        try:
+            sr = sympy.Rational(s)
+            return sr
+        except ZeroDivisionError:
+            return sympy.S.EmptySet
         except (TypeError, ValueError):
             return sympy.Number(s)
     elif atom.E_NOTATION():
