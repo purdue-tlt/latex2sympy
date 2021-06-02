@@ -497,7 +497,17 @@ def convert_atom(atom):
             sr = sympy.Rational(s)
             return sr
         except ZeroDivisionError:
-            return sympy.S.EmptySet
+            # preserve the divide by zero as an expression
+            s_parts = s.split('/')
+            try:
+                p = sympy.Rational(s_parts[0])
+            except (TypeError, ValueError):
+                p = sympy.Number(s_parts[0])
+            try:
+                q = sympy.Rational(s_parts[1])
+            except (TypeError, ValueError):
+                q = sympy.Number(s_parts[1])
+            return sympy.Mul(p, sympy.Pow(q, -1, evaluate=False), evaluate=False)
         except (TypeError, ValueError):
             return sympy.Number(s)
     elif atom.E_NOTATION():
