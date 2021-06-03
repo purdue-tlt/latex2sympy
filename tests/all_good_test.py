@@ -278,7 +278,10 @@ class TestAllGood(object):
 
         # empty set
         ("\\emptyset", S.EmptySet),
-        ("\\frac{1}{0}", S.EmptySet)
+
+        # divide by zero
+        ("\\frac{1}{0}", _Pow(0, -1)),
+        ("1+\\frac{5}{0}", _Add(1, _Mul(5, _Pow(0, -1))))
     ]
 
     def test_good_pair(self, s, eq):
