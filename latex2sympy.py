@@ -1,3 +1,4 @@
+import re
 import sympy
 import antlr4
 from antlr4.error.ErrorListener import ErrorListener
@@ -21,7 +22,7 @@ import hashlib
 VARIABLE_VALUES = {}
 
 
-def process_sympy(sympy, variable_values={}):
+def process_sympy(latex, variable_values={}):
 
     # variable values
     global VARIABLE_VALUES
@@ -30,11 +31,16 @@ def process_sympy(sympy, variable_values={}):
     else:
         VARIABLE_VALUES = {}
 
+    # pre-processing
+    # find any single char sup and wrap them in "{}"
+    # e.g. `4^26^2` => `4^{2}6^{2}`
+    pre_processed_latex = re.sub(r'([\^_])([0-9a-zA-Z])', '\\1{\\2}', latex)
+
     # setup listener
-    matherror = MathErrorListener(sympy)
+    matherror = MathErrorListener(pre_processed_latex)
 
     # stream input
-    stream = antlr4.InputStream(sympy)
+    stream = antlr4.InputStream(pre_processed_latex)
     lex = PSLexer(stream)
     lex.removeErrorListeners()
     lex.addErrorListener(matherror)
