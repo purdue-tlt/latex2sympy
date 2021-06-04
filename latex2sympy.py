@@ -32,9 +32,7 @@ def process_sympy(latex, variable_values={}):
         VARIABLE_VALUES = {}
 
     # pre-processing
-    # find any single char sup and wrap them in "{}"
-    # e.g. `4^26^2` => `4^{2}6^{2}`
-    pre_processed_latex = re.sub(r'([\^_])([0-9a-zA-Z])', '\\1{\\2}', latex)
+    pre_processed_latex = pre_process_latex(latex)
 
     # setup listener
     matherror = MathErrorListener(pre_processed_latex)
@@ -72,6 +70,23 @@ def process_sympy(latex, variable_values={}):
         return_data = convert_relation(relation)
 
     return return_data
+
+
+def pre_process_latex(latex):
+    '''
+    pre-processing for issues the parser cannot handle
+    '''
+
+    # find any single char sup/sub and wrap them in "{}"
+    # e.g. `4^26^2` => `4^{2}6^{2}`
+    # e.g. `x_22` => `x_{2}2`
+
+    # NOTE: this does modify variable names, but see `atom.VARIABLE()` processing below where this is reverted.
+    # this appears to be the easiest way without making the regex here too complex
+
+    pre_processed_latex = re.sub(r'([\^_])([0-9a-zA-Z])', '\\1{\\2}', latex)
+
+    return pre_processed_latex
 
 
 class MathErrorListener(ErrorListener):
@@ -535,6 +550,9 @@ def convert_atom(atom):
         trim_amount = 3 if is_percent else 1
         name = text[10:]
         name = name[0:len(name) - trim_amount]
+
+        # revert any wrapping of single char subs from `pre_process_latex`
+        name = re.sub(r'(_)\{([0-9a-zA-Z])\}', '\\1\\2', name)
 
         # add hash to distinguish from regular symbols
         hash = hashlib.md5(name.encode()).hexdigest()

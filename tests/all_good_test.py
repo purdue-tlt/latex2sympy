@@ -281,7 +281,11 @@ class TestAllGood(object):
 
         # divide by zero
         ("\\frac{1}{0}", _Pow(0, -1)),
-        ("1+\\frac{5}{0}", _Add(1, _Mul(5, _Pow(0, -1))))
+        ("1+\\frac{5}{0}", _Add(1, _Mul(5, _Pow(0, -1)))),
+
+        # adjacent single char sub sup
+        ("4^26^2", _Mul(_Pow(4, 2), _Pow(6, 2))),
+        ("x_22^2", _Mul(Symbol('x_2', real=True, positive=True), _Pow(2, 2)))
     ]
 
     def test_good_pair(self, s, eq):
