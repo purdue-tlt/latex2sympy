@@ -135,7 +135,7 @@ def get_gcd_lcm_examples(cmd, func, func_eval, multi_func):
         (f"{cmd}(6128, 24)", func(6128, 24)),
         (f"{cmd}(24, 6128)", func(24, 6128)),
         (f"{cmd}(1E20, 1000000)", func(Rational('1E20'), 1000000)),
-        (f"{cmd}(128*10^32, 1)", func(Rational('128E32'), 1)),
+        (f"{cmd}(128*10^{{32}}, 1)", func(Rational('128E32'), 1)),
 
         (f"{cmd}(-12, 4)", func(-12, 4)),
         (f"{cmd}(219, -9)", func(219, -9)),
