@@ -17,7 +17,7 @@ subscripts = [
     ('{ij}'),
     ('{i,j}'),
     ('{good}'),
-    ('{x^2}')
+    ('{x^{2}}')
 ]
 
 examples = []
