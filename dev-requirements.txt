@@ -4,31 +4,31 @@
 #
 #    pip-compile dev-requirements.in
 #
-antlr4-python3-runtime==4.7.2
+antlr4-python3-runtime==4.10
     # via
     #   -r requirements.txt
     #   latex2sympy
-attrs==19.3.0
+attrs==21.4.0
     # via pytest
 autopep8==1.6.0
     # via -r dev-requirements.in
-click==7.0
+click==8.1.2
     # via pip-tools
-coverage[toml]==6.2
+coverage[toml]==6.3.2
     # via pytest-cov
 iniconfig==1.1.1
     # via pytest
-mpmath==1.1.0
+mpmath==1.2.1
     # via
     #   -r requirements.txt
     #   sympy
-packaging==19.2
+packaging==21.3
     # via pytest
 pep517==0.12.0
     # via pip-tools
-pip-tools==6.4.0
+pip-tools==6.6.0
     # via -r dev-requirements.in
-pluggy==0.13.0
+pluggy==1.0.0
     # via pytest
 py==1.11.0
     # via pytest
@@ -36,29 +36,26 @@ pycodestyle==2.8.0
     # via
     #   -r dev-requirements.in
     #   autopep8
-pyparsing==2.4.4
+pyparsing==3.0.8
     # via packaging
-pytest==6.2.5
+pytest==7.1.2
     # via
     #   -r dev-requirements.in
     #   pytest-cov
 pytest-cov==3.0.0
     # via -r dev-requirements.in
-six==1.13.0
-    # via packaging
-sympy==1.4
+sympy==1.10.1
     # via
     #   -r requirements.txt
     #   latex2sympy
 toml==0.10.2
-    # via
-    #   autopep8
-    #   pytest
-tomli==1.2.2
+    # via autopep8
+tomli==2.0.1
     # via
     #   coverage
     #   pep517
-wheel==0.37.0
+    #   pytest
+wheel==0.37.1
     # via pip-tools
 
 # The following packages are considered to be unsafe in a requirements file:
