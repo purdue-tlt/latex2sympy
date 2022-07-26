@@ -19,12 +19,20 @@ def test_variable_letter_subscript():
     assert_equal("\\variable{x_y}", Symbol('x_y' + hashlib.md5('x_y'.encode()).hexdigest(), real=True))
 
 
+def test_variable_wrapped_single_letter_subscript():
+    assert_equal("\\variable{x_{y}}", Symbol('x_{y}' + hashlib.md5('x_{y}'.encode()).hexdigest(), real=True))
+
+
 def test_variable_letter_comma_subscript():
     assert_equal("\\variable{x_{i,j}}", Symbol('x_{i,j}' + hashlib.md5('x_{i,j}'.encode()).hexdigest(), real=True))
 
 
-def test_variable_digit_subscript():
+def test_variable_single_digit_subscript():
     assert_equal("\\variable{x_1}", Symbol('x_1' + hashlib.md5('x_1'.encode()).hexdigest(), real=True))
+
+
+def test_variable_wrapped_single_digit_subscript():
+    assert_equal("\\variable{x_{1}}", Symbol('x_{1}' + hashlib.md5('x_{1}'.encode()).hexdigest(), real=True))
 
 
 def test_variable_after_subscript_required():

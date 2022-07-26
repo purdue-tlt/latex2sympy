@@ -104,16 +104,31 @@ class LatexToSympy:
     def pre_process_latex(self, latex):
         '''
         pre-processing for issues the parser cannot handle
+
+        find any single char sup/sub and wrap them in "{}"
+        e.g. `4^26^2` => `4^{2}6^{2}`
+        e.g. `x_22` => `x_{2}2`
+
+        NOTE: this DOES MODIFY variable names so they can be parsed,
+        but `atom.VARIABLE()` reverts to the original name, if needed, using `self.variable_name_dict`
+
         '''
 
-        # find any single char sup/sub and wrap them in "{}"
-        # e.g. `4^26^2` => `4^{2}6^{2}`
-        # e.g. `x_22` => `x_{2}2`
+        # pattern to find variable commands, with the first group being the name
+        variable_regex = r'\\variable{([^}_]+?(_({[^}_]+?}|[^}_]))?)}'
 
-        # NOTE: this does modify variable names, but see `atom.VARIABLE()` processing below where this is reverted.
-        # this appears to be the easiest way without making the regex here too complex
+        unwrapped_single_char_sub_sup_regex = r'([\^_])([0-9a-zA-Z])'
 
-        pre_processed_latex = re.sub(r'([\^_])([0-9a-zA-Z])', '\\1{\\2}', latex)
+        # find all original variable names and make a mapping from new to original name
+        variable_name_dict = {}
+        variable_matches = re.finditer(variable_regex, latex)
+        for match in variable_matches:
+            original_name = match.groups()[0]
+            new_name = re.sub(unwrapped_single_char_sub_sup_regex, '\\1{\\2}', original_name)
+            variable_name_dict[new_name] = original_name
+        self.variable_name_dict = variable_name_dict
+
+        pre_processed_latex = re.sub(unwrapped_single_char_sub_sup_regex, '\\1{\\2}', latex)
 
         return pre_processed_latex
 
@@ -536,8 +551,9 @@ class LatexToSympy:
             name = text[10:]
             name = name[0:len(name) - trim_amount]
 
-            # revert any wrapping of single char subs from `pre_process_latex`
-            name = re.sub(r'(_)\{([0-9a-zA-Z])\}', '\\1\\2', name)
+            # revert to the "original" variable name stored from `pre_process_latex`
+            # original name might be the same if it already had a wrapped single char sub
+            name = self.variable_name_dict[name]
 
             # add hash to distinguish from regular symbols
             hash = hashlib.md5(name.encode()).hexdigest()
