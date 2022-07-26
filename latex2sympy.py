@@ -114,13 +114,8 @@ class LatexToSympy:
 
         '''
 
-        # pattern to find variable commands
-        # match groups:
-        # 0: the variable name up to the first closing "}". could be the "}" for the subscript, or the variable itself (see group 3)
-        # 1: the entire subscript (optional)
-        # 2: the opening subscript bracket (optional)
-        # 3: a second closing "}" (optional). could be from a wrapping command. IF group 2 is NOT "None", this is the closing subscript "}".
-        variable_regex = r'\\variable{([^}_]+(_({)?[^}]+)?)}(})?'
+        # pattern to find variable commands, with the first group being the name
+        variable_regex = r'\\variable{([^}_]+?(_({[^}_]+?}|[^}_]))?)}'
 
         unwrapped_single_char_sub_sup_regex = r'([\^_])([0-9a-zA-Z])'
 
@@ -128,8 +123,7 @@ class LatexToSympy:
         variable_name_dict = {}
         variable_matches = re.finditer(variable_regex, latex)
         for match in variable_matches:
-            groups = match.groups()
-            original_name = ''.join([groups[0], '' if groups[2] is None else groups[3]])
+            original_name = match.groups()[0]
             new_name = re.sub(unwrapped_single_char_sub_sup_regex, '\\1{\\2}', original_name)
             variable_name_dict[new_name] = original_name
         self.variable_name_dict = variable_name_dict
