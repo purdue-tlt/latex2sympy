@@ -212,6 +212,10 @@ class LatexToSympy:
             else:
                 args += [rh]
             return sympy.Mul(*args, evaluate=False)
+        # preserve previous functionality when subtracting 1
+        # e.g. `x-1`, the `Add(x, Mul(-1, 1))` was simplified as `Add(x, -1)`
+        elif lh == -1 and rh == 1:
+            return -1
         else:
             return sympy.Mul(lh, rh, evaluate=False)
 
