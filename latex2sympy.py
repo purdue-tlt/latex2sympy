@@ -274,6 +274,8 @@ class LatexToSympy:
         elif mp.DIV() or mp.CMD_DIV() or mp.COLON():
             lh = self.convert_mp(mp_left)
             rh = self.convert_mp(mp_right)
+            if lh == 1:
+                return sympy.Pow(rh, -1, evaluate=False)
             if lh.is_Matrix or rh.is_Matrix:
                 return sympy.MatMul(lh, sympy.Pow(rh, -1, evaluate=False), evaluate=False)
             else:
@@ -533,6 +535,8 @@ class LatexToSympy:
                     q = sympy.Rational(s_parts[1])
                 except (TypeError, ValueError):
                     q = sympy.Number(s_parts[1])
+                if p == 1:
+                    return sympy.Pow(q, -1, evaluate=False)
                 return sympy.Mul(p, sympy.Pow(q, -1, evaluate=False), evaluate=False)
             except (TypeError, ValueError):
                 return sympy.Number(s)
@@ -640,6 +644,8 @@ class LatexToSympy:
 
         expr_top = self.convert_expr(frac.upper)
         expr_bot = self.convert_expr(frac.lower)
+        if expr_top == 1:
+            return sympy.Pow(expr_bot, -1, evaluate=False)
         if expr_top.is_Matrix or expr_bot.is_Matrix:
             return sympy.MatMul(expr_top, sympy.Pow(expr_bot, -1, evaluate=False), evaluate=False)
         else:
