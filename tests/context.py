@@ -1,4 +1,4 @@
-from sympy import simplify, srepr, Add, Mul, Pow, Rational, pi, sqrt, Symbol, exp
+from sympy import simplify, srepr, Add, Mul, Pow, Rational, pi, sqrt, Symbol, exp, Eq
 from latex2sympy.latex2sympy import process_sympy
 import sys
 import os
@@ -22,6 +22,10 @@ def _Mul(*args):
 
 def _Pow(a, b):
     return Pow(a, b, evaluate=False)
+
+
+def _Eq(a, b):
+    return Eq(a, b, evaluate=False)
 
 
 def get_simple_examples(func):

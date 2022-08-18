@@ -3,6 +3,7 @@ import sympy
 import antlr4
 from antlr4.error.ErrorListener import ErrorListener
 from sympy.core.operations import AssocOp
+from sympy.core.core import all_classes
 
 try:
     from gen.PSParser import PSParser
@@ -562,7 +563,7 @@ class LatexToSympy:
             # replace the variable for already known variable values
             if name in self.variable_values:
                 # if a sympy class
-                if isinstance(self.variable_values[name], tuple(sympy.core.all_classes)):
+                if isinstance(self.variable_values[name], tuple(all_classes)):
                     symbol = self.variable_values[name]
 
                 # if NOT a sympy class

@@ -256,13 +256,27 @@ relation:
 
 relation_list:
     relation_list_content
-    | L_BRACKET relation_list_content R_BRACKET
+    | L_PAREN relation_list_content R_PAREN
+    | L_GROUP relation_list_content R_GROUP
     | L_BRACE relation_list_content R_BRACE
     | L_BRACE_VISUAL relation_list_content R_BRACE_VISUAL
-    | L_LEFT L_BRACKET relation_list_content R_RIGHT R_BRACKET
+    | L_BRACE_CMD relation_list_content R_BRACE_CMD
+    | L_BRACKET relation_list_content R_BRACKET
+    | L_BRACK relation_list_content R_BRACK
+    | L_LEFT L_PAREN relation_list_content R_RIGHT R_PAREN
+    | L_LEFT L_GROUP relation_list_content R_RIGHT R_GROUP
+    | L_LEFT L_BRACE relation_list_content R_RIGHT R_BRACE
     | L_LEFT L_BRACE_VISUAL relation_list_content R_RIGHT R_BRACE_VISUAL
+    | L_LEFT L_BRACE_CMD relation_list_content R_RIGHT R_BRACE_CMD
+    | L_LEFT L_BRACKET relation_list_content R_RIGHT R_BRACKET
+    | L_LEFT L_BRACK relation_list_content R_RIGHT R_BRACK
+    | ML_LEFT L_PAREN relation_list_content MR_RIGHT R_PAREN
+    | ML_LEFT L_GROUP relation_list_content MR_RIGHT R_GROUP
+    | ML_LEFT L_BRACE relation_list_content MR_RIGHT R_BRACE
+    | ML_LEFT L_BRACE_VISUAL relation_list_content MR_RIGHT R_BRACE_VISUAL
+    | ML_LEFT L_BRACE_CMD relation_list_content MR_RIGHT R_BRACE_CMD
     | ML_LEFT L_BRACKET relation_list_content MR_RIGHT R_BRACKET
-    | ML_LEFT L_BRACE_VISUAL relation_list_content MR_RIGHT R_BRACE_VISUAL;
+    | ML_LEFT L_BRACK relation_list_content MR_RIGHT R_BRACK;
 
 relation_list_content:
     relation COMMA relation (COMMA relation)*
