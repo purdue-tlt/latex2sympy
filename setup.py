@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    version="1.5.5",
+    version="1.6.0",
     name="latex2sympy",
     packages=find_packages(exclude=('tests')),
     py_modules=['asciimath_printer', 'latex2sympy'],
