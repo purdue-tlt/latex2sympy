@@ -165,10 +165,10 @@ class TestAllGood(object):
         ("\\int a + b + c dx", Integral(Add(a, b, c, evaluate=False), x)),
         ("\\int \\frac{dz}{z}", Integral(Pow(z, -1), z)),
         ("\\int \\frac{3 dz}{z}", Integral(3 * Pow(z, -1), z)),
-        ("\\int \\frac{1}{x} dx", Integral(Pow(x, -1), x)),
-        ("\\int \\frac{1}{a} + \\frac{1}{b} dx", Integral(_Add(_Pow(a, -1), Pow(b, -1)), x)),
-        ("\\int \\frac{3 \\cdot d\\theta}{\\theta}", Integral(3 * _Pow(theta, -1), theta)),
-        ("\\int \\frac{1}{x} + 1 dx", Integral(_Add(_Pow(x, -1), 1), x)),
+        ("\\int \\frac{1}{x} dx", Integral(_Mul(1, Pow(x, -1)), x)),
+        ("\\int \\frac{1}{a} + \\frac{1}{b} dx", Integral(_Add(_Mul(1, _Pow(a, -1)), _Mul(1, Pow(b, -1))), x)),
+        ("\\int \\frac{3 \\cdot d\\theta}{\\theta}", Integral(3 * _Mul(1, _Pow(theta, -1)), theta)),
+        ("\\int \\frac{1}{x}+1dx", Integral(_Add(_Mul(1, _Pow(x, -1)), 1), x)),
         ("x_0", Symbol('x_0', real=True, positive=True)),
         ("x_{1}", Symbol('x_1', real=True, positive=True)),
         ("x_a", Symbol('x_a', real=True, positive=True)),
@@ -199,7 +199,7 @@ class TestAllGood(object):
         ("\\sum^{3}_{k = 1} c", Sum(c, (k, 1, 3))),
         ("\\sum^3_{k = 1} c", Sum(c, (k, 1, 3))),
         ("\\sum_{k = 1}^{10} k^2", Sum(k**2, (k, 1, 10))),
-        ("\\sum_{n = 0}^{\\infty} \\frac{1}{n!}", Sum(_Pow(_factorial(n), -1), (n, 0, oo))),
+        ("\\sum_{n = 0}^{\\infty} \\frac{1}{n!}", Sum(_Mul(1, _Pow(_factorial(n), -1)), (n, 0, oo))),
         ("\\prod_{a = b}^{c} x", Product(x, (a, b, c))),
         ("\\prod_{a = b}^c x", Product(x, (a, b, c))),
         ("\\prod^{c}_{a = b} x", Product(x, (a, b, c))),
@@ -280,7 +280,7 @@ class TestAllGood(object):
         ("\\emptyset", S.EmptySet),
 
         # divide by zero
-        ("\\frac{1}{0}", _Pow(0, -1)),
+        ("\\frac{1}{0}", _Mul(1, _Pow(0, -1))),
         ("1+\\frac{5}{0}", _Add(1, _Mul(5, _Pow(0, -1)))),
 
         # adjacent single char sub sup
