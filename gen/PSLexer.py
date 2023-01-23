@@ -1,9 +1,11 @@
-# Generated from PS.g4 by ANTLR 4.10.1
-# encoding: utf-8
-from __future__ import print_function
+# Generated from PS.g4 by ANTLR 4.11.1
 from antlr4 import *
 from io import StringIO
 import sys
+if sys.version_info[1] > 5:
+    from typing import TextIO
+else:
+    from typing.io import TextIO
 
 
 def serializedATN():
@@ -761,99 +763,94 @@ class PSLexer(Lexer):
 
     channelNames = [u"DEFAULT_TOKEN_CHANNEL", u"HIDDEN"]
 
-    modeNames = [u"DEFAULT_MODE"]
+    modeNames = ["DEFAULT_MODE"]
 
-    literalNames = [u"<INVALID>",
-                    u"'\\$'", u"'+'", u"'-'", u"'*'", u"'/'", u"'('", u"')'", u"'\\lgroup'",
-                    u"'\\rgroup'", u"'{'", u"'}'", u"'\\{'", u"'\\}'", u"'\\lbrace'",
-                    u"'\\rbrace'", u"'['", u"']'", u"'\\lbrack'", u"'\\rbrack'",
-                    u"'|'", u"'\\lvert'", u"'\\rvert'", u"'\\vert'", u"'\\lfloor'",
-                    u"'\\rfloor'", u"'\\llcorner'", u"'\\lrcorner'", u"'\\lceil'",
-                    u"'\\rceil'", u"'\\ulcorner'", u"'\\urcorner'", u"'\\left'",
-                    u"'\\right'", u"'\\mleft'", u"'\\mright'", u"'\\lim'", u"'\\int'",
-                    u"'\\sum'", u"'\\prod'", u"'\\log'", u"'\\ln'", u"'\\exp'",
-                    u"'\\sin'", u"'\\cos'", u"'\\tan'", u"'\\csc'", u"'\\sec'",
-                    u"'\\cot'", u"'\\arcsin'", u"'\\arccos'", u"'\\arctan'", u"'\\arccsc'",
-                    u"'\\arcsec'", u"'\\arccot'", u"'\\sinh'", u"'\\cosh'", u"'\\tanh'",
-                    u"'\\arsinh'", u"'\\arcosh'", u"'\\artanh'", u"'\\arcsinh'",
-                    u"'\\arccosh'", u"'\\arctanh'", u"'arsinh'", u"'arcsinh'", u"'arcosh'",
-                    u"'arccosh'", u"'artanh'", u"'arctanh'", u"'gcd'", u"'lcm'",
-                    u"'floor'", u"'ceil'", u"'\\sqrt'", u"'\\gcd'", u"'\\lcm'",
-                    u"'\\floor'", u"'\\ceil'", u"'\\max'", u"'\\min'", u"'\\times'",
-                    u"'\\cdot'", u"'\\div'", u"'\\frac'", u"'\\binom'", u"'\\choose'",
-                    u"'\\mod'", u"'\\mathit'", u"'\\operatorname'", u"'matrix'",
-                    u"'pmatrix'", u"'bmatrix'", u"'&'", u"'\\\\'", u"'\\overline'",
-                    u"'\\bar'", u"'_'", u"'^'", u"':'", u"';'", u"','", u"'.'",
-                    u"'E'", u"'='", u"'<'", u"'>'", u"'!'"]
+    literalNames = ["<INVALID>",
+                    "'\\$'", "'+'", "'-'", "'*'", "'/'", "'('", "')'", "'\\lgroup'",
+                    "'\\rgroup'", "'{'", "'}'", "'\\{'", "'\\}'", "'\\lbrace'",
+                    "'\\rbrace'", "'['", "']'", "'\\lbrack'", "'\\rbrack'", "'|'",
+                    "'\\lvert'", "'\\rvert'", "'\\vert'", "'\\lfloor'", "'\\rfloor'",
+                    "'\\llcorner'", "'\\lrcorner'", "'\\lceil'", "'\\rceil'", "'\\ulcorner'",
+                    "'\\urcorner'", "'\\left'", "'\\right'", "'\\mleft'", "'\\mright'",
+                    "'\\lim'", "'\\int'", "'\\sum'", "'\\prod'", "'\\log'", "'\\ln'",
+                    "'\\exp'", "'\\sin'", "'\\cos'", "'\\tan'", "'\\csc'", "'\\sec'",
+                    "'\\cot'", "'\\arcsin'", "'\\arccos'", "'\\arctan'", "'\\arccsc'",
+                    "'\\arcsec'", "'\\arccot'", "'\\sinh'", "'\\cosh'", "'\\tanh'",
+                    "'\\arsinh'", "'\\arcosh'", "'\\artanh'", "'\\arcsinh'", "'\\arccosh'",
+                    "'\\arctanh'", "'arsinh'", "'arcsinh'", "'arcosh'", "'arccosh'",
+                    "'artanh'", "'arctanh'", "'gcd'", "'lcm'", "'floor'", "'ceil'",
+                    "'\\sqrt'", "'\\gcd'", "'\\lcm'", "'\\floor'", "'\\ceil'", "'\\max'",
+                    "'\\min'", "'\\times'", "'\\cdot'", "'\\div'", "'\\frac'", "'\\binom'",
+                    "'\\choose'", "'\\mod'", "'\\mathit'", "'\\operatorname'", "'matrix'",
+                    "'pmatrix'", "'bmatrix'", "'&'", "'\\\\'", "'\\overline'", "'\\bar'",
+                    "'_'", "'^'", "':'", "';'", "','", "'.'", "'E'", "'='", "'<'",
+                    "'>'", "'!'"]
 
-    symbolicNames = [u"<INVALID>",
-                     u"WS", u"DOLLAR_SIGN", u"ADD", u"SUB", u"MUL", u"DIV", u"L_PAREN",
-                     u"R_PAREN", u"L_GROUP", u"R_GROUP", u"L_BRACE", u"R_BRACE",
-                     u"L_BRACE_VISUAL", u"R_BRACE_VISUAL", u"L_BRACE_CMD", u"R_BRACE_CMD",
-                     u"L_BRACKET", u"R_BRACKET", u"L_BRACK", u"R_BRACK", u"BAR",
-                     u"L_VERT", u"R_VERT", u"VERT", u"L_FLOOR", u"R_FLOOR", u"LL_CORNER",
-                     u"LR_CORNER", u"L_CEIL", u"R_CEIL", u"UL_CORNER", u"UR_CORNER",
-                     u"L_LEFT", u"R_RIGHT", u"ML_LEFT", u"MR_RIGHT", u"FUNC_LIM",
-                     u"LIM_APPROACH_SYM", u"FUNC_INT", u"FUNC_SUM", u"FUNC_PROD",
-                     u"FUNC_LOG", u"FUNC_LN", u"FUNC_EXP", u"FUNC_SIN", u"FUNC_COS",
-                     u"FUNC_TAN", u"FUNC_CSC", u"FUNC_SEC", u"FUNC_COT", u"FUNC_ARCSIN",
-                     u"FUNC_ARCCOS", u"FUNC_ARCTAN", u"FUNC_ARCCSC", u"FUNC_ARCSEC",
-                     u"FUNC_ARCCOT", u"FUNC_SINH", u"FUNC_COSH", u"FUNC_TANH", u"FUNC_ARSINH",
-                     u"FUNC_ARCOSH", u"FUNC_ARTANH", u"FUNC_ARCSINH", u"FUNC_ARCCOSH",
-                     u"FUNC_ARCTANH", u"FUNC_ARSINH_NAME", u"FUNC_ARCSINH_NAME",
-                     u"FUNC_ARCOSH_NAME", u"FUNC_ARCCOSH_NAME", u"FUNC_ARTANH_NAME",
-                     u"FUNC_ARCTANH_NAME", u"FUNC_GCD_NAME", u"FUNC_LCM_NAME", u"FUNC_FLOOR_NAME",
-                     u"FUNC_CEIL_NAME", u"FUNC_SQRT", u"FUNC_GCD", u"FUNC_LCM", u"FUNC_FLOOR",
-                     u"FUNC_CEIL", u"FUNC_MAX", u"FUNC_MIN", u"CMD_TIMES", u"CMD_CDOT",
-                     u"CMD_DIV", u"CMD_FRAC", u"CMD_BINOM", u"CMD_CHOOSE", u"CMD_MOD",
-                     u"CMD_MATHIT", u"CMD_OPERATORNAME", u"MATRIX_TYPE_MATRIX", u"MATRIX_TYPE_PMATRIX",
-                     u"MATRIX_TYPE_BMATRIX", u"MATRIX_TYPES", u"CMD_MATRIX_START",
-                     u"CMD_MATRIX_END", u"MATRIX_DEL_COL", u"MATRIX_DEL_ROW", u"ACCENT_OVERLINE",
-                     u"ACCENT_BAR", u"UNDERSCORE", u"CARET", u"COLON", u"SEMICOLON",
-                     u"COMMA", u"PERIOD", u"DIFFERENTIAL", u"EXP_E", u"E_NOTATION_E",
-                     u"LETTER_NO_E", u"NUMBER", u"FRACTION_NUMBER", u"SCI_NOTATION_NUMBER",
-                     u"E_NOTATION", u"EQUAL", u"LT", u"LTE", u"GT", u"GTE", u"UNEQUAL",
-                     u"BANG", u"PERCENT_NUMBER", u"GREEK_CMD", u"SYMBOL", u"VARIABLE"]
+    symbolicNames = ["<INVALID>",
+                     "WS", "DOLLAR_SIGN", "ADD", "SUB", "MUL", "DIV", "L_PAREN",
+                     "R_PAREN", "L_GROUP", "R_GROUP", "L_BRACE", "R_BRACE", "L_BRACE_VISUAL",
+                     "R_BRACE_VISUAL", "L_BRACE_CMD", "R_BRACE_CMD", "L_BRACKET",
+                     "R_BRACKET", "L_BRACK", "R_BRACK", "BAR", "L_VERT", "R_VERT",
+                     "VERT", "L_FLOOR", "R_FLOOR", "LL_CORNER", "LR_CORNER", "L_CEIL",
+                     "R_CEIL", "UL_CORNER", "UR_CORNER", "L_LEFT", "R_RIGHT", "ML_LEFT",
+                     "MR_RIGHT", "FUNC_LIM", "LIM_APPROACH_SYM", "FUNC_INT", "FUNC_SUM",
+                     "FUNC_PROD", "FUNC_LOG", "FUNC_LN", "FUNC_EXP", "FUNC_SIN",
+                     "FUNC_COS", "FUNC_TAN", "FUNC_CSC", "FUNC_SEC", "FUNC_COT",
+                     "FUNC_ARCSIN", "FUNC_ARCCOS", "FUNC_ARCTAN", "FUNC_ARCCSC",
+                     "FUNC_ARCSEC", "FUNC_ARCCOT", "FUNC_SINH", "FUNC_COSH", "FUNC_TANH",
+                     "FUNC_ARSINH", "FUNC_ARCOSH", "FUNC_ARTANH", "FUNC_ARCSINH",
+                     "FUNC_ARCCOSH", "FUNC_ARCTANH", "FUNC_ARSINH_NAME", "FUNC_ARCSINH_NAME",
+                     "FUNC_ARCOSH_NAME", "FUNC_ARCCOSH_NAME", "FUNC_ARTANH_NAME",
+                     "FUNC_ARCTANH_NAME", "FUNC_GCD_NAME", "FUNC_LCM_NAME", "FUNC_FLOOR_NAME",
+                     "FUNC_CEIL_NAME", "FUNC_SQRT", "FUNC_GCD", "FUNC_LCM", "FUNC_FLOOR",
+                     "FUNC_CEIL", "FUNC_MAX", "FUNC_MIN", "CMD_TIMES", "CMD_CDOT",
+                     "CMD_DIV", "CMD_FRAC", "CMD_BINOM", "CMD_CHOOSE", "CMD_MOD",
+                     "CMD_MATHIT", "CMD_OPERATORNAME", "MATRIX_TYPE_MATRIX", "MATRIX_TYPE_PMATRIX",
+                     "MATRIX_TYPE_BMATRIX", "MATRIX_TYPES", "CMD_MATRIX_START", "CMD_MATRIX_END",
+                     "MATRIX_DEL_COL", "MATRIX_DEL_ROW", "ACCENT_OVERLINE", "ACCENT_BAR",
+                     "UNDERSCORE", "CARET", "COLON", "SEMICOLON", "COMMA", "PERIOD",
+                     "DIFFERENTIAL", "EXP_E", "E_NOTATION_E", "LETTER_NO_E", "NUMBER",
+                     "FRACTION_NUMBER", "SCI_NOTATION_NUMBER", "E_NOTATION", "EQUAL",
+                     "LT", "LTE", "GT", "GTE", "UNEQUAL", "BANG", "PERCENT_NUMBER",
+                     "GREEK_CMD", "SYMBOL", "VARIABLE"]
 
-    ruleNames = [u"WS", u"DOLLAR_SIGN", u"ADD", u"SUB", u"MUL", u"DIV",
-                 u"L_PAREN", u"R_PAREN", u"L_GROUP", u"R_GROUP", u"L_BRACE",
-                 u"R_BRACE", u"L_BRACE_VISUAL", u"R_BRACE_VISUAL", u"L_BRACE_CMD",
-                 u"R_BRACE_CMD", u"L_BRACKET", u"R_BRACKET", u"L_BRACK",
-                 u"R_BRACK", u"BAR", u"L_VERT", u"R_VERT", u"VERT", u"L_FLOOR",
-                 u"R_FLOOR", u"LL_CORNER", u"LR_CORNER", u"L_CEIL", u"R_CEIL",
-                 u"UL_CORNER", u"UR_CORNER", u"L_LEFT", u"R_RIGHT", u"ML_LEFT",
-                 u"MR_RIGHT", u"FUNC_LIM", u"LIM_APPROACH_SYM", u"FUNC_INT",
-                 u"FUNC_SUM", u"FUNC_PROD", u"FUNC_LOG", u"FUNC_LN", u"FUNC_EXP",
-                 u"FUNC_SIN", u"FUNC_COS", u"FUNC_TAN", u"FUNC_CSC", u"FUNC_SEC",
-                 u"FUNC_COT", u"FUNC_ARCSIN", u"FUNC_ARCCOS", u"FUNC_ARCTAN",
-                 u"FUNC_ARCCSC", u"FUNC_ARCSEC", u"FUNC_ARCCOT", u"FUNC_SINH",
-                 u"FUNC_COSH", u"FUNC_TANH", u"FUNC_ARSINH", u"FUNC_ARCOSH",
-                 u"FUNC_ARTANH", u"FUNC_ARCSINH", u"FUNC_ARCCOSH", u"FUNC_ARCTANH",
-                 u"FUNC_ARSINH_NAME", u"FUNC_ARCSINH_NAME", u"FUNC_ARCOSH_NAME",
-                 u"FUNC_ARCCOSH_NAME", u"FUNC_ARTANH_NAME", u"FUNC_ARCTANH_NAME",
-                 u"FUNC_GCD_NAME", u"FUNC_LCM_NAME", u"FUNC_FLOOR_NAME",
-                 u"FUNC_CEIL_NAME", u"FUNC_SQRT", u"FUNC_GCD", u"FUNC_LCM",
-                 u"FUNC_FLOOR", u"FUNC_CEIL", u"FUNC_MAX", u"FUNC_MIN",
-                 u"CMD_TIMES", u"CMD_CDOT", u"CMD_DIV", u"CMD_FRAC", u"CMD_BINOM",
-                 u"CMD_CHOOSE", u"CMD_MOD", u"CMD_MATHIT", u"CMD_OPERATORNAME",
-                 u"MATRIX_TYPE_MATRIX", u"MATRIX_TYPE_PMATRIX", u"MATRIX_TYPE_BMATRIX",
-                 u"MATRIX_TYPES", u"CMD_MATRIX_START", u"CMD_MATRIX_END",
-                 u"MATRIX_DEL_COL", u"MATRIX_DEL_ROW", u"ACCENT_OVERLINE",
-                 u"ACCENT_BAR", u"UNDERSCORE", u"CARET", u"COLON", u"SEMICOLON",
-                 u"COMMA", u"PERIOD", u"WS_CHAR", u"DIFFERENTIAL", u"EXP_E",
-                 u"E_NOTATION_E", u"LETTER_NO_E", u"LETTER", u"DIGIT",
-                 u"NUMBER", u"FRACTION_NUMBER", u"SCI_NOTATION_NUMBER",
-                 u"E_NOTATION", u"EQUAL", u"LT", u"LTE", u"GT", u"GTE",
-                 u"UNEQUAL", u"BANG", u"PERCENT_SIGN", u"PERCENT_NUMBER",
-                 u"GREEK_LETTER", u"GREEK_CMD", u"PI", u"INFTY_CMD", u"INFTY",
-                 u"EMPTYSET", u"SYMBOL", u"VARIABLE_CMD", u"VARIABLE_SYMBOL",
-                 u"VARIABLE"]
+    ruleNames = ["WS", "DOLLAR_SIGN", "ADD", "SUB", "MUL", "DIV", "L_PAREN",
+                 "R_PAREN", "L_GROUP", "R_GROUP", "L_BRACE", "R_BRACE",
+                 "L_BRACE_VISUAL", "R_BRACE_VISUAL", "L_BRACE_CMD", "R_BRACE_CMD",
+                 "L_BRACKET", "R_BRACKET", "L_BRACK", "R_BRACK", "BAR",
+                 "L_VERT", "R_VERT", "VERT", "L_FLOOR", "R_FLOOR", "LL_CORNER",
+                 "LR_CORNER", "L_CEIL", "R_CEIL", "UL_CORNER", "UR_CORNER",
+                 "L_LEFT", "R_RIGHT", "ML_LEFT", "MR_RIGHT", "FUNC_LIM",
+                 "LIM_APPROACH_SYM", "FUNC_INT", "FUNC_SUM", "FUNC_PROD",
+                 "FUNC_LOG", "FUNC_LN", "FUNC_EXP", "FUNC_SIN", "FUNC_COS",
+                 "FUNC_TAN", "FUNC_CSC", "FUNC_SEC", "FUNC_COT", "FUNC_ARCSIN",
+                 "FUNC_ARCCOS", "FUNC_ARCTAN", "FUNC_ARCCSC", "FUNC_ARCSEC",
+                 "FUNC_ARCCOT", "FUNC_SINH", "FUNC_COSH", "FUNC_TANH",
+                 "FUNC_ARSINH", "FUNC_ARCOSH", "FUNC_ARTANH", "FUNC_ARCSINH",
+                 "FUNC_ARCCOSH", "FUNC_ARCTANH", "FUNC_ARSINH_NAME", "FUNC_ARCSINH_NAME",
+                 "FUNC_ARCOSH_NAME", "FUNC_ARCCOSH_NAME", "FUNC_ARTANH_NAME",
+                 "FUNC_ARCTANH_NAME", "FUNC_GCD_NAME", "FUNC_LCM_NAME",
+                 "FUNC_FLOOR_NAME", "FUNC_CEIL_NAME", "FUNC_SQRT", "FUNC_GCD",
+                 "FUNC_LCM", "FUNC_FLOOR", "FUNC_CEIL", "FUNC_MAX", "FUNC_MIN",
+                 "CMD_TIMES", "CMD_CDOT", "CMD_DIV", "CMD_FRAC", "CMD_BINOM",
+                 "CMD_CHOOSE", "CMD_MOD", "CMD_MATHIT", "CMD_OPERATORNAME",
+                 "MATRIX_TYPE_MATRIX", "MATRIX_TYPE_PMATRIX", "MATRIX_TYPE_BMATRIX",
+                 "MATRIX_TYPES", "CMD_MATRIX_START", "CMD_MATRIX_END",
+                 "MATRIX_DEL_COL", "MATRIX_DEL_ROW", "ACCENT_OVERLINE",
+                 "ACCENT_BAR", "UNDERSCORE", "CARET", "COLON", "SEMICOLON",
+                 "COMMA", "PERIOD", "WS_CHAR", "DIFFERENTIAL", "EXP_E",
+                 "E_NOTATION_E", "LETTER_NO_E", "LETTER", "DIGIT", "NUMBER",
+                 "FRACTION_NUMBER", "SCI_NOTATION_NUMBER", "E_NOTATION",
+                 "EQUAL", "LT", "LTE", "GT", "GTE", "UNEQUAL", "BANG",
+                 "PERCENT_SIGN", "PERCENT_NUMBER", "GREEK_LETTER", "GREEK_CMD",
+                 "PI", "INFTY_CMD", "INFTY", "EMPTYSET", "SYMBOL", "VARIABLE_CMD",
+                 "VARIABLE_SYMBOL", "VARIABLE"]
 
-    grammarFileName = u"PS.g4"
+    grammarFileName = "PS.g4"
 
-    def __init__(self, input=None, output=sys.stdout):
-        super(PSLexer, self).__init__(input, output=output)
-        self.checkVersion("4.10.1")
+    def __init__(self, input=None, output: TextIO = sys.stdout):
+        super().__init__(input, output)
+        self.checkVersion("4.11.1")
         self._interp = LexerATNSimulator(self, self.atn, self.decisionsToDFA, PredictionContextCache())
         self._actions = None
         self._predicates = None

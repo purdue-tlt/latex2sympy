@@ -6,4 +6,7 @@ rel_path="$(dirname "$rdir")"
 # Change to that path and run the file
 cd $rel_path
 
-java -jar antlr-4.10.1-complete.jar PS.g4 -o gen
+# generate parser files
+java -jar antlr-4.11.1-complete.jar PS.g4 -o gen
+# format parser files
+autopep8 --in-place gen/*.py

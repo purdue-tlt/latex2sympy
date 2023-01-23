@@ -1,9 +1,12 @@
-# Generated from PS.g4 by ANTLR 4.10.1
+# Generated from PS.g4 by ANTLR 4.11.1
 # encoding: utf-8
-from __future__ import print_function
 from antlr4 import *
 from io import StringIO
 import sys
+if sys.version_info[1] > 5:
+    from typing import TextIO
+else:
+    from typing.io import TextIO
 
 
 def serializedATN():
@@ -378,67 +381,63 @@ class PSParser (Parser):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [u"<INVALID>", u"<INVALID>", u"'\\$'", u"'+'", u"'-'",
-                    u"'*'", u"'/'", u"'('", u"')'", u"'\\lgroup'", u"'\\rgroup'",
-                    u"'{'", u"'}'", u"'\\{'", u"'\\}'", u"'\\lbrace'",
-                    u"'\\rbrace'", u"'['", u"']'", u"'\\lbrack'", u"'\\rbrack'",
-                    u"'|'", u"'\\lvert'", u"'\\rvert'", u"'\\vert'", u"'\\lfloor'",
-                    u"'\\rfloor'", u"'\\llcorner'", u"'\\lrcorner'", u"'\\lceil'",
-                    u"'\\rceil'", u"'\\ulcorner'", u"'\\urcorner'", u"'\\left'",
-                    u"'\\right'", u"'\\mleft'", u"'\\mright'", u"'\\lim'",
-                    u"<INVALID>", u"'\\int'", u"'\\sum'", u"'\\prod'",
-                    u"'\\log'", u"'\\ln'", u"'\\exp'", u"'\\sin'", u"'\\cos'",
-                    u"'\\tan'", u"'\\csc'", u"'\\sec'", u"'\\cot'", u"'\\arcsin'",
-                    u"'\\arccos'", u"'\\arctan'", u"'\\arccsc'", u"'\\arcsec'",
-                    u"'\\arccot'", u"'\\sinh'", u"'\\cosh'", u"'\\tanh'",
-                    u"'\\arsinh'", u"'\\arcosh'", u"'\\artanh'", u"'\\arcsinh'",
-                    u"'\\arccosh'", u"'\\arctanh'", u"'arsinh'", u"'arcsinh'",
-                    u"'arcosh'", u"'arccosh'", u"'artanh'", u"'arctanh'",
-                    u"'gcd'", u"'lcm'", u"'floor'", u"'ceil'", u"'\\sqrt'",
-                    u"'\\gcd'", u"'\\lcm'", u"'\\floor'", u"'\\ceil'",
-                    u"'\\max'", u"'\\min'", u"'\\times'", u"'\\cdot'",
-                    u"'\\div'", u"'\\frac'", u"'\\binom'", u"'\\choose'",
-                    u"'\\mod'", u"'\\mathit'", u"'\\operatorname'", u"'matrix'",
-                    u"'pmatrix'", u"'bmatrix'", u"<INVALID>", u"<INVALID>",
-                    u"<INVALID>", u"'&'", u"'\\\\'", u"'\\overline'", u"'\\bar'",
-                    u"'_'", u"'^'", u"':'", u"';'", u"','", u"'.'", u"<INVALID>",
-                    u"<INVALID>", u"'E'", u"<INVALID>", u"<INVALID>", u"<INVALID>",
-                    u"<INVALID>", u"<INVALID>", u"'='", u"'<'", u"<INVALID>",
-                    u"'>'", u"<INVALID>", u"<INVALID>", u"'!'"]
+    literalNames = ["<INVALID>", "<INVALID>", "'\\$'", "'+'", "'-'", "'*'",
+                    "'/'", "'('", "')'", "'\\lgroup'", "'\\rgroup'", "'{'",
+                    "'}'", "'\\{'", "'\\}'", "'\\lbrace'", "'\\rbrace'",
+                    "'['", "']'", "'\\lbrack'", "'\\rbrack'", "'|'", "'\\lvert'",
+                    "'\\rvert'", "'\\vert'", "'\\lfloor'", "'\\rfloor'",
+                    "'\\llcorner'", "'\\lrcorner'", "'\\lceil'", "'\\rceil'",
+                    "'\\ulcorner'", "'\\urcorner'", "'\\left'", "'\\right'",
+                    "'\\mleft'", "'\\mright'", "'\\lim'", "<INVALID>",
+                    "'\\int'", "'\\sum'", "'\\prod'", "'\\log'", "'\\ln'",
+                    "'\\exp'", "'\\sin'", "'\\cos'", "'\\tan'", "'\\csc'",
+                    "'\\sec'", "'\\cot'", "'\\arcsin'", "'\\arccos'", "'\\arctan'",
+                    "'\\arccsc'", "'\\arcsec'", "'\\arccot'", "'\\sinh'",
+                    "'\\cosh'", "'\\tanh'", "'\\arsinh'", "'\\arcosh'",
+                    "'\\artanh'", "'\\arcsinh'", "'\\arccosh'", "'\\arctanh'",
+                    "'arsinh'", "'arcsinh'", "'arcosh'", "'arccosh'", "'artanh'",
+                    "'arctanh'", "'gcd'", "'lcm'", "'floor'", "'ceil'",
+                    "'\\sqrt'", "'\\gcd'", "'\\lcm'", "'\\floor'", "'\\ceil'",
+                    "'\\max'", "'\\min'", "'\\times'", "'\\cdot'", "'\\div'",
+                    "'\\frac'", "'\\binom'", "'\\choose'", "'\\mod'", "'\\mathit'",
+                    "'\\operatorname'", "'matrix'", "'pmatrix'", "'bmatrix'",
+                    "<INVALID>", "<INVALID>", "<INVALID>", "'&'", "'\\\\'",
+                    "'\\overline'", "'\\bar'", "'_'", "'^'", "':'", "';'",
+                    "','", "'.'", "<INVALID>", "<INVALID>", "'E'", "<INVALID>",
+                    "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>",
+                    "'='", "'<'", "<INVALID>", "'>'", "<INVALID>", "<INVALID>",
+                    "'!'"]
 
-    symbolicNames = [u"<INVALID>", u"WS", u"DOLLAR_SIGN", u"ADD", u"SUB",
-                     u"MUL", u"DIV", u"L_PAREN", u"R_PAREN", u"L_GROUP",
-                     u"R_GROUP", u"L_BRACE", u"R_BRACE", u"L_BRACE_VISUAL",
-                     u"R_BRACE_VISUAL", u"L_BRACE_CMD", u"R_BRACE_CMD",
-                     u"L_BRACKET", u"R_BRACKET", u"L_BRACK", u"R_BRACK",
-                     u"BAR", u"L_VERT", u"R_VERT", u"VERT", u"L_FLOOR",
-                     u"R_FLOOR", u"LL_CORNER", u"LR_CORNER", u"L_CEIL",
-                     u"R_CEIL", u"UL_CORNER", u"UR_CORNER", u"L_LEFT",
-                     u"R_RIGHT", u"ML_LEFT", u"MR_RIGHT", u"FUNC_LIM",
-                     u"LIM_APPROACH_SYM", u"FUNC_INT", u"FUNC_SUM", u"FUNC_PROD",
-                     u"FUNC_LOG", u"FUNC_LN", u"FUNC_EXP", u"FUNC_SIN",
-                     u"FUNC_COS", u"FUNC_TAN", u"FUNC_CSC", u"FUNC_SEC",
-                     u"FUNC_COT", u"FUNC_ARCSIN", u"FUNC_ARCCOS", u"FUNC_ARCTAN",
-                     u"FUNC_ARCCSC", u"FUNC_ARCSEC", u"FUNC_ARCCOT", u"FUNC_SINH",
-                     u"FUNC_COSH", u"FUNC_TANH", u"FUNC_ARSINH", u"FUNC_ARCOSH",
-                     u"FUNC_ARTANH", u"FUNC_ARCSINH", u"FUNC_ARCCOSH",
-                     u"FUNC_ARCTANH", u"FUNC_ARSINH_NAME", u"FUNC_ARCSINH_NAME",
-                     u"FUNC_ARCOSH_NAME", u"FUNC_ARCCOSH_NAME", u"FUNC_ARTANH_NAME",
-                     u"FUNC_ARCTANH_NAME", u"FUNC_GCD_NAME", u"FUNC_LCM_NAME",
-                     u"FUNC_FLOOR_NAME", u"FUNC_CEIL_NAME", u"FUNC_SQRT",
-                     u"FUNC_GCD", u"FUNC_LCM", u"FUNC_FLOOR", u"FUNC_CEIL",
-                     u"FUNC_MAX", u"FUNC_MIN", u"CMD_TIMES", u"CMD_CDOT",
-                     u"CMD_DIV", u"CMD_FRAC", u"CMD_BINOM", u"CMD_CHOOSE",
-                     u"CMD_MOD", u"CMD_MATHIT", u"CMD_OPERATORNAME", u"MATRIX_TYPE_MATRIX",
-                     u"MATRIX_TYPE_PMATRIX", u"MATRIX_TYPE_BMATRIX", u"MATRIX_TYPES",
-                     u"CMD_MATRIX_START", u"CMD_MATRIX_END", u"MATRIX_DEL_COL",
-                     u"MATRIX_DEL_ROW", u"ACCENT_OVERLINE", u"ACCENT_BAR",
-                     u"UNDERSCORE", u"CARET", u"COLON", u"SEMICOLON", u"COMMA",
-                     u"PERIOD", u"DIFFERENTIAL", u"EXP_E", u"E_NOTATION_E",
-                     u"LETTER_NO_E", u"NUMBER", u"FRACTION_NUMBER", u"SCI_NOTATION_NUMBER",
-                     u"E_NOTATION", u"EQUAL", u"LT", u"LTE", u"GT", u"GTE",
-                     u"UNEQUAL", u"BANG", u"PERCENT_NUMBER", u"GREEK_CMD",
-                     u"SYMBOL", u"VARIABLE"]
+    symbolicNames = ["<INVALID>", "WS", "DOLLAR_SIGN", "ADD", "SUB", "MUL",
+                     "DIV", "L_PAREN", "R_PAREN", "L_GROUP", "R_GROUP",
+                     "L_BRACE", "R_BRACE", "L_BRACE_VISUAL", "R_BRACE_VISUAL",
+                     "L_BRACE_CMD", "R_BRACE_CMD", "L_BRACKET", "R_BRACKET",
+                     "L_BRACK", "R_BRACK", "BAR", "L_VERT", "R_VERT", "VERT",
+                     "L_FLOOR", "R_FLOOR", "LL_CORNER", "LR_CORNER", "L_CEIL",
+                     "R_CEIL", "UL_CORNER", "UR_CORNER", "L_LEFT", "R_RIGHT",
+                     "ML_LEFT", "MR_RIGHT", "FUNC_LIM", "LIM_APPROACH_SYM",
+                     "FUNC_INT", "FUNC_SUM", "FUNC_PROD", "FUNC_LOG", "FUNC_LN",
+                     "FUNC_EXP", "FUNC_SIN", "FUNC_COS", "FUNC_TAN", "FUNC_CSC",
+                     "FUNC_SEC", "FUNC_COT", "FUNC_ARCSIN", "FUNC_ARCCOS",
+                     "FUNC_ARCTAN", "FUNC_ARCCSC", "FUNC_ARCSEC", "FUNC_ARCCOT",
+                     "FUNC_SINH", "FUNC_COSH", "FUNC_TANH", "FUNC_ARSINH",
+                     "FUNC_ARCOSH", "FUNC_ARTANH", "FUNC_ARCSINH", "FUNC_ARCCOSH",
+                     "FUNC_ARCTANH", "FUNC_ARSINH_NAME", "FUNC_ARCSINH_NAME",
+                     "FUNC_ARCOSH_NAME", "FUNC_ARCCOSH_NAME", "FUNC_ARTANH_NAME",
+                     "FUNC_ARCTANH_NAME", "FUNC_GCD_NAME", "FUNC_LCM_NAME",
+                     "FUNC_FLOOR_NAME", "FUNC_CEIL_NAME", "FUNC_SQRT",
+                     "FUNC_GCD", "FUNC_LCM", "FUNC_FLOOR", "FUNC_CEIL",
+                     "FUNC_MAX", "FUNC_MIN", "CMD_TIMES", "CMD_CDOT", "CMD_DIV",
+                     "CMD_FRAC", "CMD_BINOM", "CMD_CHOOSE", "CMD_MOD",
+                     "CMD_MATHIT", "CMD_OPERATORNAME", "MATRIX_TYPE_MATRIX",
+                     "MATRIX_TYPE_PMATRIX", "MATRIX_TYPE_BMATRIX", "MATRIX_TYPES",
+                     "CMD_MATRIX_START", "CMD_MATRIX_END", "MATRIX_DEL_COL",
+                     "MATRIX_DEL_ROW", "ACCENT_OVERLINE", "ACCENT_BAR",
+                     "UNDERSCORE", "CARET", "COLON", "SEMICOLON", "COMMA",
+                     "PERIOD", "DIFFERENTIAL", "EXP_E", "E_NOTATION_E",
+                     "LETTER_NO_E", "NUMBER", "FRACTION_NUMBER", "SCI_NOTATION_NUMBER",
+                     "E_NOTATION", "EQUAL", "LT", "LTE", "GT", "GTE", "UNEQUAL",
+                     "BANG", "PERCENT_NUMBER", "GREEK_CMD", "SYMBOL", "VARIABLE"]
 
     RULE_accent_symbol = 0
     RULE_math = 1
@@ -493,20 +492,20 @@ class PSParser (Parser):
     RULE_subeq = 50
     RULE_supeq = 51
 
-    ruleNames = [u"accent_symbol", u"math", u"matrix", u"matrix_row",
-                 u"relation", u"relation_list", u"relation_list_content",
-                 u"equality", u"expr", u"additive", u"mp", u"mp_nofunc",
-                 u"unary", u"unary_nofunc", u"postfix", u"postfix_nofunc",
-                 u"postfix_op", u"eval_at", u"eval_at_sub", u"eval_at_sup",
-                 u"exp", u"exp_nofunc", u"comp", u"comp_nofunc", u"group",
-                 u"abs_group", u"floor_group", u"ceil_group", u"accent",
-                 u"atom_expr", u"atom", u"mathit", u"mathit_text", u"frac",
-                 u"binom", u"func_normal_functions_single_arg", u"func_normal_functions_multi_arg",
-                 u"func_operator_names_single_arg", u"func_operator_names_multi_arg",
-                 u"func_normal_single_arg", u"func_normal_multi_arg",
-                 u"func", u"args", u"limit_sub", u"func_single_arg", u"func_single_arg_noparens",
-                 u"func_multi_arg", u"func_multi_arg_noparens", u"subexpr",
-                 u"supexpr", u"subeq", u"supeq"]
+    ruleNames = ["accent_symbol", "math", "matrix", "matrix_row", "relation",
+                 "relation_list", "relation_list_content", "equality",
+                 "expr", "additive", "mp", "mp_nofunc", "unary", "unary_nofunc",
+                 "postfix", "postfix_nofunc", "postfix_op", "eval_at",
+                 "eval_at_sub", "eval_at_sup", "exp", "exp_nofunc", "comp",
+                 "comp_nofunc", "group", "abs_group", "floor_group", "ceil_group",
+                 "accent", "atom_expr", "atom", "mathit", "mathit_text",
+                 "frac", "binom", "func_normal_functions_single_arg",
+                 "func_normal_functions_multi_arg", "func_operator_names_single_arg",
+                 "func_operator_names_multi_arg", "func_normal_single_arg",
+                 "func_normal_multi_arg", "func", "args", "limit_sub",
+                 "func_single_arg", "func_single_arg_noparens", "func_multi_arg",
+                 "func_multi_arg_noparens", "subexpr", "supexpr", "subeq",
+                 "supeq"]
 
     EOF = Token.EOF
     WS = 1
@@ -636,16 +635,17 @@ class PSParser (Parser):
     SYMBOL = 125
     VARIABLE = 126
 
-    def __init__(self, input, output=sys.stdout):
-        super(PSParser, self).__init__(input, output=output)
-        self.checkVersion("4.10.1")
+    def __init__(self, input: TokenStream, output: TextIO = sys.stdout):
+        super().__init__(input, output)
+        self.checkVersion("4.11.1")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
     class Accent_symbolContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Accent_symbolContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def ACCENT_BAR(self):
@@ -657,11 +657,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_accent_symbol
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterAccent_symbol"):
                 listener.enterAccent_symbol(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitAccent_symbol"):
                 listener.exitAccent_symbol(self)
 
@@ -674,7 +674,7 @@ class PSParser (Parser):
             self.enterOuterAlt(localctx, 1)
             self.state = 104
             _la = self._input.LA(1)
-            if not (_la == PSParser.ACCENT_OVERLINE or _la == PSParser.ACCENT_BAR):
+            if not (_la == 100 or _la == 101):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -688,9 +688,10 @@ class PSParser (Parser):
         return localctx
 
     class MathContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.MathContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def relation(self):
@@ -702,11 +703,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_math
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterMath"):
                 listener.enterMath(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitMath"):
                 listener.exitMath(self)
 
@@ -739,15 +740,16 @@ class PSParser (Parser):
         return localctx
 
     class MatrixContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.MatrixContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def CMD_MATRIX_START(self):
             return self.getToken(PSParser.CMD_MATRIX_START, 0)
 
-        def matrix_row(self, i=None):
+        def matrix_row(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.Matrix_rowContext)
             else:
@@ -756,7 +758,7 @@ class PSParser (Parser):
         def CMD_MATRIX_END(self):
             return self.getToken(PSParser.CMD_MATRIX_END, 0)
 
-        def MATRIX_DEL_ROW(self, i=None):
+        def MATRIX_DEL_ROW(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.MATRIX_DEL_ROW)
             else:
@@ -765,11 +767,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_matrix
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterMatrix"):
                 listener.enterMatrix(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitMatrix"):
                 listener.exitMatrix(self)
 
@@ -787,7 +789,7 @@ class PSParser (Parser):
             self.state = 116
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la == PSParser.MATRIX_DEL_ROW:
+            while _la == 99:
                 self.state = 112
                 self.match(PSParser.MATRIX_DEL_ROW)
                 self.state = 113
@@ -807,18 +809,19 @@ class PSParser (Parser):
         return localctx
 
     class Matrix_rowContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Matrix_rowContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
-        def expr(self, i=None):
+        def expr(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.ExprContext)
             else:
                 return self.getTypedRuleContext(PSParser.ExprContext, i)
 
-        def MATRIX_DEL_COL(self, i=None):
+        def MATRIX_DEL_COL(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.MATRIX_DEL_COL)
             else:
@@ -827,11 +830,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_matrix_row
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterMatrix_row"):
                 listener.enterMatrix_row(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitMatrix_row"):
                 listener.exitMatrix_row(self)
 
@@ -847,7 +850,7 @@ class PSParser (Parser):
             self.state = 126
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la == PSParser.MATRIX_DEL_COL:
+            while _la == 98:
                 self.state = 122
                 self.match(PSParser.MATRIX_DEL_COL)
                 self.state = 123
@@ -865,15 +868,16 @@ class PSParser (Parser):
         return localctx
 
     class RelationContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.RelationContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def expr(self):
             return self.getTypedRuleContext(PSParser.ExprContext, 0)
 
-        def relation(self, i=None):
+        def relation(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.RelationContext)
             else:
@@ -900,15 +904,15 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_relation
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterRelation"):
                 listener.enterRelation(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitRelation"):
                 listener.exitRelation(self)
 
-    def relation(self, _p=0):
+    def relation(self, _p: int = 0):
         _parentctx = self._ctx
         _parentState = self.state
         localctx = PSParser.RelationContext(self, self._ctx, _parentState)
@@ -937,7 +941,7 @@ class PSParser (Parser):
                         raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
                     self.state = 133
                     _la = self._input.LA(1)
-                    if not (((((_la - 116)) & ~0x3f) == 0 and ((1 << (_la - 116)) & ((1 << (PSParser.EQUAL - 116)) | (1 << (PSParser.LT - 116)) | (1 << (PSParser.LTE - 116)) | (1 << (PSParser.GT - 116)) | (1 << (PSParser.GTE - 116)) | (1 << (PSParser.UNEQUAL - 116)))) != 0)):
+                    if not ((((_la - 116)) & ~0x3f) == 0 and ((1 << (_la - 116)) & 63) != 0):
                         self._errHandler.recoverInline(self)
                     else:
                         self._errHandler.reportMatch(self)
@@ -957,9 +961,10 @@ class PSParser (Parser):
         return localctx
 
     class Relation_listContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Relation_listContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def relation_list_content(self):
@@ -1022,11 +1027,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_relation_list
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterRelation_list"):
                 listener.enterRelation_list(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitRelation_list"):
                 listener.exitRelation_list(self)
 
@@ -1319,24 +1324,25 @@ class PSParser (Parser):
         return localctx
 
     class Relation_list_contentContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Relation_list_contentContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
-        def relation(self, i=None):
+        def relation(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.RelationContext)
             else:
                 return self.getTypedRuleContext(PSParser.RelationContext, i)
 
-        def COMMA(self, i=None):
+        def COMMA(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.COMMA)
             else:
                 return self.getToken(PSParser.COMMA, i)
 
-        def SEMICOLON(self, i=None):
+        def SEMICOLON(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.SEMICOLON)
             else:
@@ -1345,11 +1351,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_relation_list_content
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterRelation_list_content"):
                 listener.enterRelation_list_content(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitRelation_list_content"):
                 listener.exitRelation_list_content(self)
 
@@ -1373,7 +1379,7 @@ class PSParser (Parser):
                 self.state = 262
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while _la == PSParser.COMMA:
+                while _la == 106:
                     self.state = 258
                     self.match(PSParser.COMMA)
                     self.state = 259
@@ -1395,7 +1401,7 @@ class PSParser (Parser):
                 self.state = 272
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while _la == PSParser.SEMICOLON:
+                while _la == 105:
                     self.state = 268
                     self.match(PSParser.SEMICOLON)
                     self.state = 269
@@ -1415,12 +1421,13 @@ class PSParser (Parser):
         return localctx
 
     class EqualityContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.EqualityContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
-        def expr(self, i=None):
+        def expr(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.ExprContext)
             else:
@@ -1432,11 +1439,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_equality
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterEquality"):
                 listener.enterEquality(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitEquality"):
                 listener.exitEquality(self)
 
@@ -1461,9 +1468,10 @@ class PSParser (Parser):
         return localctx
 
     class ExprContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.ExprContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def additive(self):
@@ -1472,11 +1480,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_expr
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterExpr"):
                 listener.enterExpr(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitExpr"):
                 listener.exitExpr(self)
 
@@ -1497,15 +1505,16 @@ class PSParser (Parser):
         return localctx
 
     class AdditiveContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.AdditiveContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def mp(self):
             return self.getTypedRuleContext(PSParser.MpContext, 0)
 
-        def additive(self, i=None):
+        def additive(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.AdditiveContext)
             else:
@@ -1520,15 +1529,15 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_additive
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterAdditive"):
                 listener.enterAdditive(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitAdditive"):
                 listener.exitAdditive(self)
 
-    def additive(self, _p=0):
+    def additive(self, _p: int = 0):
         _parentctx = self._ctx
         _parentState = self.state
         localctx = PSParser.AdditiveContext(self, self._ctx, _parentState)
@@ -1557,7 +1566,7 @@ class PSParser (Parser):
                         raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
                     self.state = 287
                     _la = self._input.LA(1)
-                    if not (_la == PSParser.ADD or _la == PSParser.SUB):
+                    if not (_la == 3 or _la == 4):
                         self._errHandler.recoverInline(self)
                     else:
                         self._errHandler.reportMatch(self)
@@ -1577,15 +1586,16 @@ class PSParser (Parser):
         return localctx
 
     class MpContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.MpContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def unary(self):
             return self.getTypedRuleContext(PSParser.UnaryContext, 0)
 
-        def mp(self, i=None):
+        def mp(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.MpContext)
             else:
@@ -1615,15 +1625,15 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_mp
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterMp"):
                 listener.enterMp(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitMp"):
                 listener.exitMp(self)
 
-    def mp(self, _p=0):
+    def mp(self, _p: int = 0):
         _parentctx = self._ctx
         _parentState = self.state
         localctx = PSParser.MpContext(self, self._ctx, _parentState)
@@ -1652,7 +1662,7 @@ class PSParser (Parser):
                         raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
                     self.state = 298
                     _la = self._input.LA(1)
-                    if not (_la == PSParser.MUL or _la == PSParser.DIV or ((((_la - 83)) & ~0x3f) == 0 and ((1 << (_la - 83)) & ((1 << (PSParser.CMD_TIMES - 83)) | (1 << (PSParser.CMD_CDOT - 83)) | (1 << (PSParser.CMD_DIV - 83)) | (1 << (PSParser.CMD_MOD - 83)) | (1 << (PSParser.COLON - 83)))) != 0)):
+                    if not (_la == 5 or _la == 6 or (((_la - 83)) & ~0x3f) == 0 and ((1 << (_la - 83)) & 2097223) != 0):
                         self._errHandler.recoverInline(self)
                     else:
                         self._errHandler.reportMatch(self)
@@ -1672,15 +1682,16 @@ class PSParser (Parser):
         return localctx
 
     class Mp_nofuncContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Mp_nofuncContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def unary_nofunc(self):
             return self.getTypedRuleContext(PSParser.Unary_nofuncContext, 0)
 
-        def mp_nofunc(self, i=None):
+        def mp_nofunc(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.Mp_nofuncContext)
             else:
@@ -1710,15 +1721,15 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_mp_nofunc
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterMp_nofunc"):
                 listener.enterMp_nofunc(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitMp_nofunc"):
                 listener.exitMp_nofunc(self)
 
-    def mp_nofunc(self, _p=0):
+    def mp_nofunc(self, _p: int = 0):
         _parentctx = self._ctx
         _parentState = self.state
         localctx = PSParser.Mp_nofuncContext(self, self._ctx, _parentState)
@@ -1747,7 +1758,7 @@ class PSParser (Parser):
                         raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
                     self.state = 309
                     _la = self._input.LA(1)
-                    if not (_la == PSParser.MUL or _la == PSParser.DIV or ((((_la - 83)) & ~0x3f) == 0 and ((1 << (_la - 83)) & ((1 << (PSParser.CMD_TIMES - 83)) | (1 << (PSParser.CMD_CDOT - 83)) | (1 << (PSParser.CMD_DIV - 83)) | (1 << (PSParser.CMD_MOD - 83)) | (1 << (PSParser.COLON - 83)))) != 0)):
+                    if not (_la == 5 or _la == 6 or (((_la - 83)) & ~0x3f) == 0 and ((1 << (_la - 83)) & 2097223) != 0):
                         self._errHandler.recoverInline(self)
                     else:
                         self._errHandler.reportMatch(self)
@@ -1767,9 +1778,10 @@ class PSParser (Parser):
         return localctx
 
     class UnaryContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.UnaryContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def unary(self):
@@ -1781,7 +1793,7 @@ class PSParser (Parser):
         def SUB(self):
             return self.getToken(PSParser.SUB, 0)
 
-        def postfix(self, i=None):
+        def postfix(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.PostfixContext)
             else:
@@ -1790,11 +1802,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_unary
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterUnary"):
                 listener.enterUnary(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitUnary"):
                 listener.exitUnary(self)
 
@@ -1807,11 +1819,11 @@ class PSParser (Parser):
             self.state = 323
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [PSParser.ADD, PSParser.SUB]:
+            if token in [3, 4]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 316
                 _la = self._input.LA(1)
-                if not (_la == PSParser.ADD or _la == PSParser.SUB):
+                if not (_la == 3 or _la == 4):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
@@ -1819,7 +1831,7 @@ class PSParser (Parser):
                 self.state = 317
                 self.unary()
                 pass
-            elif token in [PSParser.L_PAREN, PSParser.L_GROUP, PSParser.L_BRACE, PSParser.L_BRACE_VISUAL, PSParser.L_BRACE_CMD, PSParser.L_BRACKET, PSParser.L_BRACK, PSParser.BAR, PSParser.L_VERT, PSParser.VERT, PSParser.L_FLOOR, PSParser.LL_CORNER, PSParser.L_CEIL, PSParser.UL_CORNER, PSParser.L_LEFT, PSParser.ML_LEFT, PSParser.FUNC_LIM, PSParser.FUNC_INT, PSParser.FUNC_SUM, PSParser.FUNC_PROD, PSParser.FUNC_LOG, PSParser.FUNC_LN, PSParser.FUNC_EXP, PSParser.FUNC_SIN, PSParser.FUNC_COS, PSParser.FUNC_TAN, PSParser.FUNC_CSC, PSParser.FUNC_SEC, PSParser.FUNC_COT, PSParser.FUNC_ARCSIN, PSParser.FUNC_ARCCOS, PSParser.FUNC_ARCTAN, PSParser.FUNC_ARCCSC, PSParser.FUNC_ARCSEC, PSParser.FUNC_ARCCOT, PSParser.FUNC_SINH, PSParser.FUNC_COSH, PSParser.FUNC_TANH, PSParser.FUNC_ARSINH, PSParser.FUNC_ARCOSH, PSParser.FUNC_ARTANH, PSParser.FUNC_ARCSINH, PSParser.FUNC_ARCCOSH, PSParser.FUNC_ARCTANH, PSParser.FUNC_SQRT, PSParser.FUNC_GCD, PSParser.FUNC_LCM, PSParser.FUNC_FLOOR, PSParser.FUNC_CEIL, PSParser.FUNC_MAX, PSParser.FUNC_MIN, PSParser.CMD_FRAC, PSParser.CMD_BINOM, PSParser.CMD_CHOOSE, PSParser.CMD_MATHIT, PSParser.CMD_OPERATORNAME, PSParser.CMD_MATRIX_START, PSParser.ACCENT_OVERLINE, PSParser.ACCENT_BAR, PSParser.DIFFERENTIAL, PSParser.EXP_E, PSParser.LETTER_NO_E, PSParser.NUMBER, PSParser.FRACTION_NUMBER, PSParser.SCI_NOTATION_NUMBER, PSParser.E_NOTATION, PSParser.PERCENT_NUMBER, PSParser.GREEK_CMD, PSParser.SYMBOL, PSParser.VARIABLE]:
+            elif token in [7, 9, 11, 13, 15, 17, 19, 21, 22, 24, 25, 27, 29, 31, 33, 35, 37, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 76, 77, 78, 79, 80, 81, 82, 86, 87, 88, 90, 91, 96, 100, 101, 108, 109, 111, 112, 113, 114, 115, 123, 124, 125, 126]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 319
                 self._errHandler.sync(self)
@@ -1848,9 +1860,10 @@ class PSParser (Parser):
         return localctx
 
     class Unary_nofuncContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Unary_nofuncContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def unary_nofunc(self):
@@ -1865,7 +1878,7 @@ class PSParser (Parser):
         def postfix(self):
             return self.getTypedRuleContext(PSParser.PostfixContext, 0)
 
-        def postfix_nofunc(self, i=None):
+        def postfix_nofunc(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.Postfix_nofuncContext)
             else:
@@ -1874,11 +1887,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_unary_nofunc
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterUnary_nofunc"):
                 listener.enterUnary_nofunc(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitUnary_nofunc"):
                 listener.exitUnary_nofunc(self)
 
@@ -1891,11 +1904,11 @@ class PSParser (Parser):
             self.state = 334
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [PSParser.ADD, PSParser.SUB]:
+            if token in [3, 4]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 325
                 _la = self._input.LA(1)
-                if not (_la == PSParser.ADD or _la == PSParser.SUB):
+                if not (_la == 3 or _la == 4):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
@@ -1903,7 +1916,7 @@ class PSParser (Parser):
                 self.state = 326
                 self.unary_nofunc()
                 pass
-            elif token in [PSParser.L_PAREN, PSParser.L_GROUP, PSParser.L_BRACE, PSParser.L_BRACE_VISUAL, PSParser.L_BRACE_CMD, PSParser.L_BRACKET, PSParser.L_BRACK, PSParser.BAR, PSParser.L_VERT, PSParser.VERT, PSParser.L_FLOOR, PSParser.LL_CORNER, PSParser.L_CEIL, PSParser.UL_CORNER, PSParser.L_LEFT, PSParser.ML_LEFT, PSParser.FUNC_LIM, PSParser.FUNC_INT, PSParser.FUNC_SUM, PSParser.FUNC_PROD, PSParser.FUNC_LOG, PSParser.FUNC_LN, PSParser.FUNC_EXP, PSParser.FUNC_SIN, PSParser.FUNC_COS, PSParser.FUNC_TAN, PSParser.FUNC_CSC, PSParser.FUNC_SEC, PSParser.FUNC_COT, PSParser.FUNC_ARCSIN, PSParser.FUNC_ARCCOS, PSParser.FUNC_ARCTAN, PSParser.FUNC_ARCCSC, PSParser.FUNC_ARCSEC, PSParser.FUNC_ARCCOT, PSParser.FUNC_SINH, PSParser.FUNC_COSH, PSParser.FUNC_TANH, PSParser.FUNC_ARSINH, PSParser.FUNC_ARCOSH, PSParser.FUNC_ARTANH, PSParser.FUNC_ARCSINH, PSParser.FUNC_ARCCOSH, PSParser.FUNC_ARCTANH, PSParser.FUNC_SQRT, PSParser.FUNC_GCD, PSParser.FUNC_LCM, PSParser.FUNC_FLOOR, PSParser.FUNC_CEIL, PSParser.FUNC_MAX, PSParser.FUNC_MIN, PSParser.CMD_FRAC, PSParser.CMD_BINOM, PSParser.CMD_CHOOSE, PSParser.CMD_MATHIT, PSParser.CMD_OPERATORNAME, PSParser.CMD_MATRIX_START, PSParser.ACCENT_OVERLINE, PSParser.ACCENT_BAR, PSParser.DIFFERENTIAL, PSParser.EXP_E, PSParser.LETTER_NO_E, PSParser.NUMBER, PSParser.FRACTION_NUMBER, PSParser.SCI_NOTATION_NUMBER, PSParser.E_NOTATION, PSParser.PERCENT_NUMBER, PSParser.GREEK_CMD, PSParser.SYMBOL, PSParser.VARIABLE]:
+            elif token in [7, 9, 11, 13, 15, 17, 19, 21, 22, 24, 25, 27, 29, 31, 33, 35, 37, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 76, 77, 78, 79, 80, 81, 82, 86, 87, 88, 90, 91, 96, 100, 101, 108, 109, 111, 112, 113, 114, 115, 123, 124, 125, 126]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 327
                 self.postfix()
@@ -1931,15 +1944,16 @@ class PSParser (Parser):
         return localctx
 
     class PostfixContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.PostfixContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def exp(self):
             return self.getTypedRuleContext(PSParser.ExpContext, 0)
 
-        def postfix_op(self, i=None):
+        def postfix_op(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.Postfix_opContext)
             else:
@@ -1948,11 +1962,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_postfix
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterPostfix"):
                 listener.enterPostfix(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitPostfix"):
                 listener.exitPostfix(self)
 
@@ -1984,15 +1998,16 @@ class PSParser (Parser):
         return localctx
 
     class Postfix_nofuncContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Postfix_nofuncContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def exp_nofunc(self):
             return self.getTypedRuleContext(PSParser.Exp_nofuncContext, 0)
 
-        def postfix_op(self, i=None):
+        def postfix_op(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.Postfix_opContext)
             else:
@@ -2001,11 +2016,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_postfix_nofunc
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterPostfix_nofunc"):
                 listener.enterPostfix_nofunc(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitPostfix_nofunc"):
                 listener.exitPostfix_nofunc(self)
 
@@ -2037,9 +2052,10 @@ class PSParser (Parser):
         return localctx
 
     class Postfix_opContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Postfix_opContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def BANG(self):
@@ -2051,11 +2067,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_postfix_op
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterPostfix_op"):
                 listener.enterPostfix_op(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitPostfix_op"):
                 listener.exitPostfix_op(self)
 
@@ -2067,12 +2083,12 @@ class PSParser (Parser):
             self.state = 352
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [PSParser.BANG]:
+            if token in [122]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 350
                 self.match(PSParser.BANG)
                 pass
-            elif token in [PSParser.BAR]:
+            elif token in [21]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 351
                 self.eval_at()
@@ -2089,9 +2105,10 @@ class PSParser (Parser):
         return localctx
 
     class Eval_atContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Eval_atContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def BAR(self):
@@ -2106,11 +2123,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_eval_at
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterEval_at"):
                 listener.enterEval_at(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitEval_at"):
                 listener.exitEval_at(self)
 
@@ -2151,9 +2168,10 @@ class PSParser (Parser):
         return localctx
 
     class Eval_at_subContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Eval_at_subContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def UNDERSCORE(self):
@@ -2174,11 +2192,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_eval_at_sub
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterEval_at_sub"):
                 listener.enterEval_at_sub(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitEval_at_sub"):
                 listener.exitEval_at_sub(self)
 
@@ -2216,9 +2234,10 @@ class PSParser (Parser):
         return localctx
 
     class Eval_at_supContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Eval_at_supContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def CARET(self):
@@ -2239,11 +2258,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_eval_at_sup
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterEval_at_sup"):
                 listener.enterEval_at_sup(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitEval_at_sup"):
                 listener.exitEval_at_sup(self)
 
@@ -2281,9 +2300,10 @@ class PSParser (Parser):
         return localctx
 
     class ExpContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.ExpContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def comp(self):
@@ -2313,15 +2333,15 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_exp
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterExp"):
                 listener.enterExp(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitExp"):
                 listener.exitExp(self)
 
-    def exp(self, _p=0):
+    def exp(self, _p: int = 0):
         _parentctx = self._ctx
         _parentState = self.state
         localctx = PSParser.ExpContext(self, self._ctx, _parentState)
@@ -2352,11 +2372,11 @@ class PSParser (Parser):
                     self.state = 388
                     self._errHandler.sync(self)
                     token = self._input.LA(1)
-                    if token in [PSParser.CMD_MATHIT, PSParser.ACCENT_OVERLINE, PSParser.ACCENT_BAR, PSParser.DIFFERENTIAL, PSParser.LETTER_NO_E, PSParser.NUMBER, PSParser.FRACTION_NUMBER, PSParser.SCI_NOTATION_NUMBER, PSParser.E_NOTATION, PSParser.PERCENT_NUMBER, PSParser.GREEK_CMD, PSParser.SYMBOL, PSParser.VARIABLE]:
+                    if token in [90, 100, 101, 108, 111, 112, 113, 114, 115, 123, 124, 125, 126]:
                         self.state = 383
                         self.atom()
                         pass
-                    elif token in [PSParser.L_BRACE]:
+                    elif token in [11]:
                         self.state = 384
                         self.match(PSParser.L_BRACE)
                         self.state = 385
@@ -2387,9 +2407,10 @@ class PSParser (Parser):
         return localctx
 
     class Exp_nofuncContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Exp_nofuncContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def comp_nofunc(self):
@@ -2419,15 +2440,15 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_exp_nofunc
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterExp_nofunc"):
                 listener.enterExp_nofunc(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitExp_nofunc"):
                 listener.exitExp_nofunc(self)
 
-    def exp_nofunc(self, _p=0):
+    def exp_nofunc(self, _p: int = 0):
         _parentctx = self._ctx
         _parentState = self.state
         localctx = PSParser.Exp_nofuncContext(self, self._ctx, _parentState)
@@ -2458,11 +2479,11 @@ class PSParser (Parser):
                     self.state = 408
                     self._errHandler.sync(self)
                     token = self._input.LA(1)
-                    if token in [PSParser.CMD_MATHIT, PSParser.ACCENT_OVERLINE, PSParser.ACCENT_BAR, PSParser.DIFFERENTIAL, PSParser.LETTER_NO_E, PSParser.NUMBER, PSParser.FRACTION_NUMBER, PSParser.SCI_NOTATION_NUMBER, PSParser.E_NOTATION, PSParser.PERCENT_NUMBER, PSParser.GREEK_CMD, PSParser.SYMBOL, PSParser.VARIABLE]:
+                    if token in [90, 100, 101, 108, 111, 112, 113, 114, 115, 123, 124, 125, 126]:
                         self.state = 403
                         self.atom()
                         pass
-                    elif token in [PSParser.L_BRACE]:
+                    elif token in [11]:
                         self.state = 404
                         self.match(PSParser.L_BRACE)
                         self.state = 405
@@ -2493,9 +2514,10 @@ class PSParser (Parser):
         return localctx
 
     class CompContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.CompContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def group(self):
@@ -2528,11 +2550,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_comp
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterComp"):
                 listener.enterComp(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitComp"):
                 listener.exitComp(self)
 
@@ -2607,9 +2629,10 @@ class PSParser (Parser):
         return localctx
 
     class Comp_nofuncContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Comp_nofuncContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def group(self):
@@ -2639,11 +2662,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_comp_nofunc
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterComp_nofunc"):
                 listener.enterComp_nofunc(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitComp_nofunc"):
                 listener.exitComp_nofunc(self)
 
@@ -2712,9 +2735,10 @@ class PSParser (Parser):
         return localctx
 
     class GroupContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.GroupContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def L_PAREN(self):
@@ -2777,11 +2801,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_group
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterGroup"):
                 listener.enterGroup(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitGroup"):
                 listener.exitGroup(self)
 
@@ -3068,12 +3092,13 @@ class PSParser (Parser):
         return localctx
 
     class Abs_groupContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Abs_groupContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
-        def BAR(self, i=None):
+        def BAR(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.BAR)
             else:
@@ -3088,7 +3113,7 @@ class PSParser (Parser):
         def R_VERT(self):
             return self.getToken(PSParser.R_VERT, 0)
 
-        def VERT(self, i=None):
+        def VERT(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.VERT)
             else:
@@ -3109,11 +3134,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_abs_group
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterAbs_group"):
                 listener.enterAbs_group(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitAbs_group"):
                 listener.exitAbs_group(self)
 
@@ -3248,9 +3273,10 @@ class PSParser (Parser):
         return localctx
 
     class Floor_groupContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Floor_groupContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def L_FLOOR(self):
@@ -3283,11 +3309,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_floor_group
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterFloor_group"):
                 listener.enterFloor_group(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitFloor_group"):
                 listener.exitFloor_group(self)
 
@@ -3384,9 +3410,10 @@ class PSParser (Parser):
         return localctx
 
     class Ceil_groupContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Ceil_groupContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def L_CEIL(self):
@@ -3419,11 +3446,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_ceil_group
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterCeil_group"):
                 listener.enterCeil_group(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitCeil_group"):
                 listener.exitCeil_group(self)
 
@@ -3520,9 +3547,10 @@ class PSParser (Parser):
         return localctx
 
     class AccentContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.AccentContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
             self.base = None  # ExprContext
 
@@ -3541,11 +3569,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_accent
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterAccent"):
                 listener.enterAccent(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitAccent"):
                 listener.exitAccent(self)
 
@@ -3572,9 +3600,10 @@ class PSParser (Parser):
         return localctx
 
     class Atom_exprContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Atom_exprContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def LETTER_NO_E(self):
@@ -3595,11 +3624,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_atom_expr
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterAtom_expr"):
                 listener.enterAtom_expr(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitAtom_expr"):
                 listener.exitAtom_expr(self)
 
@@ -3612,15 +3641,15 @@ class PSParser (Parser):
             self.state = 679
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [PSParser.LETTER_NO_E]:
+            if token in [111]:
                 self.state = 676
                 self.match(PSParser.LETTER_NO_E)
                 pass
-            elif token in [PSParser.GREEK_CMD]:
+            elif token in [124]:
                 self.state = 677
                 self.match(PSParser.GREEK_CMD)
                 pass
-            elif token in [PSParser.ACCENT_OVERLINE, PSParser.ACCENT_BAR]:
+            elif token in [100, 101]:
                 self.state = 678
                 self.accent()
                 pass
@@ -3659,9 +3688,10 @@ class PSParser (Parser):
         return localctx
 
     class AtomContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.AtomContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def atom_expr(self):
@@ -3697,11 +3727,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_atom
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterAtom"):
                 listener.enterAtom(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitAtom"):
                 listener.exitAtom(self)
 
@@ -3713,52 +3743,52 @@ class PSParser (Parser):
             self.state = 701
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [PSParser.ACCENT_OVERLINE, PSParser.ACCENT_BAR, PSParser.LETTER_NO_E, PSParser.GREEK_CMD]:
+            if token in [100, 101, 111, 124]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 691
                 self.atom_expr()
                 pass
-            elif token in [PSParser.SYMBOL]:
+            elif token in [125]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 692
                 self.match(PSParser.SYMBOL)
                 pass
-            elif token in [PSParser.NUMBER]:
+            elif token in [112]:
                 self.enterOuterAlt(localctx, 3)
                 self.state = 693
                 self.match(PSParser.NUMBER)
                 pass
-            elif token in [PSParser.SCI_NOTATION_NUMBER]:
+            elif token in [114]:
                 self.enterOuterAlt(localctx, 4)
                 self.state = 694
                 self.match(PSParser.SCI_NOTATION_NUMBER)
                 pass
-            elif token in [PSParser.FRACTION_NUMBER]:
+            elif token in [113]:
                 self.enterOuterAlt(localctx, 5)
                 self.state = 695
                 self.match(PSParser.FRACTION_NUMBER)
                 pass
-            elif token in [PSParser.PERCENT_NUMBER]:
+            elif token in [123]:
                 self.enterOuterAlt(localctx, 6)
                 self.state = 696
                 self.match(PSParser.PERCENT_NUMBER)
                 pass
-            elif token in [PSParser.E_NOTATION]:
+            elif token in [115]:
                 self.enterOuterAlt(localctx, 7)
                 self.state = 697
                 self.match(PSParser.E_NOTATION)
                 pass
-            elif token in [PSParser.DIFFERENTIAL]:
+            elif token in [108]:
                 self.enterOuterAlt(localctx, 8)
                 self.state = 698
                 self.match(PSParser.DIFFERENTIAL)
                 pass
-            elif token in [PSParser.CMD_MATHIT]:
+            elif token in [90]:
                 self.enterOuterAlt(localctx, 9)
                 self.state = 699
                 self.mathit()
                 pass
-            elif token in [PSParser.VARIABLE]:
+            elif token in [126]:
                 self.enterOuterAlt(localctx, 10)
                 self.state = 700
                 self.match(PSParser.VARIABLE)
@@ -3775,9 +3805,10 @@ class PSParser (Parser):
         return localctx
 
     class MathitContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.MathitContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def CMD_MATHIT(self):
@@ -3795,11 +3826,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_mathit
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterMathit"):
                 listener.enterMathit(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitMathit"):
                 listener.exitMathit(self)
 
@@ -3826,24 +3857,25 @@ class PSParser (Parser):
         return localctx
 
     class Mathit_textContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Mathit_textContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
-        def LETTER_NO_E(self, i=None):
+        def LETTER_NO_E(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.LETTER_NO_E)
             else:
                 return self.getToken(PSParser.LETTER_NO_E, i)
 
-        def E_NOTATION_E(self, i=None):
+        def E_NOTATION_E(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.E_NOTATION_E)
             else:
                 return self.getToken(PSParser.E_NOTATION_E, i)
 
-        def EXP_E(self, i=None):
+        def EXP_E(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.EXP_E)
             else:
@@ -3852,11 +3884,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_mathit_text
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterMathit_text"):
                 listener.enterMathit_text(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitMathit_text"):
                 listener.exitMathit_text(self)
 
@@ -3873,7 +3905,7 @@ class PSParser (Parser):
             while True:
                 self.state = 708
                 _la = self._input.LA(1)
-                if not (((((_la - 109)) & ~0x3f) == 0 and ((1 << (_la - 109)) & ((1 << (PSParser.EXP_E - 109)) | (1 << (PSParser.E_NOTATION_E - 109)) | (1 << (PSParser.LETTER_NO_E - 109)))) != 0)):
+                if not ((((_la - 109)) & ~0x3f) == 0 and ((1 << (_la - 109)) & 7) != 0):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
@@ -3881,7 +3913,7 @@ class PSParser (Parser):
                 self.state = 711
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not (((((_la - 109)) & ~0x3f) == 0 and ((1 << (_la - 109)) & ((1 << (PSParser.EXP_E - 109)) | (1 << (PSParser.E_NOTATION_E - 109)) | (1 << (PSParser.LETTER_NO_E - 109)))) != 0)):
+                if not ((((_la - 109)) & ~0x3f) == 0 and ((1 << (_la - 109)) & 7) != 0):
                     break
 
         except RecognitionException as re:
@@ -3893,9 +3925,10 @@ class PSParser (Parser):
         return localctx
 
     class FracContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.FracContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
             self.upper = None  # ExprContext
             self.lower = None  # ExprContext
@@ -3903,19 +3936,19 @@ class PSParser (Parser):
         def CMD_FRAC(self):
             return self.getToken(PSParser.CMD_FRAC, 0)
 
-        def L_BRACE(self, i=None):
+        def L_BRACE(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.L_BRACE)
             else:
                 return self.getToken(PSParser.L_BRACE, i)
 
-        def R_BRACE(self, i=None):
+        def R_BRACE(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.R_BRACE)
             else:
                 return self.getToken(PSParser.R_BRACE, i)
 
-        def expr(self, i=None):
+        def expr(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.ExprContext)
             else:
@@ -3924,11 +3957,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_frac
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterFrac"):
                 listener.enterFrac(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitFrac"):
                 listener.exitFrac(self)
 
@@ -3961,20 +3994,21 @@ class PSParser (Parser):
         return localctx
 
     class BinomContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.BinomContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
             self.upper = None  # ExprContext
             self.lower = None  # ExprContext
 
-        def L_BRACE(self, i=None):
+        def L_BRACE(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.L_BRACE)
             else:
                 return self.getToken(PSParser.L_BRACE, i)
 
-        def R_BRACE(self, i=None):
+        def R_BRACE(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.R_BRACE)
             else:
@@ -3986,7 +4020,7 @@ class PSParser (Parser):
         def CMD_CHOOSE(self):
             return self.getToken(PSParser.CMD_CHOOSE, 0)
 
-        def expr(self, i=None):
+        def expr(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.ExprContext)
             else:
@@ -3995,11 +4029,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_binom
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterBinom"):
                 listener.enterBinom(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitBinom"):
                 listener.exitBinom(self)
 
@@ -4012,7 +4046,7 @@ class PSParser (Parser):
             self.enterOuterAlt(localctx, 1)
             self.state = 721
             _la = self._input.LA(1)
-            if not (_la == PSParser.CMD_BINOM or _la == PSParser.CMD_CHOOSE):
+            if not (_la == 87 or _la == 88):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -4038,9 +4072,10 @@ class PSParser (Parser):
         return localctx
 
     class Func_normal_functions_single_argContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Func_normal_functions_single_argContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def FUNC_LOG(self):
@@ -4124,11 +4159,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_func_normal_functions_single_arg
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterFunc_normal_functions_single_arg"):
                 listener.enterFunc_normal_functions_single_arg(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitFunc_normal_functions_single_arg"):
                 listener.exitFunc_normal_functions_single_arg(self)
 
@@ -4141,7 +4176,7 @@ class PSParser (Parser):
             self.enterOuterAlt(localctx, 1)
             self.state = 729
             _la = self._input.LA(1)
-            if not (((((_la - 42)) & ~0x3f) == 0 and ((1 << (_la - 42)) & ((1 << (PSParser.FUNC_LOG - 42)) | (1 << (PSParser.FUNC_LN - 42)) | (1 << (PSParser.FUNC_EXP - 42)) | (1 << (PSParser.FUNC_SIN - 42)) | (1 << (PSParser.FUNC_COS - 42)) | (1 << (PSParser.FUNC_TAN - 42)) | (1 << (PSParser.FUNC_CSC - 42)) | (1 << (PSParser.FUNC_SEC - 42)) | (1 << (PSParser.FUNC_COT - 42)) | (1 << (PSParser.FUNC_ARCSIN - 42)) | (1 << (PSParser.FUNC_ARCCOS - 42)) | (1 << (PSParser.FUNC_ARCTAN - 42)) | (1 << (PSParser.FUNC_ARCCSC - 42)) | (1 << (PSParser.FUNC_ARCSEC - 42)) | (1 << (PSParser.FUNC_ARCCOT - 42)) | (1 << (PSParser.FUNC_SINH - 42)) | (1 << (PSParser.FUNC_COSH - 42)) | (1 << (PSParser.FUNC_TANH - 42)) | (1 << (PSParser.FUNC_ARSINH - 42)) | (1 << (PSParser.FUNC_ARCOSH - 42)) | (1 << (PSParser.FUNC_ARTANH - 42)) | (1 << (PSParser.FUNC_ARCSINH - 42)) | (1 << (PSParser.FUNC_ARCCOSH - 42)) | (1 << (PSParser.FUNC_ARCTANH - 42)) | (1 << (PSParser.FUNC_FLOOR - 42)) | (1 << (PSParser.FUNC_CEIL - 42)))) != 0)):
+            if not ((((_la - 42)) & ~0x3f) == 0 and ((1 << (_la - 42)) & 412333637631) != 0):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -4155,9 +4190,10 @@ class PSParser (Parser):
         return localctx
 
     class Func_normal_functions_multi_argContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Func_normal_functions_multi_argContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def FUNC_GCD(self):
@@ -4175,11 +4211,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_func_normal_functions_multi_arg
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterFunc_normal_functions_multi_arg"):
                 listener.enterFunc_normal_functions_multi_arg(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitFunc_normal_functions_multi_arg"):
                 listener.exitFunc_normal_functions_multi_arg(self)
 
@@ -4192,7 +4228,7 @@ class PSParser (Parser):
             self.enterOuterAlt(localctx, 1)
             self.state = 731
             _la = self._input.LA(1)
-            if not (((((_la - 77)) & ~0x3f) == 0 and ((1 << (_la - 77)) & ((1 << (PSParser.FUNC_GCD - 77)) | (1 << (PSParser.FUNC_LCM - 77)) | (1 << (PSParser.FUNC_MAX - 77)) | (1 << (PSParser.FUNC_MIN - 77)))) != 0)):
+            if not ((((_la - 77)) & ~0x3f) == 0 and ((1 << (_la - 77)) & 51) != 0):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -4206,9 +4242,10 @@ class PSParser (Parser):
         return localctx
 
     class Func_operator_names_single_argContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Func_operator_names_single_argContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def FUNC_ARSINH_NAME(self):
@@ -4238,11 +4275,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_func_operator_names_single_arg
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterFunc_operator_names_single_arg"):
                 listener.enterFunc_operator_names_single_arg(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitFunc_operator_names_single_arg"):
                 listener.exitFunc_operator_names_single_arg(self)
 
@@ -4255,7 +4292,7 @@ class PSParser (Parser):
             self.enterOuterAlt(localctx, 1)
             self.state = 733
             _la = self._input.LA(1)
-            if not (((((_la - 66)) & ~0x3f) == 0 and ((1 << (_la - 66)) & ((1 << (PSParser.FUNC_ARSINH_NAME - 66)) | (1 << (PSParser.FUNC_ARCSINH_NAME - 66)) | (1 << (PSParser.FUNC_ARCOSH_NAME - 66)) | (1 << (PSParser.FUNC_ARCCOSH_NAME - 66)) | (1 << (PSParser.FUNC_ARTANH_NAME - 66)) | (1 << (PSParser.FUNC_ARCTANH_NAME - 66)) | (1 << (PSParser.FUNC_FLOOR_NAME - 66)) | (1 << (PSParser.FUNC_CEIL_NAME - 66)))) != 0)):
+            if not ((((_la - 66)) & ~0x3f) == 0 and ((1 << (_la - 66)) & 831) != 0):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -4269,9 +4306,10 @@ class PSParser (Parser):
         return localctx
 
     class Func_operator_names_multi_argContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Func_operator_names_multi_argContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def FUNC_GCD_NAME(self):
@@ -4283,11 +4321,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_func_operator_names_multi_arg
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterFunc_operator_names_multi_arg"):
                 listener.enterFunc_operator_names_multi_arg(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitFunc_operator_names_multi_arg"):
                 listener.exitFunc_operator_names_multi_arg(self)
 
@@ -4300,7 +4338,7 @@ class PSParser (Parser):
             self.enterOuterAlt(localctx, 1)
             self.state = 735
             _la = self._input.LA(1)
-            if not (_la == PSParser.FUNC_GCD_NAME or _la == PSParser.FUNC_LCM_NAME):
+            if not (_la == 72 or _la == 73):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -4314,9 +4352,10 @@ class PSParser (Parser):
         return localctx
 
     class Func_normal_single_argContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Func_normal_single_argContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
             self.func_operator_name = None  # Func_operator_names_single_argContext
 
@@ -4338,11 +4377,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_func_normal_single_arg
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterFunc_normal_single_arg"):
                 listener.enterFunc_normal_single_arg(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitFunc_normal_single_arg"):
                 listener.exitFunc_normal_single_arg(self)
 
@@ -4354,12 +4393,12 @@ class PSParser (Parser):
             self.state = 743
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [PSParser.FUNC_LOG, PSParser.FUNC_LN, PSParser.FUNC_EXP, PSParser.FUNC_SIN, PSParser.FUNC_COS, PSParser.FUNC_TAN, PSParser.FUNC_CSC, PSParser.FUNC_SEC, PSParser.FUNC_COT, PSParser.FUNC_ARCSIN, PSParser.FUNC_ARCCOS, PSParser.FUNC_ARCTAN, PSParser.FUNC_ARCCSC, PSParser.FUNC_ARCSEC, PSParser.FUNC_ARCCOT, PSParser.FUNC_SINH, PSParser.FUNC_COSH, PSParser.FUNC_TANH, PSParser.FUNC_ARSINH, PSParser.FUNC_ARCOSH, PSParser.FUNC_ARTANH, PSParser.FUNC_ARCSINH, PSParser.FUNC_ARCCOSH, PSParser.FUNC_ARCTANH, PSParser.FUNC_FLOOR, PSParser.FUNC_CEIL]:
+            if token in [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 79, 80]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 737
                 self.func_normal_functions_single_arg()
                 pass
-            elif token in [PSParser.CMD_OPERATORNAME]:
+            elif token in [91]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 738
                 self.match(PSParser.CMD_OPERATORNAME)
@@ -4382,9 +4421,10 @@ class PSParser (Parser):
         return localctx
 
     class Func_normal_multi_argContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Func_normal_multi_argContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
             self.func_operator_name = None  # Func_operator_names_multi_argContext
 
@@ -4406,11 +4446,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_func_normal_multi_arg
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterFunc_normal_multi_arg"):
                 listener.enterFunc_normal_multi_arg(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitFunc_normal_multi_arg"):
                 listener.exitFunc_normal_multi_arg(self)
 
@@ -4422,12 +4462,12 @@ class PSParser (Parser):
             self.state = 751
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [PSParser.FUNC_GCD, PSParser.FUNC_LCM, PSParser.FUNC_MAX, PSParser.FUNC_MIN]:
+            if token in [77, 78, 81, 82]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 745
                 self.func_normal_functions_multi_arg()
                 pass
-            elif token in [PSParser.CMD_OPERATORNAME]:
+            elif token in [91]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 746
                 self.match(PSParser.CMD_OPERATORNAME)
@@ -4450,9 +4490,10 @@ class PSParser (Parser):
         return localctx
 
     class FuncContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.FuncContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
             self.root = None  # ExprContext
             self.base = None  # ExprContext
@@ -4514,13 +4555,13 @@ class PSParser (Parser):
         def UNDERSCORE(self):
             return self.getToken(PSParser.UNDERSCORE, 0)
 
-        def L_BRACE(self, i=None):
+        def L_BRACE(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.L_BRACE)
             else:
                 return self.getToken(PSParser.L_BRACE, i)
 
-        def R_BRACE(self, i=None):
+        def R_BRACE(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.R_BRACE)
             else:
@@ -4532,7 +4573,7 @@ class PSParser (Parser):
         def FUNC_SQRT(self):
             return self.getToken(PSParser.FUNC_SQRT, 0)
 
-        def expr(self, i=None):
+        def expr(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(PSParser.ExprContext)
             else:
@@ -4568,11 +4609,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_func
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterFunc"):
                 listener.enterFunc(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitFunc"):
                 listener.exitFunc(self)
 
@@ -4596,14 +4637,14 @@ class PSParser (Parser):
                     self.state = 755
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.UNDERSCORE:
+                    if _la == 102:
                         self.state = 754
                         self.subexpr()
 
                     self.state = 758
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.CARET:
+                    if _la == 103:
                         self.state = 757
                         self.supexpr()
 
@@ -4613,14 +4654,14 @@ class PSParser (Parser):
                     self.state = 761
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.CARET:
+                    if _la == 103:
                         self.state = 760
                         self.supexpr()
 
                     self.state = 764
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.UNDERSCORE:
+                    if _la == 102:
                         self.state = 763
                         self.subexpr()
 
@@ -4633,7 +4674,7 @@ class PSParser (Parser):
                     self.state = 769
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.L_LEFT:
+                    if _la == 33:
                         self.state = 768
                         self.match(PSParser.L_LEFT)
 
@@ -4644,7 +4685,7 @@ class PSParser (Parser):
                     self.state = 774
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.R_RIGHT:
+                    if _la == 34:
                         self.state = 773
                         self.match(PSParser.R_RIGHT)
 
@@ -4656,7 +4697,7 @@ class PSParser (Parser):
                     self.state = 779
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.ML_LEFT:
+                    if _la == 35:
                         self.state = 778
                         self.match(PSParser.ML_LEFT)
 
@@ -4667,7 +4708,7 @@ class PSParser (Parser):
                     self.state = 784
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.MR_RIGHT:
+                    if _la == 36:
                         self.state = 783
                         self.match(PSParser.MR_RIGHT)
 
@@ -4693,14 +4734,14 @@ class PSParser (Parser):
                     self.state = 793
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.UNDERSCORE:
+                    if _la == 102:
                         self.state = 792
                         self.subexpr()
 
                     self.state = 796
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.CARET:
+                    if _la == 103:
                         self.state = 795
                         self.supexpr()
 
@@ -4710,14 +4751,14 @@ class PSParser (Parser):
                     self.state = 799
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.CARET:
+                    if _la == 103:
                         self.state = 798
                         self.supexpr()
 
                     self.state = 802
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.UNDERSCORE:
+                    if _la == 102:
                         self.state = 801
                         self.subexpr()
 
@@ -4730,7 +4771,7 @@ class PSParser (Parser):
                     self.state = 807
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.L_LEFT:
+                    if _la == 33:
                         self.state = 806
                         self.match(PSParser.L_LEFT)
 
@@ -4741,7 +4782,7 @@ class PSParser (Parser):
                     self.state = 812
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.R_RIGHT:
+                    if _la == 34:
                         self.state = 811
                         self.match(PSParser.R_RIGHT)
 
@@ -4753,7 +4794,7 @@ class PSParser (Parser):
                     self.state = 817
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.ML_LEFT:
+                    if _la == 35:
                         self.state = 816
                         self.match(PSParser.ML_LEFT)
 
@@ -4764,7 +4805,7 @@ class PSParser (Parser):
                     self.state = 822
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if _la == PSParser.MR_RIGHT:
+                    if _la == 36:
                         self.state = 821
                         self.match(PSParser.MR_RIGHT)
 
@@ -4862,7 +4903,7 @@ class PSParser (Parser):
                 self.state = 865
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if _la == PSParser.L_BRACKET:
+                if _la == 17:
                     self.state = 861
                     self.match(PSParser.L_BRACKET)
                     self.state = 862
@@ -4882,7 +4923,7 @@ class PSParser (Parser):
                 self.enterOuterAlt(localctx, 5)
                 self.state = 871
                 _la = self._input.LA(1)
-                if not (_la == PSParser.FUNC_SUM or _la == PSParser.FUNC_PROD):
+                if not (_la == 40 or _la == 41):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
@@ -4890,13 +4931,13 @@ class PSParser (Parser):
                 self.state = 878
                 self._errHandler.sync(self)
                 token = self._input.LA(1)
-                if token in [PSParser.UNDERSCORE]:
+                if token in [102]:
                     self.state = 872
                     self.subeq()
                     self.state = 873
                     self.supexpr()
                     pass
-                elif token in [PSParser.CARET]:
+                elif token in [103]:
                     self.state = 875
                     self.supexpr()
                     self.state = 876
@@ -4941,9 +4982,10 @@ class PSParser (Parser):
         return localctx
 
     class ArgsContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.ArgsContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def expr(self):
@@ -4958,11 +5000,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_args
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterArgs"):
                 listener.enterArgs(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitArgs"):
                 listener.exitArgs(self)
 
@@ -4999,15 +5041,16 @@ class PSParser (Parser):
         return localctx
 
     class Limit_subContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Limit_subContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def UNDERSCORE(self):
             return self.getToken(PSParser.UNDERSCORE, 0)
 
-        def L_BRACE(self, i=None):
+        def L_BRACE(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.L_BRACE)
             else:
@@ -5019,7 +5062,7 @@ class PSParser (Parser):
         def expr(self):
             return self.getTypedRuleContext(PSParser.ExprContext, 0)
 
-        def R_BRACE(self, i=None):
+        def R_BRACE(self, i: int = None):
             if i is None:
                 return self.getTokens(PSParser.R_BRACE)
             else:
@@ -5043,11 +5086,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_limit_sub
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterLimit_sub"):
                 listener.enterLimit_sub(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitLimit_sub"):
                 listener.exitLimit_sub(self)
 
@@ -5064,7 +5107,7 @@ class PSParser (Parser):
             self.match(PSParser.L_BRACE)
             self.state = 901
             _la = self._input.LA(1)
-            if not (_la == PSParser.LETTER_NO_E or _la == PSParser.GREEK_CMD):
+            if not (_la == 111 or _la == 124):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -5076,14 +5119,14 @@ class PSParser (Parser):
             self.state = 908
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la == PSParser.CARET:
+            if _la == 103:
                 self.state = 904
                 self.match(PSParser.CARET)
                 self.state = 905
                 self.match(PSParser.L_BRACE)
                 self.state = 906
                 _la = self._input.LA(1)
-                if not (_la == PSParser.ADD or _la == PSParser.SUB):
+                if not (_la == 3 or _la == 4):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
@@ -5102,9 +5145,10 @@ class PSParser (Parser):
         return localctx
 
     class Func_single_argContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Func_single_argContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def expr(self):
@@ -5113,11 +5157,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_func_single_arg
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterFunc_single_arg"):
                 listener.enterFunc_single_arg(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitFunc_single_arg"):
                 listener.exitFunc_single_arg(self)
 
@@ -5138,9 +5182,10 @@ class PSParser (Parser):
         return localctx
 
     class Func_single_arg_noparensContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Func_single_arg_noparensContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def mp_nofunc(self):
@@ -5149,11 +5194,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_func_single_arg_noparens
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterFunc_single_arg_noparens"):
                 listener.enterFunc_single_arg_noparens(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitFunc_single_arg_noparens"):
                 listener.exitFunc_single_arg_noparens(self)
 
@@ -5174,9 +5219,10 @@ class PSParser (Parser):
         return localctx
 
     class Func_multi_argContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Func_multi_argContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def expr(self):
@@ -5191,11 +5237,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_func_multi_arg
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterFunc_multi_arg"):
                 listener.enterFunc_multi_arg(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitFunc_multi_arg"):
                 listener.exitFunc_multi_arg(self)
 
@@ -5232,9 +5278,10 @@ class PSParser (Parser):
         return localctx
 
     class Func_multi_arg_noparensContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.Func_multi_arg_noparensContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def mp_nofunc(self):
@@ -5243,11 +5290,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_func_multi_arg_noparens
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterFunc_multi_arg_noparens"):
                 listener.enterFunc_multi_arg_noparens(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitFunc_multi_arg_noparens"):
                 listener.exitFunc_multi_arg_noparens(self)
 
@@ -5268,9 +5315,10 @@ class PSParser (Parser):
         return localctx
 
     class SubexprContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.SubexprContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def UNDERSCORE(self):
@@ -5294,11 +5342,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_subexpr
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterSubexpr"):
                 listener.enterSubexpr(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitSubexpr"):
                 listener.exitSubexpr(self)
 
@@ -5313,11 +5361,11 @@ class PSParser (Parser):
             self.state = 934
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [PSParser.CMD_MATHIT, PSParser.ACCENT_OVERLINE, PSParser.ACCENT_BAR, PSParser.DIFFERENTIAL, PSParser.LETTER_NO_E, PSParser.NUMBER, PSParser.FRACTION_NUMBER, PSParser.SCI_NOTATION_NUMBER, PSParser.E_NOTATION, PSParser.PERCENT_NUMBER, PSParser.GREEK_CMD, PSParser.SYMBOL, PSParser.VARIABLE]:
+            if token in [90, 100, 101, 108, 111, 112, 113, 114, 115, 123, 124, 125, 126]:
                 self.state = 926
                 self.atom()
                 pass
-            elif token in [PSParser.L_BRACE]:
+            elif token in [11]:
                 self.state = 927
                 self.match(PSParser.L_BRACE)
                 self.state = 930
@@ -5348,9 +5396,10 @@ class PSParser (Parser):
         return localctx
 
     class SupexprContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.SupexprContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def CARET(self):
@@ -5371,11 +5420,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_supexpr
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterSupexpr"):
                 listener.enterSupexpr(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitSupexpr"):
                 listener.exitSupexpr(self)
 
@@ -5390,11 +5439,11 @@ class PSParser (Parser):
             self.state = 942
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [PSParser.CMD_MATHIT, PSParser.ACCENT_OVERLINE, PSParser.ACCENT_BAR, PSParser.DIFFERENTIAL, PSParser.LETTER_NO_E, PSParser.NUMBER, PSParser.FRACTION_NUMBER, PSParser.SCI_NOTATION_NUMBER, PSParser.E_NOTATION, PSParser.PERCENT_NUMBER, PSParser.GREEK_CMD, PSParser.SYMBOL, PSParser.VARIABLE]:
+            if token in [90, 100, 101, 108, 111, 112, 113, 114, 115, 123, 124, 125, 126]:
                 self.state = 937
                 self.atom()
                 pass
-            elif token in [PSParser.L_BRACE]:
+            elif token in [11]:
                 self.state = 938
                 self.match(PSParser.L_BRACE)
                 self.state = 939
@@ -5414,9 +5463,10 @@ class PSParser (Parser):
         return localctx
 
     class SubeqContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.SubeqContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def UNDERSCORE(self):
@@ -5434,11 +5484,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_subeq
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterSubeq"):
                 listener.enterSubeq(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitSubeq"):
                 listener.exitSubeq(self)
 
@@ -5465,9 +5515,10 @@ class PSParser (Parser):
         return localctx
 
     class SupeqContext(ParserRuleContext):
+        __slots__ = 'parser'
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(PSParser.SupeqContext, self).__init__(parent, invokingState)
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def UNDERSCORE(self):
@@ -5485,11 +5536,11 @@ class PSParser (Parser):
         def getRuleIndex(self):
             return PSParser.RULE_supeq
 
-        def enterRule(self, listener):
+        def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterSupeq"):
                 listener.enterSupeq(self)
 
-        def exitRule(self, listener):
+        def exitRule(self, listener: ParseTreeListener):
             if hasattr(listener, "exitSupeq"):
                 listener.exitSupeq(self)
 
@@ -5515,7 +5566,7 @@ class PSParser (Parser):
             self.exitRule()
         return localctx
 
-    def sempred(self, localctx, ruleIndex, predIndex):
+    def sempred(self, localctx: RuleContext, ruleIndex: int, predIndex: int):
         if self._predicates == None:
             self._predicates = dict()
         self._predicates[4] = self.relation_sempred
@@ -5530,26 +5581,26 @@ class PSParser (Parser):
         else:
             return pred(localctx, predIndex)
 
-    def relation_sempred(self, localctx, predIndex):
+    def relation_sempred(self, localctx: RelationContext, predIndex: int):
         if predIndex == 0:
             return self.precpred(self._ctx, 2)
 
-    def additive_sempred(self, localctx, predIndex):
+    def additive_sempred(self, localctx: AdditiveContext, predIndex: int):
         if predIndex == 1:
             return self.precpred(self._ctx, 2)
 
-    def mp_sempred(self, localctx, predIndex):
+    def mp_sempred(self, localctx: MpContext, predIndex: int):
         if predIndex == 2:
             return self.precpred(self._ctx, 2)
 
-    def mp_nofunc_sempred(self, localctx, predIndex):
+    def mp_nofunc_sempred(self, localctx: Mp_nofuncContext, predIndex: int):
         if predIndex == 3:
             return self.precpred(self._ctx, 2)
 
-    def exp_sempred(self, localctx, predIndex):
+    def exp_sempred(self, localctx: ExpContext, predIndex: int):
         if predIndex == 4:
             return self.precpred(self._ctx, 2)
 
-    def exp_nofunc_sempred(self, localctx, predIndex):
+    def exp_nofunc_sempred(self, localctx: Exp_nofuncContext, predIndex: int):
         if predIndex == 5:
             return self.precpred(self._ctx, 2)
