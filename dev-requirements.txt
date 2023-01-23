@@ -48,7 +48,7 @@ pytest==7.1.2
     #   pytest-cov
 pytest-cov==3.0.0
     # via -r dev-requirements.in
-sympy==1.11.1
+sympy @ git+https://github.com/purdue-tlt/sympy.git@1.10-equals-fix
     # via
     #   -r requirements.txt
     #   latex2sympy

@@ -1,2 +1,2 @@
-sympy
+git+https://github.com/purdue-tlt/sympy.git@1.10-equals-fix#egg=sympy
 antlr4-python3-runtime

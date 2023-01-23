@@ -418,13 +418,5 @@ class PSListener(ParseTreeListener):
     def exitSubeq(self, ctx: PSParser.SubeqContext):
         pass
 
-    # Enter a parse tree produced by PSParser#supeq.
-    def enterSupeq(self, ctx: PSParser.SupeqContext):
-        pass
-
-    # Exit a parse tree produced by PSParser#supeq.
-    def exitSupeq(self, ctx: PSParser.SupeqContext):
-        pass
-
 
 del PSParser
