@@ -1,0 +1,5 @@
+[requires]
+antlr4-cppruntime/4.11.1
+
+[generators]
+cmake
