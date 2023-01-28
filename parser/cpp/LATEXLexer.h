@@ -1,5 +1,5 @@
 
-// Generated from PS.g4 by ANTLR 4.11.1
+// Generated from LATEX.g4 by ANTLR 4.11.1
 
 #pragma once
 
@@ -7,10 +7,10 @@
 #include "antlr4-runtime.h"
 
 
-namespace latex2sympy {
+namespace latex2antlr {
 
 
-class  PSLexer : public antlr4::Lexer {
+class  LATEXLexer : public antlr4::Lexer {
 public:
   enum {
     WS = 1, DOLLAR_SIGN = 2, ADD = 3, SUB = 4, MUL = 5, DIV = 6, L_PAREN = 7, 
@@ -43,9 +43,9 @@ public:
     VARIABLE = 126
   };
 
-  explicit PSLexer(antlr4::CharStream *input);
+  explicit LATEXLexer(antlr4::CharStream *input);
 
-  ~PSLexer() override;
+  ~LATEXLexer() override;
 
 
   std::string getGrammarFileName() const override;
@@ -75,4 +75,4 @@ private:
 
 };
 
-}  // namespace latex2sympy
+}  // namespace latex2antlr

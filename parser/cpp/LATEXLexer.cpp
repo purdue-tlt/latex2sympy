@@ -1,21 +1,21 @@
 
-// Generated from PS.g4 by ANTLR 4.11.1
+// Generated from LATEX.g4 by ANTLR 4.11.1
 
 
-#include "PSLexer.h"
+#include "LATEXLexer.h"
 
 
 using namespace antlr4;
 
-using namespace latex2sympy;
+using namespace latex2antlr;
 
 
 using namespace antlr4;
 
 namespace {
 
-struct PSLexerStaticData final {
-  PSLexerStaticData(std::vector<std::string> ruleNames,
+struct LATEXLexerStaticData final {
+  LATEXLexerStaticData(std::vector<std::string> ruleNames,
                           std::vector<std::string> channelNames,
                           std::vector<std::string> modeNames,
                           std::vector<std::string> literalNames,
@@ -25,10 +25,10 @@ struct PSLexerStaticData final {
         symbolicNames(std::move(symbolicNames)),
         vocabulary(this->literalNames, this->symbolicNames) {}
 
-  PSLexerStaticData(const PSLexerStaticData&) = delete;
-  PSLexerStaticData(PSLexerStaticData&&) = delete;
-  PSLexerStaticData& operator=(const PSLexerStaticData&) = delete;
-  PSLexerStaticData& operator=(PSLexerStaticData&&) = delete;
+  LATEXLexerStaticData(const LATEXLexerStaticData&) = delete;
+  LATEXLexerStaticData(LATEXLexerStaticData&&) = delete;
+  LATEXLexerStaticData& operator=(const LATEXLexerStaticData&) = delete;
+  LATEXLexerStaticData& operator=(LATEXLexerStaticData&&) = delete;
 
   std::vector<antlr4::dfa::DFA> decisionToDFA;
   antlr4::atn::PredictionContextCache sharedContextCache;
@@ -42,12 +42,12 @@ struct PSLexerStaticData final {
   std::unique_ptr<antlr4::atn::ATN> atn;
 };
 
-::antlr4::internal::OnceFlag pslexerLexerOnceFlag;
-PSLexerStaticData *pslexerLexerStaticData = nullptr;
+::antlr4::internal::OnceFlag latexlexerLexerOnceFlag;
+LATEXLexerStaticData *latexlexerLexerStaticData = nullptr;
 
-void pslexerLexerInitialize() {
-  assert(pslexerLexerStaticData == nullptr);
-  auto staticData = std::make_unique<PSLexerStaticData>(
+void latexlexerLexerInitialize() {
+  assert(latexlexerLexerStaticData == nullptr);
+  auto staticData = std::make_unique<LATEXLexerStaticData>(
     std::vector<std::string>{
       "WS", "DOLLAR_SIGN", "ADD", "SUB", "MUL", "DIV", "L_PAREN", "R_PAREN", 
       "L_GROUP", "R_GROUP", "L_BRACE", "R_BRACE", "L_BRACE_VISUAL", "R_BRACE_VISUAL", 
@@ -709,51 +709,51 @@ void pslexerLexerInitialize() {
   for (size_t i = 0; i < count; i++) { 
     staticData->decisionToDFA.emplace_back(staticData->atn->getDecisionState(i), i);
   }
-  pslexerLexerStaticData = staticData.release();
+  latexlexerLexerStaticData = staticData.release();
 }
 
 }
 
-PSLexer::PSLexer(CharStream *input) : Lexer(input) {
-  PSLexer::initialize();
-  _interpreter = new atn::LexerATNSimulator(this, *pslexerLexerStaticData->atn, pslexerLexerStaticData->decisionToDFA, pslexerLexerStaticData->sharedContextCache);
+LATEXLexer::LATEXLexer(CharStream *input) : Lexer(input) {
+  LATEXLexer::initialize();
+  _interpreter = new atn::LexerATNSimulator(this, *latexlexerLexerStaticData->atn, latexlexerLexerStaticData->decisionToDFA, latexlexerLexerStaticData->sharedContextCache);
 }
 
-PSLexer::~PSLexer() {
+LATEXLexer::~LATEXLexer() {
   delete _interpreter;
 }
 
-std::string PSLexer::getGrammarFileName() const {
-  return "PS.g4";
+std::string LATEXLexer::getGrammarFileName() const {
+  return "LATEX.g4";
 }
 
-const std::vector<std::string>& PSLexer::getRuleNames() const {
-  return pslexerLexerStaticData->ruleNames;
+const std::vector<std::string>& LATEXLexer::getRuleNames() const {
+  return latexlexerLexerStaticData->ruleNames;
 }
 
-const std::vector<std::string>& PSLexer::getChannelNames() const {
-  return pslexerLexerStaticData->channelNames;
+const std::vector<std::string>& LATEXLexer::getChannelNames() const {
+  return latexlexerLexerStaticData->channelNames;
 }
 
-const std::vector<std::string>& PSLexer::getModeNames() const {
-  return pslexerLexerStaticData->modeNames;
+const std::vector<std::string>& LATEXLexer::getModeNames() const {
+  return latexlexerLexerStaticData->modeNames;
 }
 
-const dfa::Vocabulary& PSLexer::getVocabulary() const {
-  return pslexerLexerStaticData->vocabulary;
+const dfa::Vocabulary& LATEXLexer::getVocabulary() const {
+  return latexlexerLexerStaticData->vocabulary;
 }
 
-antlr4::atn::SerializedATNView PSLexer::getSerializedATN() const {
-  return pslexerLexerStaticData->serializedATN;
+antlr4::atn::SerializedATNView LATEXLexer::getSerializedATN() const {
+  return latexlexerLexerStaticData->serializedATN;
 }
 
-const atn::ATN& PSLexer::getATN() const {
-  return *pslexerLexerStaticData->atn;
+const atn::ATN& LATEXLexer::getATN() const {
+  return *latexlexerLexerStaticData->atn;
 }
 
 
 
 
-void PSLexer::initialize() {
-  ::antlr4::internal::call_once(pslexerLexerOnceFlag, pslexerLexerInitialize);
+void LATEXLexer::initialize() {
+  ::antlr4::internal::call_once(latexlexerLexerOnceFlag, latexlexerLexerInitialize);
 }

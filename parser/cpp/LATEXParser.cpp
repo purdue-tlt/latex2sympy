@@ -1,31 +1,31 @@
 
-// Generated from PS.g4 by ANTLR 4.11.1
+// Generated from LATEX.g4 by ANTLR 4.11.1
 
 
-#include "PSListener.h"
+#include "LATEXListener.h"
 
-#include "PSParser.h"
+#include "LATEXParser.h"
 
 
 using namespace antlrcpp;
-using namespace latex2sympy;
+using namespace latex2antlr;
 
 using namespace antlr4;
 
 namespace {
 
-struct PSParserStaticData final {
-  PSParserStaticData(std::vector<std::string> ruleNames,
+struct LATEXParserStaticData final {
+  LATEXParserStaticData(std::vector<std::string> ruleNames,
                         std::vector<std::string> literalNames,
                         std::vector<std::string> symbolicNames)
       : ruleNames(std::move(ruleNames)), literalNames(std::move(literalNames)),
         symbolicNames(std::move(symbolicNames)),
         vocabulary(this->literalNames, this->symbolicNames) {}
 
-  PSParserStaticData(const PSParserStaticData&) = delete;
-  PSParserStaticData(PSParserStaticData&&) = delete;
-  PSParserStaticData& operator=(const PSParserStaticData&) = delete;
-  PSParserStaticData& operator=(PSParserStaticData&&) = delete;
+  LATEXParserStaticData(const LATEXParserStaticData&) = delete;
+  LATEXParserStaticData(LATEXParserStaticData&&) = delete;
+  LATEXParserStaticData& operator=(const LATEXParserStaticData&) = delete;
+  LATEXParserStaticData& operator=(LATEXParserStaticData&&) = delete;
 
   std::vector<antlr4::dfa::DFA> decisionToDFA;
   antlr4::atn::PredictionContextCache sharedContextCache;
@@ -37,12 +37,12 @@ struct PSParserStaticData final {
   std::unique_ptr<antlr4::atn::ATN> atn;
 };
 
-::antlr4::internal::OnceFlag psParserOnceFlag;
-PSParserStaticData *psParserStaticData = nullptr;
+::antlr4::internal::OnceFlag latexParserOnceFlag;
+LATEXParserStaticData *latexParserStaticData = nullptr;
 
-void psParserInitialize() {
-  assert(psParserStaticData == nullptr);
-  auto staticData = std::make_unique<PSParserStaticData>(
+void latexParserInitialize() {
+  assert(latexParserStaticData == nullptr);
+  auto staticData = std::make_unique<LATEXParserStaticData>(
     std::vector<std::string>{
       "accent_symbol", "math", "matrix", "matrix_row", "relation", "relation_list", 
       "relation_list_content", "equality", "expr", "additive", "mp", "mp_nofunc", 
@@ -444,77 +444,77 @@ void psParserInitialize() {
   for (size_t i = 0; i < count; i++) { 
     staticData->decisionToDFA.emplace_back(staticData->atn->getDecisionState(i), i);
   }
-  psParserStaticData = staticData.release();
+  latexParserStaticData = staticData.release();
 }
 
 }
 
-PSParser::PSParser(TokenStream *input) : PSParser(input, antlr4::atn::ParserATNSimulatorOptions()) {}
+LATEXParser::LATEXParser(TokenStream *input) : LATEXParser(input, antlr4::atn::ParserATNSimulatorOptions()) {}
 
-PSParser::PSParser(TokenStream *input, const antlr4::atn::ParserATNSimulatorOptions &options) : Parser(input) {
-  PSParser::initialize();
-  _interpreter = new atn::ParserATNSimulator(this, *psParserStaticData->atn, psParserStaticData->decisionToDFA, psParserStaticData->sharedContextCache, options);
+LATEXParser::LATEXParser(TokenStream *input, const antlr4::atn::ParserATNSimulatorOptions &options) : Parser(input) {
+  LATEXParser::initialize();
+  _interpreter = new atn::ParserATNSimulator(this, *latexParserStaticData->atn, latexParserStaticData->decisionToDFA, latexParserStaticData->sharedContextCache, options);
 }
 
-PSParser::~PSParser() {
+LATEXParser::~LATEXParser() {
   delete _interpreter;
 }
 
-const atn::ATN& PSParser::getATN() const {
-  return *psParserStaticData->atn;
+const atn::ATN& LATEXParser::getATN() const {
+  return *latexParserStaticData->atn;
 }
 
-std::string PSParser::getGrammarFileName() const {
-  return "PS.g4";
+std::string LATEXParser::getGrammarFileName() const {
+  return "LATEX.g4";
 }
 
-const std::vector<std::string>& PSParser::getRuleNames() const {
-  return psParserStaticData->ruleNames;
+const std::vector<std::string>& LATEXParser::getRuleNames() const {
+  return latexParserStaticData->ruleNames;
 }
 
-const dfa::Vocabulary& PSParser::getVocabulary() const {
-  return psParserStaticData->vocabulary;
+const dfa::Vocabulary& LATEXParser::getVocabulary() const {
+  return latexParserStaticData->vocabulary;
 }
 
-antlr4::atn::SerializedATNView PSParser::getSerializedATN() const {
-  return psParserStaticData->serializedATN;
+antlr4::atn::SerializedATNView LATEXParser::getSerializedATN() const {
+  return latexParserStaticData->serializedATN;
 }
 
 
 //----------------- Accent_symbolContext ------------------------------------------------------------------
 
-PSParser::Accent_symbolContext::Accent_symbolContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Accent_symbolContext::Accent_symbolContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::Accent_symbolContext::ACCENT_BAR() {
-  return getToken(PSParser::ACCENT_BAR, 0);
+tree::TerminalNode* LATEXParser::Accent_symbolContext::ACCENT_BAR() {
+  return getToken(LATEXParser::ACCENT_BAR, 0);
 }
 
-tree::TerminalNode* PSParser::Accent_symbolContext::ACCENT_OVERLINE() {
-  return getToken(PSParser::ACCENT_OVERLINE, 0);
+tree::TerminalNode* LATEXParser::Accent_symbolContext::ACCENT_OVERLINE() {
+  return getToken(LATEXParser::ACCENT_OVERLINE, 0);
 }
 
 
-size_t PSParser::Accent_symbolContext::getRuleIndex() const {
-  return PSParser::RuleAccent_symbol;
+size_t LATEXParser::Accent_symbolContext::getRuleIndex() const {
+  return LATEXParser::RuleAccent_symbol;
 }
 
-void PSParser::Accent_symbolContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Accent_symbolContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterAccent_symbol(this);
 }
 
-void PSParser::Accent_symbolContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Accent_symbolContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitAccent_symbol(this);
 }
 
-PSParser::Accent_symbolContext* PSParser::accent_symbol() {
+LATEXParser::Accent_symbolContext* LATEXParser::accent_symbol() {
   Accent_symbolContext *_localctx = _tracker.createInstance<Accent_symbolContext>(_ctx, getState());
-  enterRule(_localctx, 0, PSParser::RuleAccent_symbol);
+  enterRule(_localctx, 0, LATEXParser::RuleAccent_symbol);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -528,9 +528,9 @@ PSParser::Accent_symbolContext* PSParser::accent_symbol() {
     enterOuterAlt(_localctx, 1);
     setState(102);
     _la = _input->LA(1);
-    if (!(_la == PSParser::ACCENT_OVERLINE
+    if (!(_la == LATEXParser::ACCENT_OVERLINE
 
-    || _la == PSParser::ACCENT_BAR)) {
+    || _la == LATEXParser::ACCENT_BAR)) {
     _errHandler->recoverInline(this);
     }
     else {
@@ -550,38 +550,38 @@ PSParser::Accent_symbolContext* PSParser::accent_symbol() {
 
 //----------------- MathContext ------------------------------------------------------------------
 
-PSParser::MathContext::MathContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::MathContext::MathContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::RelationContext* PSParser::MathContext::relation() {
-  return getRuleContext<PSParser::RelationContext>(0);
+LATEXParser::RelationContext* LATEXParser::MathContext::relation() {
+  return getRuleContext<LATEXParser::RelationContext>(0);
 }
 
-PSParser::Relation_listContext* PSParser::MathContext::relation_list() {
-  return getRuleContext<PSParser::Relation_listContext>(0);
+LATEXParser::Relation_listContext* LATEXParser::MathContext::relation_list() {
+  return getRuleContext<LATEXParser::Relation_listContext>(0);
 }
 
 
-size_t PSParser::MathContext::getRuleIndex() const {
-  return PSParser::RuleMath;
+size_t LATEXParser::MathContext::getRuleIndex() const {
+  return LATEXParser::RuleMath;
 }
 
-void PSParser::MathContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::MathContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterMath(this);
 }
 
-void PSParser::MathContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::MathContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitMath(this);
 }
 
-PSParser::MathContext* PSParser::math() {
+LATEXParser::MathContext* LATEXParser::math() {
   MathContext *_localctx = _tracker.createInstance<MathContext>(_ctx, getState());
-  enterRule(_localctx, 2, PSParser::RuleMath);
+  enterRule(_localctx, 2, LATEXParser::RuleMath);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -624,54 +624,54 @@ PSParser::MathContext* PSParser::math() {
 
 //----------------- MatrixContext ------------------------------------------------------------------
 
-PSParser::MatrixContext::MatrixContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::MatrixContext::MatrixContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::MatrixContext::CMD_MATRIX_START() {
-  return getToken(PSParser::CMD_MATRIX_START, 0);
+tree::TerminalNode* LATEXParser::MatrixContext::CMD_MATRIX_START() {
+  return getToken(LATEXParser::CMD_MATRIX_START, 0);
 }
 
-std::vector<PSParser::Matrix_rowContext *> PSParser::MatrixContext::matrix_row() {
-  return getRuleContexts<PSParser::Matrix_rowContext>();
+std::vector<LATEXParser::Matrix_rowContext *> LATEXParser::MatrixContext::matrix_row() {
+  return getRuleContexts<LATEXParser::Matrix_rowContext>();
 }
 
-PSParser::Matrix_rowContext* PSParser::MatrixContext::matrix_row(size_t i) {
-  return getRuleContext<PSParser::Matrix_rowContext>(i);
+LATEXParser::Matrix_rowContext* LATEXParser::MatrixContext::matrix_row(size_t i) {
+  return getRuleContext<LATEXParser::Matrix_rowContext>(i);
 }
 
-tree::TerminalNode* PSParser::MatrixContext::CMD_MATRIX_END() {
-  return getToken(PSParser::CMD_MATRIX_END, 0);
+tree::TerminalNode* LATEXParser::MatrixContext::CMD_MATRIX_END() {
+  return getToken(LATEXParser::CMD_MATRIX_END, 0);
 }
 
-std::vector<tree::TerminalNode *> PSParser::MatrixContext::MATRIX_DEL_ROW() {
-  return getTokens(PSParser::MATRIX_DEL_ROW);
+std::vector<tree::TerminalNode *> LATEXParser::MatrixContext::MATRIX_DEL_ROW() {
+  return getTokens(LATEXParser::MATRIX_DEL_ROW);
 }
 
-tree::TerminalNode* PSParser::MatrixContext::MATRIX_DEL_ROW(size_t i) {
-  return getToken(PSParser::MATRIX_DEL_ROW, i);
+tree::TerminalNode* LATEXParser::MatrixContext::MATRIX_DEL_ROW(size_t i) {
+  return getToken(LATEXParser::MATRIX_DEL_ROW, i);
 }
 
 
-size_t PSParser::MatrixContext::getRuleIndex() const {
-  return PSParser::RuleMatrix;
+size_t LATEXParser::MatrixContext::getRuleIndex() const {
+  return LATEXParser::RuleMatrix;
 }
 
-void PSParser::MatrixContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::MatrixContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterMatrix(this);
 }
 
-void PSParser::MatrixContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::MatrixContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitMatrix(this);
 }
 
-PSParser::MatrixContext* PSParser::matrix() {
+LATEXParser::MatrixContext* LATEXParser::matrix() {
   MatrixContext *_localctx = _tracker.createInstance<MatrixContext>(_ctx, getState());
-  enterRule(_localctx, 4, PSParser::RuleMatrix);
+  enterRule(_localctx, 4, LATEXParser::RuleMatrix);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -684,15 +684,15 @@ PSParser::MatrixContext* PSParser::matrix() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(108);
-    match(PSParser::CMD_MATRIX_START);
+    match(LATEXParser::CMD_MATRIX_START);
     setState(109);
     matrix_row();
     setState(114);
     _errHandler->sync(this);
     _la = _input->LA(1);
-    while (_la == PSParser::MATRIX_DEL_ROW) {
+    while (_la == LATEXParser::MATRIX_DEL_ROW) {
       setState(110);
-      match(PSParser::MATRIX_DEL_ROW);
+      match(LATEXParser::MATRIX_DEL_ROW);
       setState(111);
       matrix_row();
       setState(116);
@@ -700,7 +700,7 @@ PSParser::MatrixContext* PSParser::matrix() {
       _la = _input->LA(1);
     }
     setState(117);
-    match(PSParser::CMD_MATRIX_END);
+    match(LATEXParser::CMD_MATRIX_END);
    
   }
   catch (RecognitionException &e) {
@@ -714,46 +714,46 @@ PSParser::MatrixContext* PSParser::matrix() {
 
 //----------------- Matrix_rowContext ------------------------------------------------------------------
 
-PSParser::Matrix_rowContext::Matrix_rowContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Matrix_rowContext::Matrix_rowContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<PSParser::ExprContext *> PSParser::Matrix_rowContext::expr() {
-  return getRuleContexts<PSParser::ExprContext>();
+std::vector<LATEXParser::ExprContext *> LATEXParser::Matrix_rowContext::expr() {
+  return getRuleContexts<LATEXParser::ExprContext>();
 }
 
-PSParser::ExprContext* PSParser::Matrix_rowContext::expr(size_t i) {
-  return getRuleContext<PSParser::ExprContext>(i);
+LATEXParser::ExprContext* LATEXParser::Matrix_rowContext::expr(size_t i) {
+  return getRuleContext<LATEXParser::ExprContext>(i);
 }
 
-std::vector<tree::TerminalNode *> PSParser::Matrix_rowContext::MATRIX_DEL_COL() {
-  return getTokens(PSParser::MATRIX_DEL_COL);
+std::vector<tree::TerminalNode *> LATEXParser::Matrix_rowContext::MATRIX_DEL_COL() {
+  return getTokens(LATEXParser::MATRIX_DEL_COL);
 }
 
-tree::TerminalNode* PSParser::Matrix_rowContext::MATRIX_DEL_COL(size_t i) {
-  return getToken(PSParser::MATRIX_DEL_COL, i);
+tree::TerminalNode* LATEXParser::Matrix_rowContext::MATRIX_DEL_COL(size_t i) {
+  return getToken(LATEXParser::MATRIX_DEL_COL, i);
 }
 
 
-size_t PSParser::Matrix_rowContext::getRuleIndex() const {
-  return PSParser::RuleMatrix_row;
+size_t LATEXParser::Matrix_rowContext::getRuleIndex() const {
+  return LATEXParser::RuleMatrix_row;
 }
 
-void PSParser::Matrix_rowContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Matrix_rowContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterMatrix_row(this);
 }
 
-void PSParser::Matrix_rowContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Matrix_rowContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitMatrix_row(this);
 }
 
-PSParser::Matrix_rowContext* PSParser::matrix_row() {
+LATEXParser::Matrix_rowContext* LATEXParser::matrix_row() {
   Matrix_rowContext *_localctx = _tracker.createInstance<Matrix_rowContext>(_ctx, getState());
-  enterRule(_localctx, 6, PSParser::RuleMatrix_row);
+  enterRule(_localctx, 6, LATEXParser::RuleMatrix_row);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -770,9 +770,9 @@ PSParser::Matrix_rowContext* PSParser::matrix_row() {
     setState(124);
     _errHandler->sync(this);
     _la = _input->LA(1);
-    while (_la == PSParser::MATRIX_DEL_COL) {
+    while (_la == LATEXParser::MATRIX_DEL_COL) {
       setState(120);
-      match(PSParser::MATRIX_DEL_COL);
+      match(LATEXParser::MATRIX_DEL_COL);
       setState(121);
       expr();
       setState(126);
@@ -792,76 +792,76 @@ PSParser::Matrix_rowContext* PSParser::matrix_row() {
 
 //----------------- RelationContext ------------------------------------------------------------------
 
-PSParser::RelationContext::RelationContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::RelationContext::RelationContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::ExprContext* PSParser::RelationContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::RelationContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-std::vector<PSParser::RelationContext *> PSParser::RelationContext::relation() {
-  return getRuleContexts<PSParser::RelationContext>();
+std::vector<LATEXParser::RelationContext *> LATEXParser::RelationContext::relation() {
+  return getRuleContexts<LATEXParser::RelationContext>();
 }
 
-PSParser::RelationContext* PSParser::RelationContext::relation(size_t i) {
-  return getRuleContext<PSParser::RelationContext>(i);
+LATEXParser::RelationContext* LATEXParser::RelationContext::relation(size_t i) {
+  return getRuleContext<LATEXParser::RelationContext>(i);
 }
 
-tree::TerminalNode* PSParser::RelationContext::EQUAL() {
-  return getToken(PSParser::EQUAL, 0);
+tree::TerminalNode* LATEXParser::RelationContext::EQUAL() {
+  return getToken(LATEXParser::EQUAL, 0);
 }
 
-tree::TerminalNode* PSParser::RelationContext::LT() {
-  return getToken(PSParser::LT, 0);
+tree::TerminalNode* LATEXParser::RelationContext::LT() {
+  return getToken(LATEXParser::LT, 0);
 }
 
-tree::TerminalNode* PSParser::RelationContext::LTE() {
-  return getToken(PSParser::LTE, 0);
+tree::TerminalNode* LATEXParser::RelationContext::LTE() {
+  return getToken(LATEXParser::LTE, 0);
 }
 
-tree::TerminalNode* PSParser::RelationContext::GT() {
-  return getToken(PSParser::GT, 0);
+tree::TerminalNode* LATEXParser::RelationContext::GT() {
+  return getToken(LATEXParser::GT, 0);
 }
 
-tree::TerminalNode* PSParser::RelationContext::GTE() {
-  return getToken(PSParser::GTE, 0);
+tree::TerminalNode* LATEXParser::RelationContext::GTE() {
+  return getToken(LATEXParser::GTE, 0);
 }
 
-tree::TerminalNode* PSParser::RelationContext::UNEQUAL() {
-  return getToken(PSParser::UNEQUAL, 0);
+tree::TerminalNode* LATEXParser::RelationContext::UNEQUAL() {
+  return getToken(LATEXParser::UNEQUAL, 0);
 }
 
 
-size_t PSParser::RelationContext::getRuleIndex() const {
-  return PSParser::RuleRelation;
+size_t LATEXParser::RelationContext::getRuleIndex() const {
+  return LATEXParser::RuleRelation;
 }
 
-void PSParser::RelationContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::RelationContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterRelation(this);
 }
 
-void PSParser::RelationContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::RelationContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitRelation(this);
 }
 
 
-PSParser::RelationContext* PSParser::relation() {
+LATEXParser::RelationContext* LATEXParser::relation() {
    return relation(0);
 }
 
-PSParser::RelationContext* PSParser::relation(int precedence) {
+LATEXParser::RelationContext* LATEXParser::relation(int precedence) {
   ParserRuleContext *parentContext = _ctx;
   size_t parentState = getState();
-  PSParser::RelationContext *_localctx = _tracker.createInstance<RelationContext>(_ctx, parentState);
-  PSParser::RelationContext *previousContext = _localctx;
+  LATEXParser::RelationContext *_localctx = _tracker.createInstance<RelationContext>(_ctx, parentState);
+  LATEXParser::RelationContext *previousContext = _localctx;
   (void)previousContext; // Silence compiler, in case the context is not used by generated code.
   size_t startState = 8;
-  enterRecursionRule(_localctx, 8, PSParser::RuleRelation, precedence);
+  enterRecursionRule(_localctx, 8, LATEXParser::RuleRelation, precedence);
 
     size_t _la = 0;
 
@@ -919,106 +919,106 @@ PSParser::RelationContext* PSParser::relation(int precedence) {
 
 //----------------- Relation_listContext ------------------------------------------------------------------
 
-PSParser::Relation_listContext::Relation_listContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Relation_listContext::Relation_listContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::Relation_list_contentContext* PSParser::Relation_listContext::relation_list_content() {
-  return getRuleContext<PSParser::Relation_list_contentContext>(0);
+LATEXParser::Relation_list_contentContext* LATEXParser::Relation_listContext::relation_list_content() {
+  return getRuleContext<LATEXParser::Relation_list_contentContext>(0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::L_PAREN() {
-  return getToken(PSParser::L_PAREN, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::L_PAREN() {
+  return getToken(LATEXParser::L_PAREN, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::R_PAREN() {
-  return getToken(PSParser::R_PAREN, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::R_PAREN() {
+  return getToken(LATEXParser::R_PAREN, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::L_GROUP() {
-  return getToken(PSParser::L_GROUP, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::L_GROUP() {
+  return getToken(LATEXParser::L_GROUP, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::R_GROUP() {
-  return getToken(PSParser::R_GROUP, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::R_GROUP() {
+  return getToken(LATEXParser::R_GROUP, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::L_BRACE() {
-  return getToken(PSParser::L_BRACE, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::L_BRACE() {
+  return getToken(LATEXParser::L_BRACE, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::R_BRACE() {
-  return getToken(PSParser::R_BRACE, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::R_BRACE() {
+  return getToken(LATEXParser::R_BRACE, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::L_BRACE_VISUAL() {
-  return getToken(PSParser::L_BRACE_VISUAL, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::L_BRACE_VISUAL() {
+  return getToken(LATEXParser::L_BRACE_VISUAL, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::R_BRACE_VISUAL() {
-  return getToken(PSParser::R_BRACE_VISUAL, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::R_BRACE_VISUAL() {
+  return getToken(LATEXParser::R_BRACE_VISUAL, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::L_BRACE_CMD() {
-  return getToken(PSParser::L_BRACE_CMD, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::L_BRACE_CMD() {
+  return getToken(LATEXParser::L_BRACE_CMD, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::R_BRACE_CMD() {
-  return getToken(PSParser::R_BRACE_CMD, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::R_BRACE_CMD() {
+  return getToken(LATEXParser::R_BRACE_CMD, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::L_BRACKET() {
-  return getToken(PSParser::L_BRACKET, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::L_BRACKET() {
+  return getToken(LATEXParser::L_BRACKET, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::R_BRACKET() {
-  return getToken(PSParser::R_BRACKET, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::R_BRACKET() {
+  return getToken(LATEXParser::R_BRACKET, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::L_BRACK() {
-  return getToken(PSParser::L_BRACK, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::L_BRACK() {
+  return getToken(LATEXParser::L_BRACK, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::R_BRACK() {
-  return getToken(PSParser::R_BRACK, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::R_BRACK() {
+  return getToken(LATEXParser::R_BRACK, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::L_LEFT() {
-  return getToken(PSParser::L_LEFT, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::L_LEFT() {
+  return getToken(LATEXParser::L_LEFT, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::R_RIGHT() {
-  return getToken(PSParser::R_RIGHT, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::R_RIGHT() {
+  return getToken(LATEXParser::R_RIGHT, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::ML_LEFT() {
-  return getToken(PSParser::ML_LEFT, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::ML_LEFT() {
+  return getToken(LATEXParser::ML_LEFT, 0);
 }
 
-tree::TerminalNode* PSParser::Relation_listContext::MR_RIGHT() {
-  return getToken(PSParser::MR_RIGHT, 0);
+tree::TerminalNode* LATEXParser::Relation_listContext::MR_RIGHT() {
+  return getToken(LATEXParser::MR_RIGHT, 0);
 }
 
 
-size_t PSParser::Relation_listContext::getRuleIndex() const {
-  return PSParser::RuleRelation_list;
+size_t LATEXParser::Relation_listContext::getRuleIndex() const {
+  return LATEXParser::RuleRelation_list;
 }
 
-void PSParser::Relation_listContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Relation_listContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterRelation_list(this);
 }
 
-void PSParser::Relation_listContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Relation_listContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitRelation_list(this);
 }
 
-PSParser::Relation_listContext* PSParser::relation_list() {
+LATEXParser::Relation_listContext* LATEXParser::relation_list() {
   Relation_listContext *_localctx = _tracker.createInstance<Relation_listContext>(_ctx, getState());
-  enterRule(_localctx, 10, PSParser::RuleRelation_list);
+  enterRule(_localctx, 10, LATEXParser::RuleRelation_list);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1041,287 +1041,287 @@ PSParser::Relation_listContext* PSParser::relation_list() {
     case 2: {
       enterOuterAlt(_localctx, 2);
       setState(139);
-      match(PSParser::L_PAREN);
+      match(LATEXParser::L_PAREN);
       setState(140);
       relation_list_content();
       setState(141);
-      match(PSParser::R_PAREN);
+      match(LATEXParser::R_PAREN);
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
       setState(143);
-      match(PSParser::L_GROUP);
+      match(LATEXParser::L_GROUP);
       setState(144);
       relation_list_content();
       setState(145);
-      match(PSParser::R_GROUP);
+      match(LATEXParser::R_GROUP);
       break;
     }
 
     case 4: {
       enterOuterAlt(_localctx, 4);
       setState(147);
-      match(PSParser::L_BRACE);
+      match(LATEXParser::L_BRACE);
       setState(148);
       relation_list_content();
       setState(149);
-      match(PSParser::R_BRACE);
+      match(LATEXParser::R_BRACE);
       break;
     }
 
     case 5: {
       enterOuterAlt(_localctx, 5);
       setState(151);
-      match(PSParser::L_BRACE_VISUAL);
+      match(LATEXParser::L_BRACE_VISUAL);
       setState(152);
       relation_list_content();
       setState(153);
-      match(PSParser::R_BRACE_VISUAL);
+      match(LATEXParser::R_BRACE_VISUAL);
       break;
     }
 
     case 6: {
       enterOuterAlt(_localctx, 6);
       setState(155);
-      match(PSParser::L_BRACE_CMD);
+      match(LATEXParser::L_BRACE_CMD);
       setState(156);
       relation_list_content();
       setState(157);
-      match(PSParser::R_BRACE_CMD);
+      match(LATEXParser::R_BRACE_CMD);
       break;
     }
 
     case 7: {
       enterOuterAlt(_localctx, 7);
       setState(159);
-      match(PSParser::L_BRACKET);
+      match(LATEXParser::L_BRACKET);
       setState(160);
       relation_list_content();
       setState(161);
-      match(PSParser::R_BRACKET);
+      match(LATEXParser::R_BRACKET);
       break;
     }
 
     case 8: {
       enterOuterAlt(_localctx, 8);
       setState(163);
-      match(PSParser::L_BRACK);
+      match(LATEXParser::L_BRACK);
       setState(164);
       relation_list_content();
       setState(165);
-      match(PSParser::R_BRACK);
+      match(LATEXParser::R_BRACK);
       break;
     }
 
     case 9: {
       enterOuterAlt(_localctx, 9);
       setState(167);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(168);
-      match(PSParser::L_PAREN);
+      match(LATEXParser::L_PAREN);
       setState(169);
       relation_list_content();
       setState(170);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(171);
-      match(PSParser::R_PAREN);
+      match(LATEXParser::R_PAREN);
       break;
     }
 
     case 10: {
       enterOuterAlt(_localctx, 10);
       setState(173);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(174);
-      match(PSParser::L_GROUP);
+      match(LATEXParser::L_GROUP);
       setState(175);
       relation_list_content();
       setState(176);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(177);
-      match(PSParser::R_GROUP);
+      match(LATEXParser::R_GROUP);
       break;
     }
 
     case 11: {
       enterOuterAlt(_localctx, 11);
       setState(179);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(180);
-      match(PSParser::L_BRACE);
+      match(LATEXParser::L_BRACE);
       setState(181);
       relation_list_content();
       setState(182);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(183);
-      match(PSParser::R_BRACE);
+      match(LATEXParser::R_BRACE);
       break;
     }
 
     case 12: {
       enterOuterAlt(_localctx, 12);
       setState(185);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(186);
-      match(PSParser::L_BRACE_VISUAL);
+      match(LATEXParser::L_BRACE_VISUAL);
       setState(187);
       relation_list_content();
       setState(188);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(189);
-      match(PSParser::R_BRACE_VISUAL);
+      match(LATEXParser::R_BRACE_VISUAL);
       break;
     }
 
     case 13: {
       enterOuterAlt(_localctx, 13);
       setState(191);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(192);
-      match(PSParser::L_BRACE_CMD);
+      match(LATEXParser::L_BRACE_CMD);
       setState(193);
       relation_list_content();
       setState(194);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(195);
-      match(PSParser::R_BRACE_CMD);
+      match(LATEXParser::R_BRACE_CMD);
       break;
     }
 
     case 14: {
       enterOuterAlt(_localctx, 14);
       setState(197);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(198);
-      match(PSParser::L_BRACKET);
+      match(LATEXParser::L_BRACKET);
       setState(199);
       relation_list_content();
       setState(200);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(201);
-      match(PSParser::R_BRACKET);
+      match(LATEXParser::R_BRACKET);
       break;
     }
 
     case 15: {
       enterOuterAlt(_localctx, 15);
       setState(203);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(204);
-      match(PSParser::L_BRACK);
+      match(LATEXParser::L_BRACK);
       setState(205);
       relation_list_content();
       setState(206);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(207);
-      match(PSParser::R_BRACK);
+      match(LATEXParser::R_BRACK);
       break;
     }
 
     case 16: {
       enterOuterAlt(_localctx, 16);
       setState(209);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(210);
-      match(PSParser::L_PAREN);
+      match(LATEXParser::L_PAREN);
       setState(211);
       relation_list_content();
       setState(212);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(213);
-      match(PSParser::R_PAREN);
+      match(LATEXParser::R_PAREN);
       break;
     }
 
     case 17: {
       enterOuterAlt(_localctx, 17);
       setState(215);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(216);
-      match(PSParser::L_GROUP);
+      match(LATEXParser::L_GROUP);
       setState(217);
       relation_list_content();
       setState(218);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(219);
-      match(PSParser::R_GROUP);
+      match(LATEXParser::R_GROUP);
       break;
     }
 
     case 18: {
       enterOuterAlt(_localctx, 18);
       setState(221);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(222);
-      match(PSParser::L_BRACE);
+      match(LATEXParser::L_BRACE);
       setState(223);
       relation_list_content();
       setState(224);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(225);
-      match(PSParser::R_BRACE);
+      match(LATEXParser::R_BRACE);
       break;
     }
 
     case 19: {
       enterOuterAlt(_localctx, 19);
       setState(227);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(228);
-      match(PSParser::L_BRACE_VISUAL);
+      match(LATEXParser::L_BRACE_VISUAL);
       setState(229);
       relation_list_content();
       setState(230);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(231);
-      match(PSParser::R_BRACE_VISUAL);
+      match(LATEXParser::R_BRACE_VISUAL);
       break;
     }
 
     case 20: {
       enterOuterAlt(_localctx, 20);
       setState(233);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(234);
-      match(PSParser::L_BRACE_CMD);
+      match(LATEXParser::L_BRACE_CMD);
       setState(235);
       relation_list_content();
       setState(236);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(237);
-      match(PSParser::R_BRACE_CMD);
+      match(LATEXParser::R_BRACE_CMD);
       break;
     }
 
     case 21: {
       enterOuterAlt(_localctx, 21);
       setState(239);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(240);
-      match(PSParser::L_BRACKET);
+      match(LATEXParser::L_BRACKET);
       setState(241);
       relation_list_content();
       setState(242);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(243);
-      match(PSParser::R_BRACKET);
+      match(LATEXParser::R_BRACKET);
       break;
     }
 
     case 22: {
       enterOuterAlt(_localctx, 22);
       setState(245);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(246);
-      match(PSParser::L_BRACK);
+      match(LATEXParser::L_BRACK);
       setState(247);
       relation_list_content();
       setState(248);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(249);
-      match(PSParser::R_BRACK);
+      match(LATEXParser::R_BRACK);
       break;
     }
 
@@ -1341,54 +1341,54 @@ PSParser::Relation_listContext* PSParser::relation_list() {
 
 //----------------- Relation_list_contentContext ------------------------------------------------------------------
 
-PSParser::Relation_list_contentContext::Relation_list_contentContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Relation_list_contentContext::Relation_list_contentContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<PSParser::RelationContext *> PSParser::Relation_list_contentContext::relation() {
-  return getRuleContexts<PSParser::RelationContext>();
+std::vector<LATEXParser::RelationContext *> LATEXParser::Relation_list_contentContext::relation() {
+  return getRuleContexts<LATEXParser::RelationContext>();
 }
 
-PSParser::RelationContext* PSParser::Relation_list_contentContext::relation(size_t i) {
-  return getRuleContext<PSParser::RelationContext>(i);
+LATEXParser::RelationContext* LATEXParser::Relation_list_contentContext::relation(size_t i) {
+  return getRuleContext<LATEXParser::RelationContext>(i);
 }
 
-std::vector<tree::TerminalNode *> PSParser::Relation_list_contentContext::COMMA() {
-  return getTokens(PSParser::COMMA);
+std::vector<tree::TerminalNode *> LATEXParser::Relation_list_contentContext::COMMA() {
+  return getTokens(LATEXParser::COMMA);
 }
 
-tree::TerminalNode* PSParser::Relation_list_contentContext::COMMA(size_t i) {
-  return getToken(PSParser::COMMA, i);
+tree::TerminalNode* LATEXParser::Relation_list_contentContext::COMMA(size_t i) {
+  return getToken(LATEXParser::COMMA, i);
 }
 
-std::vector<tree::TerminalNode *> PSParser::Relation_list_contentContext::SEMICOLON() {
-  return getTokens(PSParser::SEMICOLON);
+std::vector<tree::TerminalNode *> LATEXParser::Relation_list_contentContext::SEMICOLON() {
+  return getTokens(LATEXParser::SEMICOLON);
 }
 
-tree::TerminalNode* PSParser::Relation_list_contentContext::SEMICOLON(size_t i) {
-  return getToken(PSParser::SEMICOLON, i);
+tree::TerminalNode* LATEXParser::Relation_list_contentContext::SEMICOLON(size_t i) {
+  return getToken(LATEXParser::SEMICOLON, i);
 }
 
 
-size_t PSParser::Relation_list_contentContext::getRuleIndex() const {
-  return PSParser::RuleRelation_list_content;
+size_t LATEXParser::Relation_list_contentContext::getRuleIndex() const {
+  return LATEXParser::RuleRelation_list_content;
 }
 
-void PSParser::Relation_list_contentContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Relation_list_contentContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterRelation_list_content(this);
 }
 
-void PSParser::Relation_list_contentContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Relation_list_contentContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitRelation_list_content(this);
 }
 
-PSParser::Relation_list_contentContext* PSParser::relation_list_content() {
+LATEXParser::Relation_list_contentContext* LATEXParser::relation_list_content() {
   Relation_list_contentContext *_localctx = _tracker.createInstance<Relation_list_contentContext>(_ctx, getState());
-  enterRule(_localctx, 12, PSParser::RuleRelation_list_content);
+  enterRule(_localctx, 12, LATEXParser::RuleRelation_list_content);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1407,15 +1407,15 @@ PSParser::Relation_list_contentContext* PSParser::relation_list_content() {
       setState(253);
       relation(0);
       setState(254);
-      match(PSParser::COMMA);
+      match(LATEXParser::COMMA);
       setState(255);
       relation(0);
       setState(260);
       _errHandler->sync(this);
       _la = _input->LA(1);
-      while (_la == PSParser::COMMA) {
+      while (_la == LATEXParser::COMMA) {
         setState(256);
-        match(PSParser::COMMA);
+        match(LATEXParser::COMMA);
         setState(257);
         relation(0);
         setState(262);
@@ -1430,15 +1430,15 @@ PSParser::Relation_list_contentContext* PSParser::relation_list_content() {
       setState(263);
       relation(0);
       setState(264);
-      match(PSParser::SEMICOLON);
+      match(LATEXParser::SEMICOLON);
       setState(265);
       relation(0);
       setState(270);
       _errHandler->sync(this);
       _la = _input->LA(1);
-      while (_la == PSParser::SEMICOLON) {
+      while (_la == LATEXParser::SEMICOLON) {
         setState(266);
-        match(PSParser::SEMICOLON);
+        match(LATEXParser::SEMICOLON);
         setState(267);
         relation(0);
         setState(272);
@@ -1464,42 +1464,42 @@ PSParser::Relation_list_contentContext* PSParser::relation_list_content() {
 
 //----------------- EqualityContext ------------------------------------------------------------------
 
-PSParser::EqualityContext::EqualityContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::EqualityContext::EqualityContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<PSParser::ExprContext *> PSParser::EqualityContext::expr() {
-  return getRuleContexts<PSParser::ExprContext>();
+std::vector<LATEXParser::ExprContext *> LATEXParser::EqualityContext::expr() {
+  return getRuleContexts<LATEXParser::ExprContext>();
 }
 
-PSParser::ExprContext* PSParser::EqualityContext::expr(size_t i) {
-  return getRuleContext<PSParser::ExprContext>(i);
+LATEXParser::ExprContext* LATEXParser::EqualityContext::expr(size_t i) {
+  return getRuleContext<LATEXParser::ExprContext>(i);
 }
 
-tree::TerminalNode* PSParser::EqualityContext::EQUAL() {
-  return getToken(PSParser::EQUAL, 0);
+tree::TerminalNode* LATEXParser::EqualityContext::EQUAL() {
+  return getToken(LATEXParser::EQUAL, 0);
 }
 
 
-size_t PSParser::EqualityContext::getRuleIndex() const {
-  return PSParser::RuleEquality;
+size_t LATEXParser::EqualityContext::getRuleIndex() const {
+  return LATEXParser::RuleEquality;
 }
 
-void PSParser::EqualityContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::EqualityContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterEquality(this);
 }
 
-void PSParser::EqualityContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::EqualityContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitEquality(this);
 }
 
-PSParser::EqualityContext* PSParser::equality() {
+LATEXParser::EqualityContext* LATEXParser::equality() {
   EqualityContext *_localctx = _tracker.createInstance<EqualityContext>(_ctx, getState());
-  enterRule(_localctx, 14, PSParser::RuleEquality);
+  enterRule(_localctx, 14, LATEXParser::RuleEquality);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1513,7 +1513,7 @@ PSParser::EqualityContext* PSParser::equality() {
     setState(275);
     expr();
     setState(276);
-    match(PSParser::EQUAL);
+    match(LATEXParser::EQUAL);
     setState(277);
     expr();
    
@@ -1529,34 +1529,34 @@ PSParser::EqualityContext* PSParser::equality() {
 
 //----------------- ExprContext ------------------------------------------------------------------
 
-PSParser::ExprContext::ExprContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::ExprContext::ExprContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::AdditiveContext* PSParser::ExprContext::additive() {
-  return getRuleContext<PSParser::AdditiveContext>(0);
+LATEXParser::AdditiveContext* LATEXParser::ExprContext::additive() {
+  return getRuleContext<LATEXParser::AdditiveContext>(0);
 }
 
 
-size_t PSParser::ExprContext::getRuleIndex() const {
-  return PSParser::RuleExpr;
+size_t LATEXParser::ExprContext::getRuleIndex() const {
+  return LATEXParser::RuleExpr;
 }
 
-void PSParser::ExprContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::ExprContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterExpr(this);
 }
 
-void PSParser::ExprContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::ExprContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitExpr(this);
 }
 
-PSParser::ExprContext* PSParser::expr() {
+LATEXParser::ExprContext* LATEXParser::expr() {
   ExprContext *_localctx = _tracker.createInstance<ExprContext>(_ctx, getState());
-  enterRule(_localctx, 16, PSParser::RuleExpr);
+  enterRule(_localctx, 16, LATEXParser::RuleExpr);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1582,60 +1582,60 @@ PSParser::ExprContext* PSParser::expr() {
 
 //----------------- AdditiveContext ------------------------------------------------------------------
 
-PSParser::AdditiveContext::AdditiveContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::AdditiveContext::AdditiveContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::MpContext* PSParser::AdditiveContext::mp() {
-  return getRuleContext<PSParser::MpContext>(0);
+LATEXParser::MpContext* LATEXParser::AdditiveContext::mp() {
+  return getRuleContext<LATEXParser::MpContext>(0);
 }
 
-std::vector<PSParser::AdditiveContext *> PSParser::AdditiveContext::additive() {
-  return getRuleContexts<PSParser::AdditiveContext>();
+std::vector<LATEXParser::AdditiveContext *> LATEXParser::AdditiveContext::additive() {
+  return getRuleContexts<LATEXParser::AdditiveContext>();
 }
 
-PSParser::AdditiveContext* PSParser::AdditiveContext::additive(size_t i) {
-  return getRuleContext<PSParser::AdditiveContext>(i);
+LATEXParser::AdditiveContext* LATEXParser::AdditiveContext::additive(size_t i) {
+  return getRuleContext<LATEXParser::AdditiveContext>(i);
 }
 
-tree::TerminalNode* PSParser::AdditiveContext::ADD() {
-  return getToken(PSParser::ADD, 0);
+tree::TerminalNode* LATEXParser::AdditiveContext::ADD() {
+  return getToken(LATEXParser::ADD, 0);
 }
 
-tree::TerminalNode* PSParser::AdditiveContext::SUB() {
-  return getToken(PSParser::SUB, 0);
+tree::TerminalNode* LATEXParser::AdditiveContext::SUB() {
+  return getToken(LATEXParser::SUB, 0);
 }
 
 
-size_t PSParser::AdditiveContext::getRuleIndex() const {
-  return PSParser::RuleAdditive;
+size_t LATEXParser::AdditiveContext::getRuleIndex() const {
+  return LATEXParser::RuleAdditive;
 }
 
-void PSParser::AdditiveContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::AdditiveContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterAdditive(this);
 }
 
-void PSParser::AdditiveContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::AdditiveContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitAdditive(this);
 }
 
 
-PSParser::AdditiveContext* PSParser::additive() {
+LATEXParser::AdditiveContext* LATEXParser::additive() {
    return additive(0);
 }
 
-PSParser::AdditiveContext* PSParser::additive(int precedence) {
+LATEXParser::AdditiveContext* LATEXParser::additive(int precedence) {
   ParserRuleContext *parentContext = _ctx;
   size_t parentState = getState();
-  PSParser::AdditiveContext *_localctx = _tracker.createInstance<AdditiveContext>(_ctx, parentState);
-  PSParser::AdditiveContext *previousContext = _localctx;
+  LATEXParser::AdditiveContext *_localctx = _tracker.createInstance<AdditiveContext>(_ctx, parentState);
+  LATEXParser::AdditiveContext *previousContext = _localctx;
   (void)previousContext; // Silence compiler, in case the context is not used by generated code.
   size_t startState = 18;
-  enterRecursionRule(_localctx, 18, PSParser::RuleAdditive, precedence);
+  enterRecursionRule(_localctx, 18, LATEXParser::RuleAdditive, precedence);
 
     size_t _la = 0;
 
@@ -1667,9 +1667,9 @@ PSParser::AdditiveContext* PSParser::additive(int precedence) {
         if (!(precpred(_ctx, 2))) throw FailedPredicateException(this, "precpred(_ctx, 2)");
         setState(285);
         _la = _input->LA(1);
-        if (!(_la == PSParser::ADD
+        if (!(_la == LATEXParser::ADD
 
-        || _la == PSParser::SUB)) {
+        || _la == LATEXParser::SUB)) {
         _errHandler->recoverInline(this);
         }
         else {
@@ -1694,80 +1694,80 @@ PSParser::AdditiveContext* PSParser::additive(int precedence) {
 
 //----------------- MpContext ------------------------------------------------------------------
 
-PSParser::MpContext::MpContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::MpContext::MpContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::UnaryContext* PSParser::MpContext::unary() {
-  return getRuleContext<PSParser::UnaryContext>(0);
+LATEXParser::UnaryContext* LATEXParser::MpContext::unary() {
+  return getRuleContext<LATEXParser::UnaryContext>(0);
 }
 
-std::vector<PSParser::MpContext *> PSParser::MpContext::mp() {
-  return getRuleContexts<PSParser::MpContext>();
+std::vector<LATEXParser::MpContext *> LATEXParser::MpContext::mp() {
+  return getRuleContexts<LATEXParser::MpContext>();
 }
 
-PSParser::MpContext* PSParser::MpContext::mp(size_t i) {
-  return getRuleContext<PSParser::MpContext>(i);
+LATEXParser::MpContext* LATEXParser::MpContext::mp(size_t i) {
+  return getRuleContext<LATEXParser::MpContext>(i);
 }
 
-tree::TerminalNode* PSParser::MpContext::MUL() {
-  return getToken(PSParser::MUL, 0);
+tree::TerminalNode* LATEXParser::MpContext::MUL() {
+  return getToken(LATEXParser::MUL, 0);
 }
 
-tree::TerminalNode* PSParser::MpContext::CMD_TIMES() {
-  return getToken(PSParser::CMD_TIMES, 0);
+tree::TerminalNode* LATEXParser::MpContext::CMD_TIMES() {
+  return getToken(LATEXParser::CMD_TIMES, 0);
 }
 
-tree::TerminalNode* PSParser::MpContext::CMD_CDOT() {
-  return getToken(PSParser::CMD_CDOT, 0);
+tree::TerminalNode* LATEXParser::MpContext::CMD_CDOT() {
+  return getToken(LATEXParser::CMD_CDOT, 0);
 }
 
-tree::TerminalNode* PSParser::MpContext::DIV() {
-  return getToken(PSParser::DIV, 0);
+tree::TerminalNode* LATEXParser::MpContext::DIV() {
+  return getToken(LATEXParser::DIV, 0);
 }
 
-tree::TerminalNode* PSParser::MpContext::CMD_DIV() {
-  return getToken(PSParser::CMD_DIV, 0);
+tree::TerminalNode* LATEXParser::MpContext::CMD_DIV() {
+  return getToken(LATEXParser::CMD_DIV, 0);
 }
 
-tree::TerminalNode* PSParser::MpContext::COLON() {
-  return getToken(PSParser::COLON, 0);
+tree::TerminalNode* LATEXParser::MpContext::COLON() {
+  return getToken(LATEXParser::COLON, 0);
 }
 
-tree::TerminalNode* PSParser::MpContext::CMD_MOD() {
-  return getToken(PSParser::CMD_MOD, 0);
+tree::TerminalNode* LATEXParser::MpContext::CMD_MOD() {
+  return getToken(LATEXParser::CMD_MOD, 0);
 }
 
 
-size_t PSParser::MpContext::getRuleIndex() const {
-  return PSParser::RuleMp;
+size_t LATEXParser::MpContext::getRuleIndex() const {
+  return LATEXParser::RuleMp;
 }
 
-void PSParser::MpContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::MpContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterMp(this);
 }
 
-void PSParser::MpContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::MpContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitMp(this);
 }
 
 
-PSParser::MpContext* PSParser::mp() {
+LATEXParser::MpContext* LATEXParser::mp() {
    return mp(0);
 }
 
-PSParser::MpContext* PSParser::mp(int precedence) {
+LATEXParser::MpContext* LATEXParser::mp(int precedence) {
   ParserRuleContext *parentContext = _ctx;
   size_t parentState = getState();
-  PSParser::MpContext *_localctx = _tracker.createInstance<MpContext>(_ctx, parentState);
-  PSParser::MpContext *previousContext = _localctx;
+  LATEXParser::MpContext *_localctx = _tracker.createInstance<MpContext>(_ctx, parentState);
+  LATEXParser::MpContext *previousContext = _localctx;
   (void)previousContext; // Silence compiler, in case the context is not used by generated code.
   size_t startState = 20;
-  enterRecursionRule(_localctx, 20, PSParser::RuleMp, precedence);
+  enterRecursionRule(_localctx, 20, LATEXParser::RuleMp, precedence);
 
     size_t _la = 0;
 
@@ -1799,9 +1799,9 @@ PSParser::MpContext* PSParser::mp(int precedence) {
         if (!(precpred(_ctx, 2))) throw FailedPredicateException(this, "precpred(_ctx, 2)");
         setState(296);
         _la = _input->LA(1);
-        if (!(_la == PSParser::MUL
+        if (!(_la == LATEXParser::MUL
 
-        || _la == PSParser::DIV || (((_la - 83) & ~ 0x3fULL) == 0) &&
+        || _la == LATEXParser::DIV || (((_la - 83) & ~ 0x3fULL) == 0) &&
           ((1ULL << (_la - 83)) & 2097223) != 0)) {
         _errHandler->recoverInline(this);
         }
@@ -1827,80 +1827,80 @@ PSParser::MpContext* PSParser::mp(int precedence) {
 
 //----------------- Mp_nofuncContext ------------------------------------------------------------------
 
-PSParser::Mp_nofuncContext::Mp_nofuncContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Mp_nofuncContext::Mp_nofuncContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::Unary_nofuncContext* PSParser::Mp_nofuncContext::unary_nofunc() {
-  return getRuleContext<PSParser::Unary_nofuncContext>(0);
+LATEXParser::Unary_nofuncContext* LATEXParser::Mp_nofuncContext::unary_nofunc() {
+  return getRuleContext<LATEXParser::Unary_nofuncContext>(0);
 }
 
-std::vector<PSParser::Mp_nofuncContext *> PSParser::Mp_nofuncContext::mp_nofunc() {
-  return getRuleContexts<PSParser::Mp_nofuncContext>();
+std::vector<LATEXParser::Mp_nofuncContext *> LATEXParser::Mp_nofuncContext::mp_nofunc() {
+  return getRuleContexts<LATEXParser::Mp_nofuncContext>();
 }
 
-PSParser::Mp_nofuncContext* PSParser::Mp_nofuncContext::mp_nofunc(size_t i) {
-  return getRuleContext<PSParser::Mp_nofuncContext>(i);
+LATEXParser::Mp_nofuncContext* LATEXParser::Mp_nofuncContext::mp_nofunc(size_t i) {
+  return getRuleContext<LATEXParser::Mp_nofuncContext>(i);
 }
 
-tree::TerminalNode* PSParser::Mp_nofuncContext::MUL() {
-  return getToken(PSParser::MUL, 0);
+tree::TerminalNode* LATEXParser::Mp_nofuncContext::MUL() {
+  return getToken(LATEXParser::MUL, 0);
 }
 
-tree::TerminalNode* PSParser::Mp_nofuncContext::CMD_TIMES() {
-  return getToken(PSParser::CMD_TIMES, 0);
+tree::TerminalNode* LATEXParser::Mp_nofuncContext::CMD_TIMES() {
+  return getToken(LATEXParser::CMD_TIMES, 0);
 }
 
-tree::TerminalNode* PSParser::Mp_nofuncContext::CMD_CDOT() {
-  return getToken(PSParser::CMD_CDOT, 0);
+tree::TerminalNode* LATEXParser::Mp_nofuncContext::CMD_CDOT() {
+  return getToken(LATEXParser::CMD_CDOT, 0);
 }
 
-tree::TerminalNode* PSParser::Mp_nofuncContext::DIV() {
-  return getToken(PSParser::DIV, 0);
+tree::TerminalNode* LATEXParser::Mp_nofuncContext::DIV() {
+  return getToken(LATEXParser::DIV, 0);
 }
 
-tree::TerminalNode* PSParser::Mp_nofuncContext::CMD_DIV() {
-  return getToken(PSParser::CMD_DIV, 0);
+tree::TerminalNode* LATEXParser::Mp_nofuncContext::CMD_DIV() {
+  return getToken(LATEXParser::CMD_DIV, 0);
 }
 
-tree::TerminalNode* PSParser::Mp_nofuncContext::COLON() {
-  return getToken(PSParser::COLON, 0);
+tree::TerminalNode* LATEXParser::Mp_nofuncContext::COLON() {
+  return getToken(LATEXParser::COLON, 0);
 }
 
-tree::TerminalNode* PSParser::Mp_nofuncContext::CMD_MOD() {
-  return getToken(PSParser::CMD_MOD, 0);
+tree::TerminalNode* LATEXParser::Mp_nofuncContext::CMD_MOD() {
+  return getToken(LATEXParser::CMD_MOD, 0);
 }
 
 
-size_t PSParser::Mp_nofuncContext::getRuleIndex() const {
-  return PSParser::RuleMp_nofunc;
+size_t LATEXParser::Mp_nofuncContext::getRuleIndex() const {
+  return LATEXParser::RuleMp_nofunc;
 }
 
-void PSParser::Mp_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Mp_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterMp_nofunc(this);
 }
 
-void PSParser::Mp_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Mp_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitMp_nofunc(this);
 }
 
 
-PSParser::Mp_nofuncContext* PSParser::mp_nofunc() {
+LATEXParser::Mp_nofuncContext* LATEXParser::mp_nofunc() {
    return mp_nofunc(0);
 }
 
-PSParser::Mp_nofuncContext* PSParser::mp_nofunc(int precedence) {
+LATEXParser::Mp_nofuncContext* LATEXParser::mp_nofunc(int precedence) {
   ParserRuleContext *parentContext = _ctx;
   size_t parentState = getState();
-  PSParser::Mp_nofuncContext *_localctx = _tracker.createInstance<Mp_nofuncContext>(_ctx, parentState);
-  PSParser::Mp_nofuncContext *previousContext = _localctx;
+  LATEXParser::Mp_nofuncContext *_localctx = _tracker.createInstance<Mp_nofuncContext>(_ctx, parentState);
+  LATEXParser::Mp_nofuncContext *previousContext = _localctx;
   (void)previousContext; // Silence compiler, in case the context is not used by generated code.
   size_t startState = 22;
-  enterRecursionRule(_localctx, 22, PSParser::RuleMp_nofunc, precedence);
+  enterRecursionRule(_localctx, 22, LATEXParser::RuleMp_nofunc, precedence);
 
     size_t _la = 0;
 
@@ -1932,9 +1932,9 @@ PSParser::Mp_nofuncContext* PSParser::mp_nofunc(int precedence) {
         if (!(precpred(_ctx, 2))) throw FailedPredicateException(this, "precpred(_ctx, 2)");
         setState(307);
         _la = _input->LA(1);
-        if (!(_la == PSParser::MUL
+        if (!(_la == LATEXParser::MUL
 
-        || _la == PSParser::DIV || (((_la - 83) & ~ 0x3fULL) == 0) &&
+        || _la == LATEXParser::DIV || (((_la - 83) & ~ 0x3fULL) == 0) &&
           ((1ULL << (_la - 83)) & 2097223) != 0)) {
         _errHandler->recoverInline(this);
         }
@@ -1960,50 +1960,50 @@ PSParser::Mp_nofuncContext* PSParser::mp_nofunc(int precedence) {
 
 //----------------- UnaryContext ------------------------------------------------------------------
 
-PSParser::UnaryContext::UnaryContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::UnaryContext::UnaryContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::UnaryContext* PSParser::UnaryContext::unary() {
-  return getRuleContext<PSParser::UnaryContext>(0);
+LATEXParser::UnaryContext* LATEXParser::UnaryContext::unary() {
+  return getRuleContext<LATEXParser::UnaryContext>(0);
 }
 
-tree::TerminalNode* PSParser::UnaryContext::ADD() {
-  return getToken(PSParser::ADD, 0);
+tree::TerminalNode* LATEXParser::UnaryContext::ADD() {
+  return getToken(LATEXParser::ADD, 0);
 }
 
-tree::TerminalNode* PSParser::UnaryContext::SUB() {
-  return getToken(PSParser::SUB, 0);
+tree::TerminalNode* LATEXParser::UnaryContext::SUB() {
+  return getToken(LATEXParser::SUB, 0);
 }
 
-std::vector<PSParser::PostfixContext *> PSParser::UnaryContext::postfix() {
-  return getRuleContexts<PSParser::PostfixContext>();
+std::vector<LATEXParser::PostfixContext *> LATEXParser::UnaryContext::postfix() {
+  return getRuleContexts<LATEXParser::PostfixContext>();
 }
 
-PSParser::PostfixContext* PSParser::UnaryContext::postfix(size_t i) {
-  return getRuleContext<PSParser::PostfixContext>(i);
+LATEXParser::PostfixContext* LATEXParser::UnaryContext::postfix(size_t i) {
+  return getRuleContext<LATEXParser::PostfixContext>(i);
 }
 
 
-size_t PSParser::UnaryContext::getRuleIndex() const {
-  return PSParser::RuleUnary;
+size_t LATEXParser::UnaryContext::getRuleIndex() const {
+  return LATEXParser::RuleUnary;
 }
 
-void PSParser::UnaryContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::UnaryContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterUnary(this);
 }
 
-void PSParser::UnaryContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::UnaryContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitUnary(this);
 }
 
-PSParser::UnaryContext* PSParser::unary() {
+LATEXParser::UnaryContext* LATEXParser::unary() {
   UnaryContext *_localctx = _tracker.createInstance<UnaryContext>(_ctx, getState());
-  enterRule(_localctx, 24, PSParser::RuleUnary);
+  enterRule(_localctx, 24, LATEXParser::RuleUnary);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -2018,14 +2018,14 @@ PSParser::UnaryContext* PSParser::unary() {
     setState(321);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case PSParser::ADD:
-      case PSParser::SUB: {
+      case LATEXParser::ADD:
+      case LATEXParser::SUB: {
         enterOuterAlt(_localctx, 1);
         setState(314);
         _la = _input->LA(1);
-        if (!(_la == PSParser::ADD
+        if (!(_la == LATEXParser::ADD
 
-        || _la == PSParser::SUB)) {
+        || _la == LATEXParser::SUB)) {
         _errHandler->recoverInline(this);
         }
         else {
@@ -2037,76 +2037,76 @@ PSParser::UnaryContext* PSParser::unary() {
         break;
       }
 
-      case PSParser::L_PAREN:
-      case PSParser::L_GROUP:
-      case PSParser::L_BRACE:
-      case PSParser::L_BRACE_VISUAL:
-      case PSParser::L_BRACE_CMD:
-      case PSParser::L_BRACKET:
-      case PSParser::L_BRACK:
-      case PSParser::BAR:
-      case PSParser::L_VERT:
-      case PSParser::VERT:
-      case PSParser::L_FLOOR:
-      case PSParser::LL_CORNER:
-      case PSParser::L_CEIL:
-      case PSParser::UL_CORNER:
-      case PSParser::L_LEFT:
-      case PSParser::ML_LEFT:
-      case PSParser::FUNC_LIM:
-      case PSParser::FUNC_INT:
-      case PSParser::FUNC_SUM:
-      case PSParser::FUNC_PROD:
-      case PSParser::FUNC_LOG:
-      case PSParser::FUNC_LN:
-      case PSParser::FUNC_EXP:
-      case PSParser::FUNC_SIN:
-      case PSParser::FUNC_COS:
-      case PSParser::FUNC_TAN:
-      case PSParser::FUNC_CSC:
-      case PSParser::FUNC_SEC:
-      case PSParser::FUNC_COT:
-      case PSParser::FUNC_ARCSIN:
-      case PSParser::FUNC_ARCCOS:
-      case PSParser::FUNC_ARCTAN:
-      case PSParser::FUNC_ARCCSC:
-      case PSParser::FUNC_ARCSEC:
-      case PSParser::FUNC_ARCCOT:
-      case PSParser::FUNC_SINH:
-      case PSParser::FUNC_COSH:
-      case PSParser::FUNC_TANH:
-      case PSParser::FUNC_ARSINH:
-      case PSParser::FUNC_ARCOSH:
-      case PSParser::FUNC_ARTANH:
-      case PSParser::FUNC_ARCSINH:
-      case PSParser::FUNC_ARCCOSH:
-      case PSParser::FUNC_ARCTANH:
-      case PSParser::FUNC_SQRT:
-      case PSParser::FUNC_GCD:
-      case PSParser::FUNC_LCM:
-      case PSParser::FUNC_FLOOR:
-      case PSParser::FUNC_CEIL:
-      case PSParser::FUNC_MAX:
-      case PSParser::FUNC_MIN:
-      case PSParser::CMD_FRAC:
-      case PSParser::CMD_BINOM:
-      case PSParser::CMD_CHOOSE:
-      case PSParser::CMD_MATHIT:
-      case PSParser::CMD_OPERATORNAME:
-      case PSParser::CMD_MATRIX_START:
-      case PSParser::ACCENT_OVERLINE:
-      case PSParser::ACCENT_BAR:
-      case PSParser::DIFFERENTIAL:
-      case PSParser::EXP_E:
-      case PSParser::LETTER_NO_E:
-      case PSParser::NUMBER:
-      case PSParser::FRACTION_NUMBER:
-      case PSParser::SCI_NOTATION_NUMBER:
-      case PSParser::E_NOTATION:
-      case PSParser::PERCENT_NUMBER:
-      case PSParser::GREEK_CMD:
-      case PSParser::SYMBOL:
-      case PSParser::VARIABLE: {
+      case LATEXParser::L_PAREN:
+      case LATEXParser::L_GROUP:
+      case LATEXParser::L_BRACE:
+      case LATEXParser::L_BRACE_VISUAL:
+      case LATEXParser::L_BRACE_CMD:
+      case LATEXParser::L_BRACKET:
+      case LATEXParser::L_BRACK:
+      case LATEXParser::BAR:
+      case LATEXParser::L_VERT:
+      case LATEXParser::VERT:
+      case LATEXParser::L_FLOOR:
+      case LATEXParser::LL_CORNER:
+      case LATEXParser::L_CEIL:
+      case LATEXParser::UL_CORNER:
+      case LATEXParser::L_LEFT:
+      case LATEXParser::ML_LEFT:
+      case LATEXParser::FUNC_LIM:
+      case LATEXParser::FUNC_INT:
+      case LATEXParser::FUNC_SUM:
+      case LATEXParser::FUNC_PROD:
+      case LATEXParser::FUNC_LOG:
+      case LATEXParser::FUNC_LN:
+      case LATEXParser::FUNC_EXP:
+      case LATEXParser::FUNC_SIN:
+      case LATEXParser::FUNC_COS:
+      case LATEXParser::FUNC_TAN:
+      case LATEXParser::FUNC_CSC:
+      case LATEXParser::FUNC_SEC:
+      case LATEXParser::FUNC_COT:
+      case LATEXParser::FUNC_ARCSIN:
+      case LATEXParser::FUNC_ARCCOS:
+      case LATEXParser::FUNC_ARCTAN:
+      case LATEXParser::FUNC_ARCCSC:
+      case LATEXParser::FUNC_ARCSEC:
+      case LATEXParser::FUNC_ARCCOT:
+      case LATEXParser::FUNC_SINH:
+      case LATEXParser::FUNC_COSH:
+      case LATEXParser::FUNC_TANH:
+      case LATEXParser::FUNC_ARSINH:
+      case LATEXParser::FUNC_ARCOSH:
+      case LATEXParser::FUNC_ARTANH:
+      case LATEXParser::FUNC_ARCSINH:
+      case LATEXParser::FUNC_ARCCOSH:
+      case LATEXParser::FUNC_ARCTANH:
+      case LATEXParser::FUNC_SQRT:
+      case LATEXParser::FUNC_GCD:
+      case LATEXParser::FUNC_LCM:
+      case LATEXParser::FUNC_FLOOR:
+      case LATEXParser::FUNC_CEIL:
+      case LATEXParser::FUNC_MAX:
+      case LATEXParser::FUNC_MIN:
+      case LATEXParser::CMD_FRAC:
+      case LATEXParser::CMD_BINOM:
+      case LATEXParser::CMD_CHOOSE:
+      case LATEXParser::CMD_MATHIT:
+      case LATEXParser::CMD_OPERATORNAME:
+      case LATEXParser::CMD_MATRIX_START:
+      case LATEXParser::ACCENT_OVERLINE:
+      case LATEXParser::ACCENT_BAR:
+      case LATEXParser::DIFFERENTIAL:
+      case LATEXParser::EXP_E:
+      case LATEXParser::LETTER_NO_E:
+      case LATEXParser::NUMBER:
+      case LATEXParser::FRACTION_NUMBER:
+      case LATEXParser::SCI_NOTATION_NUMBER:
+      case LATEXParser::E_NOTATION:
+      case LATEXParser::PERCENT_NUMBER:
+      case LATEXParser::GREEK_CMD:
+      case LATEXParser::SYMBOL:
+      case LATEXParser::VARIABLE: {
         enterOuterAlt(_localctx, 2);
         setState(317); 
         _errHandler->sync(this);
@@ -2145,54 +2145,54 @@ PSParser::UnaryContext* PSParser::unary() {
 
 //----------------- Unary_nofuncContext ------------------------------------------------------------------
 
-PSParser::Unary_nofuncContext::Unary_nofuncContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Unary_nofuncContext::Unary_nofuncContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::Unary_nofuncContext* PSParser::Unary_nofuncContext::unary_nofunc() {
-  return getRuleContext<PSParser::Unary_nofuncContext>(0);
+LATEXParser::Unary_nofuncContext* LATEXParser::Unary_nofuncContext::unary_nofunc() {
+  return getRuleContext<LATEXParser::Unary_nofuncContext>(0);
 }
 
-tree::TerminalNode* PSParser::Unary_nofuncContext::ADD() {
-  return getToken(PSParser::ADD, 0);
+tree::TerminalNode* LATEXParser::Unary_nofuncContext::ADD() {
+  return getToken(LATEXParser::ADD, 0);
 }
 
-tree::TerminalNode* PSParser::Unary_nofuncContext::SUB() {
-  return getToken(PSParser::SUB, 0);
+tree::TerminalNode* LATEXParser::Unary_nofuncContext::SUB() {
+  return getToken(LATEXParser::SUB, 0);
 }
 
-PSParser::PostfixContext* PSParser::Unary_nofuncContext::postfix() {
-  return getRuleContext<PSParser::PostfixContext>(0);
+LATEXParser::PostfixContext* LATEXParser::Unary_nofuncContext::postfix() {
+  return getRuleContext<LATEXParser::PostfixContext>(0);
 }
 
-std::vector<PSParser::Postfix_nofuncContext *> PSParser::Unary_nofuncContext::postfix_nofunc() {
-  return getRuleContexts<PSParser::Postfix_nofuncContext>();
+std::vector<LATEXParser::Postfix_nofuncContext *> LATEXParser::Unary_nofuncContext::postfix_nofunc() {
+  return getRuleContexts<LATEXParser::Postfix_nofuncContext>();
 }
 
-PSParser::Postfix_nofuncContext* PSParser::Unary_nofuncContext::postfix_nofunc(size_t i) {
-  return getRuleContext<PSParser::Postfix_nofuncContext>(i);
+LATEXParser::Postfix_nofuncContext* LATEXParser::Unary_nofuncContext::postfix_nofunc(size_t i) {
+  return getRuleContext<LATEXParser::Postfix_nofuncContext>(i);
 }
 
 
-size_t PSParser::Unary_nofuncContext::getRuleIndex() const {
-  return PSParser::RuleUnary_nofunc;
+size_t LATEXParser::Unary_nofuncContext::getRuleIndex() const {
+  return LATEXParser::RuleUnary_nofunc;
 }
 
-void PSParser::Unary_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Unary_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterUnary_nofunc(this);
 }
 
-void PSParser::Unary_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Unary_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitUnary_nofunc(this);
 }
 
-PSParser::Unary_nofuncContext* PSParser::unary_nofunc() {
+LATEXParser::Unary_nofuncContext* LATEXParser::unary_nofunc() {
   Unary_nofuncContext *_localctx = _tracker.createInstance<Unary_nofuncContext>(_ctx, getState());
-  enterRule(_localctx, 26, PSParser::RuleUnary_nofunc);
+  enterRule(_localctx, 26, LATEXParser::RuleUnary_nofunc);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -2207,14 +2207,14 @@ PSParser::Unary_nofuncContext* PSParser::unary_nofunc() {
     setState(332);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case PSParser::ADD:
-      case PSParser::SUB: {
+      case LATEXParser::ADD:
+      case LATEXParser::SUB: {
         enterOuterAlt(_localctx, 1);
         setState(323);
         _la = _input->LA(1);
-        if (!(_la == PSParser::ADD
+        if (!(_la == LATEXParser::ADD
 
-        || _la == PSParser::SUB)) {
+        || _la == LATEXParser::SUB)) {
         _errHandler->recoverInline(this);
         }
         else {
@@ -2226,76 +2226,76 @@ PSParser::Unary_nofuncContext* PSParser::unary_nofunc() {
         break;
       }
 
-      case PSParser::L_PAREN:
-      case PSParser::L_GROUP:
-      case PSParser::L_BRACE:
-      case PSParser::L_BRACE_VISUAL:
-      case PSParser::L_BRACE_CMD:
-      case PSParser::L_BRACKET:
-      case PSParser::L_BRACK:
-      case PSParser::BAR:
-      case PSParser::L_VERT:
-      case PSParser::VERT:
-      case PSParser::L_FLOOR:
-      case PSParser::LL_CORNER:
-      case PSParser::L_CEIL:
-      case PSParser::UL_CORNER:
-      case PSParser::L_LEFT:
-      case PSParser::ML_LEFT:
-      case PSParser::FUNC_LIM:
-      case PSParser::FUNC_INT:
-      case PSParser::FUNC_SUM:
-      case PSParser::FUNC_PROD:
-      case PSParser::FUNC_LOG:
-      case PSParser::FUNC_LN:
-      case PSParser::FUNC_EXP:
-      case PSParser::FUNC_SIN:
-      case PSParser::FUNC_COS:
-      case PSParser::FUNC_TAN:
-      case PSParser::FUNC_CSC:
-      case PSParser::FUNC_SEC:
-      case PSParser::FUNC_COT:
-      case PSParser::FUNC_ARCSIN:
-      case PSParser::FUNC_ARCCOS:
-      case PSParser::FUNC_ARCTAN:
-      case PSParser::FUNC_ARCCSC:
-      case PSParser::FUNC_ARCSEC:
-      case PSParser::FUNC_ARCCOT:
-      case PSParser::FUNC_SINH:
-      case PSParser::FUNC_COSH:
-      case PSParser::FUNC_TANH:
-      case PSParser::FUNC_ARSINH:
-      case PSParser::FUNC_ARCOSH:
-      case PSParser::FUNC_ARTANH:
-      case PSParser::FUNC_ARCSINH:
-      case PSParser::FUNC_ARCCOSH:
-      case PSParser::FUNC_ARCTANH:
-      case PSParser::FUNC_SQRT:
-      case PSParser::FUNC_GCD:
-      case PSParser::FUNC_LCM:
-      case PSParser::FUNC_FLOOR:
-      case PSParser::FUNC_CEIL:
-      case PSParser::FUNC_MAX:
-      case PSParser::FUNC_MIN:
-      case PSParser::CMD_FRAC:
-      case PSParser::CMD_BINOM:
-      case PSParser::CMD_CHOOSE:
-      case PSParser::CMD_MATHIT:
-      case PSParser::CMD_OPERATORNAME:
-      case PSParser::CMD_MATRIX_START:
-      case PSParser::ACCENT_OVERLINE:
-      case PSParser::ACCENT_BAR:
-      case PSParser::DIFFERENTIAL:
-      case PSParser::EXP_E:
-      case PSParser::LETTER_NO_E:
-      case PSParser::NUMBER:
-      case PSParser::FRACTION_NUMBER:
-      case PSParser::SCI_NOTATION_NUMBER:
-      case PSParser::E_NOTATION:
-      case PSParser::PERCENT_NUMBER:
-      case PSParser::GREEK_CMD:
-      case PSParser::SYMBOL:
-      case PSParser::VARIABLE: {
+      case LATEXParser::L_PAREN:
+      case LATEXParser::L_GROUP:
+      case LATEXParser::L_BRACE:
+      case LATEXParser::L_BRACE_VISUAL:
+      case LATEXParser::L_BRACE_CMD:
+      case LATEXParser::L_BRACKET:
+      case LATEXParser::L_BRACK:
+      case LATEXParser::BAR:
+      case LATEXParser::L_VERT:
+      case LATEXParser::VERT:
+      case LATEXParser::L_FLOOR:
+      case LATEXParser::LL_CORNER:
+      case LATEXParser::L_CEIL:
+      case LATEXParser::UL_CORNER:
+      case LATEXParser::L_LEFT:
+      case LATEXParser::ML_LEFT:
+      case LATEXParser::FUNC_LIM:
+      case LATEXParser::FUNC_INT:
+      case LATEXParser::FUNC_SUM:
+      case LATEXParser::FUNC_PROD:
+      case LATEXParser::FUNC_LOG:
+      case LATEXParser::FUNC_LN:
+      case LATEXParser::FUNC_EXP:
+      case LATEXParser::FUNC_SIN:
+      case LATEXParser::FUNC_COS:
+      case LATEXParser::FUNC_TAN:
+      case LATEXParser::FUNC_CSC:
+      case LATEXParser::FUNC_SEC:
+      case LATEXParser::FUNC_COT:
+      case LATEXParser::FUNC_ARCSIN:
+      case LATEXParser::FUNC_ARCCOS:
+      case LATEXParser::FUNC_ARCTAN:
+      case LATEXParser::FUNC_ARCCSC:
+      case LATEXParser::FUNC_ARCSEC:
+      case LATEXParser::FUNC_ARCCOT:
+      case LATEXParser::FUNC_SINH:
+      case LATEXParser::FUNC_COSH:
+      case LATEXParser::FUNC_TANH:
+      case LATEXParser::FUNC_ARSINH:
+      case LATEXParser::FUNC_ARCOSH:
+      case LATEXParser::FUNC_ARTANH:
+      case LATEXParser::FUNC_ARCSINH:
+      case LATEXParser::FUNC_ARCCOSH:
+      case LATEXParser::FUNC_ARCTANH:
+      case LATEXParser::FUNC_SQRT:
+      case LATEXParser::FUNC_GCD:
+      case LATEXParser::FUNC_LCM:
+      case LATEXParser::FUNC_FLOOR:
+      case LATEXParser::FUNC_CEIL:
+      case LATEXParser::FUNC_MAX:
+      case LATEXParser::FUNC_MIN:
+      case LATEXParser::CMD_FRAC:
+      case LATEXParser::CMD_BINOM:
+      case LATEXParser::CMD_CHOOSE:
+      case LATEXParser::CMD_MATHIT:
+      case LATEXParser::CMD_OPERATORNAME:
+      case LATEXParser::CMD_MATRIX_START:
+      case LATEXParser::ACCENT_OVERLINE:
+      case LATEXParser::ACCENT_BAR:
+      case LATEXParser::DIFFERENTIAL:
+      case LATEXParser::EXP_E:
+      case LATEXParser::LETTER_NO_E:
+      case LATEXParser::NUMBER:
+      case LATEXParser::FRACTION_NUMBER:
+      case LATEXParser::SCI_NOTATION_NUMBER:
+      case LATEXParser::E_NOTATION:
+      case LATEXParser::PERCENT_NUMBER:
+      case LATEXParser::GREEK_CMD:
+      case LATEXParser::SYMBOL:
+      case LATEXParser::VARIABLE: {
         enterOuterAlt(_localctx, 2);
         setState(325);
         postfix();
@@ -2330,42 +2330,42 @@ PSParser::Unary_nofuncContext* PSParser::unary_nofunc() {
 
 //----------------- PostfixContext ------------------------------------------------------------------
 
-PSParser::PostfixContext::PostfixContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::PostfixContext::PostfixContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::ExpContext* PSParser::PostfixContext::exp() {
-  return getRuleContext<PSParser::ExpContext>(0);
+LATEXParser::ExpContext* LATEXParser::PostfixContext::exp() {
+  return getRuleContext<LATEXParser::ExpContext>(0);
 }
 
-std::vector<PSParser::Postfix_opContext *> PSParser::PostfixContext::postfix_op() {
-  return getRuleContexts<PSParser::Postfix_opContext>();
+std::vector<LATEXParser::Postfix_opContext *> LATEXParser::PostfixContext::postfix_op() {
+  return getRuleContexts<LATEXParser::Postfix_opContext>();
 }
 
-PSParser::Postfix_opContext* PSParser::PostfixContext::postfix_op(size_t i) {
-  return getRuleContext<PSParser::Postfix_opContext>(i);
+LATEXParser::Postfix_opContext* LATEXParser::PostfixContext::postfix_op(size_t i) {
+  return getRuleContext<LATEXParser::Postfix_opContext>(i);
 }
 
 
-size_t PSParser::PostfixContext::getRuleIndex() const {
-  return PSParser::RulePostfix;
+size_t LATEXParser::PostfixContext::getRuleIndex() const {
+  return LATEXParser::RulePostfix;
 }
 
-void PSParser::PostfixContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::PostfixContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterPostfix(this);
 }
 
-void PSParser::PostfixContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::PostfixContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitPostfix(this);
 }
 
-PSParser::PostfixContext* PSParser::postfix() {
+LATEXParser::PostfixContext* LATEXParser::postfix() {
   PostfixContext *_localctx = _tracker.createInstance<PostfixContext>(_ctx, getState());
-  enterRule(_localctx, 28, PSParser::RulePostfix);
+  enterRule(_localctx, 28, LATEXParser::RulePostfix);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2404,42 +2404,42 @@ PSParser::PostfixContext* PSParser::postfix() {
 
 //----------------- Postfix_nofuncContext ------------------------------------------------------------------
 
-PSParser::Postfix_nofuncContext::Postfix_nofuncContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Postfix_nofuncContext::Postfix_nofuncContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::Exp_nofuncContext* PSParser::Postfix_nofuncContext::exp_nofunc() {
-  return getRuleContext<PSParser::Exp_nofuncContext>(0);
+LATEXParser::Exp_nofuncContext* LATEXParser::Postfix_nofuncContext::exp_nofunc() {
+  return getRuleContext<LATEXParser::Exp_nofuncContext>(0);
 }
 
-std::vector<PSParser::Postfix_opContext *> PSParser::Postfix_nofuncContext::postfix_op() {
-  return getRuleContexts<PSParser::Postfix_opContext>();
+std::vector<LATEXParser::Postfix_opContext *> LATEXParser::Postfix_nofuncContext::postfix_op() {
+  return getRuleContexts<LATEXParser::Postfix_opContext>();
 }
 
-PSParser::Postfix_opContext* PSParser::Postfix_nofuncContext::postfix_op(size_t i) {
-  return getRuleContext<PSParser::Postfix_opContext>(i);
+LATEXParser::Postfix_opContext* LATEXParser::Postfix_nofuncContext::postfix_op(size_t i) {
+  return getRuleContext<LATEXParser::Postfix_opContext>(i);
 }
 
 
-size_t PSParser::Postfix_nofuncContext::getRuleIndex() const {
-  return PSParser::RulePostfix_nofunc;
+size_t LATEXParser::Postfix_nofuncContext::getRuleIndex() const {
+  return LATEXParser::RulePostfix_nofunc;
 }
 
-void PSParser::Postfix_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Postfix_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterPostfix_nofunc(this);
 }
 
-void PSParser::Postfix_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Postfix_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitPostfix_nofunc(this);
 }
 
-PSParser::Postfix_nofuncContext* PSParser::postfix_nofunc() {
+LATEXParser::Postfix_nofuncContext* LATEXParser::postfix_nofunc() {
   Postfix_nofuncContext *_localctx = _tracker.createInstance<Postfix_nofuncContext>(_ctx, getState());
-  enterRule(_localctx, 30, PSParser::RulePostfix_nofunc);
+  enterRule(_localctx, 30, LATEXParser::RulePostfix_nofunc);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2478,38 +2478,38 @@ PSParser::Postfix_nofuncContext* PSParser::postfix_nofunc() {
 
 //----------------- Postfix_opContext ------------------------------------------------------------------
 
-PSParser::Postfix_opContext::Postfix_opContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Postfix_opContext::Postfix_opContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::Postfix_opContext::BANG() {
-  return getToken(PSParser::BANG, 0);
+tree::TerminalNode* LATEXParser::Postfix_opContext::BANG() {
+  return getToken(LATEXParser::BANG, 0);
 }
 
-PSParser::Eval_atContext* PSParser::Postfix_opContext::eval_at() {
-  return getRuleContext<PSParser::Eval_atContext>(0);
+LATEXParser::Eval_atContext* LATEXParser::Postfix_opContext::eval_at() {
+  return getRuleContext<LATEXParser::Eval_atContext>(0);
 }
 
 
-size_t PSParser::Postfix_opContext::getRuleIndex() const {
-  return PSParser::RulePostfix_op;
+size_t LATEXParser::Postfix_opContext::getRuleIndex() const {
+  return LATEXParser::RulePostfix_op;
 }
 
-void PSParser::Postfix_opContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Postfix_opContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterPostfix_op(this);
 }
 
-void PSParser::Postfix_opContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Postfix_opContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitPostfix_op(this);
 }
 
-PSParser::Postfix_opContext* PSParser::postfix_op() {
+LATEXParser::Postfix_opContext* LATEXParser::postfix_op() {
   Postfix_opContext *_localctx = _tracker.createInstance<Postfix_opContext>(_ctx, getState());
-  enterRule(_localctx, 32, PSParser::RulePostfix_op);
+  enterRule(_localctx, 32, LATEXParser::RulePostfix_op);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2522,14 +2522,14 @@ PSParser::Postfix_opContext* PSParser::postfix_op() {
     setState(350);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case PSParser::BANG: {
+      case LATEXParser::BANG: {
         enterOuterAlt(_localctx, 1);
         setState(348);
-        match(PSParser::BANG);
+        match(LATEXParser::BANG);
         break;
       }
 
-      case PSParser::BAR: {
+      case LATEXParser::BAR: {
         enterOuterAlt(_localctx, 2);
         setState(349);
         eval_at();
@@ -2552,42 +2552,42 @@ PSParser::Postfix_opContext* PSParser::postfix_op() {
 
 //----------------- Eval_atContext ------------------------------------------------------------------
 
-PSParser::Eval_atContext::Eval_atContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Eval_atContext::Eval_atContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::Eval_atContext::BAR() {
-  return getToken(PSParser::BAR, 0);
+tree::TerminalNode* LATEXParser::Eval_atContext::BAR() {
+  return getToken(LATEXParser::BAR, 0);
 }
 
-PSParser::Eval_at_supContext* PSParser::Eval_atContext::eval_at_sup() {
-  return getRuleContext<PSParser::Eval_at_supContext>(0);
+LATEXParser::Eval_at_supContext* LATEXParser::Eval_atContext::eval_at_sup() {
+  return getRuleContext<LATEXParser::Eval_at_supContext>(0);
 }
 
-PSParser::Eval_at_subContext* PSParser::Eval_atContext::eval_at_sub() {
-  return getRuleContext<PSParser::Eval_at_subContext>(0);
+LATEXParser::Eval_at_subContext* LATEXParser::Eval_atContext::eval_at_sub() {
+  return getRuleContext<LATEXParser::Eval_at_subContext>(0);
 }
 
 
-size_t PSParser::Eval_atContext::getRuleIndex() const {
-  return PSParser::RuleEval_at;
+size_t LATEXParser::Eval_atContext::getRuleIndex() const {
+  return LATEXParser::RuleEval_at;
 }
 
-void PSParser::Eval_atContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Eval_atContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterEval_at(this);
 }
 
-void PSParser::Eval_atContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Eval_atContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitEval_at(this);
 }
 
-PSParser::Eval_atContext* PSParser::eval_at() {
+LATEXParser::Eval_atContext* LATEXParser::eval_at() {
   Eval_atContext *_localctx = _tracker.createInstance<Eval_atContext>(_ctx, getState());
-  enterRule(_localctx, 34, PSParser::RuleEval_at);
+  enterRule(_localctx, 34, LATEXParser::RuleEval_at);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2599,7 +2599,7 @@ PSParser::Eval_atContext* PSParser::eval_at() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(352);
-    match(PSParser::BAR);
+    match(LATEXParser::BAR);
     setState(358);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 18, _ctx)) {
@@ -2639,50 +2639,50 @@ PSParser::Eval_atContext* PSParser::eval_at() {
 
 //----------------- Eval_at_subContext ------------------------------------------------------------------
 
-PSParser::Eval_at_subContext::Eval_at_subContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Eval_at_subContext::Eval_at_subContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::Eval_at_subContext::UNDERSCORE() {
-  return getToken(PSParser::UNDERSCORE, 0);
+tree::TerminalNode* LATEXParser::Eval_at_subContext::UNDERSCORE() {
+  return getToken(LATEXParser::UNDERSCORE, 0);
 }
 
-tree::TerminalNode* PSParser::Eval_at_subContext::L_BRACE() {
-  return getToken(PSParser::L_BRACE, 0);
+tree::TerminalNode* LATEXParser::Eval_at_subContext::L_BRACE() {
+  return getToken(LATEXParser::L_BRACE, 0);
 }
 
-tree::TerminalNode* PSParser::Eval_at_subContext::R_BRACE() {
-  return getToken(PSParser::R_BRACE, 0);
+tree::TerminalNode* LATEXParser::Eval_at_subContext::R_BRACE() {
+  return getToken(LATEXParser::R_BRACE, 0);
 }
 
-PSParser::ExprContext* PSParser::Eval_at_subContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::Eval_at_subContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-PSParser::EqualityContext* PSParser::Eval_at_subContext::equality() {
-  return getRuleContext<PSParser::EqualityContext>(0);
+LATEXParser::EqualityContext* LATEXParser::Eval_at_subContext::equality() {
+  return getRuleContext<LATEXParser::EqualityContext>(0);
 }
 
 
-size_t PSParser::Eval_at_subContext::getRuleIndex() const {
-  return PSParser::RuleEval_at_sub;
+size_t LATEXParser::Eval_at_subContext::getRuleIndex() const {
+  return LATEXParser::RuleEval_at_sub;
 }
 
-void PSParser::Eval_at_subContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Eval_at_subContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterEval_at_sub(this);
 }
 
-void PSParser::Eval_at_subContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Eval_at_subContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitEval_at_sub(this);
 }
 
-PSParser::Eval_at_subContext* PSParser::eval_at_sub() {
+LATEXParser::Eval_at_subContext* LATEXParser::eval_at_sub() {
   Eval_at_subContext *_localctx = _tracker.createInstance<Eval_at_subContext>(_ctx, getState());
-  enterRule(_localctx, 36, PSParser::RuleEval_at_sub);
+  enterRule(_localctx, 36, LATEXParser::RuleEval_at_sub);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2694,9 +2694,9 @@ PSParser::Eval_at_subContext* PSParser::eval_at_sub() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(360);
-    match(PSParser::UNDERSCORE);
+    match(LATEXParser::UNDERSCORE);
     setState(361);
-    match(PSParser::L_BRACE);
+    match(LATEXParser::L_BRACE);
     setState(364);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 19, _ctx)) {
@@ -2716,7 +2716,7 @@ PSParser::Eval_at_subContext* PSParser::eval_at_sub() {
       break;
     }
     setState(366);
-    match(PSParser::R_BRACE);
+    match(LATEXParser::R_BRACE);
    
   }
   catch (RecognitionException &e) {
@@ -2730,50 +2730,50 @@ PSParser::Eval_at_subContext* PSParser::eval_at_sub() {
 
 //----------------- Eval_at_supContext ------------------------------------------------------------------
 
-PSParser::Eval_at_supContext::Eval_at_supContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Eval_at_supContext::Eval_at_supContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::Eval_at_supContext::CARET() {
-  return getToken(PSParser::CARET, 0);
+tree::TerminalNode* LATEXParser::Eval_at_supContext::CARET() {
+  return getToken(LATEXParser::CARET, 0);
 }
 
-tree::TerminalNode* PSParser::Eval_at_supContext::L_BRACE() {
-  return getToken(PSParser::L_BRACE, 0);
+tree::TerminalNode* LATEXParser::Eval_at_supContext::L_BRACE() {
+  return getToken(LATEXParser::L_BRACE, 0);
 }
 
-tree::TerminalNode* PSParser::Eval_at_supContext::R_BRACE() {
-  return getToken(PSParser::R_BRACE, 0);
+tree::TerminalNode* LATEXParser::Eval_at_supContext::R_BRACE() {
+  return getToken(LATEXParser::R_BRACE, 0);
 }
 
-PSParser::ExprContext* PSParser::Eval_at_supContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::Eval_at_supContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-PSParser::EqualityContext* PSParser::Eval_at_supContext::equality() {
-  return getRuleContext<PSParser::EqualityContext>(0);
+LATEXParser::EqualityContext* LATEXParser::Eval_at_supContext::equality() {
+  return getRuleContext<LATEXParser::EqualityContext>(0);
 }
 
 
-size_t PSParser::Eval_at_supContext::getRuleIndex() const {
-  return PSParser::RuleEval_at_sup;
+size_t LATEXParser::Eval_at_supContext::getRuleIndex() const {
+  return LATEXParser::RuleEval_at_sup;
 }
 
-void PSParser::Eval_at_supContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Eval_at_supContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterEval_at_sup(this);
 }
 
-void PSParser::Eval_at_supContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Eval_at_supContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitEval_at_sup(this);
 }
 
-PSParser::Eval_at_supContext* PSParser::eval_at_sup() {
+LATEXParser::Eval_at_supContext* LATEXParser::eval_at_sup() {
   Eval_at_supContext *_localctx = _tracker.createInstance<Eval_at_supContext>(_ctx, getState());
-  enterRule(_localctx, 38, PSParser::RuleEval_at_sup);
+  enterRule(_localctx, 38, LATEXParser::RuleEval_at_sup);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2785,9 +2785,9 @@ PSParser::Eval_at_supContext* PSParser::eval_at_sup() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(368);
-    match(PSParser::CARET);
+    match(LATEXParser::CARET);
     setState(369);
-    match(PSParser::L_BRACE);
+    match(LATEXParser::L_BRACE);
     setState(372);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 20, _ctx)) {
@@ -2807,7 +2807,7 @@ PSParser::Eval_at_supContext* PSParser::eval_at_sup() {
       break;
     }
     setState(374);
-    match(PSParser::R_BRACE);
+    match(LATEXParser::R_BRACE);
    
   }
   catch (RecognitionException &e) {
@@ -2821,72 +2821,72 @@ PSParser::Eval_at_supContext* PSParser::eval_at_sup() {
 
 //----------------- ExpContext ------------------------------------------------------------------
 
-PSParser::ExpContext::ExpContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::ExpContext::ExpContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::CompContext* PSParser::ExpContext::comp() {
-  return getRuleContext<PSParser::CompContext>(0);
+LATEXParser::CompContext* LATEXParser::ExpContext::comp() {
+  return getRuleContext<LATEXParser::CompContext>(0);
 }
 
-PSParser::ExpContext* PSParser::ExpContext::exp() {
-  return getRuleContext<PSParser::ExpContext>(0);
+LATEXParser::ExpContext* LATEXParser::ExpContext::exp() {
+  return getRuleContext<LATEXParser::ExpContext>(0);
 }
 
-tree::TerminalNode* PSParser::ExpContext::CARET() {
-  return getToken(PSParser::CARET, 0);
+tree::TerminalNode* LATEXParser::ExpContext::CARET() {
+  return getToken(LATEXParser::CARET, 0);
 }
 
-PSParser::AtomContext* PSParser::ExpContext::atom() {
-  return getRuleContext<PSParser::AtomContext>(0);
+LATEXParser::AtomContext* LATEXParser::ExpContext::atom() {
+  return getRuleContext<LATEXParser::AtomContext>(0);
 }
 
-tree::TerminalNode* PSParser::ExpContext::L_BRACE() {
-  return getToken(PSParser::L_BRACE, 0);
+tree::TerminalNode* LATEXParser::ExpContext::L_BRACE() {
+  return getToken(LATEXParser::L_BRACE, 0);
 }
 
-PSParser::ExprContext* PSParser::ExpContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::ExpContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-tree::TerminalNode* PSParser::ExpContext::R_BRACE() {
-  return getToken(PSParser::R_BRACE, 0);
+tree::TerminalNode* LATEXParser::ExpContext::R_BRACE() {
+  return getToken(LATEXParser::R_BRACE, 0);
 }
 
-PSParser::SubexprContext* PSParser::ExpContext::subexpr() {
-  return getRuleContext<PSParser::SubexprContext>(0);
+LATEXParser::SubexprContext* LATEXParser::ExpContext::subexpr() {
+  return getRuleContext<LATEXParser::SubexprContext>(0);
 }
 
 
-size_t PSParser::ExpContext::getRuleIndex() const {
-  return PSParser::RuleExp;
+size_t LATEXParser::ExpContext::getRuleIndex() const {
+  return LATEXParser::RuleExp;
 }
 
-void PSParser::ExpContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::ExpContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterExp(this);
 }
 
-void PSParser::ExpContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::ExpContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitExp(this);
 }
 
 
-PSParser::ExpContext* PSParser::exp() {
+LATEXParser::ExpContext* LATEXParser::exp() {
    return exp(0);
 }
 
-PSParser::ExpContext* PSParser::exp(int precedence) {
+LATEXParser::ExpContext* LATEXParser::exp(int precedence) {
   ParserRuleContext *parentContext = _ctx;
   size_t parentState = getState();
-  PSParser::ExpContext *_localctx = _tracker.createInstance<ExpContext>(_ctx, parentState);
-  PSParser::ExpContext *previousContext = _localctx;
+  LATEXParser::ExpContext *_localctx = _tracker.createInstance<ExpContext>(_ctx, parentState);
+  LATEXParser::ExpContext *previousContext = _localctx;
   (void)previousContext; // Silence compiler, in case the context is not used by generated code.
   size_t startState = 40;
-  enterRecursionRule(_localctx, 40, PSParser::RuleExp, precedence);
+  enterRecursionRule(_localctx, 40, LATEXParser::RuleExp, precedence);
 
     
 
@@ -2917,35 +2917,35 @@ PSParser::ExpContext* PSParser::exp(int precedence) {
 
         if (!(precpred(_ctx, 2))) throw FailedPredicateException(this, "precpred(_ctx, 2)");
         setState(380);
-        match(PSParser::CARET);
+        match(LATEXParser::CARET);
         setState(386);
         _errHandler->sync(this);
         switch (_input->LA(1)) {
-          case PSParser::CMD_MATHIT:
-          case PSParser::ACCENT_OVERLINE:
-          case PSParser::ACCENT_BAR:
-          case PSParser::DIFFERENTIAL:
-          case PSParser::LETTER_NO_E:
-          case PSParser::NUMBER:
-          case PSParser::FRACTION_NUMBER:
-          case PSParser::SCI_NOTATION_NUMBER:
-          case PSParser::E_NOTATION:
-          case PSParser::PERCENT_NUMBER:
-          case PSParser::GREEK_CMD:
-          case PSParser::SYMBOL:
-          case PSParser::VARIABLE: {
+          case LATEXParser::CMD_MATHIT:
+          case LATEXParser::ACCENT_OVERLINE:
+          case LATEXParser::ACCENT_BAR:
+          case LATEXParser::DIFFERENTIAL:
+          case LATEXParser::LETTER_NO_E:
+          case LATEXParser::NUMBER:
+          case LATEXParser::FRACTION_NUMBER:
+          case LATEXParser::SCI_NOTATION_NUMBER:
+          case LATEXParser::E_NOTATION:
+          case LATEXParser::PERCENT_NUMBER:
+          case LATEXParser::GREEK_CMD:
+          case LATEXParser::SYMBOL:
+          case LATEXParser::VARIABLE: {
             setState(381);
             atom();
             break;
           }
 
-          case PSParser::L_BRACE: {
+          case LATEXParser::L_BRACE: {
             setState(382);
-            match(PSParser::L_BRACE);
+            match(LATEXParser::L_BRACE);
             setState(383);
             expr();
             setState(384);
-            match(PSParser::R_BRACE);
+            match(LATEXParser::R_BRACE);
             break;
           }
 
@@ -2981,72 +2981,72 @@ PSParser::ExpContext* PSParser::exp(int precedence) {
 
 //----------------- Exp_nofuncContext ------------------------------------------------------------------
 
-PSParser::Exp_nofuncContext::Exp_nofuncContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Exp_nofuncContext::Exp_nofuncContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::Comp_nofuncContext* PSParser::Exp_nofuncContext::comp_nofunc() {
-  return getRuleContext<PSParser::Comp_nofuncContext>(0);
+LATEXParser::Comp_nofuncContext* LATEXParser::Exp_nofuncContext::comp_nofunc() {
+  return getRuleContext<LATEXParser::Comp_nofuncContext>(0);
 }
 
-PSParser::Exp_nofuncContext* PSParser::Exp_nofuncContext::exp_nofunc() {
-  return getRuleContext<PSParser::Exp_nofuncContext>(0);
+LATEXParser::Exp_nofuncContext* LATEXParser::Exp_nofuncContext::exp_nofunc() {
+  return getRuleContext<LATEXParser::Exp_nofuncContext>(0);
 }
 
-tree::TerminalNode* PSParser::Exp_nofuncContext::CARET() {
-  return getToken(PSParser::CARET, 0);
+tree::TerminalNode* LATEXParser::Exp_nofuncContext::CARET() {
+  return getToken(LATEXParser::CARET, 0);
 }
 
-PSParser::AtomContext* PSParser::Exp_nofuncContext::atom() {
-  return getRuleContext<PSParser::AtomContext>(0);
+LATEXParser::AtomContext* LATEXParser::Exp_nofuncContext::atom() {
+  return getRuleContext<LATEXParser::AtomContext>(0);
 }
 
-tree::TerminalNode* PSParser::Exp_nofuncContext::L_BRACE() {
-  return getToken(PSParser::L_BRACE, 0);
+tree::TerminalNode* LATEXParser::Exp_nofuncContext::L_BRACE() {
+  return getToken(LATEXParser::L_BRACE, 0);
 }
 
-PSParser::ExprContext* PSParser::Exp_nofuncContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::Exp_nofuncContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-tree::TerminalNode* PSParser::Exp_nofuncContext::R_BRACE() {
-  return getToken(PSParser::R_BRACE, 0);
+tree::TerminalNode* LATEXParser::Exp_nofuncContext::R_BRACE() {
+  return getToken(LATEXParser::R_BRACE, 0);
 }
 
-PSParser::SubexprContext* PSParser::Exp_nofuncContext::subexpr() {
-  return getRuleContext<PSParser::SubexprContext>(0);
+LATEXParser::SubexprContext* LATEXParser::Exp_nofuncContext::subexpr() {
+  return getRuleContext<LATEXParser::SubexprContext>(0);
 }
 
 
-size_t PSParser::Exp_nofuncContext::getRuleIndex() const {
-  return PSParser::RuleExp_nofunc;
+size_t LATEXParser::Exp_nofuncContext::getRuleIndex() const {
+  return LATEXParser::RuleExp_nofunc;
 }
 
-void PSParser::Exp_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Exp_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterExp_nofunc(this);
 }
 
-void PSParser::Exp_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Exp_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitExp_nofunc(this);
 }
 
 
-PSParser::Exp_nofuncContext* PSParser::exp_nofunc() {
+LATEXParser::Exp_nofuncContext* LATEXParser::exp_nofunc() {
    return exp_nofunc(0);
 }
 
-PSParser::Exp_nofuncContext* PSParser::exp_nofunc(int precedence) {
+LATEXParser::Exp_nofuncContext* LATEXParser::exp_nofunc(int precedence) {
   ParserRuleContext *parentContext = _ctx;
   size_t parentState = getState();
-  PSParser::Exp_nofuncContext *_localctx = _tracker.createInstance<Exp_nofuncContext>(_ctx, parentState);
-  PSParser::Exp_nofuncContext *previousContext = _localctx;
+  LATEXParser::Exp_nofuncContext *_localctx = _tracker.createInstance<Exp_nofuncContext>(_ctx, parentState);
+  LATEXParser::Exp_nofuncContext *previousContext = _localctx;
   (void)previousContext; // Silence compiler, in case the context is not used by generated code.
   size_t startState = 42;
-  enterRecursionRule(_localctx, 42, PSParser::RuleExp_nofunc, precedence);
+  enterRecursionRule(_localctx, 42, LATEXParser::RuleExp_nofunc, precedence);
 
     
 
@@ -3077,35 +3077,35 @@ PSParser::Exp_nofuncContext* PSParser::exp_nofunc(int precedence) {
 
         if (!(precpred(_ctx, 2))) throw FailedPredicateException(this, "precpred(_ctx, 2)");
         setState(400);
-        match(PSParser::CARET);
+        match(LATEXParser::CARET);
         setState(406);
         _errHandler->sync(this);
         switch (_input->LA(1)) {
-          case PSParser::CMD_MATHIT:
-          case PSParser::ACCENT_OVERLINE:
-          case PSParser::ACCENT_BAR:
-          case PSParser::DIFFERENTIAL:
-          case PSParser::LETTER_NO_E:
-          case PSParser::NUMBER:
-          case PSParser::FRACTION_NUMBER:
-          case PSParser::SCI_NOTATION_NUMBER:
-          case PSParser::E_NOTATION:
-          case PSParser::PERCENT_NUMBER:
-          case PSParser::GREEK_CMD:
-          case PSParser::SYMBOL:
-          case PSParser::VARIABLE: {
+          case LATEXParser::CMD_MATHIT:
+          case LATEXParser::ACCENT_OVERLINE:
+          case LATEXParser::ACCENT_BAR:
+          case LATEXParser::DIFFERENTIAL:
+          case LATEXParser::LETTER_NO_E:
+          case LATEXParser::NUMBER:
+          case LATEXParser::FRACTION_NUMBER:
+          case LATEXParser::SCI_NOTATION_NUMBER:
+          case LATEXParser::E_NOTATION:
+          case LATEXParser::PERCENT_NUMBER:
+          case LATEXParser::GREEK_CMD:
+          case LATEXParser::SYMBOL:
+          case LATEXParser::VARIABLE: {
             setState(401);
             atom();
             break;
           }
 
-          case PSParser::L_BRACE: {
+          case LATEXParser::L_BRACE: {
             setState(402);
-            match(PSParser::L_BRACE);
+            match(LATEXParser::L_BRACE);
             setState(403);
             expr();
             setState(404);
-            match(PSParser::R_BRACE);
+            match(LATEXParser::R_BRACE);
             break;
           }
 
@@ -3141,66 +3141,66 @@ PSParser::Exp_nofuncContext* PSParser::exp_nofunc(int precedence) {
 
 //----------------- CompContext ------------------------------------------------------------------
 
-PSParser::CompContext::CompContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::CompContext::CompContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::GroupContext* PSParser::CompContext::group() {
-  return getRuleContext<PSParser::GroupContext>(0);
+LATEXParser::GroupContext* LATEXParser::CompContext::group() {
+  return getRuleContext<LATEXParser::GroupContext>(0);
 }
 
-PSParser::Abs_groupContext* PSParser::CompContext::abs_group() {
-  return getRuleContext<PSParser::Abs_groupContext>(0);
+LATEXParser::Abs_groupContext* LATEXParser::CompContext::abs_group() {
+  return getRuleContext<LATEXParser::Abs_groupContext>(0);
 }
 
-PSParser::Floor_groupContext* PSParser::CompContext::floor_group() {
-  return getRuleContext<PSParser::Floor_groupContext>(0);
+LATEXParser::Floor_groupContext* LATEXParser::CompContext::floor_group() {
+  return getRuleContext<LATEXParser::Floor_groupContext>(0);
 }
 
-PSParser::Ceil_groupContext* PSParser::CompContext::ceil_group() {
-  return getRuleContext<PSParser::Ceil_groupContext>(0);
+LATEXParser::Ceil_groupContext* LATEXParser::CompContext::ceil_group() {
+  return getRuleContext<LATEXParser::Ceil_groupContext>(0);
 }
 
-PSParser::FuncContext* PSParser::CompContext::func() {
-  return getRuleContext<PSParser::FuncContext>(0);
+LATEXParser::FuncContext* LATEXParser::CompContext::func() {
+  return getRuleContext<LATEXParser::FuncContext>(0);
 }
 
-PSParser::AtomContext* PSParser::CompContext::atom() {
-  return getRuleContext<PSParser::AtomContext>(0);
+LATEXParser::AtomContext* LATEXParser::CompContext::atom() {
+  return getRuleContext<LATEXParser::AtomContext>(0);
 }
 
-PSParser::FracContext* PSParser::CompContext::frac() {
-  return getRuleContext<PSParser::FracContext>(0);
+LATEXParser::FracContext* LATEXParser::CompContext::frac() {
+  return getRuleContext<LATEXParser::FracContext>(0);
 }
 
-PSParser::BinomContext* PSParser::CompContext::binom() {
-  return getRuleContext<PSParser::BinomContext>(0);
+LATEXParser::BinomContext* LATEXParser::CompContext::binom() {
+  return getRuleContext<LATEXParser::BinomContext>(0);
 }
 
-PSParser::MatrixContext* PSParser::CompContext::matrix() {
-  return getRuleContext<PSParser::MatrixContext>(0);
+LATEXParser::MatrixContext* LATEXParser::CompContext::matrix() {
+  return getRuleContext<LATEXParser::MatrixContext>(0);
 }
 
 
-size_t PSParser::CompContext::getRuleIndex() const {
-  return PSParser::RuleComp;
+size_t LATEXParser::CompContext::getRuleIndex() const {
+  return LATEXParser::RuleComp;
 }
 
-void PSParser::CompContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::CompContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterComp(this);
 }
 
-void PSParser::CompContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::CompContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitComp(this);
 }
 
-PSParser::CompContext* PSParser::comp() {
+LATEXParser::CompContext* LATEXParser::comp() {
   CompContext *_localctx = _tracker.createInstance<CompContext>(_ctx, getState());
-  enterRule(_localctx, 44, PSParser::RuleComp);
+  enterRule(_localctx, 44, LATEXParser::RuleComp);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -3292,62 +3292,62 @@ PSParser::CompContext* PSParser::comp() {
 
 //----------------- Comp_nofuncContext ------------------------------------------------------------------
 
-PSParser::Comp_nofuncContext::Comp_nofuncContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Comp_nofuncContext::Comp_nofuncContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::GroupContext* PSParser::Comp_nofuncContext::group() {
-  return getRuleContext<PSParser::GroupContext>(0);
+LATEXParser::GroupContext* LATEXParser::Comp_nofuncContext::group() {
+  return getRuleContext<LATEXParser::GroupContext>(0);
 }
 
-PSParser::Abs_groupContext* PSParser::Comp_nofuncContext::abs_group() {
-  return getRuleContext<PSParser::Abs_groupContext>(0);
+LATEXParser::Abs_groupContext* LATEXParser::Comp_nofuncContext::abs_group() {
+  return getRuleContext<LATEXParser::Abs_groupContext>(0);
 }
 
-PSParser::Floor_groupContext* PSParser::Comp_nofuncContext::floor_group() {
-  return getRuleContext<PSParser::Floor_groupContext>(0);
+LATEXParser::Floor_groupContext* LATEXParser::Comp_nofuncContext::floor_group() {
+  return getRuleContext<LATEXParser::Floor_groupContext>(0);
 }
 
-PSParser::Ceil_groupContext* PSParser::Comp_nofuncContext::ceil_group() {
-  return getRuleContext<PSParser::Ceil_groupContext>(0);
+LATEXParser::Ceil_groupContext* LATEXParser::Comp_nofuncContext::ceil_group() {
+  return getRuleContext<LATEXParser::Ceil_groupContext>(0);
 }
 
-PSParser::AtomContext* PSParser::Comp_nofuncContext::atom() {
-  return getRuleContext<PSParser::AtomContext>(0);
+LATEXParser::AtomContext* LATEXParser::Comp_nofuncContext::atom() {
+  return getRuleContext<LATEXParser::AtomContext>(0);
 }
 
-PSParser::FracContext* PSParser::Comp_nofuncContext::frac() {
-  return getRuleContext<PSParser::FracContext>(0);
+LATEXParser::FracContext* LATEXParser::Comp_nofuncContext::frac() {
+  return getRuleContext<LATEXParser::FracContext>(0);
 }
 
-PSParser::BinomContext* PSParser::Comp_nofuncContext::binom() {
-  return getRuleContext<PSParser::BinomContext>(0);
+LATEXParser::BinomContext* LATEXParser::Comp_nofuncContext::binom() {
+  return getRuleContext<LATEXParser::BinomContext>(0);
 }
 
-PSParser::MatrixContext* PSParser::Comp_nofuncContext::matrix() {
-  return getRuleContext<PSParser::MatrixContext>(0);
+LATEXParser::MatrixContext* LATEXParser::Comp_nofuncContext::matrix() {
+  return getRuleContext<LATEXParser::MatrixContext>(0);
 }
 
 
-size_t PSParser::Comp_nofuncContext::getRuleIndex() const {
-  return PSParser::RuleComp_nofunc;
+size_t LATEXParser::Comp_nofuncContext::getRuleIndex() const {
+  return LATEXParser::RuleComp_nofunc;
 }
 
-void PSParser::Comp_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Comp_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterComp_nofunc(this);
 }
 
-void PSParser::Comp_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Comp_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitComp_nofunc(this);
 }
 
-PSParser::Comp_nofuncContext* PSParser::comp_nofunc() {
+LATEXParser::Comp_nofuncContext* LATEXParser::comp_nofunc() {
   Comp_nofuncContext *_localctx = _tracker.createInstance<Comp_nofuncContext>(_ctx, getState());
-  enterRule(_localctx, 46, PSParser::RuleComp_nofunc);
+  enterRule(_localctx, 46, LATEXParser::RuleComp_nofunc);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -3432,106 +3432,106 @@ PSParser::Comp_nofuncContext* PSParser::comp_nofunc() {
 
 //----------------- GroupContext ------------------------------------------------------------------
 
-PSParser::GroupContext::GroupContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::GroupContext::GroupContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::GroupContext::L_PAREN() {
-  return getToken(PSParser::L_PAREN, 0);
+tree::TerminalNode* LATEXParser::GroupContext::L_PAREN() {
+  return getToken(LATEXParser::L_PAREN, 0);
 }
 
-PSParser::ExprContext* PSParser::GroupContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::GroupContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::R_PAREN() {
-  return getToken(PSParser::R_PAREN, 0);
+tree::TerminalNode* LATEXParser::GroupContext::R_PAREN() {
+  return getToken(LATEXParser::R_PAREN, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::L_GROUP() {
-  return getToken(PSParser::L_GROUP, 0);
+tree::TerminalNode* LATEXParser::GroupContext::L_GROUP() {
+  return getToken(LATEXParser::L_GROUP, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::R_GROUP() {
-  return getToken(PSParser::R_GROUP, 0);
+tree::TerminalNode* LATEXParser::GroupContext::R_GROUP() {
+  return getToken(LATEXParser::R_GROUP, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::L_BRACE() {
-  return getToken(PSParser::L_BRACE, 0);
+tree::TerminalNode* LATEXParser::GroupContext::L_BRACE() {
+  return getToken(LATEXParser::L_BRACE, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::R_BRACE() {
-  return getToken(PSParser::R_BRACE, 0);
+tree::TerminalNode* LATEXParser::GroupContext::R_BRACE() {
+  return getToken(LATEXParser::R_BRACE, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::L_BRACE_VISUAL() {
-  return getToken(PSParser::L_BRACE_VISUAL, 0);
+tree::TerminalNode* LATEXParser::GroupContext::L_BRACE_VISUAL() {
+  return getToken(LATEXParser::L_BRACE_VISUAL, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::R_BRACE_VISUAL() {
-  return getToken(PSParser::R_BRACE_VISUAL, 0);
+tree::TerminalNode* LATEXParser::GroupContext::R_BRACE_VISUAL() {
+  return getToken(LATEXParser::R_BRACE_VISUAL, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::L_BRACE_CMD() {
-  return getToken(PSParser::L_BRACE_CMD, 0);
+tree::TerminalNode* LATEXParser::GroupContext::L_BRACE_CMD() {
+  return getToken(LATEXParser::L_BRACE_CMD, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::R_BRACE_CMD() {
-  return getToken(PSParser::R_BRACE_CMD, 0);
+tree::TerminalNode* LATEXParser::GroupContext::R_BRACE_CMD() {
+  return getToken(LATEXParser::R_BRACE_CMD, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::L_BRACKET() {
-  return getToken(PSParser::L_BRACKET, 0);
+tree::TerminalNode* LATEXParser::GroupContext::L_BRACKET() {
+  return getToken(LATEXParser::L_BRACKET, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::R_BRACKET() {
-  return getToken(PSParser::R_BRACKET, 0);
+tree::TerminalNode* LATEXParser::GroupContext::R_BRACKET() {
+  return getToken(LATEXParser::R_BRACKET, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::L_BRACK() {
-  return getToken(PSParser::L_BRACK, 0);
+tree::TerminalNode* LATEXParser::GroupContext::L_BRACK() {
+  return getToken(LATEXParser::L_BRACK, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::R_BRACK() {
-  return getToken(PSParser::R_BRACK, 0);
+tree::TerminalNode* LATEXParser::GroupContext::R_BRACK() {
+  return getToken(LATEXParser::R_BRACK, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::L_LEFT() {
-  return getToken(PSParser::L_LEFT, 0);
+tree::TerminalNode* LATEXParser::GroupContext::L_LEFT() {
+  return getToken(LATEXParser::L_LEFT, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::R_RIGHT() {
-  return getToken(PSParser::R_RIGHT, 0);
+tree::TerminalNode* LATEXParser::GroupContext::R_RIGHT() {
+  return getToken(LATEXParser::R_RIGHT, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::ML_LEFT() {
-  return getToken(PSParser::ML_LEFT, 0);
+tree::TerminalNode* LATEXParser::GroupContext::ML_LEFT() {
+  return getToken(LATEXParser::ML_LEFT, 0);
 }
 
-tree::TerminalNode* PSParser::GroupContext::MR_RIGHT() {
-  return getToken(PSParser::MR_RIGHT, 0);
+tree::TerminalNode* LATEXParser::GroupContext::MR_RIGHT() {
+  return getToken(LATEXParser::MR_RIGHT, 0);
 }
 
 
-size_t PSParser::GroupContext::getRuleIndex() const {
-  return PSParser::RuleGroup;
+size_t LATEXParser::GroupContext::getRuleIndex() const {
+  return LATEXParser::RuleGroup;
 }
 
-void PSParser::GroupContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::GroupContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterGroup(this);
 }
 
-void PSParser::GroupContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::GroupContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitGroup(this);
 }
 
-PSParser::GroupContext* PSParser::group() {
+LATEXParser::GroupContext* LATEXParser::group() {
   GroupContext *_localctx = _tracker.createInstance<GroupContext>(_ctx, getState());
-  enterRule(_localctx, 48, PSParser::RuleGroup);
+  enterRule(_localctx, 48, LATEXParser::RuleGroup);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -3547,287 +3547,287 @@ PSParser::GroupContext* PSParser::group() {
     case 1: {
       enterOuterAlt(_localctx, 1);
       setState(437);
-      match(PSParser::L_PAREN);
+      match(LATEXParser::L_PAREN);
       setState(438);
       expr();
       setState(439);
-      match(PSParser::R_PAREN);
+      match(LATEXParser::R_PAREN);
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
       setState(441);
-      match(PSParser::L_GROUP);
+      match(LATEXParser::L_GROUP);
       setState(442);
       expr();
       setState(443);
-      match(PSParser::R_GROUP);
+      match(LATEXParser::R_GROUP);
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
       setState(445);
-      match(PSParser::L_BRACE);
+      match(LATEXParser::L_BRACE);
       setState(446);
       expr();
       setState(447);
-      match(PSParser::R_BRACE);
+      match(LATEXParser::R_BRACE);
       break;
     }
 
     case 4: {
       enterOuterAlt(_localctx, 4);
       setState(449);
-      match(PSParser::L_BRACE_VISUAL);
+      match(LATEXParser::L_BRACE_VISUAL);
       setState(450);
       expr();
       setState(451);
-      match(PSParser::R_BRACE_VISUAL);
+      match(LATEXParser::R_BRACE_VISUAL);
       break;
     }
 
     case 5: {
       enterOuterAlt(_localctx, 5);
       setState(453);
-      match(PSParser::L_BRACE_CMD);
+      match(LATEXParser::L_BRACE_CMD);
       setState(454);
       expr();
       setState(455);
-      match(PSParser::R_BRACE_CMD);
+      match(LATEXParser::R_BRACE_CMD);
       break;
     }
 
     case 6: {
       enterOuterAlt(_localctx, 6);
       setState(457);
-      match(PSParser::L_BRACKET);
+      match(LATEXParser::L_BRACKET);
       setState(458);
       expr();
       setState(459);
-      match(PSParser::R_BRACKET);
+      match(LATEXParser::R_BRACKET);
       break;
     }
 
     case 7: {
       enterOuterAlt(_localctx, 7);
       setState(461);
-      match(PSParser::L_BRACK);
+      match(LATEXParser::L_BRACK);
       setState(462);
       expr();
       setState(463);
-      match(PSParser::R_BRACK);
+      match(LATEXParser::R_BRACK);
       break;
     }
 
     case 8: {
       enterOuterAlt(_localctx, 8);
       setState(465);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(466);
-      match(PSParser::L_PAREN);
+      match(LATEXParser::L_PAREN);
       setState(467);
       expr();
       setState(468);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(469);
-      match(PSParser::R_PAREN);
+      match(LATEXParser::R_PAREN);
       break;
     }
 
     case 9: {
       enterOuterAlt(_localctx, 9);
       setState(471);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(472);
-      match(PSParser::L_GROUP);
+      match(LATEXParser::L_GROUP);
       setState(473);
       expr();
       setState(474);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(475);
-      match(PSParser::R_GROUP);
+      match(LATEXParser::R_GROUP);
       break;
     }
 
     case 10: {
       enterOuterAlt(_localctx, 10);
       setState(477);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(478);
-      match(PSParser::L_BRACE);
+      match(LATEXParser::L_BRACE);
       setState(479);
       expr();
       setState(480);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(481);
-      match(PSParser::R_BRACE);
+      match(LATEXParser::R_BRACE);
       break;
     }
 
     case 11: {
       enterOuterAlt(_localctx, 11);
       setState(483);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(484);
-      match(PSParser::L_BRACE_VISUAL);
+      match(LATEXParser::L_BRACE_VISUAL);
       setState(485);
       expr();
       setState(486);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(487);
-      match(PSParser::R_BRACE_VISUAL);
+      match(LATEXParser::R_BRACE_VISUAL);
       break;
     }
 
     case 12: {
       enterOuterAlt(_localctx, 12);
       setState(489);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(490);
-      match(PSParser::L_BRACE_CMD);
+      match(LATEXParser::L_BRACE_CMD);
       setState(491);
       expr();
       setState(492);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(493);
-      match(PSParser::R_BRACE_CMD);
+      match(LATEXParser::R_BRACE_CMD);
       break;
     }
 
     case 13: {
       enterOuterAlt(_localctx, 13);
       setState(495);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(496);
-      match(PSParser::L_BRACKET);
+      match(LATEXParser::L_BRACKET);
       setState(497);
       expr();
       setState(498);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(499);
-      match(PSParser::R_BRACKET);
+      match(LATEXParser::R_BRACKET);
       break;
     }
 
     case 14: {
       enterOuterAlt(_localctx, 14);
       setState(501);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(502);
-      match(PSParser::L_BRACK);
+      match(LATEXParser::L_BRACK);
       setState(503);
       expr();
       setState(504);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(505);
-      match(PSParser::R_BRACK);
+      match(LATEXParser::R_BRACK);
       break;
     }
 
     case 15: {
       enterOuterAlt(_localctx, 15);
       setState(507);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(508);
-      match(PSParser::L_PAREN);
+      match(LATEXParser::L_PAREN);
       setState(509);
       expr();
       setState(510);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(511);
-      match(PSParser::R_PAREN);
+      match(LATEXParser::R_PAREN);
       break;
     }
 
     case 16: {
       enterOuterAlt(_localctx, 16);
       setState(513);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(514);
-      match(PSParser::L_GROUP);
+      match(LATEXParser::L_GROUP);
       setState(515);
       expr();
       setState(516);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(517);
-      match(PSParser::R_GROUP);
+      match(LATEXParser::R_GROUP);
       break;
     }
 
     case 17: {
       enterOuterAlt(_localctx, 17);
       setState(519);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(520);
-      match(PSParser::L_BRACE);
+      match(LATEXParser::L_BRACE);
       setState(521);
       expr();
       setState(522);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(523);
-      match(PSParser::R_BRACE);
+      match(LATEXParser::R_BRACE);
       break;
     }
 
     case 18: {
       enterOuterAlt(_localctx, 18);
       setState(525);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(526);
-      match(PSParser::L_BRACE_VISUAL);
+      match(LATEXParser::L_BRACE_VISUAL);
       setState(527);
       expr();
       setState(528);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(529);
-      match(PSParser::R_BRACE_VISUAL);
+      match(LATEXParser::R_BRACE_VISUAL);
       break;
     }
 
     case 19: {
       enterOuterAlt(_localctx, 19);
       setState(531);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(532);
-      match(PSParser::L_BRACE_CMD);
+      match(LATEXParser::L_BRACE_CMD);
       setState(533);
       expr();
       setState(534);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(535);
-      match(PSParser::R_BRACE_CMD);
+      match(LATEXParser::R_BRACE_CMD);
       break;
     }
 
     case 20: {
       enterOuterAlt(_localctx, 20);
       setState(537);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(538);
-      match(PSParser::L_BRACKET);
+      match(LATEXParser::L_BRACKET);
       setState(539);
       expr();
       setState(540);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(541);
-      match(PSParser::R_BRACKET);
+      match(LATEXParser::R_BRACKET);
       break;
     }
 
     case 21: {
       enterOuterAlt(_localctx, 21);
       setState(543);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(544);
-      match(PSParser::L_BRACK);
+      match(LATEXParser::L_BRACK);
       setState(545);
       expr();
       setState(546);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(547);
-      match(PSParser::R_BRACK);
+      match(LATEXParser::R_BRACK);
       break;
     }
 
@@ -3847,74 +3847,74 @@ PSParser::GroupContext* PSParser::group() {
 
 //----------------- Abs_groupContext ------------------------------------------------------------------
 
-PSParser::Abs_groupContext::Abs_groupContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Abs_groupContext::Abs_groupContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<tree::TerminalNode *> PSParser::Abs_groupContext::BAR() {
-  return getTokens(PSParser::BAR);
+std::vector<tree::TerminalNode *> LATEXParser::Abs_groupContext::BAR() {
+  return getTokens(LATEXParser::BAR);
 }
 
-tree::TerminalNode* PSParser::Abs_groupContext::BAR(size_t i) {
-  return getToken(PSParser::BAR, i);
+tree::TerminalNode* LATEXParser::Abs_groupContext::BAR(size_t i) {
+  return getToken(LATEXParser::BAR, i);
 }
 
-PSParser::ExprContext* PSParser::Abs_groupContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::Abs_groupContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-tree::TerminalNode* PSParser::Abs_groupContext::L_VERT() {
-  return getToken(PSParser::L_VERT, 0);
+tree::TerminalNode* LATEXParser::Abs_groupContext::L_VERT() {
+  return getToken(LATEXParser::L_VERT, 0);
 }
 
-tree::TerminalNode* PSParser::Abs_groupContext::R_VERT() {
-  return getToken(PSParser::R_VERT, 0);
+tree::TerminalNode* LATEXParser::Abs_groupContext::R_VERT() {
+  return getToken(LATEXParser::R_VERT, 0);
 }
 
-std::vector<tree::TerminalNode *> PSParser::Abs_groupContext::VERT() {
-  return getTokens(PSParser::VERT);
+std::vector<tree::TerminalNode *> LATEXParser::Abs_groupContext::VERT() {
+  return getTokens(LATEXParser::VERT);
 }
 
-tree::TerminalNode* PSParser::Abs_groupContext::VERT(size_t i) {
-  return getToken(PSParser::VERT, i);
+tree::TerminalNode* LATEXParser::Abs_groupContext::VERT(size_t i) {
+  return getToken(LATEXParser::VERT, i);
 }
 
-tree::TerminalNode* PSParser::Abs_groupContext::L_LEFT() {
-  return getToken(PSParser::L_LEFT, 0);
+tree::TerminalNode* LATEXParser::Abs_groupContext::L_LEFT() {
+  return getToken(LATEXParser::L_LEFT, 0);
 }
 
-tree::TerminalNode* PSParser::Abs_groupContext::R_RIGHT() {
-  return getToken(PSParser::R_RIGHT, 0);
+tree::TerminalNode* LATEXParser::Abs_groupContext::R_RIGHT() {
+  return getToken(LATEXParser::R_RIGHT, 0);
 }
 
-tree::TerminalNode* PSParser::Abs_groupContext::ML_LEFT() {
-  return getToken(PSParser::ML_LEFT, 0);
+tree::TerminalNode* LATEXParser::Abs_groupContext::ML_LEFT() {
+  return getToken(LATEXParser::ML_LEFT, 0);
 }
 
-tree::TerminalNode* PSParser::Abs_groupContext::MR_RIGHT() {
-  return getToken(PSParser::MR_RIGHT, 0);
+tree::TerminalNode* LATEXParser::Abs_groupContext::MR_RIGHT() {
+  return getToken(LATEXParser::MR_RIGHT, 0);
 }
 
 
-size_t PSParser::Abs_groupContext::getRuleIndex() const {
-  return PSParser::RuleAbs_group;
+size_t LATEXParser::Abs_groupContext::getRuleIndex() const {
+  return LATEXParser::RuleAbs_group;
 }
 
-void PSParser::Abs_groupContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Abs_groupContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterAbs_group(this);
 }
 
-void PSParser::Abs_groupContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Abs_groupContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitAbs_group(this);
 }
 
-PSParser::Abs_groupContext* PSParser::abs_group() {
+LATEXParser::Abs_groupContext* LATEXParser::abs_group() {
   Abs_groupContext *_localctx = _tracker.createInstance<Abs_groupContext>(_ctx, getState());
-  enterRule(_localctx, 50, PSParser::RuleAbs_group);
+  enterRule(_localctx, 50, LATEXParser::RuleAbs_group);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -3930,123 +3930,123 @@ PSParser::Abs_groupContext* PSParser::abs_group() {
     case 1: {
       enterOuterAlt(_localctx, 1);
       setState(551);
-      match(PSParser::BAR);
+      match(LATEXParser::BAR);
       setState(552);
       expr();
       setState(553);
-      match(PSParser::BAR);
+      match(LATEXParser::BAR);
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
       setState(555);
-      match(PSParser::L_VERT);
+      match(LATEXParser::L_VERT);
       setState(556);
       expr();
       setState(557);
-      match(PSParser::R_VERT);
+      match(LATEXParser::R_VERT);
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
       setState(559);
-      match(PSParser::VERT);
+      match(LATEXParser::VERT);
       setState(560);
       expr();
       setState(561);
-      match(PSParser::VERT);
+      match(LATEXParser::VERT);
       break;
     }
 
     case 4: {
       enterOuterAlt(_localctx, 4);
       setState(563);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(564);
-      match(PSParser::BAR);
+      match(LATEXParser::BAR);
       setState(565);
       expr();
       setState(566);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(567);
-      match(PSParser::BAR);
+      match(LATEXParser::BAR);
       break;
     }
 
     case 5: {
       enterOuterAlt(_localctx, 5);
       setState(569);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(570);
-      match(PSParser::L_VERT);
+      match(LATEXParser::L_VERT);
       setState(571);
       expr();
       setState(572);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(573);
-      match(PSParser::R_VERT);
+      match(LATEXParser::R_VERT);
       break;
     }
 
     case 6: {
       enterOuterAlt(_localctx, 6);
       setState(575);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(576);
-      match(PSParser::VERT);
+      match(LATEXParser::VERT);
       setState(577);
       expr();
       setState(578);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(579);
-      match(PSParser::VERT);
+      match(LATEXParser::VERT);
       break;
     }
 
     case 7: {
       enterOuterAlt(_localctx, 7);
       setState(581);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(582);
-      match(PSParser::BAR);
+      match(LATEXParser::BAR);
       setState(583);
       expr();
       setState(584);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(585);
-      match(PSParser::BAR);
+      match(LATEXParser::BAR);
       break;
     }
 
     case 8: {
       enterOuterAlt(_localctx, 8);
       setState(587);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(588);
-      match(PSParser::L_VERT);
+      match(LATEXParser::L_VERT);
       setState(589);
       expr();
       setState(590);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(591);
-      match(PSParser::R_VERT);
+      match(LATEXParser::R_VERT);
       break;
     }
 
     case 9: {
       enterOuterAlt(_localctx, 9);
       setState(593);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(594);
-      match(PSParser::VERT);
+      match(LATEXParser::VERT);
       setState(595);
       expr();
       setState(596);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(597);
-      match(PSParser::VERT);
+      match(LATEXParser::VERT);
       break;
     }
 
@@ -4066,66 +4066,66 @@ PSParser::Abs_groupContext* PSParser::abs_group() {
 
 //----------------- Floor_groupContext ------------------------------------------------------------------
 
-PSParser::Floor_groupContext::Floor_groupContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Floor_groupContext::Floor_groupContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::Floor_groupContext::L_FLOOR() {
-  return getToken(PSParser::L_FLOOR, 0);
+tree::TerminalNode* LATEXParser::Floor_groupContext::L_FLOOR() {
+  return getToken(LATEXParser::L_FLOOR, 0);
 }
 
-PSParser::ExprContext* PSParser::Floor_groupContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::Floor_groupContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-tree::TerminalNode* PSParser::Floor_groupContext::R_FLOOR() {
-  return getToken(PSParser::R_FLOOR, 0);
+tree::TerminalNode* LATEXParser::Floor_groupContext::R_FLOOR() {
+  return getToken(LATEXParser::R_FLOOR, 0);
 }
 
-tree::TerminalNode* PSParser::Floor_groupContext::LL_CORNER() {
-  return getToken(PSParser::LL_CORNER, 0);
+tree::TerminalNode* LATEXParser::Floor_groupContext::LL_CORNER() {
+  return getToken(LATEXParser::LL_CORNER, 0);
 }
 
-tree::TerminalNode* PSParser::Floor_groupContext::LR_CORNER() {
-  return getToken(PSParser::LR_CORNER, 0);
+tree::TerminalNode* LATEXParser::Floor_groupContext::LR_CORNER() {
+  return getToken(LATEXParser::LR_CORNER, 0);
 }
 
-tree::TerminalNode* PSParser::Floor_groupContext::L_LEFT() {
-  return getToken(PSParser::L_LEFT, 0);
+tree::TerminalNode* LATEXParser::Floor_groupContext::L_LEFT() {
+  return getToken(LATEXParser::L_LEFT, 0);
 }
 
-tree::TerminalNode* PSParser::Floor_groupContext::R_RIGHT() {
-  return getToken(PSParser::R_RIGHT, 0);
+tree::TerminalNode* LATEXParser::Floor_groupContext::R_RIGHT() {
+  return getToken(LATEXParser::R_RIGHT, 0);
 }
 
-tree::TerminalNode* PSParser::Floor_groupContext::ML_LEFT() {
-  return getToken(PSParser::ML_LEFT, 0);
+tree::TerminalNode* LATEXParser::Floor_groupContext::ML_LEFT() {
+  return getToken(LATEXParser::ML_LEFT, 0);
 }
 
-tree::TerminalNode* PSParser::Floor_groupContext::MR_RIGHT() {
-  return getToken(PSParser::MR_RIGHT, 0);
+tree::TerminalNode* LATEXParser::Floor_groupContext::MR_RIGHT() {
+  return getToken(LATEXParser::MR_RIGHT, 0);
 }
 
 
-size_t PSParser::Floor_groupContext::getRuleIndex() const {
-  return PSParser::RuleFloor_group;
+size_t LATEXParser::Floor_groupContext::getRuleIndex() const {
+  return LATEXParser::RuleFloor_group;
 }
 
-void PSParser::Floor_groupContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Floor_groupContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFloor_group(this);
 }
 
-void PSParser::Floor_groupContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Floor_groupContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFloor_group(this);
 }
 
-PSParser::Floor_groupContext* PSParser::floor_group() {
+LATEXParser::Floor_groupContext* LATEXParser::floor_group() {
   Floor_groupContext *_localctx = _tracker.createInstance<Floor_groupContext>(_ctx, getState());
-  enterRule(_localctx, 52, PSParser::RuleFloor_group);
+  enterRule(_localctx, 52, LATEXParser::RuleFloor_group);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -4141,82 +4141,82 @@ PSParser::Floor_groupContext* PSParser::floor_group() {
     case 1: {
       enterOuterAlt(_localctx, 1);
       setState(601);
-      match(PSParser::L_FLOOR);
+      match(LATEXParser::L_FLOOR);
       setState(602);
       expr();
       setState(603);
-      match(PSParser::R_FLOOR);
+      match(LATEXParser::R_FLOOR);
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
       setState(605);
-      match(PSParser::LL_CORNER);
+      match(LATEXParser::LL_CORNER);
       setState(606);
       expr();
       setState(607);
-      match(PSParser::LR_CORNER);
+      match(LATEXParser::LR_CORNER);
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
       setState(609);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(610);
-      match(PSParser::L_FLOOR);
+      match(LATEXParser::L_FLOOR);
       setState(611);
       expr();
       setState(612);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(613);
-      match(PSParser::R_FLOOR);
+      match(LATEXParser::R_FLOOR);
       break;
     }
 
     case 4: {
       enterOuterAlt(_localctx, 4);
       setState(615);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(616);
-      match(PSParser::LL_CORNER);
+      match(LATEXParser::LL_CORNER);
       setState(617);
       expr();
       setState(618);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(619);
-      match(PSParser::LR_CORNER);
+      match(LATEXParser::LR_CORNER);
       break;
     }
 
     case 5: {
       enterOuterAlt(_localctx, 5);
       setState(621);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(622);
-      match(PSParser::L_FLOOR);
+      match(LATEXParser::L_FLOOR);
       setState(623);
       expr();
       setState(624);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(625);
-      match(PSParser::R_FLOOR);
+      match(LATEXParser::R_FLOOR);
       break;
     }
 
     case 6: {
       enterOuterAlt(_localctx, 6);
       setState(627);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(628);
-      match(PSParser::LL_CORNER);
+      match(LATEXParser::LL_CORNER);
       setState(629);
       expr();
       setState(630);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(631);
-      match(PSParser::LR_CORNER);
+      match(LATEXParser::LR_CORNER);
       break;
     }
 
@@ -4236,66 +4236,66 @@ PSParser::Floor_groupContext* PSParser::floor_group() {
 
 //----------------- Ceil_groupContext ------------------------------------------------------------------
 
-PSParser::Ceil_groupContext::Ceil_groupContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Ceil_groupContext::Ceil_groupContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::Ceil_groupContext::L_CEIL() {
-  return getToken(PSParser::L_CEIL, 0);
+tree::TerminalNode* LATEXParser::Ceil_groupContext::L_CEIL() {
+  return getToken(LATEXParser::L_CEIL, 0);
 }
 
-PSParser::ExprContext* PSParser::Ceil_groupContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::Ceil_groupContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-tree::TerminalNode* PSParser::Ceil_groupContext::R_CEIL() {
-  return getToken(PSParser::R_CEIL, 0);
+tree::TerminalNode* LATEXParser::Ceil_groupContext::R_CEIL() {
+  return getToken(LATEXParser::R_CEIL, 0);
 }
 
-tree::TerminalNode* PSParser::Ceil_groupContext::UL_CORNER() {
-  return getToken(PSParser::UL_CORNER, 0);
+tree::TerminalNode* LATEXParser::Ceil_groupContext::UL_CORNER() {
+  return getToken(LATEXParser::UL_CORNER, 0);
 }
 
-tree::TerminalNode* PSParser::Ceil_groupContext::UR_CORNER() {
-  return getToken(PSParser::UR_CORNER, 0);
+tree::TerminalNode* LATEXParser::Ceil_groupContext::UR_CORNER() {
+  return getToken(LATEXParser::UR_CORNER, 0);
 }
 
-tree::TerminalNode* PSParser::Ceil_groupContext::L_LEFT() {
-  return getToken(PSParser::L_LEFT, 0);
+tree::TerminalNode* LATEXParser::Ceil_groupContext::L_LEFT() {
+  return getToken(LATEXParser::L_LEFT, 0);
 }
 
-tree::TerminalNode* PSParser::Ceil_groupContext::R_RIGHT() {
-  return getToken(PSParser::R_RIGHT, 0);
+tree::TerminalNode* LATEXParser::Ceil_groupContext::R_RIGHT() {
+  return getToken(LATEXParser::R_RIGHT, 0);
 }
 
-tree::TerminalNode* PSParser::Ceil_groupContext::ML_LEFT() {
-  return getToken(PSParser::ML_LEFT, 0);
+tree::TerminalNode* LATEXParser::Ceil_groupContext::ML_LEFT() {
+  return getToken(LATEXParser::ML_LEFT, 0);
 }
 
-tree::TerminalNode* PSParser::Ceil_groupContext::MR_RIGHT() {
-  return getToken(PSParser::MR_RIGHT, 0);
+tree::TerminalNode* LATEXParser::Ceil_groupContext::MR_RIGHT() {
+  return getToken(LATEXParser::MR_RIGHT, 0);
 }
 
 
-size_t PSParser::Ceil_groupContext::getRuleIndex() const {
-  return PSParser::RuleCeil_group;
+size_t LATEXParser::Ceil_groupContext::getRuleIndex() const {
+  return LATEXParser::RuleCeil_group;
 }
 
-void PSParser::Ceil_groupContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Ceil_groupContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterCeil_group(this);
 }
 
-void PSParser::Ceil_groupContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Ceil_groupContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitCeil_group(this);
 }
 
-PSParser::Ceil_groupContext* PSParser::ceil_group() {
+LATEXParser::Ceil_groupContext* LATEXParser::ceil_group() {
   Ceil_groupContext *_localctx = _tracker.createInstance<Ceil_groupContext>(_ctx, getState());
-  enterRule(_localctx, 54, PSParser::RuleCeil_group);
+  enterRule(_localctx, 54, LATEXParser::RuleCeil_group);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -4311,82 +4311,82 @@ PSParser::Ceil_groupContext* PSParser::ceil_group() {
     case 1: {
       enterOuterAlt(_localctx, 1);
       setState(635);
-      match(PSParser::L_CEIL);
+      match(LATEXParser::L_CEIL);
       setState(636);
       expr();
       setState(637);
-      match(PSParser::R_CEIL);
+      match(LATEXParser::R_CEIL);
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
       setState(639);
-      match(PSParser::UL_CORNER);
+      match(LATEXParser::UL_CORNER);
       setState(640);
       expr();
       setState(641);
-      match(PSParser::UR_CORNER);
+      match(LATEXParser::UR_CORNER);
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
       setState(643);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(644);
-      match(PSParser::L_CEIL);
+      match(LATEXParser::L_CEIL);
       setState(645);
       expr();
       setState(646);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(647);
-      match(PSParser::R_CEIL);
+      match(LATEXParser::R_CEIL);
       break;
     }
 
     case 4: {
       enterOuterAlt(_localctx, 4);
       setState(649);
-      match(PSParser::L_LEFT);
+      match(LATEXParser::L_LEFT);
       setState(650);
-      match(PSParser::UL_CORNER);
+      match(LATEXParser::UL_CORNER);
       setState(651);
       expr();
       setState(652);
-      match(PSParser::R_RIGHT);
+      match(LATEXParser::R_RIGHT);
       setState(653);
-      match(PSParser::UR_CORNER);
+      match(LATEXParser::UR_CORNER);
       break;
     }
 
     case 5: {
       enterOuterAlt(_localctx, 5);
       setState(655);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(656);
-      match(PSParser::L_CEIL);
+      match(LATEXParser::L_CEIL);
       setState(657);
       expr();
       setState(658);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(659);
-      match(PSParser::R_CEIL);
+      match(LATEXParser::R_CEIL);
       break;
     }
 
     case 6: {
       enterOuterAlt(_localctx, 6);
       setState(661);
-      match(PSParser::ML_LEFT);
+      match(LATEXParser::ML_LEFT);
       setState(662);
-      match(PSParser::UL_CORNER);
+      match(LATEXParser::UL_CORNER);
       setState(663);
       expr();
       setState(664);
-      match(PSParser::MR_RIGHT);
+      match(LATEXParser::MR_RIGHT);
       setState(665);
-      match(PSParser::UR_CORNER);
+      match(LATEXParser::UR_CORNER);
       break;
     }
 
@@ -4406,46 +4406,46 @@ PSParser::Ceil_groupContext* PSParser::ceil_group() {
 
 //----------------- AccentContext ------------------------------------------------------------------
 
-PSParser::AccentContext::AccentContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::AccentContext::AccentContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::Accent_symbolContext* PSParser::AccentContext::accent_symbol() {
-  return getRuleContext<PSParser::Accent_symbolContext>(0);
+LATEXParser::Accent_symbolContext* LATEXParser::AccentContext::accent_symbol() {
+  return getRuleContext<LATEXParser::Accent_symbolContext>(0);
 }
 
-tree::TerminalNode* PSParser::AccentContext::L_BRACE() {
-  return getToken(PSParser::L_BRACE, 0);
+tree::TerminalNode* LATEXParser::AccentContext::L_BRACE() {
+  return getToken(LATEXParser::L_BRACE, 0);
 }
 
-tree::TerminalNode* PSParser::AccentContext::R_BRACE() {
-  return getToken(PSParser::R_BRACE, 0);
+tree::TerminalNode* LATEXParser::AccentContext::R_BRACE() {
+  return getToken(LATEXParser::R_BRACE, 0);
 }
 
-PSParser::ExprContext* PSParser::AccentContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::AccentContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
 
-size_t PSParser::AccentContext::getRuleIndex() const {
-  return PSParser::RuleAccent;
+size_t LATEXParser::AccentContext::getRuleIndex() const {
+  return LATEXParser::RuleAccent;
 }
 
-void PSParser::AccentContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::AccentContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterAccent(this);
 }
 
-void PSParser::AccentContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::AccentContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitAccent(this);
 }
 
-PSParser::AccentContext* PSParser::accent() {
+LATEXParser::AccentContext* LATEXParser::accent() {
   AccentContext *_localctx = _tracker.createInstance<AccentContext>(_ctx, getState());
-  enterRule(_localctx, 56, PSParser::RuleAccent);
+  enterRule(_localctx, 56, LATEXParser::RuleAccent);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -4459,11 +4459,11 @@ PSParser::AccentContext* PSParser::accent() {
     setState(669);
     accent_symbol();
     setState(670);
-    match(PSParser::L_BRACE);
+    match(LATEXParser::L_BRACE);
     setState(671);
     antlrcpp::downCast<AccentContext *>(_localctx)->base = expr();
     setState(672);
-    match(PSParser::R_BRACE);
+    match(LATEXParser::R_BRACE);
    
   }
   catch (RecognitionException &e) {
@@ -4477,50 +4477,50 @@ PSParser::AccentContext* PSParser::accent() {
 
 //----------------- Atom_exprContext ------------------------------------------------------------------
 
-PSParser::Atom_exprContext::Atom_exprContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Atom_exprContext::Atom_exprContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::Atom_exprContext::LETTER_NO_E() {
-  return getToken(PSParser::LETTER_NO_E, 0);
+tree::TerminalNode* LATEXParser::Atom_exprContext::LETTER_NO_E() {
+  return getToken(LATEXParser::LETTER_NO_E, 0);
 }
 
-tree::TerminalNode* PSParser::Atom_exprContext::GREEK_CMD() {
-  return getToken(PSParser::GREEK_CMD, 0);
+tree::TerminalNode* LATEXParser::Atom_exprContext::GREEK_CMD() {
+  return getToken(LATEXParser::GREEK_CMD, 0);
 }
 
-PSParser::AccentContext* PSParser::Atom_exprContext::accent() {
-  return getRuleContext<PSParser::AccentContext>(0);
+LATEXParser::AccentContext* LATEXParser::Atom_exprContext::accent() {
+  return getRuleContext<LATEXParser::AccentContext>(0);
 }
 
-PSParser::SupexprContext* PSParser::Atom_exprContext::supexpr() {
-  return getRuleContext<PSParser::SupexprContext>(0);
+LATEXParser::SupexprContext* LATEXParser::Atom_exprContext::supexpr() {
+  return getRuleContext<LATEXParser::SupexprContext>(0);
 }
 
-PSParser::SubexprContext* PSParser::Atom_exprContext::subexpr() {
-  return getRuleContext<PSParser::SubexprContext>(0);
+LATEXParser::SubexprContext* LATEXParser::Atom_exprContext::subexpr() {
+  return getRuleContext<LATEXParser::SubexprContext>(0);
 }
 
 
-size_t PSParser::Atom_exprContext::getRuleIndex() const {
-  return PSParser::RuleAtom_expr;
+size_t LATEXParser::Atom_exprContext::getRuleIndex() const {
+  return LATEXParser::RuleAtom_expr;
 }
 
-void PSParser::Atom_exprContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Atom_exprContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterAtom_expr(this);
 }
 
-void PSParser::Atom_exprContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Atom_exprContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitAtom_expr(this);
 }
 
-PSParser::Atom_exprContext* PSParser::atom_expr() {
+LATEXParser::Atom_exprContext* LATEXParser::atom_expr() {
   Atom_exprContext *_localctx = _tracker.createInstance<Atom_exprContext>(_ctx, getState());
-  enterRule(_localctx, 58, PSParser::RuleAtom_expr);
+  enterRule(_localctx, 58, LATEXParser::RuleAtom_expr);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -4534,20 +4534,20 @@ PSParser::Atom_exprContext* PSParser::atom_expr() {
     setState(677);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case PSParser::LETTER_NO_E: {
+      case LATEXParser::LETTER_NO_E: {
         setState(674);
-        match(PSParser::LETTER_NO_E);
+        match(LATEXParser::LETTER_NO_E);
         break;
       }
 
-      case PSParser::GREEK_CMD: {
+      case LATEXParser::GREEK_CMD: {
         setState(675);
-        match(PSParser::GREEK_CMD);
+        match(LATEXParser::GREEK_CMD);
         break;
       }
 
-      case PSParser::ACCENT_OVERLINE:
-      case PSParser::ACCENT_BAR: {
+      case LATEXParser::ACCENT_OVERLINE:
+      case LATEXParser::ACCENT_BAR: {
         setState(676);
         accent();
         break;
@@ -4604,70 +4604,70 @@ PSParser::Atom_exprContext* PSParser::atom_expr() {
 
 //----------------- AtomContext ------------------------------------------------------------------
 
-PSParser::AtomContext::AtomContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::AtomContext::AtomContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::Atom_exprContext* PSParser::AtomContext::atom_expr() {
-  return getRuleContext<PSParser::Atom_exprContext>(0);
+LATEXParser::Atom_exprContext* LATEXParser::AtomContext::atom_expr() {
+  return getRuleContext<LATEXParser::Atom_exprContext>(0);
 }
 
-tree::TerminalNode* PSParser::AtomContext::SYMBOL() {
-  return getToken(PSParser::SYMBOL, 0);
+tree::TerminalNode* LATEXParser::AtomContext::SYMBOL() {
+  return getToken(LATEXParser::SYMBOL, 0);
 }
 
-tree::TerminalNode* PSParser::AtomContext::NUMBER() {
-  return getToken(PSParser::NUMBER, 0);
+tree::TerminalNode* LATEXParser::AtomContext::NUMBER() {
+  return getToken(LATEXParser::NUMBER, 0);
 }
 
-tree::TerminalNode* PSParser::AtomContext::SCI_NOTATION_NUMBER() {
-  return getToken(PSParser::SCI_NOTATION_NUMBER, 0);
+tree::TerminalNode* LATEXParser::AtomContext::SCI_NOTATION_NUMBER() {
+  return getToken(LATEXParser::SCI_NOTATION_NUMBER, 0);
 }
 
-tree::TerminalNode* PSParser::AtomContext::FRACTION_NUMBER() {
-  return getToken(PSParser::FRACTION_NUMBER, 0);
+tree::TerminalNode* LATEXParser::AtomContext::FRACTION_NUMBER() {
+  return getToken(LATEXParser::FRACTION_NUMBER, 0);
 }
 
-tree::TerminalNode* PSParser::AtomContext::PERCENT_NUMBER() {
-  return getToken(PSParser::PERCENT_NUMBER, 0);
+tree::TerminalNode* LATEXParser::AtomContext::PERCENT_NUMBER() {
+  return getToken(LATEXParser::PERCENT_NUMBER, 0);
 }
 
-tree::TerminalNode* PSParser::AtomContext::E_NOTATION() {
-  return getToken(PSParser::E_NOTATION, 0);
+tree::TerminalNode* LATEXParser::AtomContext::E_NOTATION() {
+  return getToken(LATEXParser::E_NOTATION, 0);
 }
 
-tree::TerminalNode* PSParser::AtomContext::DIFFERENTIAL() {
-  return getToken(PSParser::DIFFERENTIAL, 0);
+tree::TerminalNode* LATEXParser::AtomContext::DIFFERENTIAL() {
+  return getToken(LATEXParser::DIFFERENTIAL, 0);
 }
 
-PSParser::MathitContext* PSParser::AtomContext::mathit() {
-  return getRuleContext<PSParser::MathitContext>(0);
+LATEXParser::MathitContext* LATEXParser::AtomContext::mathit() {
+  return getRuleContext<LATEXParser::MathitContext>(0);
 }
 
-tree::TerminalNode* PSParser::AtomContext::VARIABLE() {
-  return getToken(PSParser::VARIABLE, 0);
+tree::TerminalNode* LATEXParser::AtomContext::VARIABLE() {
+  return getToken(LATEXParser::VARIABLE, 0);
 }
 
 
-size_t PSParser::AtomContext::getRuleIndex() const {
-  return PSParser::RuleAtom;
+size_t LATEXParser::AtomContext::getRuleIndex() const {
+  return LATEXParser::RuleAtom;
 }
 
-void PSParser::AtomContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::AtomContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterAtom(this);
 }
 
-void PSParser::AtomContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::AtomContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitAtom(this);
 }
 
-PSParser::AtomContext* PSParser::atom() {
+LATEXParser::AtomContext* LATEXParser::atom() {
   AtomContext *_localctx = _tracker.createInstance<AtomContext>(_ctx, getState());
-  enterRule(_localctx, 60, PSParser::RuleAtom);
+  enterRule(_localctx, 60, LATEXParser::RuleAtom);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -4680,76 +4680,76 @@ PSParser::AtomContext* PSParser::atom() {
     setState(699);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case PSParser::ACCENT_OVERLINE:
-      case PSParser::ACCENT_BAR:
-      case PSParser::LETTER_NO_E:
-      case PSParser::GREEK_CMD: {
+      case LATEXParser::ACCENT_OVERLINE:
+      case LATEXParser::ACCENT_BAR:
+      case LATEXParser::LETTER_NO_E:
+      case LATEXParser::GREEK_CMD: {
         enterOuterAlt(_localctx, 1);
         setState(689);
         atom_expr();
         break;
       }
 
-      case PSParser::SYMBOL: {
+      case LATEXParser::SYMBOL: {
         enterOuterAlt(_localctx, 2);
         setState(690);
-        match(PSParser::SYMBOL);
+        match(LATEXParser::SYMBOL);
         break;
       }
 
-      case PSParser::NUMBER: {
+      case LATEXParser::NUMBER: {
         enterOuterAlt(_localctx, 3);
         setState(691);
-        match(PSParser::NUMBER);
+        match(LATEXParser::NUMBER);
         break;
       }
 
-      case PSParser::SCI_NOTATION_NUMBER: {
+      case LATEXParser::SCI_NOTATION_NUMBER: {
         enterOuterAlt(_localctx, 4);
         setState(692);
-        match(PSParser::SCI_NOTATION_NUMBER);
+        match(LATEXParser::SCI_NOTATION_NUMBER);
         break;
       }
 
-      case PSParser::FRACTION_NUMBER: {
+      case LATEXParser::FRACTION_NUMBER: {
         enterOuterAlt(_localctx, 5);
         setState(693);
-        match(PSParser::FRACTION_NUMBER);
+        match(LATEXParser::FRACTION_NUMBER);
         break;
       }
 
-      case PSParser::PERCENT_NUMBER: {
+      case LATEXParser::PERCENT_NUMBER: {
         enterOuterAlt(_localctx, 6);
         setState(694);
-        match(PSParser::PERCENT_NUMBER);
+        match(LATEXParser::PERCENT_NUMBER);
         break;
       }
 
-      case PSParser::E_NOTATION: {
+      case LATEXParser::E_NOTATION: {
         enterOuterAlt(_localctx, 7);
         setState(695);
-        match(PSParser::E_NOTATION);
+        match(LATEXParser::E_NOTATION);
         break;
       }
 
-      case PSParser::DIFFERENTIAL: {
+      case LATEXParser::DIFFERENTIAL: {
         enterOuterAlt(_localctx, 8);
         setState(696);
-        match(PSParser::DIFFERENTIAL);
+        match(LATEXParser::DIFFERENTIAL);
         break;
       }
 
-      case PSParser::CMD_MATHIT: {
+      case LATEXParser::CMD_MATHIT: {
         enterOuterAlt(_localctx, 9);
         setState(697);
         mathit();
         break;
       }
 
-      case PSParser::VARIABLE: {
+      case LATEXParser::VARIABLE: {
         enterOuterAlt(_localctx, 10);
         setState(698);
-        match(PSParser::VARIABLE);
+        match(LATEXParser::VARIABLE);
         break;
       }
 
@@ -4769,46 +4769,46 @@ PSParser::AtomContext* PSParser::atom() {
 
 //----------------- MathitContext ------------------------------------------------------------------
 
-PSParser::MathitContext::MathitContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::MathitContext::MathitContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::MathitContext::CMD_MATHIT() {
-  return getToken(PSParser::CMD_MATHIT, 0);
+tree::TerminalNode* LATEXParser::MathitContext::CMD_MATHIT() {
+  return getToken(LATEXParser::CMD_MATHIT, 0);
 }
 
-tree::TerminalNode* PSParser::MathitContext::L_BRACE() {
-  return getToken(PSParser::L_BRACE, 0);
+tree::TerminalNode* LATEXParser::MathitContext::L_BRACE() {
+  return getToken(LATEXParser::L_BRACE, 0);
 }
 
-PSParser::Mathit_textContext* PSParser::MathitContext::mathit_text() {
-  return getRuleContext<PSParser::Mathit_textContext>(0);
+LATEXParser::Mathit_textContext* LATEXParser::MathitContext::mathit_text() {
+  return getRuleContext<LATEXParser::Mathit_textContext>(0);
 }
 
-tree::TerminalNode* PSParser::MathitContext::R_BRACE() {
-  return getToken(PSParser::R_BRACE, 0);
+tree::TerminalNode* LATEXParser::MathitContext::R_BRACE() {
+  return getToken(LATEXParser::R_BRACE, 0);
 }
 
 
-size_t PSParser::MathitContext::getRuleIndex() const {
-  return PSParser::RuleMathit;
+size_t LATEXParser::MathitContext::getRuleIndex() const {
+  return LATEXParser::RuleMathit;
 }
 
-void PSParser::MathitContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::MathitContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterMathit(this);
 }
 
-void PSParser::MathitContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::MathitContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitMathit(this);
 }
 
-PSParser::MathitContext* PSParser::mathit() {
+LATEXParser::MathitContext* LATEXParser::mathit() {
   MathitContext *_localctx = _tracker.createInstance<MathitContext>(_ctx, getState());
-  enterRule(_localctx, 62, PSParser::RuleMathit);
+  enterRule(_localctx, 62, LATEXParser::RuleMathit);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -4820,13 +4820,13 @@ PSParser::MathitContext* PSParser::mathit() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(701);
-    match(PSParser::CMD_MATHIT);
+    match(LATEXParser::CMD_MATHIT);
     setState(702);
-    match(PSParser::L_BRACE);
+    match(LATEXParser::L_BRACE);
     setState(703);
     mathit_text();
     setState(704);
-    match(PSParser::R_BRACE);
+    match(LATEXParser::R_BRACE);
    
   }
   catch (RecognitionException &e) {
@@ -4840,54 +4840,54 @@ PSParser::MathitContext* PSParser::mathit() {
 
 //----------------- Mathit_textContext ------------------------------------------------------------------
 
-PSParser::Mathit_textContext::Mathit_textContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Mathit_textContext::Mathit_textContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<tree::TerminalNode *> PSParser::Mathit_textContext::LETTER_NO_E() {
-  return getTokens(PSParser::LETTER_NO_E);
+std::vector<tree::TerminalNode *> LATEXParser::Mathit_textContext::LETTER_NO_E() {
+  return getTokens(LATEXParser::LETTER_NO_E);
 }
 
-tree::TerminalNode* PSParser::Mathit_textContext::LETTER_NO_E(size_t i) {
-  return getToken(PSParser::LETTER_NO_E, i);
+tree::TerminalNode* LATEXParser::Mathit_textContext::LETTER_NO_E(size_t i) {
+  return getToken(LATEXParser::LETTER_NO_E, i);
 }
 
-std::vector<tree::TerminalNode *> PSParser::Mathit_textContext::E_NOTATION_E() {
-  return getTokens(PSParser::E_NOTATION_E);
+std::vector<tree::TerminalNode *> LATEXParser::Mathit_textContext::E_NOTATION_E() {
+  return getTokens(LATEXParser::E_NOTATION_E);
 }
 
-tree::TerminalNode* PSParser::Mathit_textContext::E_NOTATION_E(size_t i) {
-  return getToken(PSParser::E_NOTATION_E, i);
+tree::TerminalNode* LATEXParser::Mathit_textContext::E_NOTATION_E(size_t i) {
+  return getToken(LATEXParser::E_NOTATION_E, i);
 }
 
-std::vector<tree::TerminalNode *> PSParser::Mathit_textContext::EXP_E() {
-  return getTokens(PSParser::EXP_E);
+std::vector<tree::TerminalNode *> LATEXParser::Mathit_textContext::EXP_E() {
+  return getTokens(LATEXParser::EXP_E);
 }
 
-tree::TerminalNode* PSParser::Mathit_textContext::EXP_E(size_t i) {
-  return getToken(PSParser::EXP_E, i);
+tree::TerminalNode* LATEXParser::Mathit_textContext::EXP_E(size_t i) {
+  return getToken(LATEXParser::EXP_E, i);
 }
 
 
-size_t PSParser::Mathit_textContext::getRuleIndex() const {
-  return PSParser::RuleMathit_text;
+size_t LATEXParser::Mathit_textContext::getRuleIndex() const {
+  return LATEXParser::RuleMathit_text;
 }
 
-void PSParser::Mathit_textContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Mathit_textContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterMathit_text(this);
 }
 
-void PSParser::Mathit_textContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Mathit_textContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitMathit_text(this);
 }
 
-PSParser::Mathit_textContext* PSParser::mathit_text() {
+LATEXParser::Mathit_textContext* LATEXParser::mathit_text() {
   Mathit_textContext *_localctx = _tracker.createInstance<Mathit_textContext>(_ctx, getState());
-  enterRule(_localctx, 64, PSParser::RuleMathit_text);
+  enterRule(_localctx, 64, LATEXParser::RuleMathit_text);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -4931,58 +4931,58 @@ PSParser::Mathit_textContext* PSParser::mathit_text() {
 
 //----------------- FracContext ------------------------------------------------------------------
 
-PSParser::FracContext::FracContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::FracContext::FracContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::FracContext::CMD_FRAC() {
-  return getToken(PSParser::CMD_FRAC, 0);
+tree::TerminalNode* LATEXParser::FracContext::CMD_FRAC() {
+  return getToken(LATEXParser::CMD_FRAC, 0);
 }
 
-std::vector<tree::TerminalNode *> PSParser::FracContext::L_BRACE() {
-  return getTokens(PSParser::L_BRACE);
+std::vector<tree::TerminalNode *> LATEXParser::FracContext::L_BRACE() {
+  return getTokens(LATEXParser::L_BRACE);
 }
 
-tree::TerminalNode* PSParser::FracContext::L_BRACE(size_t i) {
-  return getToken(PSParser::L_BRACE, i);
+tree::TerminalNode* LATEXParser::FracContext::L_BRACE(size_t i) {
+  return getToken(LATEXParser::L_BRACE, i);
 }
 
-std::vector<tree::TerminalNode *> PSParser::FracContext::R_BRACE() {
-  return getTokens(PSParser::R_BRACE);
+std::vector<tree::TerminalNode *> LATEXParser::FracContext::R_BRACE() {
+  return getTokens(LATEXParser::R_BRACE);
 }
 
-tree::TerminalNode* PSParser::FracContext::R_BRACE(size_t i) {
-  return getToken(PSParser::R_BRACE, i);
+tree::TerminalNode* LATEXParser::FracContext::R_BRACE(size_t i) {
+  return getToken(LATEXParser::R_BRACE, i);
 }
 
-std::vector<PSParser::ExprContext *> PSParser::FracContext::expr() {
-  return getRuleContexts<PSParser::ExprContext>();
+std::vector<LATEXParser::ExprContext *> LATEXParser::FracContext::expr() {
+  return getRuleContexts<LATEXParser::ExprContext>();
 }
 
-PSParser::ExprContext* PSParser::FracContext::expr(size_t i) {
-  return getRuleContext<PSParser::ExprContext>(i);
+LATEXParser::ExprContext* LATEXParser::FracContext::expr(size_t i) {
+  return getRuleContext<LATEXParser::ExprContext>(i);
 }
 
 
-size_t PSParser::FracContext::getRuleIndex() const {
-  return PSParser::RuleFrac;
+size_t LATEXParser::FracContext::getRuleIndex() const {
+  return LATEXParser::RuleFrac;
 }
 
-void PSParser::FracContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::FracContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFrac(this);
 }
 
-void PSParser::FracContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::FracContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFrac(this);
 }
 
-PSParser::FracContext* PSParser::frac() {
+LATEXParser::FracContext* LATEXParser::frac() {
   FracContext *_localctx = _tracker.createInstance<FracContext>(_ctx, getState());
-  enterRule(_localctx, 66, PSParser::RuleFrac);
+  enterRule(_localctx, 66, LATEXParser::RuleFrac);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -4994,19 +4994,19 @@ PSParser::FracContext* PSParser::frac() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(711);
-    match(PSParser::CMD_FRAC);
+    match(LATEXParser::CMD_FRAC);
     setState(712);
-    match(PSParser::L_BRACE);
+    match(LATEXParser::L_BRACE);
     setState(713);
     antlrcpp::downCast<FracContext *>(_localctx)->upper = expr();
     setState(714);
-    match(PSParser::R_BRACE);
+    match(LATEXParser::R_BRACE);
     setState(715);
-    match(PSParser::L_BRACE);
+    match(LATEXParser::L_BRACE);
     setState(716);
     antlrcpp::downCast<FracContext *>(_localctx)->lower = expr();
     setState(717);
-    match(PSParser::R_BRACE);
+    match(LATEXParser::R_BRACE);
    
   }
   catch (RecognitionException &e) {
@@ -5020,62 +5020,62 @@ PSParser::FracContext* PSParser::frac() {
 
 //----------------- BinomContext ------------------------------------------------------------------
 
-PSParser::BinomContext::BinomContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::BinomContext::BinomContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<tree::TerminalNode *> PSParser::BinomContext::L_BRACE() {
-  return getTokens(PSParser::L_BRACE);
+std::vector<tree::TerminalNode *> LATEXParser::BinomContext::L_BRACE() {
+  return getTokens(LATEXParser::L_BRACE);
 }
 
-tree::TerminalNode* PSParser::BinomContext::L_BRACE(size_t i) {
-  return getToken(PSParser::L_BRACE, i);
+tree::TerminalNode* LATEXParser::BinomContext::L_BRACE(size_t i) {
+  return getToken(LATEXParser::L_BRACE, i);
 }
 
-std::vector<tree::TerminalNode *> PSParser::BinomContext::R_BRACE() {
-  return getTokens(PSParser::R_BRACE);
+std::vector<tree::TerminalNode *> LATEXParser::BinomContext::R_BRACE() {
+  return getTokens(LATEXParser::R_BRACE);
 }
 
-tree::TerminalNode* PSParser::BinomContext::R_BRACE(size_t i) {
-  return getToken(PSParser::R_BRACE, i);
+tree::TerminalNode* LATEXParser::BinomContext::R_BRACE(size_t i) {
+  return getToken(LATEXParser::R_BRACE, i);
 }
 
-tree::TerminalNode* PSParser::BinomContext::CMD_BINOM() {
-  return getToken(PSParser::CMD_BINOM, 0);
+tree::TerminalNode* LATEXParser::BinomContext::CMD_BINOM() {
+  return getToken(LATEXParser::CMD_BINOM, 0);
 }
 
-tree::TerminalNode* PSParser::BinomContext::CMD_CHOOSE() {
-  return getToken(PSParser::CMD_CHOOSE, 0);
+tree::TerminalNode* LATEXParser::BinomContext::CMD_CHOOSE() {
+  return getToken(LATEXParser::CMD_CHOOSE, 0);
 }
 
-std::vector<PSParser::ExprContext *> PSParser::BinomContext::expr() {
-  return getRuleContexts<PSParser::ExprContext>();
+std::vector<LATEXParser::ExprContext *> LATEXParser::BinomContext::expr() {
+  return getRuleContexts<LATEXParser::ExprContext>();
 }
 
-PSParser::ExprContext* PSParser::BinomContext::expr(size_t i) {
-  return getRuleContext<PSParser::ExprContext>(i);
+LATEXParser::ExprContext* LATEXParser::BinomContext::expr(size_t i) {
+  return getRuleContext<LATEXParser::ExprContext>(i);
 }
 
 
-size_t PSParser::BinomContext::getRuleIndex() const {
-  return PSParser::RuleBinom;
+size_t LATEXParser::BinomContext::getRuleIndex() const {
+  return LATEXParser::RuleBinom;
 }
 
-void PSParser::BinomContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::BinomContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterBinom(this);
 }
 
-void PSParser::BinomContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::BinomContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitBinom(this);
 }
 
-PSParser::BinomContext* PSParser::binom() {
+LATEXParser::BinomContext* LATEXParser::binom() {
   BinomContext *_localctx = _tracker.createInstance<BinomContext>(_ctx, getState());
-  enterRule(_localctx, 68, PSParser::RuleBinom);
+  enterRule(_localctx, 68, LATEXParser::RuleBinom);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -5089,9 +5089,9 @@ PSParser::BinomContext* PSParser::binom() {
     enterOuterAlt(_localctx, 1);
     setState(719);
     _la = _input->LA(1);
-    if (!(_la == PSParser::CMD_BINOM
+    if (!(_la == LATEXParser::CMD_BINOM
 
-    || _la == PSParser::CMD_CHOOSE)) {
+    || _la == LATEXParser::CMD_CHOOSE)) {
     _errHandler->recoverInline(this);
     }
     else {
@@ -5099,17 +5099,17 @@ PSParser::BinomContext* PSParser::binom() {
       consume();
     }
     setState(720);
-    match(PSParser::L_BRACE);
+    match(LATEXParser::L_BRACE);
     setState(721);
     antlrcpp::downCast<BinomContext *>(_localctx)->upper = expr();
     setState(722);
-    match(PSParser::R_BRACE);
+    match(LATEXParser::R_BRACE);
     setState(723);
-    match(PSParser::L_BRACE);
+    match(LATEXParser::L_BRACE);
     setState(724);
     antlrcpp::downCast<BinomContext *>(_localctx)->lower = expr();
     setState(725);
-    match(PSParser::R_BRACE);
+    match(LATEXParser::R_BRACE);
    
   }
   catch (RecognitionException &e) {
@@ -5123,134 +5123,134 @@ PSParser::BinomContext* PSParser::binom() {
 
 //----------------- Func_normal_functions_single_argContext ------------------------------------------------------------------
 
-PSParser::Func_normal_functions_single_argContext::Func_normal_functions_single_argContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Func_normal_functions_single_argContext::Func_normal_functions_single_argContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_LOG() {
-  return getToken(PSParser::FUNC_LOG, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_LOG() {
+  return getToken(LATEXParser::FUNC_LOG, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_LN() {
-  return getToken(PSParser::FUNC_LN, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_LN() {
+  return getToken(LATEXParser::FUNC_LN, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_EXP() {
-  return getToken(PSParser::FUNC_EXP, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_EXP() {
+  return getToken(LATEXParser::FUNC_EXP, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_SIN() {
-  return getToken(PSParser::FUNC_SIN, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_SIN() {
+  return getToken(LATEXParser::FUNC_SIN, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_COS() {
-  return getToken(PSParser::FUNC_COS, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_COS() {
+  return getToken(LATEXParser::FUNC_COS, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_TAN() {
-  return getToken(PSParser::FUNC_TAN, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_TAN() {
+  return getToken(LATEXParser::FUNC_TAN, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_CSC() {
-  return getToken(PSParser::FUNC_CSC, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_CSC() {
+  return getToken(LATEXParser::FUNC_CSC, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_SEC() {
-  return getToken(PSParser::FUNC_SEC, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_SEC() {
+  return getToken(LATEXParser::FUNC_SEC, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_COT() {
-  return getToken(PSParser::FUNC_COT, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_COT() {
+  return getToken(LATEXParser::FUNC_COT, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_ARCSIN() {
-  return getToken(PSParser::FUNC_ARCSIN, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_ARCSIN() {
+  return getToken(LATEXParser::FUNC_ARCSIN, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_ARCCOS() {
-  return getToken(PSParser::FUNC_ARCCOS, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_ARCCOS() {
+  return getToken(LATEXParser::FUNC_ARCCOS, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_ARCTAN() {
-  return getToken(PSParser::FUNC_ARCTAN, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_ARCTAN() {
+  return getToken(LATEXParser::FUNC_ARCTAN, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_ARCCSC() {
-  return getToken(PSParser::FUNC_ARCCSC, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_ARCCSC() {
+  return getToken(LATEXParser::FUNC_ARCCSC, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_ARCSEC() {
-  return getToken(PSParser::FUNC_ARCSEC, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_ARCSEC() {
+  return getToken(LATEXParser::FUNC_ARCSEC, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_ARCCOT() {
-  return getToken(PSParser::FUNC_ARCCOT, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_ARCCOT() {
+  return getToken(LATEXParser::FUNC_ARCCOT, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_SINH() {
-  return getToken(PSParser::FUNC_SINH, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_SINH() {
+  return getToken(LATEXParser::FUNC_SINH, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_COSH() {
-  return getToken(PSParser::FUNC_COSH, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_COSH() {
+  return getToken(LATEXParser::FUNC_COSH, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_TANH() {
-  return getToken(PSParser::FUNC_TANH, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_TANH() {
+  return getToken(LATEXParser::FUNC_TANH, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_ARSINH() {
-  return getToken(PSParser::FUNC_ARSINH, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_ARSINH() {
+  return getToken(LATEXParser::FUNC_ARSINH, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_ARCOSH() {
-  return getToken(PSParser::FUNC_ARCOSH, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_ARCOSH() {
+  return getToken(LATEXParser::FUNC_ARCOSH, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_ARTANH() {
-  return getToken(PSParser::FUNC_ARTANH, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_ARTANH() {
+  return getToken(LATEXParser::FUNC_ARTANH, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_ARCSINH() {
-  return getToken(PSParser::FUNC_ARCSINH, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_ARCSINH() {
+  return getToken(LATEXParser::FUNC_ARCSINH, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_ARCCOSH() {
-  return getToken(PSParser::FUNC_ARCCOSH, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_ARCCOSH() {
+  return getToken(LATEXParser::FUNC_ARCCOSH, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_ARCTANH() {
-  return getToken(PSParser::FUNC_ARCTANH, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_ARCTANH() {
+  return getToken(LATEXParser::FUNC_ARCTANH, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_FLOOR() {
-  return getToken(PSParser::FUNC_FLOOR, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_FLOOR() {
+  return getToken(LATEXParser::FUNC_FLOOR, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_single_argContext::FUNC_CEIL() {
-  return getToken(PSParser::FUNC_CEIL, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_single_argContext::FUNC_CEIL() {
+  return getToken(LATEXParser::FUNC_CEIL, 0);
 }
 
 
-size_t PSParser::Func_normal_functions_single_argContext::getRuleIndex() const {
-  return PSParser::RuleFunc_normal_functions_single_arg;
+size_t LATEXParser::Func_normal_functions_single_argContext::getRuleIndex() const {
+  return LATEXParser::RuleFunc_normal_functions_single_arg;
 }
 
-void PSParser::Func_normal_functions_single_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_normal_functions_single_argContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFunc_normal_functions_single_arg(this);
 }
 
-void PSParser::Func_normal_functions_single_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_normal_functions_single_argContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFunc_normal_functions_single_arg(this);
 }
 
-PSParser::Func_normal_functions_single_argContext* PSParser::func_normal_functions_single_arg() {
+LATEXParser::Func_normal_functions_single_argContext* LATEXParser::func_normal_functions_single_arg() {
   Func_normal_functions_single_argContext *_localctx = _tracker.createInstance<Func_normal_functions_single_argContext>(_ctx, getState());
-  enterRule(_localctx, 70, PSParser::RuleFunc_normal_functions_single_arg);
+  enterRule(_localctx, 70, LATEXParser::RuleFunc_normal_functions_single_arg);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -5285,46 +5285,46 @@ PSParser::Func_normal_functions_single_argContext* PSParser::func_normal_functio
 
 //----------------- Func_normal_functions_multi_argContext ------------------------------------------------------------------
 
-PSParser::Func_normal_functions_multi_argContext::Func_normal_functions_multi_argContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Func_normal_functions_multi_argContext::Func_normal_functions_multi_argContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_multi_argContext::FUNC_GCD() {
-  return getToken(PSParser::FUNC_GCD, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_multi_argContext::FUNC_GCD() {
+  return getToken(LATEXParser::FUNC_GCD, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_multi_argContext::FUNC_LCM() {
-  return getToken(PSParser::FUNC_LCM, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_multi_argContext::FUNC_LCM() {
+  return getToken(LATEXParser::FUNC_LCM, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_multi_argContext::FUNC_MAX() {
-  return getToken(PSParser::FUNC_MAX, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_multi_argContext::FUNC_MAX() {
+  return getToken(LATEXParser::FUNC_MAX, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_functions_multi_argContext::FUNC_MIN() {
-  return getToken(PSParser::FUNC_MIN, 0);
+tree::TerminalNode* LATEXParser::Func_normal_functions_multi_argContext::FUNC_MIN() {
+  return getToken(LATEXParser::FUNC_MIN, 0);
 }
 
 
-size_t PSParser::Func_normal_functions_multi_argContext::getRuleIndex() const {
-  return PSParser::RuleFunc_normal_functions_multi_arg;
+size_t LATEXParser::Func_normal_functions_multi_argContext::getRuleIndex() const {
+  return LATEXParser::RuleFunc_normal_functions_multi_arg;
 }
 
-void PSParser::Func_normal_functions_multi_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_normal_functions_multi_argContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFunc_normal_functions_multi_arg(this);
 }
 
-void PSParser::Func_normal_functions_multi_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_normal_functions_multi_argContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFunc_normal_functions_multi_arg(this);
 }
 
-PSParser::Func_normal_functions_multi_argContext* PSParser::func_normal_functions_multi_arg() {
+LATEXParser::Func_normal_functions_multi_argContext* LATEXParser::func_normal_functions_multi_arg() {
   Func_normal_functions_multi_argContext *_localctx = _tracker.createInstance<Func_normal_functions_multi_argContext>(_ctx, getState());
-  enterRule(_localctx, 72, PSParser::RuleFunc_normal_functions_multi_arg);
+  enterRule(_localctx, 72, LATEXParser::RuleFunc_normal_functions_multi_arg);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -5359,62 +5359,62 @@ PSParser::Func_normal_functions_multi_argContext* PSParser::func_normal_function
 
 //----------------- Func_operator_names_single_argContext ------------------------------------------------------------------
 
-PSParser::Func_operator_names_single_argContext::Func_operator_names_single_argContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Func_operator_names_single_argContext::Func_operator_names_single_argContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::Func_operator_names_single_argContext::FUNC_ARSINH_NAME() {
-  return getToken(PSParser::FUNC_ARSINH_NAME, 0);
+tree::TerminalNode* LATEXParser::Func_operator_names_single_argContext::FUNC_ARSINH_NAME() {
+  return getToken(LATEXParser::FUNC_ARSINH_NAME, 0);
 }
 
-tree::TerminalNode* PSParser::Func_operator_names_single_argContext::FUNC_ARCOSH_NAME() {
-  return getToken(PSParser::FUNC_ARCOSH_NAME, 0);
+tree::TerminalNode* LATEXParser::Func_operator_names_single_argContext::FUNC_ARCOSH_NAME() {
+  return getToken(LATEXParser::FUNC_ARCOSH_NAME, 0);
 }
 
-tree::TerminalNode* PSParser::Func_operator_names_single_argContext::FUNC_ARTANH_NAME() {
-  return getToken(PSParser::FUNC_ARTANH_NAME, 0);
+tree::TerminalNode* LATEXParser::Func_operator_names_single_argContext::FUNC_ARTANH_NAME() {
+  return getToken(LATEXParser::FUNC_ARTANH_NAME, 0);
 }
 
-tree::TerminalNode* PSParser::Func_operator_names_single_argContext::FUNC_ARCSINH_NAME() {
-  return getToken(PSParser::FUNC_ARCSINH_NAME, 0);
+tree::TerminalNode* LATEXParser::Func_operator_names_single_argContext::FUNC_ARCSINH_NAME() {
+  return getToken(LATEXParser::FUNC_ARCSINH_NAME, 0);
 }
 
-tree::TerminalNode* PSParser::Func_operator_names_single_argContext::FUNC_ARCCOSH_NAME() {
-  return getToken(PSParser::FUNC_ARCCOSH_NAME, 0);
+tree::TerminalNode* LATEXParser::Func_operator_names_single_argContext::FUNC_ARCCOSH_NAME() {
+  return getToken(LATEXParser::FUNC_ARCCOSH_NAME, 0);
 }
 
-tree::TerminalNode* PSParser::Func_operator_names_single_argContext::FUNC_ARCTANH_NAME() {
-  return getToken(PSParser::FUNC_ARCTANH_NAME, 0);
+tree::TerminalNode* LATEXParser::Func_operator_names_single_argContext::FUNC_ARCTANH_NAME() {
+  return getToken(LATEXParser::FUNC_ARCTANH_NAME, 0);
 }
 
-tree::TerminalNode* PSParser::Func_operator_names_single_argContext::FUNC_FLOOR_NAME() {
-  return getToken(PSParser::FUNC_FLOOR_NAME, 0);
+tree::TerminalNode* LATEXParser::Func_operator_names_single_argContext::FUNC_FLOOR_NAME() {
+  return getToken(LATEXParser::FUNC_FLOOR_NAME, 0);
 }
 
-tree::TerminalNode* PSParser::Func_operator_names_single_argContext::FUNC_CEIL_NAME() {
-  return getToken(PSParser::FUNC_CEIL_NAME, 0);
+tree::TerminalNode* LATEXParser::Func_operator_names_single_argContext::FUNC_CEIL_NAME() {
+  return getToken(LATEXParser::FUNC_CEIL_NAME, 0);
 }
 
 
-size_t PSParser::Func_operator_names_single_argContext::getRuleIndex() const {
-  return PSParser::RuleFunc_operator_names_single_arg;
+size_t LATEXParser::Func_operator_names_single_argContext::getRuleIndex() const {
+  return LATEXParser::RuleFunc_operator_names_single_arg;
 }
 
-void PSParser::Func_operator_names_single_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_operator_names_single_argContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFunc_operator_names_single_arg(this);
 }
 
-void PSParser::Func_operator_names_single_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_operator_names_single_argContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFunc_operator_names_single_arg(this);
 }
 
-PSParser::Func_operator_names_single_argContext* PSParser::func_operator_names_single_arg() {
+LATEXParser::Func_operator_names_single_argContext* LATEXParser::func_operator_names_single_arg() {
   Func_operator_names_single_argContext *_localctx = _tracker.createInstance<Func_operator_names_single_argContext>(_ctx, getState());
-  enterRule(_localctx, 74, PSParser::RuleFunc_operator_names_single_arg);
+  enterRule(_localctx, 74, LATEXParser::RuleFunc_operator_names_single_arg);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -5449,38 +5449,38 @@ PSParser::Func_operator_names_single_argContext* PSParser::func_operator_names_s
 
 //----------------- Func_operator_names_multi_argContext ------------------------------------------------------------------
 
-PSParser::Func_operator_names_multi_argContext::Func_operator_names_multi_argContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Func_operator_names_multi_argContext::Func_operator_names_multi_argContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::Func_operator_names_multi_argContext::FUNC_GCD_NAME() {
-  return getToken(PSParser::FUNC_GCD_NAME, 0);
+tree::TerminalNode* LATEXParser::Func_operator_names_multi_argContext::FUNC_GCD_NAME() {
+  return getToken(LATEXParser::FUNC_GCD_NAME, 0);
 }
 
-tree::TerminalNode* PSParser::Func_operator_names_multi_argContext::FUNC_LCM_NAME() {
-  return getToken(PSParser::FUNC_LCM_NAME, 0);
+tree::TerminalNode* LATEXParser::Func_operator_names_multi_argContext::FUNC_LCM_NAME() {
+  return getToken(LATEXParser::FUNC_LCM_NAME, 0);
 }
 
 
-size_t PSParser::Func_operator_names_multi_argContext::getRuleIndex() const {
-  return PSParser::RuleFunc_operator_names_multi_arg;
+size_t LATEXParser::Func_operator_names_multi_argContext::getRuleIndex() const {
+  return LATEXParser::RuleFunc_operator_names_multi_arg;
 }
 
-void PSParser::Func_operator_names_multi_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_operator_names_multi_argContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFunc_operator_names_multi_arg(this);
 }
 
-void PSParser::Func_operator_names_multi_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_operator_names_multi_argContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFunc_operator_names_multi_arg(this);
 }
 
-PSParser::Func_operator_names_multi_argContext* PSParser::func_operator_names_multi_arg() {
+LATEXParser::Func_operator_names_multi_argContext* LATEXParser::func_operator_names_multi_arg() {
   Func_operator_names_multi_argContext *_localctx = _tracker.createInstance<Func_operator_names_multi_argContext>(_ctx, getState());
-  enterRule(_localctx, 76, PSParser::RuleFunc_operator_names_multi_arg);
+  enterRule(_localctx, 76, LATEXParser::RuleFunc_operator_names_multi_arg);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -5494,9 +5494,9 @@ PSParser::Func_operator_names_multi_argContext* PSParser::func_operator_names_mu
     enterOuterAlt(_localctx, 1);
     setState(733);
     _la = _input->LA(1);
-    if (!(_la == PSParser::FUNC_GCD_NAME
+    if (!(_la == LATEXParser::FUNC_GCD_NAME
 
-    || _la == PSParser::FUNC_LCM_NAME)) {
+    || _la == LATEXParser::FUNC_LCM_NAME)) {
     _errHandler->recoverInline(this);
     }
     else {
@@ -5516,50 +5516,50 @@ PSParser::Func_operator_names_multi_argContext* PSParser::func_operator_names_mu
 
 //----------------- Func_normal_single_argContext ------------------------------------------------------------------
 
-PSParser::Func_normal_single_argContext::Func_normal_single_argContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Func_normal_single_argContext::Func_normal_single_argContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::Func_normal_functions_single_argContext* PSParser::Func_normal_single_argContext::func_normal_functions_single_arg() {
-  return getRuleContext<PSParser::Func_normal_functions_single_argContext>(0);
+LATEXParser::Func_normal_functions_single_argContext* LATEXParser::Func_normal_single_argContext::func_normal_functions_single_arg() {
+  return getRuleContext<LATEXParser::Func_normal_functions_single_argContext>(0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_single_argContext::CMD_OPERATORNAME() {
-  return getToken(PSParser::CMD_OPERATORNAME, 0);
+tree::TerminalNode* LATEXParser::Func_normal_single_argContext::CMD_OPERATORNAME() {
+  return getToken(LATEXParser::CMD_OPERATORNAME, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_single_argContext::L_BRACE() {
-  return getToken(PSParser::L_BRACE, 0);
+tree::TerminalNode* LATEXParser::Func_normal_single_argContext::L_BRACE() {
+  return getToken(LATEXParser::L_BRACE, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_single_argContext::R_BRACE() {
-  return getToken(PSParser::R_BRACE, 0);
+tree::TerminalNode* LATEXParser::Func_normal_single_argContext::R_BRACE() {
+  return getToken(LATEXParser::R_BRACE, 0);
 }
 
-PSParser::Func_operator_names_single_argContext* PSParser::Func_normal_single_argContext::func_operator_names_single_arg() {
-  return getRuleContext<PSParser::Func_operator_names_single_argContext>(0);
+LATEXParser::Func_operator_names_single_argContext* LATEXParser::Func_normal_single_argContext::func_operator_names_single_arg() {
+  return getRuleContext<LATEXParser::Func_operator_names_single_argContext>(0);
 }
 
 
-size_t PSParser::Func_normal_single_argContext::getRuleIndex() const {
-  return PSParser::RuleFunc_normal_single_arg;
+size_t LATEXParser::Func_normal_single_argContext::getRuleIndex() const {
+  return LATEXParser::RuleFunc_normal_single_arg;
 }
 
-void PSParser::Func_normal_single_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_normal_single_argContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFunc_normal_single_arg(this);
 }
 
-void PSParser::Func_normal_single_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_normal_single_argContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFunc_normal_single_arg(this);
 }
 
-PSParser::Func_normal_single_argContext* PSParser::func_normal_single_arg() {
+LATEXParser::Func_normal_single_argContext* LATEXParser::func_normal_single_arg() {
   Func_normal_single_argContext *_localctx = _tracker.createInstance<Func_normal_single_argContext>(_ctx, getState());
-  enterRule(_localctx, 78, PSParser::RuleFunc_normal_single_arg);
+  enterRule(_localctx, 78, LATEXParser::RuleFunc_normal_single_arg);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -5572,48 +5572,48 @@ PSParser::Func_normal_single_argContext* PSParser::func_normal_single_arg() {
     setState(741);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case PSParser::FUNC_LOG:
-      case PSParser::FUNC_LN:
-      case PSParser::FUNC_EXP:
-      case PSParser::FUNC_SIN:
-      case PSParser::FUNC_COS:
-      case PSParser::FUNC_TAN:
-      case PSParser::FUNC_CSC:
-      case PSParser::FUNC_SEC:
-      case PSParser::FUNC_COT:
-      case PSParser::FUNC_ARCSIN:
-      case PSParser::FUNC_ARCCOS:
-      case PSParser::FUNC_ARCTAN:
-      case PSParser::FUNC_ARCCSC:
-      case PSParser::FUNC_ARCSEC:
-      case PSParser::FUNC_ARCCOT:
-      case PSParser::FUNC_SINH:
-      case PSParser::FUNC_COSH:
-      case PSParser::FUNC_TANH:
-      case PSParser::FUNC_ARSINH:
-      case PSParser::FUNC_ARCOSH:
-      case PSParser::FUNC_ARTANH:
-      case PSParser::FUNC_ARCSINH:
-      case PSParser::FUNC_ARCCOSH:
-      case PSParser::FUNC_ARCTANH:
-      case PSParser::FUNC_FLOOR:
-      case PSParser::FUNC_CEIL: {
+      case LATEXParser::FUNC_LOG:
+      case LATEXParser::FUNC_LN:
+      case LATEXParser::FUNC_EXP:
+      case LATEXParser::FUNC_SIN:
+      case LATEXParser::FUNC_COS:
+      case LATEXParser::FUNC_TAN:
+      case LATEXParser::FUNC_CSC:
+      case LATEXParser::FUNC_SEC:
+      case LATEXParser::FUNC_COT:
+      case LATEXParser::FUNC_ARCSIN:
+      case LATEXParser::FUNC_ARCCOS:
+      case LATEXParser::FUNC_ARCTAN:
+      case LATEXParser::FUNC_ARCCSC:
+      case LATEXParser::FUNC_ARCSEC:
+      case LATEXParser::FUNC_ARCCOT:
+      case LATEXParser::FUNC_SINH:
+      case LATEXParser::FUNC_COSH:
+      case LATEXParser::FUNC_TANH:
+      case LATEXParser::FUNC_ARSINH:
+      case LATEXParser::FUNC_ARCOSH:
+      case LATEXParser::FUNC_ARTANH:
+      case LATEXParser::FUNC_ARCSINH:
+      case LATEXParser::FUNC_ARCCOSH:
+      case LATEXParser::FUNC_ARCTANH:
+      case LATEXParser::FUNC_FLOOR:
+      case LATEXParser::FUNC_CEIL: {
         enterOuterAlt(_localctx, 1);
         setState(735);
         func_normal_functions_single_arg();
         break;
       }
 
-      case PSParser::CMD_OPERATORNAME: {
+      case LATEXParser::CMD_OPERATORNAME: {
         enterOuterAlt(_localctx, 2);
         setState(736);
-        match(PSParser::CMD_OPERATORNAME);
+        match(LATEXParser::CMD_OPERATORNAME);
         setState(737);
-        match(PSParser::L_BRACE);
+        match(LATEXParser::L_BRACE);
         setState(738);
         antlrcpp::downCast<Func_normal_single_argContext *>(_localctx)->func_operator_name = func_operator_names_single_arg();
         setState(739);
-        match(PSParser::R_BRACE);
+        match(LATEXParser::R_BRACE);
         break;
       }
 
@@ -5633,50 +5633,50 @@ PSParser::Func_normal_single_argContext* PSParser::func_normal_single_arg() {
 
 //----------------- Func_normal_multi_argContext ------------------------------------------------------------------
 
-PSParser::Func_normal_multi_argContext::Func_normal_multi_argContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Func_normal_multi_argContext::Func_normal_multi_argContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::Func_normal_functions_multi_argContext* PSParser::Func_normal_multi_argContext::func_normal_functions_multi_arg() {
-  return getRuleContext<PSParser::Func_normal_functions_multi_argContext>(0);
+LATEXParser::Func_normal_functions_multi_argContext* LATEXParser::Func_normal_multi_argContext::func_normal_functions_multi_arg() {
+  return getRuleContext<LATEXParser::Func_normal_functions_multi_argContext>(0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_multi_argContext::CMD_OPERATORNAME() {
-  return getToken(PSParser::CMD_OPERATORNAME, 0);
+tree::TerminalNode* LATEXParser::Func_normal_multi_argContext::CMD_OPERATORNAME() {
+  return getToken(LATEXParser::CMD_OPERATORNAME, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_multi_argContext::L_BRACE() {
-  return getToken(PSParser::L_BRACE, 0);
+tree::TerminalNode* LATEXParser::Func_normal_multi_argContext::L_BRACE() {
+  return getToken(LATEXParser::L_BRACE, 0);
 }
 
-tree::TerminalNode* PSParser::Func_normal_multi_argContext::R_BRACE() {
-  return getToken(PSParser::R_BRACE, 0);
+tree::TerminalNode* LATEXParser::Func_normal_multi_argContext::R_BRACE() {
+  return getToken(LATEXParser::R_BRACE, 0);
 }
 
-PSParser::Func_operator_names_multi_argContext* PSParser::Func_normal_multi_argContext::func_operator_names_multi_arg() {
-  return getRuleContext<PSParser::Func_operator_names_multi_argContext>(0);
+LATEXParser::Func_operator_names_multi_argContext* LATEXParser::Func_normal_multi_argContext::func_operator_names_multi_arg() {
+  return getRuleContext<LATEXParser::Func_operator_names_multi_argContext>(0);
 }
 
 
-size_t PSParser::Func_normal_multi_argContext::getRuleIndex() const {
-  return PSParser::RuleFunc_normal_multi_arg;
+size_t LATEXParser::Func_normal_multi_argContext::getRuleIndex() const {
+  return LATEXParser::RuleFunc_normal_multi_arg;
 }
 
-void PSParser::Func_normal_multi_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_normal_multi_argContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFunc_normal_multi_arg(this);
 }
 
-void PSParser::Func_normal_multi_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_normal_multi_argContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFunc_normal_multi_arg(this);
 }
 
-PSParser::Func_normal_multi_argContext* PSParser::func_normal_multi_arg() {
+LATEXParser::Func_normal_multi_argContext* LATEXParser::func_normal_multi_arg() {
   Func_normal_multi_argContext *_localctx = _tracker.createInstance<Func_normal_multi_argContext>(_ctx, getState());
-  enterRule(_localctx, 80, PSParser::RuleFunc_normal_multi_arg);
+  enterRule(_localctx, 80, LATEXParser::RuleFunc_normal_multi_arg);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -5689,26 +5689,26 @@ PSParser::Func_normal_multi_argContext* PSParser::func_normal_multi_arg() {
     setState(749);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case PSParser::FUNC_GCD:
-      case PSParser::FUNC_LCM:
-      case PSParser::FUNC_MAX:
-      case PSParser::FUNC_MIN: {
+      case LATEXParser::FUNC_GCD:
+      case LATEXParser::FUNC_LCM:
+      case LATEXParser::FUNC_MAX:
+      case LATEXParser::FUNC_MIN: {
         enterOuterAlt(_localctx, 1);
         setState(743);
         func_normal_functions_multi_arg();
         break;
       }
 
-      case PSParser::CMD_OPERATORNAME: {
+      case LATEXParser::CMD_OPERATORNAME: {
         enterOuterAlt(_localctx, 2);
         setState(744);
-        match(PSParser::CMD_OPERATORNAME);
+        match(LATEXParser::CMD_OPERATORNAME);
         setState(745);
-        match(PSParser::L_BRACE);
+        match(LATEXParser::L_BRACE);
         setState(746);
         antlrcpp::downCast<Func_normal_multi_argContext *>(_localctx)->func_operator_name = func_operator_names_multi_arg();
         setState(747);
-        match(PSParser::R_BRACE);
+        match(LATEXParser::R_BRACE);
         break;
       }
 
@@ -5728,174 +5728,174 @@ PSParser::Func_normal_multi_argContext* PSParser::func_normal_multi_arg() {
 
 //----------------- FuncContext ------------------------------------------------------------------
 
-PSParser::FuncContext::FuncContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::FuncContext::FuncContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::Func_normal_single_argContext* PSParser::FuncContext::func_normal_single_arg() {
-  return getRuleContext<PSParser::Func_normal_single_argContext>(0);
+LATEXParser::Func_normal_single_argContext* LATEXParser::FuncContext::func_normal_single_arg() {
+  return getRuleContext<LATEXParser::Func_normal_single_argContext>(0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::L_PAREN() {
-  return getToken(PSParser::L_PAREN, 0);
+tree::TerminalNode* LATEXParser::FuncContext::L_PAREN() {
+  return getToken(LATEXParser::L_PAREN, 0);
 }
 
-PSParser::Func_single_argContext* PSParser::FuncContext::func_single_arg() {
-  return getRuleContext<PSParser::Func_single_argContext>(0);
+LATEXParser::Func_single_argContext* LATEXParser::FuncContext::func_single_arg() {
+  return getRuleContext<LATEXParser::Func_single_argContext>(0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::R_PAREN() {
-  return getToken(PSParser::R_PAREN, 0);
+tree::TerminalNode* LATEXParser::FuncContext::R_PAREN() {
+  return getToken(LATEXParser::R_PAREN, 0);
 }
 
-PSParser::Func_single_arg_noparensContext* PSParser::FuncContext::func_single_arg_noparens() {
-  return getRuleContext<PSParser::Func_single_arg_noparensContext>(0);
+LATEXParser::Func_single_arg_noparensContext* LATEXParser::FuncContext::func_single_arg_noparens() {
+  return getRuleContext<LATEXParser::Func_single_arg_noparensContext>(0);
 }
 
-PSParser::SubexprContext* PSParser::FuncContext::subexpr() {
-  return getRuleContext<PSParser::SubexprContext>(0);
+LATEXParser::SubexprContext* LATEXParser::FuncContext::subexpr() {
+  return getRuleContext<LATEXParser::SubexprContext>(0);
 }
 
-PSParser::SupexprContext* PSParser::FuncContext::supexpr() {
-  return getRuleContext<PSParser::SupexprContext>(0);
+LATEXParser::SupexprContext* LATEXParser::FuncContext::supexpr() {
+  return getRuleContext<LATEXParser::SupexprContext>(0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::L_LEFT() {
-  return getToken(PSParser::L_LEFT, 0);
+tree::TerminalNode* LATEXParser::FuncContext::L_LEFT() {
+  return getToken(LATEXParser::L_LEFT, 0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::R_RIGHT() {
-  return getToken(PSParser::R_RIGHT, 0);
+tree::TerminalNode* LATEXParser::FuncContext::R_RIGHT() {
+  return getToken(LATEXParser::R_RIGHT, 0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::ML_LEFT() {
-  return getToken(PSParser::ML_LEFT, 0);
+tree::TerminalNode* LATEXParser::FuncContext::ML_LEFT() {
+  return getToken(LATEXParser::ML_LEFT, 0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::MR_RIGHT() {
-  return getToken(PSParser::MR_RIGHT, 0);
+tree::TerminalNode* LATEXParser::FuncContext::MR_RIGHT() {
+  return getToken(LATEXParser::MR_RIGHT, 0);
 }
 
-PSParser::Func_normal_multi_argContext* PSParser::FuncContext::func_normal_multi_arg() {
-  return getRuleContext<PSParser::Func_normal_multi_argContext>(0);
+LATEXParser::Func_normal_multi_argContext* LATEXParser::FuncContext::func_normal_multi_arg() {
+  return getRuleContext<LATEXParser::Func_normal_multi_argContext>(0);
 }
 
-PSParser::Func_multi_argContext* PSParser::FuncContext::func_multi_arg() {
-  return getRuleContext<PSParser::Func_multi_argContext>(0);
+LATEXParser::Func_multi_argContext* LATEXParser::FuncContext::func_multi_arg() {
+  return getRuleContext<LATEXParser::Func_multi_argContext>(0);
 }
 
-PSParser::Func_multi_arg_noparensContext* PSParser::FuncContext::func_multi_arg_noparens() {
-  return getRuleContext<PSParser::Func_multi_arg_noparensContext>(0);
+LATEXParser::Func_multi_arg_noparensContext* LATEXParser::FuncContext::func_multi_arg_noparens() {
+  return getRuleContext<LATEXParser::Func_multi_arg_noparensContext>(0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::FUNC_INT() {
-  return getToken(PSParser::FUNC_INT, 0);
+tree::TerminalNode* LATEXParser::FuncContext::FUNC_INT() {
+  return getToken(LATEXParser::FUNC_INT, 0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::DIFFERENTIAL() {
-  return getToken(PSParser::DIFFERENTIAL, 0);
+tree::TerminalNode* LATEXParser::FuncContext::DIFFERENTIAL() {
+  return getToken(LATEXParser::DIFFERENTIAL, 0);
 }
 
-PSParser::FracContext* PSParser::FuncContext::frac() {
-  return getRuleContext<PSParser::FracContext>(0);
+LATEXParser::FracContext* LATEXParser::FuncContext::frac() {
+  return getRuleContext<LATEXParser::FracContext>(0);
 }
 
-PSParser::AdditiveContext* PSParser::FuncContext::additive() {
-  return getRuleContext<PSParser::AdditiveContext>(0);
+LATEXParser::AdditiveContext* LATEXParser::FuncContext::additive() {
+  return getRuleContext<LATEXParser::AdditiveContext>(0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::UNDERSCORE() {
-  return getToken(PSParser::UNDERSCORE, 0);
+tree::TerminalNode* LATEXParser::FuncContext::UNDERSCORE() {
+  return getToken(LATEXParser::UNDERSCORE, 0);
 }
 
-std::vector<tree::TerminalNode *> PSParser::FuncContext::L_BRACE() {
-  return getTokens(PSParser::L_BRACE);
+std::vector<tree::TerminalNode *> LATEXParser::FuncContext::L_BRACE() {
+  return getTokens(LATEXParser::L_BRACE);
 }
 
-tree::TerminalNode* PSParser::FuncContext::L_BRACE(size_t i) {
-  return getToken(PSParser::L_BRACE, i);
+tree::TerminalNode* LATEXParser::FuncContext::L_BRACE(size_t i) {
+  return getToken(LATEXParser::L_BRACE, i);
 }
 
-std::vector<tree::TerminalNode *> PSParser::FuncContext::R_BRACE() {
-  return getTokens(PSParser::R_BRACE);
+std::vector<tree::TerminalNode *> LATEXParser::FuncContext::R_BRACE() {
+  return getTokens(LATEXParser::R_BRACE);
 }
 
-tree::TerminalNode* PSParser::FuncContext::R_BRACE(size_t i) {
-  return getToken(PSParser::R_BRACE, i);
+tree::TerminalNode* LATEXParser::FuncContext::R_BRACE(size_t i) {
+  return getToken(LATEXParser::R_BRACE, i);
 }
 
-tree::TerminalNode* PSParser::FuncContext::CARET() {
-  return getToken(PSParser::CARET, 0);
+tree::TerminalNode* LATEXParser::FuncContext::CARET() {
+  return getToken(LATEXParser::CARET, 0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::FUNC_SQRT() {
-  return getToken(PSParser::FUNC_SQRT, 0);
+tree::TerminalNode* LATEXParser::FuncContext::FUNC_SQRT() {
+  return getToken(LATEXParser::FUNC_SQRT, 0);
 }
 
-std::vector<PSParser::ExprContext *> PSParser::FuncContext::expr() {
-  return getRuleContexts<PSParser::ExprContext>();
+std::vector<LATEXParser::ExprContext *> LATEXParser::FuncContext::expr() {
+  return getRuleContexts<LATEXParser::ExprContext>();
 }
 
-PSParser::ExprContext* PSParser::FuncContext::expr(size_t i) {
-  return getRuleContext<PSParser::ExprContext>(i);
+LATEXParser::ExprContext* LATEXParser::FuncContext::expr(size_t i) {
+  return getRuleContext<LATEXParser::ExprContext>(i);
 }
 
-tree::TerminalNode* PSParser::FuncContext::L_BRACKET() {
-  return getToken(PSParser::L_BRACKET, 0);
+tree::TerminalNode* LATEXParser::FuncContext::L_BRACKET() {
+  return getToken(LATEXParser::L_BRACKET, 0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::R_BRACKET() {
-  return getToken(PSParser::R_BRACKET, 0);
+tree::TerminalNode* LATEXParser::FuncContext::R_BRACKET() {
+  return getToken(LATEXParser::R_BRACKET, 0);
 }
 
-PSParser::MpContext* PSParser::FuncContext::mp() {
-  return getRuleContext<PSParser::MpContext>(0);
+LATEXParser::MpContext* LATEXParser::FuncContext::mp() {
+  return getRuleContext<LATEXParser::MpContext>(0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::FUNC_SUM() {
-  return getToken(PSParser::FUNC_SUM, 0);
+tree::TerminalNode* LATEXParser::FuncContext::FUNC_SUM() {
+  return getToken(LATEXParser::FUNC_SUM, 0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::FUNC_PROD() {
-  return getToken(PSParser::FUNC_PROD, 0);
+tree::TerminalNode* LATEXParser::FuncContext::FUNC_PROD() {
+  return getToken(LATEXParser::FUNC_PROD, 0);
 }
 
-PSParser::SubeqContext* PSParser::FuncContext::subeq() {
-  return getRuleContext<PSParser::SubeqContext>(0);
+LATEXParser::SubeqContext* LATEXParser::FuncContext::subeq() {
+  return getRuleContext<LATEXParser::SubeqContext>(0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::FUNC_LIM() {
-  return getToken(PSParser::FUNC_LIM, 0);
+tree::TerminalNode* LATEXParser::FuncContext::FUNC_LIM() {
+  return getToken(LATEXParser::FUNC_LIM, 0);
 }
 
-PSParser::Limit_subContext* PSParser::FuncContext::limit_sub() {
-  return getRuleContext<PSParser::Limit_subContext>(0);
+LATEXParser::Limit_subContext* LATEXParser::FuncContext::limit_sub() {
+  return getRuleContext<LATEXParser::Limit_subContext>(0);
 }
 
-tree::TerminalNode* PSParser::FuncContext::EXP_E() {
-  return getToken(PSParser::EXP_E, 0);
+tree::TerminalNode* LATEXParser::FuncContext::EXP_E() {
+  return getToken(LATEXParser::EXP_E, 0);
 }
 
 
-size_t PSParser::FuncContext::getRuleIndex() const {
-  return PSParser::RuleFunc;
+size_t LATEXParser::FuncContext::getRuleIndex() const {
+  return LATEXParser::RuleFunc;
 }
 
-void PSParser::FuncContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::FuncContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFunc(this);
 }
 
-void PSParser::FuncContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::FuncContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFunc(this);
 }
 
-PSParser::FuncContext* PSParser::func() {
+LATEXParser::FuncContext* LATEXParser::func() {
   FuncContext *_localctx = _tracker.createInstance<FuncContext>(_ctx, getState());
-  enterRule(_localctx, 82, PSParser::RuleFunc);
+  enterRule(_localctx, 82, LATEXParser::RuleFunc);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -5921,7 +5921,7 @@ PSParser::FuncContext* PSParser::func() {
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::UNDERSCORE) {
+        if (_la == LATEXParser::UNDERSCORE) {
           setState(752);
           subexpr();
         }
@@ -5929,7 +5929,7 @@ PSParser::FuncContext* PSParser::func() {
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::CARET) {
+        if (_la == LATEXParser::CARET) {
           setState(755);
           supexpr();
         }
@@ -5941,7 +5941,7 @@ PSParser::FuncContext* PSParser::func() {
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::CARET) {
+        if (_la == LATEXParser::CARET) {
           setState(758);
           supexpr();
         }
@@ -5949,7 +5949,7 @@ PSParser::FuncContext* PSParser::func() {
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::UNDERSCORE) {
+        if (_la == LATEXParser::UNDERSCORE) {
           setState(761);
           subexpr();
         }
@@ -5967,24 +5967,24 @@ PSParser::FuncContext* PSParser::func() {
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::L_LEFT) {
+        if (_la == LATEXParser::L_LEFT) {
           setState(766);
-          match(PSParser::L_LEFT);
+          match(LATEXParser::L_LEFT);
         }
         setState(769);
-        match(PSParser::L_PAREN);
+        match(LATEXParser::L_PAREN);
         setState(770);
         func_single_arg();
         setState(772);
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::R_RIGHT) {
+        if (_la == LATEXParser::R_RIGHT) {
           setState(771);
-          match(PSParser::R_RIGHT);
+          match(LATEXParser::R_RIGHT);
         }
         setState(774);
-        match(PSParser::R_PAREN);
+        match(LATEXParser::R_PAREN);
         break;
       }
 
@@ -5993,24 +5993,24 @@ PSParser::FuncContext* PSParser::func() {
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::ML_LEFT) {
+        if (_la == LATEXParser::ML_LEFT) {
           setState(776);
-          match(PSParser::ML_LEFT);
+          match(LATEXParser::ML_LEFT);
         }
         setState(779);
-        match(PSParser::L_PAREN);
+        match(LATEXParser::L_PAREN);
         setState(780);
         func_single_arg();
         setState(782);
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::MR_RIGHT) {
+        if (_la == LATEXParser::MR_RIGHT) {
           setState(781);
-          match(PSParser::MR_RIGHT);
+          match(LATEXParser::MR_RIGHT);
         }
         setState(784);
-        match(PSParser::R_PAREN);
+        match(LATEXParser::R_PAREN);
         break;
       }
 
@@ -6038,7 +6038,7 @@ PSParser::FuncContext* PSParser::func() {
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::UNDERSCORE) {
+        if (_la == LATEXParser::UNDERSCORE) {
           setState(790);
           subexpr();
         }
@@ -6046,7 +6046,7 @@ PSParser::FuncContext* PSParser::func() {
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::CARET) {
+        if (_la == LATEXParser::CARET) {
           setState(793);
           supexpr();
         }
@@ -6058,7 +6058,7 @@ PSParser::FuncContext* PSParser::func() {
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::CARET) {
+        if (_la == LATEXParser::CARET) {
           setState(796);
           supexpr();
         }
@@ -6066,7 +6066,7 @@ PSParser::FuncContext* PSParser::func() {
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::UNDERSCORE) {
+        if (_la == LATEXParser::UNDERSCORE) {
           setState(799);
           subexpr();
         }
@@ -6084,24 +6084,24 @@ PSParser::FuncContext* PSParser::func() {
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::L_LEFT) {
+        if (_la == LATEXParser::L_LEFT) {
           setState(804);
-          match(PSParser::L_LEFT);
+          match(LATEXParser::L_LEFT);
         }
         setState(807);
-        match(PSParser::L_PAREN);
+        match(LATEXParser::L_PAREN);
         setState(808);
         func_multi_arg();
         setState(810);
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::R_RIGHT) {
+        if (_la == LATEXParser::R_RIGHT) {
           setState(809);
-          match(PSParser::R_RIGHT);
+          match(LATEXParser::R_RIGHT);
         }
         setState(812);
-        match(PSParser::R_PAREN);
+        match(LATEXParser::R_PAREN);
         break;
       }
 
@@ -6110,24 +6110,24 @@ PSParser::FuncContext* PSParser::func() {
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::ML_LEFT) {
+        if (_la == LATEXParser::ML_LEFT) {
           setState(814);
-          match(PSParser::ML_LEFT);
+          match(LATEXParser::ML_LEFT);
         }
         setState(817);
-        match(PSParser::L_PAREN);
+        match(LATEXParser::L_PAREN);
         setState(818);
         func_multi_arg();
         setState(820);
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (_la == PSParser::MR_RIGHT) {
+        if (_la == LATEXParser::MR_RIGHT) {
           setState(819);
-          match(PSParser::MR_RIGHT);
+          match(LATEXParser::MR_RIGHT);
         }
         setState(822);
-        match(PSParser::R_PAREN);
+        match(LATEXParser::R_PAREN);
         break;
       }
 
@@ -6146,7 +6146,7 @@ PSParser::FuncContext* PSParser::func() {
     case 3: {
       enterOuterAlt(_localctx, 3);
       setState(827);
-      match(PSParser::FUNC_INT);
+      match(LATEXParser::FUNC_INT);
       setState(848);
       _errHandler->sync(this);
 
@@ -6169,35 +6169,35 @@ PSParser::FuncContext* PSParser::func() {
 
       case 3: {
         setState(834);
-        match(PSParser::UNDERSCORE);
+        match(LATEXParser::UNDERSCORE);
         setState(835);
-        match(PSParser::L_BRACE);
+        match(LATEXParser::L_BRACE);
         setState(836);
-        match(PSParser::R_BRACE);
+        match(LATEXParser::R_BRACE);
 
         setState(838);
-        match(PSParser::CARET);
+        match(LATEXParser::CARET);
         setState(839);
-        match(PSParser::L_BRACE);
+        match(LATEXParser::L_BRACE);
         setState(840);
-        match(PSParser::R_BRACE);
+        match(LATEXParser::R_BRACE);
         break;
       }
 
       case 4: {
         setState(841);
-        match(PSParser::CARET);
+        match(LATEXParser::CARET);
         setState(842);
-        match(PSParser::L_BRACE);
+        match(LATEXParser::L_BRACE);
         setState(843);
-        match(PSParser::R_BRACE);
+        match(LATEXParser::R_BRACE);
 
         setState(845);
-        match(PSParser::UNDERSCORE);
+        match(LATEXParser::UNDERSCORE);
         setState(846);
-        match(PSParser::L_BRACE);
+        match(LATEXParser::L_BRACE);
         setState(847);
-        match(PSParser::R_BRACE);
+        match(LATEXParser::R_BRACE);
         break;
       }
 
@@ -6222,7 +6222,7 @@ PSParser::FuncContext* PSParser::func() {
           break;
         }
         setState(853);
-        match(PSParser::DIFFERENTIAL);
+        match(LATEXParser::DIFFERENTIAL);
         break;
       }
 
@@ -6247,25 +6247,25 @@ PSParser::FuncContext* PSParser::func() {
     case 4: {
       enterOuterAlt(_localctx, 4);
       setState(858);
-      match(PSParser::FUNC_SQRT);
+      match(LATEXParser::FUNC_SQRT);
       setState(863);
       _errHandler->sync(this);
 
       _la = _input->LA(1);
-      if (_la == PSParser::L_BRACKET) {
+      if (_la == LATEXParser::L_BRACKET) {
         setState(859);
-        match(PSParser::L_BRACKET);
+        match(LATEXParser::L_BRACKET);
         setState(860);
         antlrcpp::downCast<FuncContext *>(_localctx)->root = expr();
         setState(861);
-        match(PSParser::R_BRACKET);
+        match(LATEXParser::R_BRACKET);
       }
       setState(865);
-      match(PSParser::L_BRACE);
+      match(LATEXParser::L_BRACE);
       setState(866);
       antlrcpp::downCast<FuncContext *>(_localctx)->base = expr();
       setState(867);
-      match(PSParser::R_BRACE);
+      match(LATEXParser::R_BRACE);
       break;
     }
 
@@ -6273,9 +6273,9 @@ PSParser::FuncContext* PSParser::func() {
       enterOuterAlt(_localctx, 5);
       setState(869);
       _la = _input->LA(1);
-      if (!(_la == PSParser::FUNC_SUM
+      if (!(_la == LATEXParser::FUNC_SUM
 
-      || _la == PSParser::FUNC_PROD)) {
+      || _la == LATEXParser::FUNC_PROD)) {
       _errHandler->recoverInline(this);
       }
       else {
@@ -6285,7 +6285,7 @@ PSParser::FuncContext* PSParser::func() {
       setState(876);
       _errHandler->sync(this);
       switch (_input->LA(1)) {
-        case PSParser::UNDERSCORE: {
+        case LATEXParser::UNDERSCORE: {
           setState(870);
           subeq();
           setState(871);
@@ -6293,7 +6293,7 @@ PSParser::FuncContext* PSParser::func() {
           break;
         }
 
-        case PSParser::CARET: {
+        case LATEXParser::CARET: {
           setState(873);
           supexpr();
           setState(874);
@@ -6312,7 +6312,7 @@ PSParser::FuncContext* PSParser::func() {
     case 6: {
       enterOuterAlt(_localctx, 6);
       setState(880);
-      match(PSParser::FUNC_LIM);
+      match(LATEXParser::FUNC_LIM);
       setState(881);
       limit_sub();
       setState(882);
@@ -6323,7 +6323,7 @@ PSParser::FuncContext* PSParser::func() {
     case 7: {
       enterOuterAlt(_localctx, 7);
       setState(884);
-      match(PSParser::EXP_E);
+      match(LATEXParser::EXP_E);
       setState(886);
       _errHandler->sync(this);
 
@@ -6356,42 +6356,42 @@ PSParser::FuncContext* PSParser::func() {
 
 //----------------- ArgsContext ------------------------------------------------------------------
 
-PSParser::ArgsContext::ArgsContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::ArgsContext::ArgsContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::ExprContext* PSParser::ArgsContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::ArgsContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-tree::TerminalNode* PSParser::ArgsContext::COMMA() {
-  return getToken(PSParser::COMMA, 0);
+tree::TerminalNode* LATEXParser::ArgsContext::COMMA() {
+  return getToken(LATEXParser::COMMA, 0);
 }
 
-PSParser::ArgsContext* PSParser::ArgsContext::args() {
-  return getRuleContext<PSParser::ArgsContext>(0);
+LATEXParser::ArgsContext* LATEXParser::ArgsContext::args() {
+  return getRuleContext<LATEXParser::ArgsContext>(0);
 }
 
 
-size_t PSParser::ArgsContext::getRuleIndex() const {
-  return PSParser::RuleArgs;
+size_t LATEXParser::ArgsContext::getRuleIndex() const {
+  return LATEXParser::RuleArgs;
 }
 
-void PSParser::ArgsContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::ArgsContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterArgs(this);
 }
 
-void PSParser::ArgsContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::ArgsContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitArgs(this);
 }
 
-PSParser::ArgsContext* PSParser::args() {
+LATEXParser::ArgsContext* LATEXParser::args() {
   ArgsContext *_localctx = _tracker.createInstance<ArgsContext>(_ctx, getState());
-  enterRule(_localctx, 84, PSParser::RuleArgs);
+  enterRule(_localctx, 84, LATEXParser::RuleArgs);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -6409,7 +6409,7 @@ PSParser::ArgsContext* PSParser::args() {
       setState(890);
       expr();
       setState(891);
-      match(PSParser::COMMA);
+      match(LATEXParser::COMMA);
       setState(892);
       args();
       break;
@@ -6438,78 +6438,78 @@ PSParser::ArgsContext* PSParser::args() {
 
 //----------------- Limit_subContext ------------------------------------------------------------------
 
-PSParser::Limit_subContext::Limit_subContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Limit_subContext::Limit_subContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::Limit_subContext::UNDERSCORE() {
-  return getToken(PSParser::UNDERSCORE, 0);
+tree::TerminalNode* LATEXParser::Limit_subContext::UNDERSCORE() {
+  return getToken(LATEXParser::UNDERSCORE, 0);
 }
 
-std::vector<tree::TerminalNode *> PSParser::Limit_subContext::L_BRACE() {
-  return getTokens(PSParser::L_BRACE);
+std::vector<tree::TerminalNode *> LATEXParser::Limit_subContext::L_BRACE() {
+  return getTokens(LATEXParser::L_BRACE);
 }
 
-tree::TerminalNode* PSParser::Limit_subContext::L_BRACE(size_t i) {
-  return getToken(PSParser::L_BRACE, i);
+tree::TerminalNode* LATEXParser::Limit_subContext::L_BRACE(size_t i) {
+  return getToken(LATEXParser::L_BRACE, i);
 }
 
-tree::TerminalNode* PSParser::Limit_subContext::LIM_APPROACH_SYM() {
-  return getToken(PSParser::LIM_APPROACH_SYM, 0);
+tree::TerminalNode* LATEXParser::Limit_subContext::LIM_APPROACH_SYM() {
+  return getToken(LATEXParser::LIM_APPROACH_SYM, 0);
 }
 
-PSParser::ExprContext* PSParser::Limit_subContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::Limit_subContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-std::vector<tree::TerminalNode *> PSParser::Limit_subContext::R_BRACE() {
-  return getTokens(PSParser::R_BRACE);
+std::vector<tree::TerminalNode *> LATEXParser::Limit_subContext::R_BRACE() {
+  return getTokens(LATEXParser::R_BRACE);
 }
 
-tree::TerminalNode* PSParser::Limit_subContext::R_BRACE(size_t i) {
-  return getToken(PSParser::R_BRACE, i);
+tree::TerminalNode* LATEXParser::Limit_subContext::R_BRACE(size_t i) {
+  return getToken(LATEXParser::R_BRACE, i);
 }
 
-tree::TerminalNode* PSParser::Limit_subContext::LETTER_NO_E() {
-  return getToken(PSParser::LETTER_NO_E, 0);
+tree::TerminalNode* LATEXParser::Limit_subContext::LETTER_NO_E() {
+  return getToken(LATEXParser::LETTER_NO_E, 0);
 }
 
-tree::TerminalNode* PSParser::Limit_subContext::GREEK_CMD() {
-  return getToken(PSParser::GREEK_CMD, 0);
+tree::TerminalNode* LATEXParser::Limit_subContext::GREEK_CMD() {
+  return getToken(LATEXParser::GREEK_CMD, 0);
 }
 
-tree::TerminalNode* PSParser::Limit_subContext::CARET() {
-  return getToken(PSParser::CARET, 0);
+tree::TerminalNode* LATEXParser::Limit_subContext::CARET() {
+  return getToken(LATEXParser::CARET, 0);
 }
 
-tree::TerminalNode* PSParser::Limit_subContext::ADD() {
-  return getToken(PSParser::ADD, 0);
+tree::TerminalNode* LATEXParser::Limit_subContext::ADD() {
+  return getToken(LATEXParser::ADD, 0);
 }
 
-tree::TerminalNode* PSParser::Limit_subContext::SUB() {
-  return getToken(PSParser::SUB, 0);
+tree::TerminalNode* LATEXParser::Limit_subContext::SUB() {
+  return getToken(LATEXParser::SUB, 0);
 }
 
 
-size_t PSParser::Limit_subContext::getRuleIndex() const {
-  return PSParser::RuleLimit_sub;
+size_t LATEXParser::Limit_subContext::getRuleIndex() const {
+  return LATEXParser::RuleLimit_sub;
 }
 
-void PSParser::Limit_subContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Limit_subContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterLimit_sub(this);
 }
 
-void PSParser::Limit_subContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Limit_subContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitLimit_sub(this);
 }
 
-PSParser::Limit_subContext* PSParser::limit_sub() {
+LATEXParser::Limit_subContext* LATEXParser::limit_sub() {
   Limit_subContext *_localctx = _tracker.createInstance<Limit_subContext>(_ctx, getState());
-  enterRule(_localctx, 86, PSParser::RuleLimit_sub);
+  enterRule(_localctx, 86, LATEXParser::RuleLimit_sub);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -6522,14 +6522,14 @@ PSParser::Limit_subContext* PSParser::limit_sub() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(897);
-    match(PSParser::UNDERSCORE);
+    match(LATEXParser::UNDERSCORE);
     setState(898);
-    match(PSParser::L_BRACE);
+    match(LATEXParser::L_BRACE);
     setState(899);
     _la = _input->LA(1);
-    if (!(_la == PSParser::LETTER_NO_E
+    if (!(_la == LATEXParser::LETTER_NO_E
 
-    || _la == PSParser::GREEK_CMD)) {
+    || _la == LATEXParser::GREEK_CMD)) {
     _errHandler->recoverInline(this);
     }
     else {
@@ -6537,23 +6537,23 @@ PSParser::Limit_subContext* PSParser::limit_sub() {
       consume();
     }
     setState(900);
-    match(PSParser::LIM_APPROACH_SYM);
+    match(LATEXParser::LIM_APPROACH_SYM);
     setState(901);
     expr();
     setState(906);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
-    if (_la == PSParser::CARET) {
+    if (_la == LATEXParser::CARET) {
       setState(902);
-      match(PSParser::CARET);
+      match(LATEXParser::CARET);
       setState(903);
-      match(PSParser::L_BRACE);
+      match(LATEXParser::L_BRACE);
       setState(904);
       _la = _input->LA(1);
-      if (!(_la == PSParser::ADD
+      if (!(_la == LATEXParser::ADD
 
-      || _la == PSParser::SUB)) {
+      || _la == LATEXParser::SUB)) {
       _errHandler->recoverInline(this);
       }
       else {
@@ -6561,10 +6561,10 @@ PSParser::Limit_subContext* PSParser::limit_sub() {
         consume();
       }
       setState(905);
-      match(PSParser::R_BRACE);
+      match(LATEXParser::R_BRACE);
     }
     setState(908);
-    match(PSParser::R_BRACE);
+    match(LATEXParser::R_BRACE);
    
   }
   catch (RecognitionException &e) {
@@ -6578,34 +6578,34 @@ PSParser::Limit_subContext* PSParser::limit_sub() {
 
 //----------------- Func_single_argContext ------------------------------------------------------------------
 
-PSParser::Func_single_argContext::Func_single_argContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Func_single_argContext::Func_single_argContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::ExprContext* PSParser::Func_single_argContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::Func_single_argContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
 
-size_t PSParser::Func_single_argContext::getRuleIndex() const {
-  return PSParser::RuleFunc_single_arg;
+size_t LATEXParser::Func_single_argContext::getRuleIndex() const {
+  return LATEXParser::RuleFunc_single_arg;
 }
 
-void PSParser::Func_single_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_single_argContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFunc_single_arg(this);
 }
 
-void PSParser::Func_single_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_single_argContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFunc_single_arg(this);
 }
 
-PSParser::Func_single_argContext* PSParser::func_single_arg() {
+LATEXParser::Func_single_argContext* LATEXParser::func_single_arg() {
   Func_single_argContext *_localctx = _tracker.createInstance<Func_single_argContext>(_ctx, getState());
-  enterRule(_localctx, 88, PSParser::RuleFunc_single_arg);
+  enterRule(_localctx, 88, LATEXParser::RuleFunc_single_arg);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -6631,34 +6631,34 @@ PSParser::Func_single_argContext* PSParser::func_single_arg() {
 
 //----------------- Func_single_arg_noparensContext ------------------------------------------------------------------
 
-PSParser::Func_single_arg_noparensContext::Func_single_arg_noparensContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Func_single_arg_noparensContext::Func_single_arg_noparensContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::Mp_nofuncContext* PSParser::Func_single_arg_noparensContext::mp_nofunc() {
-  return getRuleContext<PSParser::Mp_nofuncContext>(0);
+LATEXParser::Mp_nofuncContext* LATEXParser::Func_single_arg_noparensContext::mp_nofunc() {
+  return getRuleContext<LATEXParser::Mp_nofuncContext>(0);
 }
 
 
-size_t PSParser::Func_single_arg_noparensContext::getRuleIndex() const {
-  return PSParser::RuleFunc_single_arg_noparens;
+size_t LATEXParser::Func_single_arg_noparensContext::getRuleIndex() const {
+  return LATEXParser::RuleFunc_single_arg_noparens;
 }
 
-void PSParser::Func_single_arg_noparensContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_single_arg_noparensContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFunc_single_arg_noparens(this);
 }
 
-void PSParser::Func_single_arg_noparensContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_single_arg_noparensContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFunc_single_arg_noparens(this);
 }
 
-PSParser::Func_single_arg_noparensContext* PSParser::func_single_arg_noparens() {
+LATEXParser::Func_single_arg_noparensContext* LATEXParser::func_single_arg_noparens() {
   Func_single_arg_noparensContext *_localctx = _tracker.createInstance<Func_single_arg_noparensContext>(_ctx, getState());
-  enterRule(_localctx, 90, PSParser::RuleFunc_single_arg_noparens);
+  enterRule(_localctx, 90, LATEXParser::RuleFunc_single_arg_noparens);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -6684,42 +6684,42 @@ PSParser::Func_single_arg_noparensContext* PSParser::func_single_arg_noparens() 
 
 //----------------- Func_multi_argContext ------------------------------------------------------------------
 
-PSParser::Func_multi_argContext::Func_multi_argContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Func_multi_argContext::Func_multi_argContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::ExprContext* PSParser::Func_multi_argContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::Func_multi_argContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-tree::TerminalNode* PSParser::Func_multi_argContext::COMMA() {
-  return getToken(PSParser::COMMA, 0);
+tree::TerminalNode* LATEXParser::Func_multi_argContext::COMMA() {
+  return getToken(LATEXParser::COMMA, 0);
 }
 
-PSParser::Func_multi_argContext* PSParser::Func_multi_argContext::func_multi_arg() {
-  return getRuleContext<PSParser::Func_multi_argContext>(0);
+LATEXParser::Func_multi_argContext* LATEXParser::Func_multi_argContext::func_multi_arg() {
+  return getRuleContext<LATEXParser::Func_multi_argContext>(0);
 }
 
 
-size_t PSParser::Func_multi_argContext::getRuleIndex() const {
-  return PSParser::RuleFunc_multi_arg;
+size_t LATEXParser::Func_multi_argContext::getRuleIndex() const {
+  return LATEXParser::RuleFunc_multi_arg;
 }
 
-void PSParser::Func_multi_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_multi_argContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFunc_multi_arg(this);
 }
 
-void PSParser::Func_multi_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_multi_argContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFunc_multi_arg(this);
 }
 
-PSParser::Func_multi_argContext* PSParser::func_multi_arg() {
+LATEXParser::Func_multi_argContext* LATEXParser::func_multi_arg() {
   Func_multi_argContext *_localctx = _tracker.createInstance<Func_multi_argContext>(_ctx, getState());
-  enterRule(_localctx, 92, PSParser::RuleFunc_multi_arg);
+  enterRule(_localctx, 92, LATEXParser::RuleFunc_multi_arg);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -6744,7 +6744,7 @@ PSParser::Func_multi_argContext* PSParser::func_multi_arg() {
       setState(915);
       expr();
       setState(916);
-      match(PSParser::COMMA);
+      match(LATEXParser::COMMA);
       setState(917);
       func_multi_arg();
       break;
@@ -6766,34 +6766,34 @@ PSParser::Func_multi_argContext* PSParser::func_multi_arg() {
 
 //----------------- Func_multi_arg_noparensContext ------------------------------------------------------------------
 
-PSParser::Func_multi_arg_noparensContext::Func_multi_arg_noparensContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::Func_multi_arg_noparensContext::Func_multi_arg_noparensContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-PSParser::Mp_nofuncContext* PSParser::Func_multi_arg_noparensContext::mp_nofunc() {
-  return getRuleContext<PSParser::Mp_nofuncContext>(0);
+LATEXParser::Mp_nofuncContext* LATEXParser::Func_multi_arg_noparensContext::mp_nofunc() {
+  return getRuleContext<LATEXParser::Mp_nofuncContext>(0);
 }
 
 
-size_t PSParser::Func_multi_arg_noparensContext::getRuleIndex() const {
-  return PSParser::RuleFunc_multi_arg_noparens;
+size_t LATEXParser::Func_multi_arg_noparensContext::getRuleIndex() const {
+  return LATEXParser::RuleFunc_multi_arg_noparens;
 }
 
-void PSParser::Func_multi_arg_noparensContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_multi_arg_noparensContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFunc_multi_arg_noparens(this);
 }
 
-void PSParser::Func_multi_arg_noparensContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::Func_multi_arg_noparensContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFunc_multi_arg_noparens(this);
 }
 
-PSParser::Func_multi_arg_noparensContext* PSParser::func_multi_arg_noparens() {
+LATEXParser::Func_multi_arg_noparensContext* LATEXParser::func_multi_arg_noparens() {
   Func_multi_arg_noparensContext *_localctx = _tracker.createInstance<Func_multi_arg_noparensContext>(_ctx, getState());
-  enterRule(_localctx, 94, PSParser::RuleFunc_multi_arg_noparens);
+  enterRule(_localctx, 94, LATEXParser::RuleFunc_multi_arg_noparens);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -6819,54 +6819,54 @@ PSParser::Func_multi_arg_noparensContext* PSParser::func_multi_arg_noparens() {
 
 //----------------- SubexprContext ------------------------------------------------------------------
 
-PSParser::SubexprContext::SubexprContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::SubexprContext::SubexprContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::SubexprContext::UNDERSCORE() {
-  return getToken(PSParser::UNDERSCORE, 0);
+tree::TerminalNode* LATEXParser::SubexprContext::UNDERSCORE() {
+  return getToken(LATEXParser::UNDERSCORE, 0);
 }
 
-PSParser::AtomContext* PSParser::SubexprContext::atom() {
-  return getRuleContext<PSParser::AtomContext>(0);
+LATEXParser::AtomContext* LATEXParser::SubexprContext::atom() {
+  return getRuleContext<LATEXParser::AtomContext>(0);
 }
 
-tree::TerminalNode* PSParser::SubexprContext::L_BRACE() {
-  return getToken(PSParser::L_BRACE, 0);
+tree::TerminalNode* LATEXParser::SubexprContext::L_BRACE() {
+  return getToken(LATEXParser::L_BRACE, 0);
 }
 
-tree::TerminalNode* PSParser::SubexprContext::R_BRACE() {
-  return getToken(PSParser::R_BRACE, 0);
+tree::TerminalNode* LATEXParser::SubexprContext::R_BRACE() {
+  return getToken(LATEXParser::R_BRACE, 0);
 }
 
-PSParser::ExprContext* PSParser::SubexprContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::SubexprContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-PSParser::ArgsContext* PSParser::SubexprContext::args() {
-  return getRuleContext<PSParser::ArgsContext>(0);
+LATEXParser::ArgsContext* LATEXParser::SubexprContext::args() {
+  return getRuleContext<LATEXParser::ArgsContext>(0);
 }
 
 
-size_t PSParser::SubexprContext::getRuleIndex() const {
-  return PSParser::RuleSubexpr;
+size_t LATEXParser::SubexprContext::getRuleIndex() const {
+  return LATEXParser::RuleSubexpr;
 }
 
-void PSParser::SubexprContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::SubexprContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterSubexpr(this);
 }
 
-void PSParser::SubexprContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::SubexprContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitSubexpr(this);
 }
 
-PSParser::SubexprContext* PSParser::subexpr() {
+LATEXParser::SubexprContext* LATEXParser::subexpr() {
   SubexprContext *_localctx = _tracker.createInstance<SubexprContext>(_ctx, getState());
-  enterRule(_localctx, 96, PSParser::RuleSubexpr);
+  enterRule(_localctx, 96, LATEXParser::RuleSubexpr);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -6878,31 +6878,31 @@ PSParser::SubexprContext* PSParser::subexpr() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(923);
-    match(PSParser::UNDERSCORE);
+    match(LATEXParser::UNDERSCORE);
     setState(932);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case PSParser::CMD_MATHIT:
-      case PSParser::ACCENT_OVERLINE:
-      case PSParser::ACCENT_BAR:
-      case PSParser::DIFFERENTIAL:
-      case PSParser::LETTER_NO_E:
-      case PSParser::NUMBER:
-      case PSParser::FRACTION_NUMBER:
-      case PSParser::SCI_NOTATION_NUMBER:
-      case PSParser::E_NOTATION:
-      case PSParser::PERCENT_NUMBER:
-      case PSParser::GREEK_CMD:
-      case PSParser::SYMBOL:
-      case PSParser::VARIABLE: {
+      case LATEXParser::CMD_MATHIT:
+      case LATEXParser::ACCENT_OVERLINE:
+      case LATEXParser::ACCENT_BAR:
+      case LATEXParser::DIFFERENTIAL:
+      case LATEXParser::LETTER_NO_E:
+      case LATEXParser::NUMBER:
+      case LATEXParser::FRACTION_NUMBER:
+      case LATEXParser::SCI_NOTATION_NUMBER:
+      case LATEXParser::E_NOTATION:
+      case LATEXParser::PERCENT_NUMBER:
+      case LATEXParser::GREEK_CMD:
+      case LATEXParser::SYMBOL:
+      case LATEXParser::VARIABLE: {
         setState(924);
         atom();
         break;
       }
 
-      case PSParser::L_BRACE: {
+      case LATEXParser::L_BRACE: {
         setState(925);
-        match(PSParser::L_BRACE);
+        match(LATEXParser::L_BRACE);
         setState(928);
         _errHandler->sync(this);
         switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 69, _ctx)) {
@@ -6922,7 +6922,7 @@ PSParser::SubexprContext* PSParser::subexpr() {
           break;
         }
         setState(930);
-        match(PSParser::R_BRACE);
+        match(LATEXParser::R_BRACE);
         break;
       }
 
@@ -6942,50 +6942,50 @@ PSParser::SubexprContext* PSParser::subexpr() {
 
 //----------------- SupexprContext ------------------------------------------------------------------
 
-PSParser::SupexprContext::SupexprContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::SupexprContext::SupexprContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::SupexprContext::CARET() {
-  return getToken(PSParser::CARET, 0);
+tree::TerminalNode* LATEXParser::SupexprContext::CARET() {
+  return getToken(LATEXParser::CARET, 0);
 }
 
-PSParser::AtomContext* PSParser::SupexprContext::atom() {
-  return getRuleContext<PSParser::AtomContext>(0);
+LATEXParser::AtomContext* LATEXParser::SupexprContext::atom() {
+  return getRuleContext<LATEXParser::AtomContext>(0);
 }
 
-tree::TerminalNode* PSParser::SupexprContext::L_BRACE() {
-  return getToken(PSParser::L_BRACE, 0);
+tree::TerminalNode* LATEXParser::SupexprContext::L_BRACE() {
+  return getToken(LATEXParser::L_BRACE, 0);
 }
 
-PSParser::ExprContext* PSParser::SupexprContext::expr() {
-  return getRuleContext<PSParser::ExprContext>(0);
+LATEXParser::ExprContext* LATEXParser::SupexprContext::expr() {
+  return getRuleContext<LATEXParser::ExprContext>(0);
 }
 
-tree::TerminalNode* PSParser::SupexprContext::R_BRACE() {
-  return getToken(PSParser::R_BRACE, 0);
+tree::TerminalNode* LATEXParser::SupexprContext::R_BRACE() {
+  return getToken(LATEXParser::R_BRACE, 0);
 }
 
 
-size_t PSParser::SupexprContext::getRuleIndex() const {
-  return PSParser::RuleSupexpr;
+size_t LATEXParser::SupexprContext::getRuleIndex() const {
+  return LATEXParser::RuleSupexpr;
 }
 
-void PSParser::SupexprContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::SupexprContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterSupexpr(this);
 }
 
-void PSParser::SupexprContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::SupexprContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitSupexpr(this);
 }
 
-PSParser::SupexprContext* PSParser::supexpr() {
+LATEXParser::SupexprContext* LATEXParser::supexpr() {
   SupexprContext *_localctx = _tracker.createInstance<SupexprContext>(_ctx, getState());
-  enterRule(_localctx, 98, PSParser::RuleSupexpr);
+  enterRule(_localctx, 98, LATEXParser::RuleSupexpr);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -6997,35 +6997,35 @@ PSParser::SupexprContext* PSParser::supexpr() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(934);
-    match(PSParser::CARET);
+    match(LATEXParser::CARET);
     setState(940);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case PSParser::CMD_MATHIT:
-      case PSParser::ACCENT_OVERLINE:
-      case PSParser::ACCENT_BAR:
-      case PSParser::DIFFERENTIAL:
-      case PSParser::LETTER_NO_E:
-      case PSParser::NUMBER:
-      case PSParser::FRACTION_NUMBER:
-      case PSParser::SCI_NOTATION_NUMBER:
-      case PSParser::E_NOTATION:
-      case PSParser::PERCENT_NUMBER:
-      case PSParser::GREEK_CMD:
-      case PSParser::SYMBOL:
-      case PSParser::VARIABLE: {
+      case LATEXParser::CMD_MATHIT:
+      case LATEXParser::ACCENT_OVERLINE:
+      case LATEXParser::ACCENT_BAR:
+      case LATEXParser::DIFFERENTIAL:
+      case LATEXParser::LETTER_NO_E:
+      case LATEXParser::NUMBER:
+      case LATEXParser::FRACTION_NUMBER:
+      case LATEXParser::SCI_NOTATION_NUMBER:
+      case LATEXParser::E_NOTATION:
+      case LATEXParser::PERCENT_NUMBER:
+      case LATEXParser::GREEK_CMD:
+      case LATEXParser::SYMBOL:
+      case LATEXParser::VARIABLE: {
         setState(935);
         atom();
         break;
       }
 
-      case PSParser::L_BRACE: {
+      case LATEXParser::L_BRACE: {
         setState(936);
-        match(PSParser::L_BRACE);
+        match(LATEXParser::L_BRACE);
         setState(937);
         expr();
         setState(938);
-        match(PSParser::R_BRACE);
+        match(LATEXParser::R_BRACE);
         break;
       }
 
@@ -7045,46 +7045,46 @@ PSParser::SupexprContext* PSParser::supexpr() {
 
 //----------------- SubeqContext ------------------------------------------------------------------
 
-PSParser::SubeqContext::SubeqContext(ParserRuleContext *parent, size_t invokingState)
+LATEXParser::SubeqContext::SubeqContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* PSParser::SubeqContext::UNDERSCORE() {
-  return getToken(PSParser::UNDERSCORE, 0);
+tree::TerminalNode* LATEXParser::SubeqContext::UNDERSCORE() {
+  return getToken(LATEXParser::UNDERSCORE, 0);
 }
 
-tree::TerminalNode* PSParser::SubeqContext::L_BRACE() {
-  return getToken(PSParser::L_BRACE, 0);
+tree::TerminalNode* LATEXParser::SubeqContext::L_BRACE() {
+  return getToken(LATEXParser::L_BRACE, 0);
 }
 
-PSParser::EqualityContext* PSParser::SubeqContext::equality() {
-  return getRuleContext<PSParser::EqualityContext>(0);
+LATEXParser::EqualityContext* LATEXParser::SubeqContext::equality() {
+  return getRuleContext<LATEXParser::EqualityContext>(0);
 }
 
-tree::TerminalNode* PSParser::SubeqContext::R_BRACE() {
-  return getToken(PSParser::R_BRACE, 0);
+tree::TerminalNode* LATEXParser::SubeqContext::R_BRACE() {
+  return getToken(LATEXParser::R_BRACE, 0);
 }
 
 
-size_t PSParser::SubeqContext::getRuleIndex() const {
-  return PSParser::RuleSubeq;
+size_t LATEXParser::SubeqContext::getRuleIndex() const {
+  return LATEXParser::RuleSubeq;
 }
 
-void PSParser::SubeqContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::SubeqContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterSubeq(this);
 }
 
-void PSParser::SubeqContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<PSListener *>(listener);
+void LATEXParser::SubeqContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<LATEXListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitSubeq(this);
 }
 
-PSParser::SubeqContext* PSParser::subeq() {
+LATEXParser::SubeqContext* LATEXParser::subeq() {
   SubeqContext *_localctx = _tracker.createInstance<SubeqContext>(_ctx, getState());
-  enterRule(_localctx, 100, PSParser::RuleSubeq);
+  enterRule(_localctx, 100, LATEXParser::RuleSubeq);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -7096,13 +7096,13 @@ PSParser::SubeqContext* PSParser::subeq() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(942);
-    match(PSParser::UNDERSCORE);
+    match(LATEXParser::UNDERSCORE);
     setState(943);
-    match(PSParser::L_BRACE);
+    match(LATEXParser::L_BRACE);
     setState(944);
     equality();
     setState(945);
-    match(PSParser::R_BRACE);
+    match(LATEXParser::R_BRACE);
    
   }
   catch (RecognitionException &e) {
@@ -7114,7 +7114,7 @@ PSParser::SubeqContext* PSParser::subeq() {
   return _localctx;
 }
 
-bool PSParser::sempred(RuleContext *context, size_t ruleIndex, size_t predicateIndex) {
+bool LATEXParser::sempred(RuleContext *context, size_t ruleIndex, size_t predicateIndex) {
   switch (ruleIndex) {
     case 4: return relationSempred(antlrcpp::downCast<RelationContext *>(context), predicateIndex);
     case 9: return additiveSempred(antlrcpp::downCast<AdditiveContext *>(context), predicateIndex);
@@ -7129,7 +7129,7 @@ bool PSParser::sempred(RuleContext *context, size_t ruleIndex, size_t predicateI
   return true;
 }
 
-bool PSParser::relationSempred(RelationContext *_localctx, size_t predicateIndex) {
+bool LATEXParser::relationSempred(RelationContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
     case 0: return precpred(_ctx, 2);
 
@@ -7139,7 +7139,7 @@ bool PSParser::relationSempred(RelationContext *_localctx, size_t predicateIndex
   return true;
 }
 
-bool PSParser::additiveSempred(AdditiveContext *_localctx, size_t predicateIndex) {
+bool LATEXParser::additiveSempred(AdditiveContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
     case 1: return precpred(_ctx, 2);
 
@@ -7149,7 +7149,7 @@ bool PSParser::additiveSempred(AdditiveContext *_localctx, size_t predicateIndex
   return true;
 }
 
-bool PSParser::mpSempred(MpContext *_localctx, size_t predicateIndex) {
+bool LATEXParser::mpSempred(MpContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
     case 2: return precpred(_ctx, 2);
 
@@ -7159,7 +7159,7 @@ bool PSParser::mpSempred(MpContext *_localctx, size_t predicateIndex) {
   return true;
 }
 
-bool PSParser::mp_nofuncSempred(Mp_nofuncContext *_localctx, size_t predicateIndex) {
+bool LATEXParser::mp_nofuncSempred(Mp_nofuncContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
     case 3: return precpred(_ctx, 2);
 
@@ -7169,7 +7169,7 @@ bool PSParser::mp_nofuncSempred(Mp_nofuncContext *_localctx, size_t predicateInd
   return true;
 }
 
-bool PSParser::expSempred(ExpContext *_localctx, size_t predicateIndex) {
+bool LATEXParser::expSempred(ExpContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
     case 4: return precpred(_ctx, 2);
 
@@ -7179,7 +7179,7 @@ bool PSParser::expSempred(ExpContext *_localctx, size_t predicateIndex) {
   return true;
 }
 
-bool PSParser::exp_nofuncSempred(Exp_nofuncContext *_localctx, size_t predicateIndex) {
+bool LATEXParser::exp_nofuncSempred(Exp_nofuncContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
     case 5: return precpred(_ctx, 2);
 
@@ -7189,6 +7189,6 @@ bool PSParser::exp_nofuncSempred(Exp_nofuncContext *_localctx, size_t predicateI
   return true;
 }
 
-void PSParser::initialize() {
-  ::antlr4::internal::call_once(psParserOnceFlag, psParserInitialize);
+void LATEXParser::initialize() {
+  ::antlr4::internal::call_once(latexParserOnceFlag, latexParserInitialize);
 }

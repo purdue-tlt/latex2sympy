@@ -1,5 +1,5 @@
 
-// Generated from PS.g4 by ANTLR 4.11.1
+// Generated from LATEX.g4 by ANTLR 4.11.1
 
 #pragma once
 
@@ -7,10 +7,10 @@
 #include "antlr4-runtime.h"
 
 
-namespace latex2sympy {
+namespace latex2antlr {
 
 
-class  PSParser : public antlr4::Parser {
+class  LATEXParser : public antlr4::Parser {
 public:
   enum {
     WS = 1, DOLLAR_SIGN = 2, ADD = 3, SUB = 4, MUL = 5, DIV = 6, L_PAREN = 7, 
@@ -61,11 +61,11 @@ public:
     RuleSubeq = 50
   };
 
-  explicit PSParser(antlr4::TokenStream *input);
+  explicit LATEXParser(antlr4::TokenStream *input);
 
-  PSParser(antlr4::TokenStream *input, const antlr4::atn::ParserATNSimulatorOptions &options);
+  LATEXParser(antlr4::TokenStream *input, const antlr4::atn::ParserATNSimulatorOptions &options);
 
-  ~PSParser() override;
+  ~LATEXParser() override;
 
   std::string getGrammarFileName() const override;
 
@@ -658,7 +658,7 @@ public:
 
   class  AccentContext : public antlr4::ParserRuleContext {
   public:
-    PSParser::ExprContext *base = nullptr;
+    LATEXParser::ExprContext *base = nullptr;
     AccentContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     Accent_symbolContext *accent_symbol();
@@ -748,8 +748,8 @@ public:
 
   class  FracContext : public antlr4::ParserRuleContext {
   public:
-    PSParser::ExprContext *upper = nullptr;
-    PSParser::ExprContext *lower = nullptr;
+    LATEXParser::ExprContext *upper = nullptr;
+    LATEXParser::ExprContext *lower = nullptr;
     FracContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *CMD_FRAC();
@@ -769,8 +769,8 @@ public:
 
   class  BinomContext : public antlr4::ParserRuleContext {
   public:
-    PSParser::ExprContext *upper = nullptr;
-    PSParser::ExprContext *lower = nullptr;
+    LATEXParser::ExprContext *upper = nullptr;
+    LATEXParser::ExprContext *lower = nullptr;
     BinomContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     std::vector<antlr4::tree::TerminalNode *> L_BRACE();
@@ -879,7 +879,7 @@ public:
 
   class  Func_normal_single_argContext : public antlr4::ParserRuleContext {
   public:
-    PSParser::Func_operator_names_single_argContext *func_operator_name = nullptr;
+    LATEXParser::Func_operator_names_single_argContext *func_operator_name = nullptr;
     Func_normal_single_argContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     Func_normal_functions_single_argContext *func_normal_functions_single_arg();
@@ -897,7 +897,7 @@ public:
 
   class  Func_normal_multi_argContext : public antlr4::ParserRuleContext {
   public:
-    PSParser::Func_operator_names_multi_argContext *func_operator_name = nullptr;
+    LATEXParser::Func_operator_names_multi_argContext *func_operator_name = nullptr;
     Func_normal_multi_argContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     Func_normal_functions_multi_argContext *func_normal_functions_multi_arg();
@@ -915,8 +915,8 @@ public:
 
   class  FuncContext : public antlr4::ParserRuleContext {
   public:
-    PSParser::ExprContext *root = nullptr;
-    PSParser::ExprContext *base = nullptr;
+    LATEXParser::ExprContext *root = nullptr;
+    LATEXParser::ExprContext *base = nullptr;
     FuncContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     Func_normal_single_argContext *func_normal_single_arg();
@@ -1125,4 +1125,4 @@ public:
 private:
 };
 
-}  // namespace latex2sympy
+}  // namespace latex2antlr

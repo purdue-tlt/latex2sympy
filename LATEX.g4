@@ -1,8 +1,4 @@
-grammar PS;
-
-options {
-    language=Python3;
-}
+grammar LATEX;
 
 WS: [ \t\r\n]+ -> skip;
 DOLLAR_SIGN: '\\$' -> skip;

@@ -6,13 +6,13 @@ from sympy.core.operations import AssocOp
 from sympy.core.core import all_classes
 
 try:
-    from gen.PSParser import PSParser
-    from gen.PSLexer import PSLexer
-    from gen.PSListener import PSListener
+    from parser.python.LATEXParser import LATEXParser
+    from parser.python.LATEXLexer import LATEXLexer
+    from parser.python.LATEXListener import LATEXListener
 except Exception:
-    from .gen.PSParser import PSParser
-    from .gen.PSLexer import PSLexer
-    from .gen.PSListener import PSListener
+    from .parser.python.LATEXParser import LATEXParser
+    from .parser.python.LATEXLexer import LATEXLexer
+    from .parser.python.LATEXListener import LATEXListener
 
 from sympy.printing.str import StrPrinter
 
@@ -40,7 +40,7 @@ class MathErrorListener(ErrorListener):
         elif msg.startswith("no viable"):
             err = fmt % ("I expected something else here", self.src, marker)
         elif msg.startswith("mismatched"):
-            names = PSParser.literalNames
+            names = LATEXParser.literalNames
             expected = [names[i] for i in e.getExpectedTokens() if i < len(names)]
             if len(expected) < 10:
                 expected = " ".join(expected)
@@ -70,12 +70,12 @@ class LatexToSympy:
 
         # stream input
         stream = antlr4.InputStream(pre_processed_latex)
-        lex = PSLexer(stream)
+        lex = LATEXLexer(stream)
         lex.removeErrorListeners()
         lex.addErrorListener(matherror)
 
         tokens = antlr4.CommonTokenStream(lex)
-        parser = PSParser(tokens)
+        parser = LATEXParser(tokens)
 
         # remove default console error listener
         parser.removeErrorListeners()
@@ -602,26 +602,26 @@ class LatexToSympy:
         lower_itv = frac.lower.getSourceInterval()
         lower_itv_len = lower_itv[1] - lower_itv[0] + 1
         if (frac.lower.start == frac.lower.stop and
-                frac.lower.start.type == PSLexer.DIFFERENTIAL):
+                frac.lower.start.type == LATEXLexer.DIFFERENTIAL):
             wrt = self.get_differential_var_str(frac.lower.start.text)
             diff_op = True
         elif (lower_itv_len == 2 and
-              frac.lower.start.type == PSLexer.SYMBOL and
+              frac.lower.start.type == LATEXLexer.SYMBOL and
               frac.lower.start.text == '\\partial' and
-              (frac.lower.stop.type == PSLexer.LETTER_NO_E or frac.lower.stop.type == PSLexer.SYMBOL)):
+              (frac.lower.stop.type == LATEXLexer.LETTER_NO_E or frac.lower.stop.type == LATEXLexer.SYMBOL)):
             partial_op = True
             wrt = frac.lower.stop.text
-            if frac.lower.stop.type == PSLexer.SYMBOL:
+            if frac.lower.stop.type == LATEXLexer.SYMBOL:
                 wrt = wrt[1:]
 
         if diff_op or partial_op:
             wrt = sympy.Symbol(wrt, real=True, positive=True)
             if (diff_op and frac.upper.start == frac.upper.stop and
-                frac.upper.start.type == PSLexer.LETTER_NO_E and
+                frac.upper.start.type == LATEXLexer.LETTER_NO_E and
                     frac.upper.start.text == 'd'):
                 return [wrt]
             elif (partial_op and frac.upper.start == frac.upper.stop and
-                  frac.upper.start.type == PSLexer.SYMBOL and
+                  frac.upper.start.type == LATEXLexer.SYMBOL and
                   frac.upper.start.text == '\\partial'):
                 return [wrt]
             upper_text = self.rule2text(frac.upper)

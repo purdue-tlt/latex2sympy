@@ -13,5 +13,8 @@
 		"tests"
 	],
 	"python.linting.enabled": true,
-	"python.linting.pycodestyleEnabled": true
+	"python.linting.pycodestyleEnabled": true,
+	"files.associations": {
+		"chrono": "cpp"
+	}
 }
