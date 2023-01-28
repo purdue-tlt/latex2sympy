@@ -14,4 +14,5 @@ tokens = antlr4.CommonTokenStream(lex)
 parser = LATEXParser(tokens)
 math = parser.math()
 end = time()
-print('Elapsed Time:', end - begin)
+elapsed = end - begin
+print('Elapsed Time:', elapsed * 1000, 'ms')
