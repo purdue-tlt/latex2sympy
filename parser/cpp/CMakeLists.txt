@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
-project("latex2antlr2py")
+project("latex2antlrJson")
 
 SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -20,7 +20,7 @@ conan_basic_setup()
 
 add_library(latex2antlr LATEXLexer.cpp LATEXParser.cpp LATEXListener.cpp LATEXBaseListener.cpp)
 
-pybind11_add_module(latex2antlr2py parse.cpp)
-target_link_libraries(latex2antlr2py PUBLIC latex2antlr ${CONAN_LIBS})
-target_compile_features(latex2antlr2py PUBLIC cxx_std_17)
-set_target_properties(latex2antlr2py PROPERTIES SUFFIX ".so")
+pybind11_add_module(latex2antlrJson latex2antlrJson.cpp)
+target_link_libraries(latex2antlrJson PUBLIC latex2antlr ${CONAN_LIBS})
+target_compile_features(latex2antlrJson PUBLIC cxx_std_17)
+set_target_properties(latex2antlrJson PROPERTIES SUFFIX ".so")
