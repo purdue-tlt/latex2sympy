@@ -193,20 +193,19 @@ class LatexToSympy:
         if 'mp' in add:
             return self.convert_mp(add.get('mp'))
 
-        op = add[1]
-        type = op.get('type')
+        type = add.get('type')
 
         if type == LATEXParser.ADD:
-            lh = self.convert_add(add[0])
-            rh = self.convert_add(add[2])
+            lh = self.convert_add(add.get('additive')[0])
+            rh = self.convert_add(add.get('additive')[1])
 
             if lh.is_Matrix or rh.is_Matrix:
                 return self.mat_add_flat(lh, rh)
             else:
                 return self.add_flat(lh, rh)
         elif type == LATEXParser.SUB:
-            lh = self.convert_add(add[0])
-            rh = self.convert_add(add[2])
+            lh = self.convert_add(add.get('additive')[0])
+            rh = self.convert_add(add.get('additive')[1])
 
             if lh.is_Matrix or rh.is_Matrix:
                 return self.mat_add_flat(lh, self.mat_mul_flat(-1, rh))
@@ -324,31 +323,32 @@ class LatexToSympy:
             return expr.subs(lh, rh)
 
     def convert_postfix(self, postfix):
-        if 'exp' in postfix[0]:
-            exp_nested = postfix[0].get('exp')
+        if 'exp' in postfix:
+            exp_nested = postfix.get('exp')
         else:
-            exp_nested = postfix[0].get('exp_nofunc')
+            exp_nested = postfix.get('exp_nofunc')
 
         exp = self.convert_exp(exp_nested)
-        for op in postfix[1].get('postfix_op'):
-            if 'type' in op and op.get('type') == LATEXParser.BANG:
-                if isinstance(exp, list):
-                    raise Exception("Cannot apply postfix to derivative")
-                exp = sympy.factorial(exp, evaluate=False)
-            elif 'eval_at' in op:
-                ev = op.get('eval_at')
-                at_b = None
-                at_a = None
-                if 'eval_at_sup' in ev:
-                    at_b = self.do_subs(exp, ev.get('eval_at_sup'))
-                if 'eval_at_sub' in ev:
-                    at_a = self.do_subs(exp, ev.get('eval_at_sub'))
-                if at_b is not None and at_a is not None:
-                    exp = self.add_flat(at_b, self.mul_flat(at_a, -1))
-                elif at_b is not None:
-                    exp = at_b
-                elif at_a is not None:
-                    exp = at_a
+        if 'postfix_op' in postfix:
+            for op in postfix.get('postfix_op'):
+                if 'type' in op and op.get('type') == LATEXParser.BANG:
+                    if isinstance(exp, list):
+                        raise Exception("Cannot apply postfix to derivative")
+                    exp = sympy.factorial(exp, evaluate=False)
+                elif 'eval_at' in op:
+                    ev = op.get('eval_at')
+                    at_b = None
+                    at_a = None
+                    if 'eval_at_sup' in ev:
+                        at_b = self.do_subs(exp, ev.get('eval_at_sup'))
+                    if 'eval_at_sub' in ev:
+                        at_a = self.do_subs(exp, ev.get('eval_at_sub'))
+                    if at_b is not None and at_a is not None:
+                        exp = self.add_flat(at_b, self.mul_flat(at_a, -1))
+                    elif at_b is not None:
+                        exp = at_b
+                    elif at_a is not None:
+                        exp = at_a
 
         return exp
 
@@ -421,14 +421,14 @@ class LatexToSympy:
             # find atom's subscript, if any
             subscript_text = ''
             if 'subexpr' in atom_expr:
-                subexpr = atom_expr.subexpr()
+                subexpr = atom_expr.get('subexpr')
                 subscript = None
                 if 'expr' in subexpr:  # subscript is expr
-                    subscript = subexpr.expr().getText().strip()
+                    subscript = subexpr.get('expr').get('text').strip()
                 elif 'atom' in subexpr:  # subscript is atom
-                    subscript = subexpr.atom().getText().strip()
+                    subscript = subexpr.get('atom').get('text').strip()
                 elif 'args' in subexpr:  # subscript is args
-                    subscript = subexpr.args().getText().strip()
+                    subscript = subexpr.get('args').get('text').strip()
                 subscript_inner_text = StrPrinter().doprint(subscript)
                 if len(subscript_inner_text) > 1:
                     subscript_text = '_{' + subscript_inner_text + '}'
@@ -440,17 +440,17 @@ class LatexToSympy:
 
             # find the atom's superscript, and return as a Pow if found
             if 'supexpr' in atom_expr:
-                supexpr = atom_expr.supexpr()
+                supexpr = atom_expr.get('supexpr')
                 func_pow = None
                 if 'expr' in supexpr:
-                    func_pow = self.convert_expr(supexpr.expr())
+                    func_pow = self.convert_expr(supexpr.get('expr'))
                 else:
-                    func_pow = self.convert_atom(supexpr.atom())
+                    func_pow = self.convert_atom(supexpr.get('atom'))
                 return sympy.Pow(atom_symbol, func_pow, evaluate=False)
 
             return atom_symbol
-        elif 'SYMBOL' in atom:
-            s = atom.SYMBOL().getText().replace("\\$", "").replace("\\%", "")
+        elif 'type' in atom and atom.get('type') == LATEXParser.SYMBOL:
+            s = atom.get('text').replace("\\$", "").replace("\\%", "")
             if s == "\\infty":
                 return sympy.oo
             elif s == '\\pi':
@@ -459,15 +459,15 @@ class LatexToSympy:
                 return sympy.S.EmptySet
             else:
                 raise Exception("Unrecognized symbol")
-        elif 'NUMBER' in atom:
-            s = atom.NUMBER().getText().replace(",", "")
+        elif 'type' in atom and atom.get('type') == LATEXParser.NUMBER:
+            s = atom.get('text').replace(",", "")
             try:
                 sr = sympy.Rational(s)
                 return sr
             except (TypeError, ValueError):
                 return sympy.Number(s)
-        elif 'SCI_NOTATION_NUMBER' in atom:
-            s = atom.SCI_NOTATION_NUMBER().getText()
+        elif 'type' in atom and atom.get('type') == LATEXParser.SCI_NOTATION_NUMBER:
+            s = atom.get('text')
             s_parts = s.split('\\times 10^')
             s1 = s_parts[0].replace(',', '')
             try:
@@ -485,8 +485,8 @@ class LatexToSympy:
             except (TypeError, ValueError):
                 n = sympy.Number(n_exp)
             return n
-        elif 'FRACTION_NUMBER' in atom:
-            s = atom.FRACTION_NUMBER().getText().replace("\\frac{", "").replace("}{", "/").replace("}", "").replace(",", "")
+        elif 'type' in atom and atom.get('type') == LATEXParser.FRACTION_NUMBER:
+            s = atom.get('text').replace("\\frac{", "").replace("}{", "/").replace("}", "").replace(",", "")
             try:
                 sr = sympy.Rational(s)
                 return sr
@@ -504,21 +504,21 @@ class LatexToSympy:
                 return sympy.Mul(p, sympy.Pow(q, -1, evaluate=False), evaluate=False)
             except (TypeError, ValueError):
                 return sympy.Number(s)
-        elif 'E_NOTATION' in atom:
-            s = atom.E_NOTATION().getText().replace(",", "")
+        elif 'type' in atom and atom.get('type') == LATEXParser.E_NOTATION:
+            s = atom.get('text').replace(",", "")
             try:
                 sr = sympy.Rational(s)
                 return sr
             except (TypeError, ValueError):
                 return sympy.Number(s)
-        elif 'DIFFERENTIAL' in atom:
-            var = self.get_differential_var(atom.DIFFERENTIAL())
+        elif 'type' in atom and atom.get('type') == LATEXParser.DIFFERENTIAL:
+            var = self.get_differential_var(atom.get('text'))
             return sympy.Symbol('d' + var.name, real=True, positive=True)
         elif 'mathit' in atom:
-            text = self.rule2text(atom.mathit().mathit_text())
+            text = self.rule2text(atom.get('mathit').get('mathit_text'))
             return sympy.Symbol(text, real=True, positive=True)
-        elif 'VARIABLE' in atom:
-            text = atom.VARIABLE().getText()
+        elif 'type' in atom and atom.get('type') == LATEXParser.VARIABLE:
+            text = atom.get('text')
             is_percent = text.endswith("\\%")
             trim_amount = 3 if is_percent else 1
             name = text[10:]
@@ -550,8 +550,8 @@ class LatexToSympy:
             # return the symbol
             return symbol
 
-        elif 'PERCENT_NUMBER' in atom:
-            text = atom.PERCENT_NUMBER().getText().replace("\\%", "").replace(",", "")
+        elif 'type' in atom and atom.get('type') == LATEXParser.PERCENT_NUMBER:
+            text = atom.get('text').replace("\\%", "").replace(",", "")
             try:
                 number = sympy.Rational(text)
             except (TypeError, ValueError):
@@ -797,11 +797,11 @@ class LatexToSympy:
             return sympy.Product(val, (iter_var, start, end))
 
     def handle_limit(self, func):
-        sub = func.limit_sub()
+        sub = func.get('limit_sub')
         if sub.LETTER_NO_E():
-            var = sympy.Symbol(sub.LETTER_NO_E().getText(), real=True, positive=True)
+            var = sympy.Symbol(sub.get('text'), real=True, positive=True)
         elif sub.GREEK_CMD():
-            var = sympy.Symbol(sub.GREEK_CMD().getText()[1:].strip(), real=True, positive=True)
+            var = sympy.Symbol(sub.get('text')[1:].strip(), real=True, positive=True)
         else:
             var = sympy.Symbol('x', real=True, positive=True)
         if sub.SUB():
@@ -853,7 +853,7 @@ class LatexToSympy:
         return sympy.functions.ceiling(expr, evaluate=False)
 
     def get_differential_var(self, d):
-        text = self.get_differential_var_str(d.getText())
+        text = self.get_differential_var_str(d)
         return sympy.Symbol(text, real=True, positive=True)
 
     def get_differential_var_str(self, text):

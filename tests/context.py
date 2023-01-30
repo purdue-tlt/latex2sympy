@@ -1,5 +1,5 @@
 from sympy import simplify, srepr, Add, Mul, Pow, Rational, pi, sqrt, Symbol, exp, Eq
-from latex2sympy.latex2sympy import process_sympy
+from latex2sympy.latex2sympy2 import process_sympy
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))

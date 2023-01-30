@@ -10,50 +10,84 @@ using namespace latex2antlr;
 using namespace antlr4;
 using namespace std::chrono;
 
-Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
+Json::Value toJsonNode(tree::ErrorNode *errorNode) {
+    Json::Value node;
+    Token* token = errorNode->getSymbol();
+    if (token) {
+        node["error"] = token->getText();
+    } else {
+        node["error"] = token->toString();
+    }
+    return node;
+}
+
+Json::Value toJsonNode(tree::TerminalNode *terminalNode) {
+    Json::Value node;
+    Token* token = terminalNode->getSymbol();
+    if (token) {
+        node["text"] = token->getText();
+        node["type"] = (int)token->getType();
+    } else {
+        node["type"] = "-1";
+    }
+    return node;
+}
+
+std::string getRuleName(tree::ParseTree *tree, LATEXParser *parser) {
+    ParserRuleContext *ruleContext = static_cast<ParserRuleContext *>(tree);
     const std::vector<std::string> ruleNames = parser->getRuleNames();
+    int ruleIndex = ruleContext->getRuleIndex();
+    std::string name = ruleNames[ruleIndex];
+    return name;
+}
+
+Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
+    std::string name = getRuleName(tree, parser);
 
     Json::Value node;
-    std::string name;
-    if (RuleContext::is(tree)) {
-        RuleContext *ruleContext = static_cast<RuleContext *>(tree);
-        int ruleIndex = ruleContext->getRuleIndex();
-        name = ruleNames[ruleIndex];
-    } else if (tree::ErrorNode::is(tree)) {
-        tree::TerminalNode *terminalNode = static_cast<tree::TerminalNode *>(tree);
-        Token* token = terminalNode->getSymbol();
-        if (token) {
-            node["error"] = token->getText();
-        } else {
-            node["error"] = token->toString();
+    Json::Value tokens;
+    Json::Value errors;
+    for (auto *child : tree->children) {
+        if (ParserRuleContext::is(child)) {
+            Json::Value childNode = toJsonTree(child, parser);
+            std::string childName = getRuleName(child, parser);
+            if (node[childName].empty()) {
+                if (childName == "postfix") {
+                    Json::Value array;
+                    array.append(childNode);
+                    node[childName] = array;
+                } else {
+                    node[childName] = childNode;
+                }
+            } else if (node[childName].isArray()) {
+                node[childName].append(childNode);
+            } else {
+                Json::Value array;
+                array.append(node[childName]);
+                array.append(childNode);
+                node[childName] = array;
+            }
+        } else if (tree::ErrorNode::is(child)) {
+            tree::ErrorNode *errorNode = static_cast<tree::ErrorNode *>(child);
+            Json::Value childNode = toJsonNode(errorNode);
+            tokens.append(childNode);
+        } else if (tree::TerminalNode::is(child)) {
+            tree::TerminalNode *terminalNode = static_cast<tree::TerminalNode *>(child);
+            Json::Value childNode = toJsonNode(terminalNode);
+            tokens.append(childNode);
         }
-    } else if (tree::TerminalNode::is(tree)) {
-        tree::TerminalNode *terminalNode = static_cast<tree::TerminalNode *>(tree);
-        Token* token = terminalNode->getSymbol();
-        if (token) {
-            node["text"] = token->getText();
-            node["type"] = (int)token->getType();
-        } else {
-            node["type"] = "-1";
-        }
     }
-
-    int childrenCount = tree->children.size();
-    if (childrenCount == 0) {
-        return node;
+    if (tokens.size() == 1) {
+        node["text"] = tokens[0]["text"];
+        node["type"] = tokens[0]["type"];
+    } else if (tokens.size() > 0) {
+        node["tokens"] = tokens;
     }
-
-    if (childrenCount == 1 && name != "postfix" && name != "postfix_no_func" && name != "postfix_op") {
-        node[name] = toJsonTree(tree->children[0], parser);
-        return node;
+    if (errors.size() == 1) {
+        node["error"] = tokens[0]["error"];
+    } else if (errors.size() > 0) {
+        node["errors"] = errors;
     }
-
-    Json::Value children;
-    for (int i = 0; i < childrenCount; i++) {
-        tree::ParserTree *childTree = tree->children[i];
-        Json::Value childNode = toJsonTree(childTree, parser);
-    }
-    node[name] = children;
 
     return node;
 }
