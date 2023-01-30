@@ -17,7 +17,7 @@ echo "compiling cpp parser..."
 # compile cpp
 mkdir parser/cpp/build
 cd parser/cpp/build
-conan install .. --build=antlr4-cppruntime
+conan install .. --build=antlr4-cppruntime --build=jsoncpp
 cmake .. -G "Unix Makefiles"
 make
 echo "cpp parser compiled"
@@ -33,6 +33,16 @@ echo "generating python parser..."
 # generate python parser files
 java -jar antlr-4.11.1-complete.jar -Dlanguage=Python3 -o parser/python LATEX.g4
 echo "python parser generated"
+
+# Activate virtual environment
+echo ''
+echo "activating venv..."
+if test -f .env/bin/activate
+then source .env/bin/activate && echo "venv activate (bin)"
+elif test -f .env/Scripts/activate
+then source .env/Scripts/activate && echo "venv activated (Scripts)"
+else exit 1
+fi
 
 echo ''
 echo "formatting python parser files..."

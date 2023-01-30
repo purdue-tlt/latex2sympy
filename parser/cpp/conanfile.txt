@@ -1,5 +1,6 @@
 [requires]
 antlr4-cppruntime/4.11.1
+jsoncpp/1.9.5
 
 [generators]
 cmake

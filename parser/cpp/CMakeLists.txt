@@ -18,9 +18,9 @@ FetchContent_MakeAvailable(pybind11)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-add_library(parser LATEXLexer.cpp LATEXParser.cpp LATEXListener.cpp LATEXBaseListener.cpp)
+add_library(latex2antlr LATEXLexer.cpp LATEXParser.cpp LATEXListener.cpp LATEXBaseListener.cpp)
 
 pybind11_add_module(latex2antlr2py parse.cpp)
-target_link_libraries(latex2antlr2py PUBLIC parser ${CONAN_LIBS})
+target_link_libraries(latex2antlr2py PUBLIC latex2antlr ${CONAN_LIBS})
 target_compile_features(latex2antlr2py PUBLIC cxx_std_17)
 set_target_properties(latex2antlr2py PROPERTIES SUFFIX ".so")
