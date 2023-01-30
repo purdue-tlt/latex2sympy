@@ -98,17 +98,17 @@ class LatexToSympy:
         relations = rel.get('relation')
         lh = self.convert_relation(relations[0])
         rh = self.convert_relation(relations[1])
-        if 'LT' in rel:
+        if 'type' in rel and rel.get('type') == LATEXParser.LT:
             return sympy.StrictLessThan(lh, rh, evaluate=False)
-        elif 'LTE' in rel:
+        elif 'type' in rel and rel.get('type') == LATEXParser.LTE:
             return sympy.LessThan(lh, rh, evaluate=False)
-        elif 'GT' in rel:
+        elif 'type' in rel and rel.get('type') == LATEXParser.GT:
             return sympy.StrictGreaterThan(lh, rh, evaluate=False)
-        elif 'GTE' in rel:
+        elif 'type' in rel and rel.get('type') == LATEXParser.GTE:
             return sympy.GreaterThan(lh, rh, evaluate=False)
-        elif 'EQUAL' in rel:
+        elif 'type' in rel and rel.get('type') == LATEXParser.EQUAL:
             return sympy.Eq(lh, rh, evaluate=False)
-        elif 'UNEQUAL' in rel:
+        elif 'type' in rel and rel.get('type') == LATEXParser.UNEQUAL:
             return sympy.Ne(lh, rh, evaluate=False)
 
     def convert_expr(self, expr):
@@ -221,13 +221,12 @@ class LatexToSympy:
 
         if 'mp' in mp:
             mp_left = mp.get('mp')[0]
-            mp_right = mp.get('mp')[2]
+            mp_right = mp.get('mp')[1]
         else:
             mp_left = mp.get('mp_nofunc')[0]
-            mp_right = mp.get('mp_nofunc')[2]
+            mp_right = mp.get('mp_nofunc')[1]
 
-        op = mp[1]
-        type = op.get('type')
+        type = mp.get('type')
 
         if type == LATEXParser.MUL or type == LATEXParser.CMD_TIMES or type == LATEXParser.CMD_CDOT:
             lh = self.convert_mp(mp_left)
@@ -253,23 +252,21 @@ class LatexToSympy:
                 return sympy.Mod(lh, rh, evaluate=False)
 
     def convert_unary(self, unary):
-        if isinstance(unary, dict):
-            if 'postfix_nofunc' in unary:
-                first = unary.get('postfix')
-                tail = unary.get('postfix_nofunc')
-                postfix = [first] + tail
-            else:
-                postfix = unary.get('postfix')
-
+        if 'postfix_nofunc' in unary:
+            first = unary.get('postfix')
+            tail = unary.get('postfix_nofunc')
+            postfix = [first] + tail
+            return self.convert_postfix_list(postfix)
+        elif 'postfix' in unary:
+            postfix = unary.get('postfix')
             return self.convert_postfix_list(postfix)
 
-        op = unary[0]
-        type = op.get('type')
+        type = unary.get('type')
 
-        if 'unary' in unary[1]:
-            nested_unary = unary[1].get('unary')
+        if 'unary' in unary:
+            nested_unary = unary.get('unary')
         else:
-            nested_unary = unary[1].get('unary_nofunc')
+            nested_unary = unary.get('unary_nofunc')
 
         if type == LATEXParser.ADD:
             return self.convert_unary(nested_unary)
@@ -687,7 +684,7 @@ class LatexToSympy:
 
             return expr
 
-        elif func.func_normal_multi_arg():
+        elif 'func_normal_multi_arg' in func():
             if func.L_PAREN():  # function called with parenthesis
                 args = func.func_multi_arg().getText().split(",")
             else:

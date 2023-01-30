@@ -52,7 +52,7 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
             Json::Value childNode = toJsonTree(child, parser);
             std::string childName = getRuleName(child, parser);
             if (node[childName].empty()) {
-                if (childName == "postfix") {
+                if (childName == "postfix" || childName == "postfix_op" || childName == "postfix_nofunc") {
                     Json::Value array;
                     array.append(childNode);
                     node[childName] = array;
