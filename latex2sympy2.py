@@ -125,8 +125,12 @@ class LatexToSympy:
         rows = 0
         for r in row:
             tmp.append([])
-            for expr in r.get('expr'):
-                tmp[rows].append(self.convert_expr(expr))
+            if 'expr' in r:
+                if isinstance(r.get('expr'), list):
+                    for expr in r.get('expr'):
+                        tmp[rows].append(self.convert_expr(expr))
+                else:
+                    tmp[rows].append(self.convert_expr(r.get('expr')))
             rows = rows + 1
 
         # return the matrix
@@ -406,15 +410,15 @@ class LatexToSympy:
                     return sympy.I
             elif type == LATEXParser.GREEK_CMD:
                 atom_text = atom_expr.get('text')[1:].strip()
-            elif type == LATEXParser.accent:
+            elif 'accent' in atom_expr:
                 atom_accent = atom_expr.get('accent')
                 # get name for accent
-                name = atom_accent.start.text[1:]
+                name = atom_accent.get('accent_symbol').get('text')[1:]
                 # exception: check if bar or overline which are treated both as bar
                 if name in ["bar", "overline"]:
                     name = "bar"
                 # get the base (variable)
-                base = atom_accent.base.getText()
+                base = atom_accent.get('expr').get('text')
                 # set string to base+name
                 atom_text = base + name
 
@@ -569,42 +573,43 @@ class LatexToSympy:
         return stream.getText(startIdx, stopIdx)
 
     def convert_frac(self, frac):
-        # TODO
-        # diff_op = False
-        # partial_op = False
-        # lower_itv = frac.get('expr')[1].getSourceInterval()
-        # lower_itv_len = lower_itv[1] - lower_itv[0] + 1
-        # if (frac.lower.start == frac.lower.stop and frac.lower.start.type == LATEXLexer.DIFFERENTIAL):
-        #     wrt = self.get_differential_var_str(frac.lower.start.text)
-        #     diff_op = True
-        # elif (lower_itv_len == 2 and
-        #       frac.lower.start.type == LATEXLexer.SYMBOL and
-        #       frac.lower.start.text == '\\partial' and
-        #       (frac.lower.stop.type == LATEXLexer.LETTER_NO_E or frac.lower.stop.type == LATEXLexer.SYMBOL)):
-        #     partial_op = True
-        #     wrt = frac.lower.stop.text
-        #     if frac.lower.stop.type == LATEXLexer.SYMBOL:
-        #         wrt = wrt[1:]
+        frac_upper = frac.get('upper')
+        frac_lower = frac.get('lower')
 
-        # if diff_op or partial_op:
-        #     wrt = sympy.Symbol(wrt, real=True, positive=True)
-        #     if (diff_op and frac.upper.start == frac.upper.stop and
-        #         frac.upper.start.type == LATEXLexer.LETTER_NO_E and
-        #             frac.upper.start.text == 'd'):
-        #         return [wrt]
-        #     elif (partial_op and frac.upper.start == frac.upper.stop and
-        #           frac.upper.start.type == LATEXLexer.SYMBOL and
-        #           frac.upper.start.text == '\\partial'):
-        #         return [wrt]
-        #     upper_text = self.rule2text(frac.upper)
+        diff_op = False
+        partial_op = False
+        lower_itv_len = frac_lower.get('intervalLength')
+        if (frac_lower.get('start') == frac_lower.get('stop') and frac_lower.get('start').get('type') == LATEXLexer.DIFFERENTIAL):
+            wrt = self.get_differential_var_str(frac_lower.get('start').get('text'))
+            diff_op = True
+        elif (lower_itv_len == 2 and
+              frac_lower.get('start').get('type') == LATEXLexer.SYMBOL and
+              frac_lower.get('start').get('text') == '\\partial' and
+              (frac_lower.get('stop').get('type') == LATEXLexer.LETTER_NO_E or frac_lower.get('stop').get('type') == LATEXLexer.SYMBOL)):
+            partial_op = True
+            wrt = frac_lower.et('stop').get('text')
+            if frac_lower.get('stop').get('type') == LATEXLexer.SYMBOL:
+                wrt = wrt[1:]
 
-        #     expr_top = None
-        #     if diff_op and upper_text.startswith('d'):
-        #         expr_top = process_sympy(upper_text[1:])
-        #     elif partial_op and frac.upper.start.text == '\\partial':
-        #         expr_top = process_sympy(upper_text[len('\\partial'):])
-        #     if expr_top:
-        #         return sympy.Derivative(expr_top, wrt)
+        if diff_op or partial_op:
+            wrt = sympy.Symbol(wrt, real=True, positive=True)
+            if (diff_op and frac_upper.get('start') == frac_upper.get('stop') and
+                frac_upper.get('start').get('type') == LATEXLexer.LETTER_NO_E and
+                    frac_upper.get('start').get('text') == 'd'):
+                return [wrt]
+            elif (partial_op and frac_upper.get('start') == frac_upper.get('stop') and
+                  frac_upper.get('start').get('type') == LATEXLexer.SYMBOL and
+                  frac_upper.get('start').get('text') == '\\partial'):
+                return [wrt]
+            upper_text = frac_upper.get('text')
+
+            expr_top = None
+            if diff_op and upper_text.startswith('d'):
+                expr_top = process_sympy(upper_text[1:])
+            elif partial_op and frac_upper.get('start').text == '\\partial':
+                expr_top = process_sympy(upper_text[len('\\partial'):])
+            if expr_top:
+                return sympy.Derivative(expr_top, wrt)
 
         expr_top = self.convert_expr(frac.get('upper'))
         expr_bot = self.convert_expr(frac.get('lower'))
@@ -614,8 +619,8 @@ class LatexToSympy:
             return sympy.Mul(expr_top, sympy.Pow(expr_bot, -1, evaluate=False), evaluate=False)
 
     def convert_binom(self, binom):
-        expr_top = self.convert_expr(binom.upper)
-        expr_bot = self.convert_expr(binom.lower)
+        expr_top = self.convert_expr(binom.get('expr')[0])
+        expr_bot = self.convert_expr(binom.get('expr')[1])
         return sympy.binomial(expr_top, expr_bot)
 
     def convert_func(self, func):
@@ -656,8 +661,8 @@ class LatexToSympy:
                     expr = self.handle_ceil(arg)
             elif name in ["log", "ln"]:
                 if 'subexpr' in func:
-                    if 'atom' in func.get('supexpr'):
-                        base = self.convert_atom(func.get('supexpr').get('atom'))
+                    if 'atom' in func.get('subexpr'):
+                        base = self.convert_atom(func.get('subexpr').get('atom'))
                     else:
                         base = self.convert_expr(func.get('subexpr').get('expr'))
                 elif name == "log":
@@ -760,8 +765,9 @@ class LatexToSympy:
             integrand = 1
 
         int_var = None
-        if 'tokens' in func and func.DIFFERENTIAL():
-            int_var = self.get_differential_var(func.DIFFERENTIAL())
+        differential = self.get_token(func, LATEXParser.DIFFERENTIAL)
+        if differential is not None:
+            int_var = self.get_differential_var(differential.get('text'))
         else:
             for sym in integrand.atoms(sympy.Symbol):
                 s = str(sym)
@@ -806,13 +812,15 @@ class LatexToSympy:
 
     def handle_limit(self, func):
         sub = func.get('limit_sub')
-        if sub.LETTER_NO_E():
-            var = sympy.Symbol(sub.get('text'), real=True, positive=True)
-        elif sub.GREEK_CMD():
-            var = sympy.Symbol(sub.get('text')[1:].strip(), real=True, positive=True)
+        letter_no_e = self.get_token(sub, LATEXParser.LETTER_NO_E)
+        greek_cmd = self.get_token(sub, LATEXParser.GREEK_CMD)
+        if letter_no_e is not None:
+            var = sympy.Symbol(letter_no_e.get('text'), real=True, positive=True)
+        elif greek_cmd is not None:
+            var = sympy.Symbol(greek_cmd.get('text')[1:].strip(), real=True, positive=True)
         else:
             var = sympy.Symbol('x', real=True, positive=True)
-        if sub.SUB():
+        if self.get_token(sub, LATEXParser.SUB) is not None:
             direction = "-"
         else:
             direction = "+"
@@ -874,3 +882,14 @@ class LatexToSympy:
         if text[0] == "\\":
             text = text[1:]
         return text
+
+    def get_token(self, node, type):
+        tokens = node.get('tokens') if 'tokens' in node else None
+        token = next((t for t in node.get('tokens') if t.get('type') == type), None) if tokens is not None else None
+        return token
+
+    def has_token(self, node, type):
+        if 'type' in node and node.get('type') == type:
+            return True
+        token = self.get_token(node, type)
+        return token is not None

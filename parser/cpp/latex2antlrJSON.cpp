@@ -43,14 +43,36 @@ std::string getRuleName(tree::ParseTree *tree, LATEXParser *parser) {
 
 Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser);
 
-void addTokensAndErrors(Json::Value node, tree::ParseTree *tree, LATEXParser *parser) {
+Json::Value fracToJsonTree(LATEXParser::FracContext *frac, LATEXParser *parser) {
+    Json::Value node;
+
+    LATEXParser::ExprContext *upperCtx = frac->expr(0);
+    Json::Value upper = toJsonTree(upperCtx, parser);
+    upper["text"] = upperCtx->getText();
+    upper["start"]["text"] = upperCtx->getStart()->getText();
+    upper["start"]["type"] = (int)upperCtx->getStart()->getType();
+    upper["stop"]["text"] = upperCtx->getStop()->getText();
+    upper["stop"]["type"] = (int)upperCtx->getStop()->getType();
+    node["upper"] = upper;
+
+    LATEXParser::ExprContext *lowerCtx = frac->expr(1);
+    Json::Value lower = toJsonTree(lowerCtx, parser);
+    lower["text"] = lowerCtx->getText();
+    lower["start"]["text"] = lowerCtx->getStart()->getText();
+    lower["start"]["type"] = (int)lowerCtx->getStart()->getType();
+    lower["stop"]["text"] = lowerCtx->getStop()->getText();
+    lower["stop"]["type"] = (int)lowerCtx->getStop()->getType();
+    misc::Interval lowerInterval = lowerCtx->getSourceInterval();
+    lower["intervalLength"] = (int)lowerInterval.length();
+    node["lower"] = lower;
+
     Json::Value tokens;
     Json::Value errors;
-    for (auto *child : tree->children) {
+    for (auto *child : frac->children) {
         if (tree::ErrorNode::is(child)) {
             tree::ErrorNode *errorNode = static_cast<tree::ErrorNode *>(child);
             Json::Value childNode = toJsonNode(errorNode);
-            errors.append(childNode);
+            tokens.append(childNode);
         } else if (tree::TerminalNode::is(child)) {
             tree::TerminalNode *terminalNode = static_cast<tree::TerminalNode *>(child);
             Json::Value childNode = toJsonNode(terminalNode);
@@ -68,51 +90,59 @@ void addTokensAndErrors(Json::Value node, tree::ParseTree *tree, LATEXParser *pa
     } else if (errors.size() > 0) {
         node["errors"] = errors;
     }
-}
-
-Json::Value fracToJsonTree(LATEXParser::FracContext *frac, LATEXParser *parser) {
-    Json::Value node;
-
-    Json::Value upper;
-    LATEXParser::ExprContext *upperCtx = frac->expr(0);
-    node["upper"] = toJsonTree(upperCtx, parser);
-    node["upper"]["text"] = upperCtx->getText();
-
-    Json::Value lower;
-    LATEXParser::ExprContext *lowerCtx = frac->expr(1);
-    node["lower"] = toJsonTree(lowerCtx, parser);
-    node["lower"]["text"] = lowerCtx->getText();
-
-    addTokensAndErrors(node, frac, parser);
 
     return node;
 }
 
-Json::Value funcToJsonTree(LATEXParser::FuncContext *func, LATEXParser *parser) {
-    if (func->FUNC_SQRT()) {
-        Json::Value node;
-        node["type"] = (int)LATEXParser::FUNC_SQRT;
+Json::Value sqrtToJsonTree(LATEXParser::FuncContext *func, LATEXParser *parser) {
+    Json::Value node;
+    node["type"] = (int)LATEXParser::FUNC_SQRT;
 
-        Json::Value base;
-        LATEXParser::ExprContext *baseCtx = func->base;
-        node["base"] = toJsonTree(baseCtx, parser);
+    Json::Value base;
+    LATEXParser::ExprContext *baseCtx = func->base;
+    node["base"] = toJsonTree(baseCtx, parser);
 
-        if (func->root) {
-            Json::Value root;
-            LATEXParser::ExprContext *rootCtx = func->root;
-            node["root"] = toJsonTree(rootCtx, parser);
-        }
-
-        addTokensAndErrors(node, func, parser);
-        return node;
+    if (func->root) {
+        Json::Value root;
+        LATEXParser::ExprContext *rootCtx = func->root;
+        node["root"] = toJsonTree(rootCtx, parser);
     }
-    return toJsonTree(func, parser);
+
+    Json::Value tokens;
+    Json::Value errors;
+    for (auto *child : func->children) {
+        if (tree::ErrorNode::is(child)) {
+            tree::ErrorNode *errorNode = static_cast<tree::ErrorNode *>(child);
+            Json::Value childNode = toJsonNode(errorNode);
+            tokens.append(childNode);
+        } else if (tree::TerminalNode::is(child)) {
+            tree::TerminalNode *terminalNode = static_cast<tree::TerminalNode *>(child);
+            Json::Value childNode = toJsonNode(terminalNode);
+            tokens.append(childNode);
+        }
+    }
+    if (tokens.size() == 1) {
+        node["text"] = tokens[0]["text"];
+        node["type"] = tokens[0]["type"];
+    } else if (tokens.size() > 0) {
+        node["tokens"] = tokens;
+    }
+    if (errors.size() == 1) {
+        node["error"] = tokens[0]["error"];
+    } else if (errors.size() > 0) {
+        node["errors"] = errors;
+    }
+    
+    return node;
 }
 
 Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
     std::string name = getRuleName(tree, parser);
-    Json::Value node;
+    std::string parentName = tree->parent ? getRuleName(tree->parent, parser) : "";
 
+    Json::Value node;
+    Json::Value tokens;
+    Json::Value errors;
     for (auto *child : tree->children) {
         if (ParserRuleContext::is(child)) {
             std::string childName = getRuleName(child, parser);
@@ -122,14 +152,20 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
                 node[childName] = childNode;
             } else if (childName == "func") {
                 LATEXParser::FuncContext *func = static_cast<LATEXParser::FuncContext *>(child);
-                Json::Value childNode = funcToJsonTree(func, parser);
-                node[childName] = childNode;
+                if (func->FUNC_SQRT()) {
+                    Json::Value childNode = sqrtToJsonTree(func, parser);
+                    node[childName] = childNode;
+                } else {
+                    Json::Value childNode = toJsonTree(func, parser);
+                    node[childName] = childNode;
+                }
             } else {
                 Json::Value childNode = toJsonTree(child, parser);
+                // merge keys together into a single array
+                if (childName == "postfix_nofunc") 
+                    childName = "postfix";
                 if (node[childName].empty()) {
-                    if (childName == "postfix"
-                        || childName == "postfix_op"
-                        || childName == "postfix_nofunc")
+                    if (childName == "postfix" || childName == "postfix_op" || childName == "matrix_row")
                     {
                         Json::Value array;
                         array.append(childNode);
@@ -146,12 +182,31 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
                     node[childName] = array;
                 }
             }
+        } else if (tree::ErrorNode::is(child)) {
+            tree::ErrorNode *errorNode = static_cast<tree::ErrorNode *>(child);
+            Json::Value childNode = toJsonNode(errorNode);
+            tokens.append(childNode);
+        } else if (tree::TerminalNode::is(child)) {
+            tree::TerminalNode *terminalNode = static_cast<tree::TerminalNode *>(child);
+            Json::Value childNode = toJsonNode(terminalNode);
+            tokens.append(childNode);
         }
     }
 
-    addTokensAndErrors(node, tree, parser);
+    if (tokens.size() == 1) {
+        node["text"] = tokens[0]["text"];
+        node["type"] = tokens[0]["type"];
+    } else if (tokens.size() > 0) {
+        node["tokens"] = tokens;
+    }
+    if (errors.size() == 1) {
+        node["error"] = tokens[0]["error"];
+    } else if (errors.size() > 0) {
+        node["errors"] = errors;
+    }
 
-    if (name == "func_multi_arg") {
+    // return full text of tree for specific rules
+    if (name == "func_multi_arg" || parentName == "supexpr" || parentName == "subexpr" || parentName == "accent") {
         node["text"] = tree->getText();
     }
 
