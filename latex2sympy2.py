@@ -735,9 +735,10 @@ class LatexToSympy:
         elif 'type' in func and func.get('type') == LATEXParser.FUNC_INT or 'tokens' in func and func.get('tokens')[0].get('type') == LATEXParser.FUNC_INT:
             return self.handle_integral(func)
         elif 'type' in func and func.get('type') == LATEXParser.FUNC_SQRT or 'tokens' in func and func.get('tokens')[0].get('type') == LATEXParser.FUNC_SQRT:
-            expr = self.convert_expr(func.get('base'))
-            if func.get('root'):
-                r = self.convert_expr(func.get('root'))
+            exprs = func.get('expr')
+            expr = self.convert_expr(exprs[1]) if isinstance(exprs, list) else self.convert_expr(exprs)
+            if isinstance(exprs, list):
+                r = self.convert_expr(exprs[0])
                 return sympy.Pow(expr, 1 / r, evaluate=False)
             else:
                 return sympy.Pow(expr, sympy.S.Half, evaluate=False)

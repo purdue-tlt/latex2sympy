@@ -94,48 +94,6 @@ Json::Value fracToJsonTree(LATEXParser::FracContext *frac, LATEXParser *parser) 
     return node;
 }
 
-Json::Value sqrtToJsonTree(LATEXParser::FuncContext *func, LATEXParser *parser) {
-    Json::Value node;
-    node["type"] = (int)LATEXParser::FUNC_SQRT;
-
-    Json::Value base;
-    LATEXParser::ExprContext *baseCtx = func->base;
-    node["base"] = toJsonTree(baseCtx, parser);
-
-    if (func->root) {
-        Json::Value root;
-        LATEXParser::ExprContext *rootCtx = func->root;
-        node["root"] = toJsonTree(rootCtx, parser);
-    }
-
-    Json::Value tokens;
-    Json::Value errors;
-    for (auto *child : func->children) {
-        if (tree::ErrorNode::is(child)) {
-            tree::ErrorNode *errorNode = static_cast<tree::ErrorNode *>(child);
-            Json::Value childNode = toJsonNode(errorNode);
-            tokens.append(childNode);
-        } else if (tree::TerminalNode::is(child)) {
-            tree::TerminalNode *terminalNode = static_cast<tree::TerminalNode *>(child);
-            Json::Value childNode = toJsonNode(terminalNode);
-            tokens.append(childNode);
-        }
-    }
-    if (tokens.size() == 1) {
-        node["text"] = tokens[0]["text"];
-        node["type"] = tokens[0]["type"];
-    } else if (tokens.size() > 0) {
-        node["tokens"] = tokens;
-    }
-    if (errors.size() == 1) {
-        node["error"] = tokens[0]["error"];
-    } else if (errors.size() > 0) {
-        node["errors"] = errors;
-    }
-    
-    return node;
-}
-
 Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
     std::string name = getRuleName(tree, parser);
     std::string parentName = tree->parent ? getRuleName(tree->parent, parser) : "";
@@ -150,15 +108,6 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
                 LATEXParser::FracContext *frac = static_cast<LATEXParser::FracContext *>(child);
                 Json::Value childNode = fracToJsonTree(frac, parser);
                 node[childName] = childNode;
-            } else if (childName == "func") {
-                LATEXParser::FuncContext *func = static_cast<LATEXParser::FuncContext *>(child);
-                if (func->FUNC_SQRT()) {
-                    Json::Value childNode = sqrtToJsonTree(func, parser);
-                    node[childName] = childNode;
-                } else {
-                    Json::Value childNode = toJsonTree(func, parser);
-                    node[childName] = childNode;
-                }
             } else {
                 Json::Value childNode = toJsonTree(child, parser);
                 // merge keys together into a single array
