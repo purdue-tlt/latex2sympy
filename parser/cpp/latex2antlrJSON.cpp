@@ -5,6 +5,7 @@
 #include <pybind11/pybind11.h>
 #include <chrono>
 #include <json/json.h>
+#include <sstream>
 
 using namespace latex2antlr;
 using namespace antlr4;
@@ -169,12 +170,45 @@ std::string toJsonString(tree::ParseTree *tree, LATEXParser *parser) {
     return json;
 }
 
+class MathErrorListener : public BaseErrorListener {
+    public:
+        std::string src;
+        MathErrorListener(const std::string &input) : BaseErrorListener() {
+            src = input;
+        }
+
+        void syntaxError(Recognizer *recognizer, Token *offendingSymbol, size_t line, size_t charPositionInLine,
+            const std::string &msg, std::exception_ptr e) {
+                std::string marker(charPositionInLine, '~');
+                std::ostringstream ss;
+                if (msg.rfind("missing", 0) == 0) {
+                    ss << msg << "\n" << src << "\n" << marker << "^";
+                } else if (msg.rfind("no viable", 0) == 0) {
+                    ss << "I expected something else here" << "\n" << src << "\n" << marker << "^";
+                } else if (msg.rfind("mismatched", 0) == 0) {
+                    ss << "I expected something else here" << "\n" << src << "\n" << marker << "^";
+                } else {
+                    ss << "I don't understand this" << "\n" << src << "\n" << marker << "^";
+                }
+                std::string str = ss.str();
+                throw std::invalid_argument(str);
+        }
+
+};
+
 std::string parseToJson(const std::string &input) {
     // auto begin = high_resolution_clock::now();
+    MathErrorListener mathErrorListener(input);
     ANTLRInputStream stream(input);
     LATEXLexer lexer(&stream);
+    lexer.removeErrorListeners();
+    lexer.addErrorListener(&mathErrorListener);
+
     CommonTokenStream tokens(&lexer);
     LATEXParser parser(&tokens);
+    parser.removeErrorListeners();
+    parser.addErrorListener(&mathErrorListener);
+
     LATEXParser::MathContext *math = parser.math();
     // auto end = high_resolution_clock::now();
     // auto duration = duration_cast<microseconds>(end - begin);
