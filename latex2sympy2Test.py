@@ -4,7 +4,7 @@ from latex2sympy2 import process_sympy
 from sympy import srepr
 from time import time
 
-latex = '\\gcd{a}{b}'
+latex = '\\gcd(a, b)'
 
 json_string = parseToJson(latex)
 print(json_string)

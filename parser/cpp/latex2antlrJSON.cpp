@@ -41,6 +41,49 @@ std::string getRuleName(tree::ParseTree *tree, LATEXParser *parser) {
     return name;
 }
 
+Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser);
+
+Json::Value fracToJsonTree(LATEXParser::FracContext *frac, LATEXParser *parser) {
+    Json::Value node;
+
+    Json::Value upper;
+    LATEXParser::ExprContext *upperCtx = frac->expr(0);
+    node["upper"] = toJsonTree(upperCtx, parser);
+    node["upper"]["text"] = upperCtx->getText();
+
+    Json::Value lower;
+    LATEXParser::ExprContext *lowerCtx = frac->expr(1);
+    node["lower"] = toJsonTree(lowerCtx, parser);
+    node["lower"]["text"] = lowerCtx->getText();
+
+    Json::Value tokens;
+    Json::Value errors;
+    for (auto *child : frac->children) {
+        if (tree::ErrorNode::is(child)) {
+            tree::ErrorNode *errorNode = static_cast<tree::ErrorNode *>(child);
+            Json::Value childNode = toJsonNode(errorNode);
+            tokens.append(childNode);
+        } else if (tree::TerminalNode::is(child)) {
+            tree::TerminalNode *terminalNode = static_cast<tree::TerminalNode *>(child);
+            Json::Value childNode = toJsonNode(terminalNode);
+            tokens.append(childNode);
+        }
+    }
+    if (tokens.size() == 1) {
+        node["text"] = tokens[0]["text"];
+        node["type"] = tokens[0]["type"];
+    } else if (tokens.size() > 0) {
+        node["tokens"] = tokens;
+    }
+    if (errors.size() == 1) {
+        node["error"] = tokens[0]["error"];
+    } else if (errors.size() > 0) {
+        node["errors"] = errors;
+    }
+
+    return node;
+}
+
 Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
     std::string name = getRuleName(tree, parser);
 
@@ -49,23 +92,32 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
     Json::Value errors;
     for (auto *child : tree->children) {
         if (ParserRuleContext::is(child)) {
-            Json::Value childNode = toJsonTree(child, parser);
             std::string childName = getRuleName(child, parser);
-            if (node[childName].empty()) {
-                if (childName == "postfix" || childName == "postfix_op" || childName == "postfix_nofunc") {
+            if (childName == "frac") {
+                LATEXParser::FracContext *frac = static_cast<LATEXParser::FracContext *>(child);
+                Json::Value childNode = fracToJsonTree(frac, parser);
+                node[childName] = childNode;
+            } else {
+                Json::Value childNode = toJsonTree(child, parser);
+                if (node[childName].empty()) {
+                    if (childName == "postfix"
+                        || childName == "postfix_op"
+                        || childName == "postfix_nofunc")
+                    {
+                        Json::Value array;
+                        array.append(childNode);
+                        node[childName] = array;
+                    } else {
+                        node[childName] = childNode;
+                    }
+                } else if (node[childName].isArray()) {
+                    node[childName].append(childNode);
+                } else {
                     Json::Value array;
+                    array.append(node[childName]);
                     array.append(childNode);
                     node[childName] = array;
-                } else {
-                    node[childName] = childNode;
                 }
-            } else if (node[childName].isArray()) {
-                node[childName].append(childNode);
-            } else {
-                Json::Value array;
-                array.append(node[childName]);
-                array.append(childNode);
-                node[childName] = array;
             }
         } else if (tree::ErrorNode::is(child)) {
             tree::ErrorNode *errorNode = static_cast<tree::ErrorNode *>(child);
@@ -87,6 +139,10 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
         node["error"] = tokens[0]["error"];
     } else if (errors.size() > 0) {
         node["errors"] = errors;
+    }
+
+    if (name == "func_multi_arg") {
+        node["text"] = tree->getText();
     }
 
     return node;

@@ -307,7 +307,7 @@ class LatexToSympy:
 
     def do_subs(self, expr, at):
         if 'expr' in at:
-            at_expr = self.convert_expr(at.expr())
+            at_expr = self.convert_expr(at.get('expr'))
             syms = at_expr.atoms(sympy.Symbol)
             if len(syms) == 0:
                 return expr
@@ -315,8 +315,8 @@ class LatexToSympy:
                 sym = next(iter(syms))
                 return expr.subs(sym, at_expr)
         elif 'equality' in at:
-            lh = self.convert_expr(at.equality().expr(0))
-            rh = self.convert_expr(at.equality().expr(1))
+            lh = self.convert_expr(at.get('equality').get('expr')[0])
+            rh = self.convert_expr(at.get('equality').get('expr')[1])
             return expr.subs(lh, rh)
 
     def convert_postfix(self, postfix):
@@ -566,44 +566,45 @@ class LatexToSympy:
         return stream.getText(startIdx, stopIdx)
 
     def convert_frac(self, frac):
-        diff_op = False
-        partial_op = False
-        lower_itv = frac.lower.getSourceInterval()
-        lower_itv_len = lower_itv[1] - lower_itv[0] + 1
-        if (frac.lower.start == frac.lower.stop and frac.lower.start.type == LATEXLexer.DIFFERENTIAL):
-            wrt = self.get_differential_var_str(frac.lower.start.text)
-            diff_op = True
-        elif (lower_itv_len == 2 and
-              frac.lower.start.type == LATEXLexer.SYMBOL and
-              frac.lower.start.text == '\\partial' and
-              (frac.lower.stop.type == LATEXLexer.LETTER_NO_E or frac.lower.stop.type == LATEXLexer.SYMBOL)):
-            partial_op = True
-            wrt = frac.lower.stop.text
-            if frac.lower.stop.type == LATEXLexer.SYMBOL:
-                wrt = wrt[1:]
+        # TODO
+        # diff_op = False
+        # partial_op = False
+        # lower_itv = frac.get('expr')[1].getSourceInterval()
+        # lower_itv_len = lower_itv[1] - lower_itv[0] + 1
+        # if (frac.lower.start == frac.lower.stop and frac.lower.start.type == LATEXLexer.DIFFERENTIAL):
+        #     wrt = self.get_differential_var_str(frac.lower.start.text)
+        #     diff_op = True
+        # elif (lower_itv_len == 2 and
+        #       frac.lower.start.type == LATEXLexer.SYMBOL and
+        #       frac.lower.start.text == '\\partial' and
+        #       (frac.lower.stop.type == LATEXLexer.LETTER_NO_E or frac.lower.stop.type == LATEXLexer.SYMBOL)):
+        #     partial_op = True
+        #     wrt = frac.lower.stop.text
+        #     if frac.lower.stop.type == LATEXLexer.SYMBOL:
+        #         wrt = wrt[1:]
 
-        if diff_op or partial_op:
-            wrt = sympy.Symbol(wrt, real=True, positive=True)
-            if (diff_op and frac.upper.start == frac.upper.stop and
-                frac.upper.start.type == LATEXLexer.LETTER_NO_E and
-                    frac.upper.start.text == 'd'):
-                return [wrt]
-            elif (partial_op and frac.upper.start == frac.upper.stop and
-                  frac.upper.start.type == LATEXLexer.SYMBOL and
-                  frac.upper.start.text == '\\partial'):
-                return [wrt]
-            upper_text = self.rule2text(frac.upper)
+        # if diff_op or partial_op:
+        #     wrt = sympy.Symbol(wrt, real=True, positive=True)
+        #     if (diff_op and frac.upper.start == frac.upper.stop and
+        #         frac.upper.start.type == LATEXLexer.LETTER_NO_E and
+        #             frac.upper.start.text == 'd'):
+        #         return [wrt]
+        #     elif (partial_op and frac.upper.start == frac.upper.stop and
+        #           frac.upper.start.type == LATEXLexer.SYMBOL and
+        #           frac.upper.start.text == '\\partial'):
+        #         return [wrt]
+        #     upper_text = self.rule2text(frac.upper)
 
-            expr_top = None
-            if diff_op and upper_text.startswith('d'):
-                expr_top = process_sympy(upper_text[1:])
-            elif partial_op and frac.upper.start.text == '\\partial':
-                expr_top = process_sympy(upper_text[len('\\partial'):])
-            if expr_top:
-                return sympy.Derivative(expr_top, wrt)
+        #     expr_top = None
+        #     if diff_op and upper_text.startswith('d'):
+        #         expr_top = process_sympy(upper_text[1:])
+        #     elif partial_op and frac.upper.start.text == '\\partial':
+        #         expr_top = process_sympy(upper_text[len('\\partial'):])
+        #     if expr_top:
+        #         return sympy.Derivative(expr_top, wrt)
 
-        expr_top = self.convert_expr(frac.upper)
-        expr_bot = self.convert_expr(frac.lower)
+        expr_top = self.convert_expr(frac.get('upper'))
+        expr_bot = self.convert_expr(frac.get('lower'))
         if expr_top.is_Matrix or expr_bot.is_Matrix:
             return sympy.MatMul(expr_top, sympy.Pow(expr_bot, -1, evaluate=False), evaluate=False)
         else:
@@ -617,11 +618,11 @@ class LatexToSympy:
     def convert_func(self, func):
         if 'func_normal_single_arg' in func:
             if 'L_PAREN' in func:  # function called with parenthesis
-                arg = self.convert_func_arg(func.func_single_arg())
+                arg = self.convert_func_arg(func.get('func_single_arg'))
             else:
-                arg = self.convert_func_arg(func.func_single_arg_noparens())
+                arg = self.convert_func_arg(func.get('func_single_arg_noparens'))
 
-            name = func.func_normal_single_arg().start.text[1:]
+            name = func.get('func_normal_single_arg').start.text[1:]
 
             # change arc<trig> -> a<trig>
             if name in ["arcsin", "arccos", "arctan", "arccsc", "arcsec",
@@ -684,17 +685,17 @@ class LatexToSympy:
 
             return expr
 
-        elif 'func_normal_multi_arg' in func():
-            if func.L_PAREN():  # function called with parenthesis
-                args = func.func_multi_arg().getText().split(",")
+        elif 'func_normal_multi_arg' in func:
+            if 'func_multi_arg' in func:  # function called with parenthesis
+                args = func.get('func_multi_arg').get('text').split(",")
             else:
-                args = func.func_multi_arg_noparens().split(",")
+                args = func.get('func_multi_arg_noparens').split(",")
 
             args = list(map(lambda arg: process_sympy(arg, self.variable_values), args))
-            name = func.func_normal_multi_arg().start.text[1:]
+            name = func.get('func_normal_multi_arg').get('func_normal_functions_multi_arg').get('text')[1:]
 
             if name == "operatorname":
-                operatorname = func.func_normal_multi_arg().func_operator_name.getText()
+                operatorname = func.get('func_normal_multi_arg').get('func_operator_name').get('text')
                 if operatorname in ["gcd", "lcm"]:
                     expr = self.handle_gcd_lcm(operatorname, args)
             elif name in ["gcd", "lcm"]:
@@ -705,11 +706,11 @@ class LatexToSympy:
 
             func_pow = None
             should_pow = True
-            if func.supexpr():
-                if func.supexpr().expr():
-                    func_pow = self.convert_expr(func.supexpr().expr())
+            if 'supexpr' in func:
+                if 'expr' in func.get('supexpr'):
+                    func_pow = self.convert_expr(func.get('supexpr').get('expr'))
                 else:
-                    func_pow = self.convert_atom(func.supexpr().atom())
+                    func_pow = self.convert_atom(func.get('supexpr').get('atom'))
 
             if func_pow and should_pow:
                 expr = sympy.Pow(expr, func_pow, evaluate=False)
