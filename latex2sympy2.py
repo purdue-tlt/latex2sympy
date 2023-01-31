@@ -41,6 +41,9 @@ class LatexToSympy:
         # process the input
         return_data = None
         json_string = parseToJson(pre_processed_latex)
+
+        print(json_string)
+
         math = json.loads(json_string)
 
         # if a list
@@ -617,12 +620,15 @@ class LatexToSympy:
 
     def convert_func(self, func):
         if 'func_normal_single_arg' in func:
-            if 'L_PAREN' in func:  # function called with parenthesis
+            if 'func_single_arg' in func:  # function called with parenthesis
                 arg = self.convert_func_arg(func.get('func_single_arg'))
             else:
                 arg = self.convert_func_arg(func.get('func_single_arg_noparens'))
 
-            name = func.get('func_normal_single_arg').start.text[1:]
+            if 'tokens' in func.get('func_normal_single_arg'):
+                name = func.get('func_normal_single_arg').get('tokens')[0].get('text')[1:]
+            else:
+                name = func.get('func_normal_single_arg').get('func_normal_functions_single_arg').get('text')[1:]
 
             # change arc<trig> -> a<trig>
             if name in ["arcsin", "arccos", "arctan", "arccsc", "arcsec",
@@ -636,7 +642,7 @@ class LatexToSympy:
                 name = "a" + name[3:]
                 expr = getattr(sympy.functions, name)(arg, evaluate=False)
             elif name == "operatorname":
-                operatorname = func.func_normal_single_arg().func_operator_name.getText()
+                operatorname = func.get('func_normal_single_arg').get('func_operator_names_single_arg').get('text')
 
                 if operatorname in ["arsinh", "arcosh", "artanh"]:
                     operatorname = "a" + operatorname[2:]
@@ -653,7 +659,7 @@ class LatexToSympy:
                     if 'atom' in func.get('supexpr'):
                         base = self.convert_atom(func.get('supexpr').get('atom'))
                     else:
-                        base = self.convert_expr(func.subexpr().expr())
+                        base = self.convert_expr(func.get('subexpr').get('expr'))
                 elif name == "log":
                     base = 10
                 elif name == "ln":
@@ -670,9 +676,9 @@ class LatexToSympy:
             should_pow = True
             if 'supexpr' in func:
                 if 'expr' in func.get('supexpr'):
-                    func_pow = self.convert_expr(func.supexpr().expr())
+                    func_pow = self.convert_expr(func.get('supexpr').get('expr'))
                 else:
-                    func_pow = self.convert_atom(func.supexpr().atom())
+                    func_pow = self.convert_atom(func.get('supexpr').get('atom'))
 
             if name in ["sin", "cos", "tan", "csc", "sec", "cot", "sinh", "cosh", "tanh"]:
                 if func_pow == -1:
@@ -692,10 +698,14 @@ class LatexToSympy:
                 args = func.get('func_multi_arg_noparens').split(",")
 
             args = list(map(lambda arg: process_sympy(arg, self.variable_values), args))
-            name = func.get('func_normal_multi_arg').get('func_normal_functions_multi_arg').get('text')[1:]
+
+            if 'tokens' in func.get('func_normal_multi_arg'):
+                name = func.get('func_normal_multi_arg').get('tokens')[0].get('text')[1:]
+            else:
+                name = func.get('func_normal_multi_arg').get('func_normal_functions_multi_arg').get('text')[1:]
 
             if name == "operatorname":
-                operatorname = func.get('func_normal_multi_arg').get('func_operator_name').get('text')
+                operatorname = func.get('func_normal_multi_arg').get('func_operator_names_multi_arg').get('text')
                 if operatorname in ["gcd", "lcm"]:
                     expr = self.handle_gcd_lcm(operatorname, args)
             elif name in ["gcd", "lcm"]:
@@ -717,40 +727,40 @@ class LatexToSympy:
 
             return expr
 
-        elif func.FUNC_INT():
+        elif 'type' in func and func.get('type') == LATEXParser.FUNC_INT or 'tokens' in func and func.get('tokens')[0].get('type') == LATEXParser.FUNC_INT:
             return self.handle_integral(func)
-        elif func.FUNC_SQRT():
-            expr = self.convert_expr(func.base)
-            if func.root:
-                r = self.convert_expr(func.root)
+        elif 'type' in func and func.get('type') == LATEXParser.FUNC_SQRT or 'tokens' in func and func.get('tokens')[0].get('type') == LATEXParser.FUNC_SQRT:
+            expr = self.convert_expr(func.get('base'))
+            if func.get('root'):
+                r = self.convert_expr(func.get('root'))
                 return sympy.Pow(expr, 1 / r, evaluate=False)
             else:
                 return sympy.Pow(expr, sympy.S.Half, evaluate=False)
-        elif func.FUNC_SUM():
+        elif 'type' in func and func.get('type') == LATEXParser.FUNC_SUM:
             return self.handle_sum_or_prod(func, "summation")
-        elif func.FUNC_PROD():
+        elif 'type' in func and func.get('type') == LATEXParser.FUNC_PROD:
             return self.handle_sum_or_prod(func, "product")
-        elif func.FUNC_LIM():
+        elif 'type' in func and func.get('type') == LATEXParser.FUNC_LIM:
             return self.handle_limit(func)
-        elif func.EXP_E():
+        elif 'type' in func and func.get('type') == LATEXParser.EXP_E:
             return self.handle_exp(func)
 
     def convert_func_arg(self, arg):
-        if hasattr(arg, 'expr'):
-            return self.convert_expr(arg.expr())
+        if 'expr' in arg:
+            return self.convert_expr(arg.get('expr'))
         else:
-            return self.convert_mp(arg.mp_nofunc())
+            return self.convert_mp(arg.get('mp_nofunc'))
 
     def handle_integral(self, func):
-        if func.additive():
-            integrand = self.convert_add(func.additive())
-        elif func.frac():
-            integrand = self.convert_frac(func.frac())
+        if 'additive' in func:
+            integrand = self.convert_add(func.get('additive'))
+        elif 'frac' in func:
+            integrand = self.convert_frac(func.get('frac'))
         else:
             integrand = 1
 
         int_var = None
-        if func.DIFFERENTIAL():
+        if 'tokens' in func and func.DIFFERENTIAL():
             int_var = self.get_differential_var(func.DIFFERENTIAL())
         else:
             for sym in integrand.atoms(sympy.Symbol):
@@ -767,27 +777,27 @@ class LatexToSympy:
                 # Assume dx by default
                 int_var = sympy.Symbol('x', real=True, positive=True)
 
-        if func.subexpr():
-            if func.subexpr().atom():
-                lower = self.convert_atom(func.subexpr().atom())
+        if 'subexpr' in func:
+            if 'atom' in func.get('subexpr'):
+                lower = self.convert_atom(func.get('subexpr').get('atom'))
             else:
-                lower = self.convert_expr(func.subexpr().expr())
-            if func.supexpr().atom():
-                upper = self.convert_atom(func.supexpr().atom())
+                lower = self.convert_expr(func.get('subexpr').get('expr'))
+            if 'atom' in func.get('supexpr'):
+                upper = self.convert_atom(func.get('supexpr').get('atom'))
             else:
-                upper = self.convert_expr(func.supexpr().expr())
+                upper = self.convert_expr(func.get('supexpr').get('expr'))
             return sympy.Integral(integrand, (int_var, lower, upper))
         else:
             return sympy.Integral(integrand, int_var)
 
     def handle_sum_or_prod(self, func, name):
-        val = self.convert_mp(func.mp())
-        iter_var = self.convert_expr(func.subeq().equality().expr(0))
-        start = self.convert_expr(func.subeq().equality().expr(1))
-        if func.supexpr().expr():  # ^{expr}
-            end = self.convert_expr(func.supexpr().expr())
+        val = self.convert_mp(func.get('mp'))
+        iter_var = self.convert_expr(func.get('subeq').get('equality').get('expr')[0])
+        start = self.convert_expr(func.get('subeq').get('equality').get('expr')[1])
+        if 'expr' in func.get('supexpr'):  # ^{expr}
+            end = self.convert_expr(func.get('supexpr').get('expr'))
         else:  # ^atom
-            end = self.convert_atom(func.supexpr().atom())
+            end = self.convert_atom(func.get('supexpr').get('atom'))
 
         if name == "summation":
             return sympy.Sum(val, (iter_var, start, end))
@@ -806,17 +816,17 @@ class LatexToSympy:
             direction = "-"
         else:
             direction = "+"
-        approaching = self.convert_expr(sub.expr())
-        content = self.convert_mp(func.mp())
+        approaching = self.convert_expr(sub.get('expr'))
+        content = self.convert_mp(func.get('mp'))
 
         return sympy.Limit(content, var, approaching, direction)
 
     def handle_exp(self, func):
-        if func.supexpr():
-            if func.supexpr().expr():  # ^{expr}
-                exp_arg = self.convert_expr(func.supexpr().expr())
+        if 'supexpr' in func:
+            if 'expr' in func.get('supexpr'):  # ^{expr}
+                exp_arg = self.convert_expr(func.get('supexpr').get('expr'))
             else:  # ^atom
-                exp_arg = self.convert_atom(func.supexpr().atom())
+                exp_arg = self.convert_atom(func.get('supexpr').get('atom'))
         else:
             exp_arg = 1
         return sympy.exp(exp_arg)

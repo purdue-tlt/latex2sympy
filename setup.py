@@ -4,7 +4,7 @@ setup(
     version="1.6.1",
     name="latex2sympy",
     packages=find_packages(exclude=('tests')),
-    py_modules=['asciimath_printer', 'latex2sympy'],
+    py_modules=['asciimath_printer', 'latex2sympy', 'latex2sympy2'],
     install_requires=[
         'sympy==1.10.1',
         'antlr4-python3-runtime==4.11.1'
