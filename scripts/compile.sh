@@ -29,6 +29,9 @@ rel_path="$(dirname "$rdir")"
 # Change to that path and run the file
 cd $rel_path
 
+# copy compiled cpp parser to root src dir
+cp latex2sympy/parser/cpp/build/lib/latex2antlrJson.so latex2sympy/
+
 echo ''
 echo "generating python parser..."
 # generate python parser files
