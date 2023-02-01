@@ -13,7 +13,7 @@ sh scripts/setup.sh
 
 ## Compiling
 
-The compiled parser is located in the `gen/` directory. The script below should be run **every time the file `PS.g4` is modified**.
+The compiled parser is located in the `latex2sympy/parser/` directory. The script below should be run **every time the file `LATEX.g4` is modified**.
 
 ```
 sh scripts/compile.sh
@@ -36,7 +36,7 @@ process_sympy("\\frac{d}{dx} x^{2}")
 # => "diff(x**(2), x)"
 ```
 
-- To modify parser grammar, view the existing structure in `PS.g4`.
+- To modify parser grammar, view the existing structure in `LATEX.g4`.
 - To modify the action associated with each grammar, look into `latex2sympy.py`.
 
 ## Examples
