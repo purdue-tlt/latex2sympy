@@ -20,6 +20,7 @@ cd parser/cpp/build
 conan install .. --build=antlr4-cppruntime --build=jsoncpp
 cmake .. -G "Unix Makefiles"
 make
+make install
 echo "cpp parser compiled"
 
 # Get relative path of the root directory of the project

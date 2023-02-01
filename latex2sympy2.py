@@ -1,9 +1,7 @@
 import re
 import sympy
-import antlr4
-from antlr4.error.ErrorListener import ErrorListener
 from sympy.core.core import all_classes
-from parser.cpp.build.lib.latex2antlrJson import parseToJson
+from latex2antlrJson import parseToJson
 import json
 
 try:
@@ -42,7 +40,7 @@ class LatexToSympy:
         return_data = None
         json_string = parseToJson(pre_processed_latex)
 
-        print(json_string)
+        # print(json_string)
 
         math = json.loads(json_string)
 

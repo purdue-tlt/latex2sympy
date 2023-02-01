@@ -24,3 +24,8 @@ pybind11_add_module(latex2antlrJson latex2antlrJson.cpp)
 target_link_libraries(latex2antlrJson PUBLIC latex2antlr ${CONAN_LIBS})
 target_compile_features(latex2antlrJson PUBLIC cxx_std_17)
 set_target_properties(latex2antlrJson PROPERTIES SUFFIX ".so")
+
+install(TARGETS latex2antlrJson
+	COMPONENT python
+	LIBRARY DESTINATION "~/git/purdue/github/latex2sympy/.env/lib/python3.9/site-packages"
+)
