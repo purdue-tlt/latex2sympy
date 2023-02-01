@@ -1,26 +1,15 @@
+#include <chrono>
+#include <sstream>
 #include "antlr4-runtime.h"
 // #include "/opt/Homebrew/include/antlr4-runtime/antlr4-runtime.h"
+#include <json/json.h>
+#include <pybind11/pybind11.h>
 #include "LATEXLexer.h"
 #include "LATEXParser.h"
-#include <pybind11/pybind11.h>
-#include <chrono>
-#include <json/json.h>
-#include <sstream>
 
 using namespace latex2antlr;
 using namespace antlr4;
 using namespace std::chrono;
-
-Json::Value toJsonNode(tree::ErrorNode *errorNode) {
-    Json::Value node;
-    Token* token = errorNode->getSymbol();
-    if (token) {
-        node["error"] = token->getText();
-    } else {
-        node["error"] = token->toString();
-    }
-    return node;
-}
 
 Json::Value toJsonNode(tree::TerminalNode *terminalNode) {
     Json::Value node;
@@ -68,13 +57,8 @@ Json::Value fracToJsonTree(LATEXParser::FracContext *frac, LATEXParser *parser) 
     node["lower"] = lower;
 
     Json::Value tokens;
-    Json::Value errors;
     for (auto *child : frac->children) {
-        if (tree::ErrorNode::is(child)) {
-            tree::ErrorNode *errorNode = static_cast<tree::ErrorNode *>(child);
-            Json::Value childNode = toJsonNode(errorNode);
-            tokens.append(childNode);
-        } else if (tree::TerminalNode::is(child)) {
+        if (tree::TerminalNode::is(child)) {
             tree::TerminalNode *terminalNode = static_cast<tree::TerminalNode *>(child);
             Json::Value childNode = toJsonNode(terminalNode);
             tokens.append(childNode);
@@ -86,11 +70,6 @@ Json::Value fracToJsonTree(LATEXParser::FracContext *frac, LATEXParser *parser) 
     } else if (tokens.size() > 0) {
         node["tokens"] = tokens;
     }
-    if (errors.size() == 1) {
-        node["error"] = tokens[0]["error"];
-    } else if (errors.size() > 0) {
-        node["errors"] = errors;
-    }
 
     return node;
 }
@@ -101,7 +80,6 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
 
     Json::Value node;
     Json::Value tokens;
-    Json::Value errors;
     for (auto *child : tree->children) {
         if (ParserRuleContext::is(child)) {
             std::string childName = getRuleName(child, parser);
@@ -132,10 +110,6 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
                     node[childName] = array;
                 }
             }
-        } else if (tree::ErrorNode::is(child)) {
-            tree::ErrorNode *errorNode = static_cast<tree::ErrorNode *>(child);
-            Json::Value childNode = toJsonNode(errorNode);
-            tokens.append(childNode);
         } else if (tree::TerminalNode::is(child)) {
             tree::TerminalNode *terminalNode = static_cast<tree::TerminalNode *>(child);
             Json::Value childNode = toJsonNode(terminalNode);
@@ -148,11 +122,6 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
         node["type"] = tokens[0]["type"];
     } else if (tokens.size() > 0) {
         node["tokens"] = tokens;
-    }
-    if (errors.size() == 1) {
-        node["error"] = tokens[0]["error"];
-    } else if (errors.size() > 0) {
-        node["errors"] = errors;
     }
 
     // return full text of tree for specific rules
@@ -197,7 +166,7 @@ class MathErrorListener : public BaseErrorListener {
 };
 
 std::string parseToJson(const std::string &input) {
-    // auto begin = high_resolution_clock::now();
+    auto begin = high_resolution_clock::now();
     MathErrorListener mathErrorListener(input);
     ANTLRInputStream stream(input);
     LATEXLexer lexer(&stream);
@@ -210,16 +179,16 @@ std::string parseToJson(const std::string &input) {
     parser.addErrorListener(&mathErrorListener);
 
     LATEXParser::MathContext *math = parser.math();
-    // auto end = high_resolution_clock::now();
-    // auto duration = duration_cast<microseconds>(end - begin);
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(end - begin);
     // std::cout << math -> toStringTree(&parser, true) << std::endl;
-    // std::cout << "parser Elapsed Time: " << duration.count() / 1000.0 << "ms" << std::endl;
+    std::cout << "parser Elapsed Time: " << duration.count() / 1000.0 << "ms" << std::endl;
 
-    // begin = high_resolution_clock::now();
+    begin = high_resolution_clock::now();
     std::string jsonString = toJsonString(math, &parser);
-    // end = high_resolution_clock::now();
-    // duration = duration_cast<microseconds>(end - begin);
-    // std::cout << "toJsonString Elapsed Time: " << duration.count() / 1000.0 << "ms" << std::endl;
+    end = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(end - begin);
+    std::cout << "toJsonString Elapsed Time: " << duration.count() / 1000.0 << "ms" << std::endl;
 
     return jsonString;
 }
