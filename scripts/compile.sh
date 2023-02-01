@@ -9,7 +9,7 @@ cd $rel_path
 echo ''
 echo "generating cpp parser..."
 # generate cpp parser files
-java -jar antlr-4.11.1-complete.jar -Dlanguage=Cpp -package latex2antlr -o parser/cpp LATEX.g4
+java -jar antlr-4.11.1-complete.jar -Dlanguage=Cpp -package latex2antlr -o parser/cpp -no-listener LATEX.g4
 echo "cpp parser generated"
 
 echo ''
@@ -32,7 +32,7 @@ cd $rel_path
 echo ''
 echo "generating python parser..."
 # generate python parser files
-java -jar antlr-4.11.1-complete.jar -Dlanguage=Python3 -o parser/python LATEX.g4
+java -jar antlr-4.11.1-complete.jar -Dlanguage=Python3 -o parser/python -no-listener LATEX.g4
 echo "python parser generated"
 
 # Activate virtual environment

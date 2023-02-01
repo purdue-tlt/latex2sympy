@@ -652,14 +652,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_accent_symbol
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterAccent_symbol"):
-                listener.enterAccent_symbol(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitAccent_symbol"):
-                listener.exitAccent_symbol(self)
-
     def accent_symbol(self):
 
         localctx = LATEXParser.Accent_symbolContext(self, self._ctx, self.state)
@@ -697,14 +689,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_math
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterMath"):
-                listener.enterMath(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitMath"):
-                listener.exitMath(self)
 
     def math(self):
 
@@ -762,14 +746,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_matrix
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterMatrix"):
-                listener.enterMatrix(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitMatrix"):
-                listener.exitMatrix(self)
-
     def matrix(self):
 
         localctx = LATEXParser.MatrixContext(self, self._ctx, self.state)
@@ -824,14 +800,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_matrix_row
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterMatrix_row"):
-                listener.enterMatrix_row(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitMatrix_row"):
-                listener.exitMatrix_row(self)
 
     def matrix_row(self):
 
@@ -898,14 +866,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_relation
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterRelation"):
-                listener.enterRelation(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitRelation"):
-                listener.exitRelation(self)
 
     def relation(self, _p: int = 0):
         _parentctx = self._ctx
@@ -1021,14 +981,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_relation_list
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterRelation_list"):
-                listener.enterRelation_list(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitRelation_list"):
-                listener.exitRelation_list(self)
 
     def relation_list(self):
 
@@ -1346,14 +1298,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_relation_list_content
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterRelation_list_content"):
-                listener.enterRelation_list_content(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitRelation_list_content"):
-                listener.exitRelation_list_content(self)
-
     def relation_list_content(self):
 
         localctx = LATEXParser.Relation_list_contentContext(self, self._ctx, self.state)
@@ -1434,14 +1378,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_equality
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterEquality"):
-                listener.enterEquality(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitEquality"):
-                listener.exitEquality(self)
-
     def equality(self):
 
         localctx = LATEXParser.EqualityContext(self, self._ctx, self.state)
@@ -1474,14 +1410,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_expr
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterExpr"):
-                listener.enterExpr(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitExpr"):
-                listener.exitExpr(self)
 
     def expr(self):
 
@@ -1523,14 +1451,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_additive
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterAdditive"):
-                listener.enterAdditive(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitAdditive"):
-                listener.exitAdditive(self)
 
     def additive(self, _p: int = 0):
         _parentctx = self._ctx
@@ -1620,14 +1540,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_mp
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterMp"):
-                listener.enterMp(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitMp"):
-                listener.exitMp(self)
-
     def mp(self, _p: int = 0):
         _parentctx = self._ctx
         _parentState = self.state
@@ -1716,14 +1628,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_mp_nofunc
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterMp_nofunc"):
-                listener.enterMp_nofunc(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitMp_nofunc"):
-                listener.exitMp_nofunc(self)
-
     def mp_nofunc(self, _p: int = 0):
         _parentctx = self._ctx
         _parentState = self.state
@@ -1796,14 +1700,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_unary
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterUnary"):
-                listener.enterUnary(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitUnary"):
-                listener.exitUnary(self)
 
     def unary(self):
 
@@ -1882,14 +1778,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_unary_nofunc
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterUnary_nofunc"):
-                listener.enterUnary_nofunc(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitUnary_nofunc"):
-                listener.exitUnary_nofunc(self)
-
     def unary_nofunc(self):
 
         localctx = LATEXParser.Unary_nofuncContext(self, self._ctx, self.state)
@@ -1957,14 +1845,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_postfix
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterPostfix"):
-                listener.enterPostfix(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitPostfix"):
-                listener.exitPostfix(self)
-
     def postfix(self):
 
         localctx = LATEXParser.PostfixContext(self, self._ctx, self.state)
@@ -2011,14 +1891,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_postfix_nofunc
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterPostfix_nofunc"):
-                listener.enterPostfix_nofunc(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitPostfix_nofunc"):
-                listener.exitPostfix_nofunc(self)
-
     def postfix_nofunc(self):
 
         localctx = LATEXParser.Postfix_nofuncContext(self, self._ctx, self.state)
@@ -2061,14 +1933,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_postfix_op
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterPostfix_op"):
-                listener.enterPostfix_op(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitPostfix_op"):
-                listener.exitPostfix_op(self)
 
     def postfix_op(self):
 
@@ -2117,14 +1981,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_eval_at
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterEval_at"):
-                listener.enterEval_at(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitEval_at"):
-                listener.exitEval_at(self)
 
     def eval_at(self):
 
@@ -2187,14 +2043,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_eval_at_sub
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterEval_at_sub"):
-                listener.enterEval_at_sub(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitEval_at_sub"):
-                listener.exitEval_at_sub(self)
-
     def eval_at_sub(self):
 
         localctx = LATEXParser.Eval_at_subContext(self, self._ctx, self.state)
@@ -2252,14 +2100,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_eval_at_sup
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterEval_at_sup"):
-                listener.enterEval_at_sup(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitEval_at_sup"):
-                listener.exitEval_at_sup(self)
 
     def eval_at_sup(self):
 
@@ -2327,14 +2167,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_exp
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterExp"):
-                listener.enterExp(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitExp"):
-                listener.exitExp(self)
 
     def exp(self, _p: int = 0):
         _parentctx = self._ctx
@@ -2434,14 +2266,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_exp_nofunc
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterExp_nofunc"):
-                listener.enterExp_nofunc(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitExp_nofunc"):
-                listener.exitExp_nofunc(self)
 
     def exp_nofunc(self, _p: int = 0):
         _parentctx = self._ctx
@@ -2544,14 +2368,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_comp
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterComp"):
-                listener.enterComp(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitComp"):
-                listener.exitComp(self)
 
     def comp(self):
 
@@ -2656,14 +2472,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_comp_nofunc
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterComp_nofunc"):
-                listener.enterComp_nofunc(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitComp_nofunc"):
-                listener.exitComp_nofunc(self)
 
     def comp_nofunc(self):
 
@@ -2795,14 +2603,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_group
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterGroup"):
-                listener.enterGroup(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitGroup"):
-                listener.exitGroup(self)
 
     def group(self):
 
@@ -3129,14 +2929,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_abs_group
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterAbs_group"):
-                listener.enterAbs_group(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitAbs_group"):
-                listener.exitAbs_group(self)
-
     def abs_group(self):
 
         localctx = LATEXParser.Abs_groupContext(self, self._ctx, self.state)
@@ -3304,14 +3096,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_floor_group
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterFloor_group"):
-                listener.enterFloor_group(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitFloor_group"):
-                listener.exitFloor_group(self)
-
     def floor_group(self):
 
         localctx = LATEXParser.Floor_groupContext(self, self._ctx, self.state)
@@ -3441,14 +3225,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_ceil_group
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterCeil_group"):
-                listener.enterCeil_group(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitCeil_group"):
-                listener.exitCeil_group(self)
-
     def ceil_group(self):
 
         localctx = LATEXParser.Ceil_groupContext(self, self._ctx, self.state)
@@ -3564,14 +3340,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_accent
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterAccent"):
-                listener.enterAccent(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitAccent"):
-                listener.exitAccent(self)
-
     def accent(self):
 
         localctx = LATEXParser.AccentContext(self, self._ctx, self.state)
@@ -3618,14 +3386,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_atom_expr
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterAtom_expr"):
-                listener.enterAtom_expr(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitAtom_expr"):
-                listener.exitAtom_expr(self)
 
     def atom_expr(self):
 
@@ -3722,14 +3482,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_atom
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterAtom"):
-                listener.enterAtom(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitAtom"):
-                listener.exitAtom(self)
-
     def atom(self):
 
         localctx = LATEXParser.AtomContext(self, self._ctx, self.state)
@@ -3821,14 +3573,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_mathit
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterMathit"):
-                listener.enterMathit(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitMathit"):
-                listener.exitMathit(self)
-
     def mathit(self):
 
         localctx = LATEXParser.MathitContext(self, self._ctx, self.state)
@@ -3878,14 +3622,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_mathit_text
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterMathit_text"):
-                listener.enterMathit_text(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitMathit_text"):
-                listener.exitMathit_text(self)
 
     def mathit_text(self):
 
@@ -3952,14 +3688,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_frac
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterFrac"):
-                listener.enterFrac(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitFrac"):
-                listener.exitFrac(self)
-
     def frac(self):
 
         localctx = LATEXParser.FracContext(self, self._ctx, self.state)
@@ -4023,14 +3751,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_binom
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterBinom"):
-                listener.enterBinom(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitBinom"):
-                listener.exitBinom(self)
 
     def binom(self):
 
@@ -4154,14 +3874,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_func_normal_functions_single_arg
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterFunc_normal_functions_single_arg"):
-                listener.enterFunc_normal_functions_single_arg(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitFunc_normal_functions_single_arg"):
-                listener.exitFunc_normal_functions_single_arg(self)
-
     def func_normal_functions_single_arg(self):
 
         localctx = LATEXParser.Func_normal_functions_single_argContext(self, self._ctx, self.state)
@@ -4205,14 +3917,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_func_normal_functions_multi_arg
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterFunc_normal_functions_multi_arg"):
-                listener.enterFunc_normal_functions_multi_arg(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitFunc_normal_functions_multi_arg"):
-                listener.exitFunc_normal_functions_multi_arg(self)
 
     def func_normal_functions_multi_arg(self):
 
@@ -4270,14 +3974,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_func_operator_names_single_arg
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterFunc_operator_names_single_arg"):
-                listener.enterFunc_operator_names_single_arg(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitFunc_operator_names_single_arg"):
-                listener.exitFunc_operator_names_single_arg(self)
-
     def func_operator_names_single_arg(self):
 
         localctx = LATEXParser.Func_operator_names_single_argContext(self, self._ctx, self.state)
@@ -4315,14 +4011,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_func_operator_names_multi_arg
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterFunc_operator_names_multi_arg"):
-                listener.enterFunc_operator_names_multi_arg(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitFunc_operator_names_multi_arg"):
-                listener.exitFunc_operator_names_multi_arg(self)
 
     def func_operator_names_multi_arg(self):
 
@@ -4371,14 +4059,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_func_normal_single_arg
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterFunc_normal_single_arg"):
-                listener.enterFunc_normal_single_arg(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitFunc_normal_single_arg"):
-                listener.exitFunc_normal_single_arg(self)
 
     def func_normal_single_arg(self):
 
@@ -4440,14 +4120,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_func_normal_multi_arg
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterFunc_normal_multi_arg"):
-                listener.enterFunc_normal_multi_arg(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitFunc_normal_multi_arg"):
-                listener.exitFunc_normal_multi_arg(self)
 
     def func_normal_multi_arg(self):
 
@@ -4603,14 +4275,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_func
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterFunc"):
-                listener.enterFunc(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitFunc"):
-                listener.exitFunc(self)
 
     def func(self):
 
@@ -4995,14 +4659,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_args
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterArgs"):
-                listener.enterArgs(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitArgs"):
-                listener.exitArgs(self)
-
     def args(self):
 
         localctx = LATEXParser.ArgsContext(self, self._ctx, self.state)
@@ -5081,14 +4737,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_limit_sub
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterLimit_sub"):
-                listener.enterLimit_sub(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitLimit_sub"):
-                listener.exitLimit_sub(self)
-
     def limit_sub(self):
 
         localctx = LATEXParser.Limit_subContext(self, self._ctx, self.state)
@@ -5152,14 +4800,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_func_single_arg
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterFunc_single_arg"):
-                listener.enterFunc_single_arg(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitFunc_single_arg"):
-                listener.exitFunc_single_arg(self)
-
     def func_single_arg(self):
 
         localctx = LATEXParser.Func_single_argContext(self, self._ctx, self.state)
@@ -5188,14 +4828,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_func_single_arg_noparens
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterFunc_single_arg_noparens"):
-                listener.enterFunc_single_arg_noparens(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitFunc_single_arg_noparens"):
-                listener.exitFunc_single_arg_noparens(self)
 
     def func_single_arg_noparens(self):
 
@@ -5231,14 +4863,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_func_multi_arg
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterFunc_multi_arg"):
-                listener.enterFunc_multi_arg(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitFunc_multi_arg"):
-                listener.exitFunc_multi_arg(self)
 
     def func_multi_arg(self):
 
@@ -5285,14 +4909,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_func_multi_arg_noparens
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterFunc_multi_arg_noparens"):
-                listener.enterFunc_multi_arg_noparens(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitFunc_multi_arg_noparens"):
-                listener.exitFunc_multi_arg_noparens(self)
-
     def func_multi_arg_noparens(self):
 
         localctx = LATEXParser.Func_multi_arg_noparensContext(self, self._ctx, self.state)
@@ -5336,14 +4952,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_subexpr
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterSubexpr"):
-                listener.enterSubexpr(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitSubexpr"):
-                listener.exitSubexpr(self)
 
     def subexpr(self):
 
@@ -5415,14 +5023,6 @@ class LATEXParser (Parser):
         def getRuleIndex(self):
             return LATEXParser.RULE_supexpr
 
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterSupexpr"):
-                listener.enterSupexpr(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitSupexpr"):
-                listener.exitSupexpr(self)
-
     def supexpr(self):
 
         localctx = LATEXParser.SupexprContext(self, self._ctx, self.state)
@@ -5478,14 +5078,6 @@ class LATEXParser (Parser):
 
         def getRuleIndex(self):
             return LATEXParser.RULE_subeq
-
-        def enterRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "enterSubeq"):
-                listener.enterSubeq(self)
-
-        def exitRule(self, listener: ParseTreeListener):
-            if hasattr(listener, "exitSubeq"):
-                listener.exitSubeq(self)
 
     def subeq(self):
 

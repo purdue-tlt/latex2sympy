@@ -2,7 +2,6 @@
 // Generated from LATEX.g4 by ANTLR 4.11.1
 
 
-#include "LATEXListener.h"
 
 #include "LATEXParser.h"
 
@@ -500,17 +499,6 @@ size_t LATEXParser::Accent_symbolContext::getRuleIndex() const {
   return LATEXParser::RuleAccent_symbol;
 }
 
-void LATEXParser::Accent_symbolContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterAccent_symbol(this);
-}
-
-void LATEXParser::Accent_symbolContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitAccent_symbol(this);
-}
 
 LATEXParser::Accent_symbolContext* LATEXParser::accent_symbol() {
   Accent_symbolContext *_localctx = _tracker.createInstance<Accent_symbolContext>(_ctx, getState());
@@ -567,17 +555,6 @@ size_t LATEXParser::MathContext::getRuleIndex() const {
   return LATEXParser::RuleMath;
 }
 
-void LATEXParser::MathContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterMath(this);
-}
-
-void LATEXParser::MathContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitMath(this);
-}
 
 LATEXParser::MathContext* LATEXParser::math() {
   MathContext *_localctx = _tracker.createInstance<MathContext>(_ctx, getState());
@@ -657,17 +634,6 @@ size_t LATEXParser::MatrixContext::getRuleIndex() const {
   return LATEXParser::RuleMatrix;
 }
 
-void LATEXParser::MatrixContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterMatrix(this);
-}
-
-void LATEXParser::MatrixContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitMatrix(this);
-}
 
 LATEXParser::MatrixContext* LATEXParser::matrix() {
   MatrixContext *_localctx = _tracker.createInstance<MatrixContext>(_ctx, getState());
@@ -739,17 +705,6 @@ size_t LATEXParser::Matrix_rowContext::getRuleIndex() const {
   return LATEXParser::RuleMatrix_row;
 }
 
-void LATEXParser::Matrix_rowContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterMatrix_row(this);
-}
-
-void LATEXParser::Matrix_rowContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitMatrix_row(this);
-}
 
 LATEXParser::Matrix_rowContext* LATEXParser::matrix_row() {
   Matrix_rowContext *_localctx = _tracker.createInstance<Matrix_rowContext>(_ctx, getState());
@@ -837,17 +792,6 @@ size_t LATEXParser::RelationContext::getRuleIndex() const {
   return LATEXParser::RuleRelation;
 }
 
-void LATEXParser::RelationContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterRelation(this);
-}
-
-void LATEXParser::RelationContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitRelation(this);
-}
 
 
 LATEXParser::RelationContext* LATEXParser::relation() {
@@ -1004,17 +948,6 @@ size_t LATEXParser::Relation_listContext::getRuleIndex() const {
   return LATEXParser::RuleRelation_list;
 }
 
-void LATEXParser::Relation_listContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterRelation_list(this);
-}
-
-void LATEXParser::Relation_listContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitRelation_list(this);
-}
 
 LATEXParser::Relation_listContext* LATEXParser::relation_list() {
   Relation_listContext *_localctx = _tracker.createInstance<Relation_listContext>(_ctx, getState());
@@ -1374,17 +1307,6 @@ size_t LATEXParser::Relation_list_contentContext::getRuleIndex() const {
   return LATEXParser::RuleRelation_list_content;
 }
 
-void LATEXParser::Relation_list_contentContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterRelation_list_content(this);
-}
-
-void LATEXParser::Relation_list_contentContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitRelation_list_content(this);
-}
 
 LATEXParser::Relation_list_contentContext* LATEXParser::relation_list_content() {
   Relation_list_contentContext *_localctx = _tracker.createInstance<Relation_list_contentContext>(_ctx, getState());
@@ -1485,17 +1407,6 @@ size_t LATEXParser::EqualityContext::getRuleIndex() const {
   return LATEXParser::RuleEquality;
 }
 
-void LATEXParser::EqualityContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterEquality(this);
-}
-
-void LATEXParser::EqualityContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitEquality(this);
-}
 
 LATEXParser::EqualityContext* LATEXParser::equality() {
   EqualityContext *_localctx = _tracker.createInstance<EqualityContext>(_ctx, getState());
@@ -1542,17 +1453,6 @@ size_t LATEXParser::ExprContext::getRuleIndex() const {
   return LATEXParser::RuleExpr;
 }
 
-void LATEXParser::ExprContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterExpr(this);
-}
-
-void LATEXParser::ExprContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitExpr(this);
-}
 
 LATEXParser::ExprContext* LATEXParser::expr() {
   ExprContext *_localctx = _tracker.createInstance<ExprContext>(_ctx, getState());
@@ -1611,17 +1511,6 @@ size_t LATEXParser::AdditiveContext::getRuleIndex() const {
   return LATEXParser::RuleAdditive;
 }
 
-void LATEXParser::AdditiveContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterAdditive(this);
-}
-
-void LATEXParser::AdditiveContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitAdditive(this);
-}
 
 
 LATEXParser::AdditiveContext* LATEXParser::additive() {
@@ -1743,17 +1632,6 @@ size_t LATEXParser::MpContext::getRuleIndex() const {
   return LATEXParser::RuleMp;
 }
 
-void LATEXParser::MpContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterMp(this);
-}
-
-void LATEXParser::MpContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitMp(this);
-}
 
 
 LATEXParser::MpContext* LATEXParser::mp() {
@@ -1876,17 +1754,6 @@ size_t LATEXParser::Mp_nofuncContext::getRuleIndex() const {
   return LATEXParser::RuleMp_nofunc;
 }
 
-void LATEXParser::Mp_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterMp_nofunc(this);
-}
-
-void LATEXParser::Mp_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitMp_nofunc(this);
-}
 
 
 LATEXParser::Mp_nofuncContext* LATEXParser::mp_nofunc() {
@@ -1989,17 +1856,6 @@ size_t LATEXParser::UnaryContext::getRuleIndex() const {
   return LATEXParser::RuleUnary;
 }
 
-void LATEXParser::UnaryContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterUnary(this);
-}
-
-void LATEXParser::UnaryContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitUnary(this);
-}
 
 LATEXParser::UnaryContext* LATEXParser::unary() {
   UnaryContext *_localctx = _tracker.createInstance<UnaryContext>(_ctx, getState());
@@ -2178,17 +2034,6 @@ size_t LATEXParser::Unary_nofuncContext::getRuleIndex() const {
   return LATEXParser::RuleUnary_nofunc;
 }
 
-void LATEXParser::Unary_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterUnary_nofunc(this);
-}
-
-void LATEXParser::Unary_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitUnary_nofunc(this);
-}
 
 LATEXParser::Unary_nofuncContext* LATEXParser::unary_nofunc() {
   Unary_nofuncContext *_localctx = _tracker.createInstance<Unary_nofuncContext>(_ctx, getState());
@@ -2351,17 +2196,6 @@ size_t LATEXParser::PostfixContext::getRuleIndex() const {
   return LATEXParser::RulePostfix;
 }
 
-void LATEXParser::PostfixContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterPostfix(this);
-}
-
-void LATEXParser::PostfixContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitPostfix(this);
-}
 
 LATEXParser::PostfixContext* LATEXParser::postfix() {
   PostfixContext *_localctx = _tracker.createInstance<PostfixContext>(_ctx, getState());
@@ -2425,17 +2259,6 @@ size_t LATEXParser::Postfix_nofuncContext::getRuleIndex() const {
   return LATEXParser::RulePostfix_nofunc;
 }
 
-void LATEXParser::Postfix_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterPostfix_nofunc(this);
-}
-
-void LATEXParser::Postfix_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitPostfix_nofunc(this);
-}
 
 LATEXParser::Postfix_nofuncContext* LATEXParser::postfix_nofunc() {
   Postfix_nofuncContext *_localctx = _tracker.createInstance<Postfix_nofuncContext>(_ctx, getState());
@@ -2495,17 +2318,6 @@ size_t LATEXParser::Postfix_opContext::getRuleIndex() const {
   return LATEXParser::RulePostfix_op;
 }
 
-void LATEXParser::Postfix_opContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterPostfix_op(this);
-}
-
-void LATEXParser::Postfix_opContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitPostfix_op(this);
-}
 
 LATEXParser::Postfix_opContext* LATEXParser::postfix_op() {
   Postfix_opContext *_localctx = _tracker.createInstance<Postfix_opContext>(_ctx, getState());
@@ -2573,17 +2385,6 @@ size_t LATEXParser::Eval_atContext::getRuleIndex() const {
   return LATEXParser::RuleEval_at;
 }
 
-void LATEXParser::Eval_atContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterEval_at(this);
-}
-
-void LATEXParser::Eval_atContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitEval_at(this);
-}
 
 LATEXParser::Eval_atContext* LATEXParser::eval_at() {
   Eval_atContext *_localctx = _tracker.createInstance<Eval_atContext>(_ctx, getState());
@@ -2668,17 +2469,6 @@ size_t LATEXParser::Eval_at_subContext::getRuleIndex() const {
   return LATEXParser::RuleEval_at_sub;
 }
 
-void LATEXParser::Eval_at_subContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterEval_at_sub(this);
-}
-
-void LATEXParser::Eval_at_subContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitEval_at_sub(this);
-}
 
 LATEXParser::Eval_at_subContext* LATEXParser::eval_at_sub() {
   Eval_at_subContext *_localctx = _tracker.createInstance<Eval_at_subContext>(_ctx, getState());
@@ -2759,17 +2549,6 @@ size_t LATEXParser::Eval_at_supContext::getRuleIndex() const {
   return LATEXParser::RuleEval_at_sup;
 }
 
-void LATEXParser::Eval_at_supContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterEval_at_sup(this);
-}
-
-void LATEXParser::Eval_at_supContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitEval_at_sup(this);
-}
 
 LATEXParser::Eval_at_supContext* LATEXParser::eval_at_sup() {
   Eval_at_supContext *_localctx = _tracker.createInstance<Eval_at_supContext>(_ctx, getState());
@@ -2862,17 +2641,6 @@ size_t LATEXParser::ExpContext::getRuleIndex() const {
   return LATEXParser::RuleExp;
 }
 
-void LATEXParser::ExpContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterExp(this);
-}
-
-void LATEXParser::ExpContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitExp(this);
-}
 
 
 LATEXParser::ExpContext* LATEXParser::exp() {
@@ -3022,17 +2790,6 @@ size_t LATEXParser::Exp_nofuncContext::getRuleIndex() const {
   return LATEXParser::RuleExp_nofunc;
 }
 
-void LATEXParser::Exp_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterExp_nofunc(this);
-}
-
-void LATEXParser::Exp_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitExp_nofunc(this);
-}
 
 
 LATEXParser::Exp_nofuncContext* LATEXParser::exp_nofunc() {
@@ -3186,17 +2943,6 @@ size_t LATEXParser::CompContext::getRuleIndex() const {
   return LATEXParser::RuleComp;
 }
 
-void LATEXParser::CompContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterComp(this);
-}
-
-void LATEXParser::CompContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitComp(this);
-}
 
 LATEXParser::CompContext* LATEXParser::comp() {
   CompContext *_localctx = _tracker.createInstance<CompContext>(_ctx, getState());
@@ -3333,17 +3079,6 @@ size_t LATEXParser::Comp_nofuncContext::getRuleIndex() const {
   return LATEXParser::RuleComp_nofunc;
 }
 
-void LATEXParser::Comp_nofuncContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterComp_nofunc(this);
-}
-
-void LATEXParser::Comp_nofuncContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitComp_nofunc(this);
-}
 
 LATEXParser::Comp_nofuncContext* LATEXParser::comp_nofunc() {
   Comp_nofuncContext *_localctx = _tracker.createInstance<Comp_nofuncContext>(_ctx, getState());
@@ -3517,17 +3252,6 @@ size_t LATEXParser::GroupContext::getRuleIndex() const {
   return LATEXParser::RuleGroup;
 }
 
-void LATEXParser::GroupContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterGroup(this);
-}
-
-void LATEXParser::GroupContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitGroup(this);
-}
 
 LATEXParser::GroupContext* LATEXParser::group() {
   GroupContext *_localctx = _tracker.createInstance<GroupContext>(_ctx, getState());
@@ -3900,17 +3624,6 @@ size_t LATEXParser::Abs_groupContext::getRuleIndex() const {
   return LATEXParser::RuleAbs_group;
 }
 
-void LATEXParser::Abs_groupContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterAbs_group(this);
-}
-
-void LATEXParser::Abs_groupContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitAbs_group(this);
-}
 
 LATEXParser::Abs_groupContext* LATEXParser::abs_group() {
   Abs_groupContext *_localctx = _tracker.createInstance<Abs_groupContext>(_ctx, getState());
@@ -4111,17 +3824,6 @@ size_t LATEXParser::Floor_groupContext::getRuleIndex() const {
   return LATEXParser::RuleFloor_group;
 }
 
-void LATEXParser::Floor_groupContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFloor_group(this);
-}
-
-void LATEXParser::Floor_groupContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFloor_group(this);
-}
 
 LATEXParser::Floor_groupContext* LATEXParser::floor_group() {
   Floor_groupContext *_localctx = _tracker.createInstance<Floor_groupContext>(_ctx, getState());
@@ -4281,17 +3983,6 @@ size_t LATEXParser::Ceil_groupContext::getRuleIndex() const {
   return LATEXParser::RuleCeil_group;
 }
 
-void LATEXParser::Ceil_groupContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterCeil_group(this);
-}
-
-void LATEXParser::Ceil_groupContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitCeil_group(this);
-}
 
 LATEXParser::Ceil_groupContext* LATEXParser::ceil_group() {
   Ceil_groupContext *_localctx = _tracker.createInstance<Ceil_groupContext>(_ctx, getState());
@@ -4431,17 +4122,6 @@ size_t LATEXParser::AccentContext::getRuleIndex() const {
   return LATEXParser::RuleAccent;
 }
 
-void LATEXParser::AccentContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterAccent(this);
-}
-
-void LATEXParser::AccentContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitAccent(this);
-}
 
 LATEXParser::AccentContext* LATEXParser::accent() {
   AccentContext *_localctx = _tracker.createInstance<AccentContext>(_ctx, getState());
@@ -4506,17 +4186,6 @@ size_t LATEXParser::Atom_exprContext::getRuleIndex() const {
   return LATEXParser::RuleAtom_expr;
 }
 
-void LATEXParser::Atom_exprContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterAtom_expr(this);
-}
-
-void LATEXParser::Atom_exprContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitAtom_expr(this);
-}
 
 LATEXParser::Atom_exprContext* LATEXParser::atom_expr() {
   Atom_exprContext *_localctx = _tracker.createInstance<Atom_exprContext>(_ctx, getState());
@@ -4653,17 +4322,6 @@ size_t LATEXParser::AtomContext::getRuleIndex() const {
   return LATEXParser::RuleAtom;
 }
 
-void LATEXParser::AtomContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterAtom(this);
-}
-
-void LATEXParser::AtomContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitAtom(this);
-}
 
 LATEXParser::AtomContext* LATEXParser::atom() {
   AtomContext *_localctx = _tracker.createInstance<AtomContext>(_ctx, getState());
@@ -4794,17 +4452,6 @@ size_t LATEXParser::MathitContext::getRuleIndex() const {
   return LATEXParser::RuleMathit;
 }
 
-void LATEXParser::MathitContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterMathit(this);
-}
-
-void LATEXParser::MathitContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitMathit(this);
-}
 
 LATEXParser::MathitContext* LATEXParser::mathit() {
   MathitContext *_localctx = _tracker.createInstance<MathitContext>(_ctx, getState());
@@ -4873,17 +4520,6 @@ size_t LATEXParser::Mathit_textContext::getRuleIndex() const {
   return LATEXParser::RuleMathit_text;
 }
 
-void LATEXParser::Mathit_textContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterMathit_text(this);
-}
-
-void LATEXParser::Mathit_textContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitMathit_text(this);
-}
 
 LATEXParser::Mathit_textContext* LATEXParser::mathit_text() {
   Mathit_textContext *_localctx = _tracker.createInstance<Mathit_textContext>(_ctx, getState());
@@ -4968,17 +4604,6 @@ size_t LATEXParser::FracContext::getRuleIndex() const {
   return LATEXParser::RuleFrac;
 }
 
-void LATEXParser::FracContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFrac(this);
-}
-
-void LATEXParser::FracContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFrac(this);
-}
 
 LATEXParser::FracContext* LATEXParser::frac() {
   FracContext *_localctx = _tracker.createInstance<FracContext>(_ctx, getState());
@@ -5061,17 +4686,6 @@ size_t LATEXParser::BinomContext::getRuleIndex() const {
   return LATEXParser::RuleBinom;
 }
 
-void LATEXParser::BinomContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterBinom(this);
-}
-
-void LATEXParser::BinomContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitBinom(this);
-}
 
 LATEXParser::BinomContext* LATEXParser::binom() {
   BinomContext *_localctx = _tracker.createInstance<BinomContext>(_ctx, getState());
@@ -5236,17 +4850,6 @@ size_t LATEXParser::Func_normal_functions_single_argContext::getRuleIndex() cons
   return LATEXParser::RuleFunc_normal_functions_single_arg;
 }
 
-void LATEXParser::Func_normal_functions_single_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFunc_normal_functions_single_arg(this);
-}
-
-void LATEXParser::Func_normal_functions_single_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFunc_normal_functions_single_arg(this);
-}
 
 LATEXParser::Func_normal_functions_single_argContext* LATEXParser::func_normal_functions_single_arg() {
   Func_normal_functions_single_argContext *_localctx = _tracker.createInstance<Func_normal_functions_single_argContext>(_ctx, getState());
@@ -5310,17 +4913,6 @@ size_t LATEXParser::Func_normal_functions_multi_argContext::getRuleIndex() const
   return LATEXParser::RuleFunc_normal_functions_multi_arg;
 }
 
-void LATEXParser::Func_normal_functions_multi_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFunc_normal_functions_multi_arg(this);
-}
-
-void LATEXParser::Func_normal_functions_multi_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFunc_normal_functions_multi_arg(this);
-}
 
 LATEXParser::Func_normal_functions_multi_argContext* LATEXParser::func_normal_functions_multi_arg() {
   Func_normal_functions_multi_argContext *_localctx = _tracker.createInstance<Func_normal_functions_multi_argContext>(_ctx, getState());
@@ -5400,17 +4992,6 @@ size_t LATEXParser::Func_operator_names_single_argContext::getRuleIndex() const 
   return LATEXParser::RuleFunc_operator_names_single_arg;
 }
 
-void LATEXParser::Func_operator_names_single_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFunc_operator_names_single_arg(this);
-}
-
-void LATEXParser::Func_operator_names_single_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFunc_operator_names_single_arg(this);
-}
 
 LATEXParser::Func_operator_names_single_argContext* LATEXParser::func_operator_names_single_arg() {
   Func_operator_names_single_argContext *_localctx = _tracker.createInstance<Func_operator_names_single_argContext>(_ctx, getState());
@@ -5466,17 +5047,6 @@ size_t LATEXParser::Func_operator_names_multi_argContext::getRuleIndex() const {
   return LATEXParser::RuleFunc_operator_names_multi_arg;
 }
 
-void LATEXParser::Func_operator_names_multi_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFunc_operator_names_multi_arg(this);
-}
-
-void LATEXParser::Func_operator_names_multi_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFunc_operator_names_multi_arg(this);
-}
 
 LATEXParser::Func_operator_names_multi_argContext* LATEXParser::func_operator_names_multi_arg() {
   Func_operator_names_multi_argContext *_localctx = _tracker.createInstance<Func_operator_names_multi_argContext>(_ctx, getState());
@@ -5545,17 +5115,6 @@ size_t LATEXParser::Func_normal_single_argContext::getRuleIndex() const {
   return LATEXParser::RuleFunc_normal_single_arg;
 }
 
-void LATEXParser::Func_normal_single_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFunc_normal_single_arg(this);
-}
-
-void LATEXParser::Func_normal_single_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFunc_normal_single_arg(this);
-}
 
 LATEXParser::Func_normal_single_argContext* LATEXParser::func_normal_single_arg() {
   Func_normal_single_argContext *_localctx = _tracker.createInstance<Func_normal_single_argContext>(_ctx, getState());
@@ -5662,17 +5221,6 @@ size_t LATEXParser::Func_normal_multi_argContext::getRuleIndex() const {
   return LATEXParser::RuleFunc_normal_multi_arg;
 }
 
-void LATEXParser::Func_normal_multi_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFunc_normal_multi_arg(this);
-}
-
-void LATEXParser::Func_normal_multi_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFunc_normal_multi_arg(this);
-}
 
 LATEXParser::Func_normal_multi_argContext* LATEXParser::func_normal_multi_arg() {
   Func_normal_multi_argContext *_localctx = _tracker.createInstance<Func_normal_multi_argContext>(_ctx, getState());
@@ -5881,17 +5429,6 @@ size_t LATEXParser::FuncContext::getRuleIndex() const {
   return LATEXParser::RuleFunc;
 }
 
-void LATEXParser::FuncContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFunc(this);
-}
-
-void LATEXParser::FuncContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFunc(this);
-}
 
 LATEXParser::FuncContext* LATEXParser::func() {
   FuncContext *_localctx = _tracker.createInstance<FuncContext>(_ctx, getState());
@@ -6377,17 +5914,6 @@ size_t LATEXParser::ArgsContext::getRuleIndex() const {
   return LATEXParser::RuleArgs;
 }
 
-void LATEXParser::ArgsContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterArgs(this);
-}
-
-void LATEXParser::ArgsContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitArgs(this);
-}
 
 LATEXParser::ArgsContext* LATEXParser::args() {
   ArgsContext *_localctx = _tracker.createInstance<ArgsContext>(_ctx, getState());
@@ -6495,17 +6021,6 @@ size_t LATEXParser::Limit_subContext::getRuleIndex() const {
   return LATEXParser::RuleLimit_sub;
 }
 
-void LATEXParser::Limit_subContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterLimit_sub(this);
-}
-
-void LATEXParser::Limit_subContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitLimit_sub(this);
-}
 
 LATEXParser::Limit_subContext* LATEXParser::limit_sub() {
   Limit_subContext *_localctx = _tracker.createInstance<Limit_subContext>(_ctx, getState());
@@ -6591,17 +6106,6 @@ size_t LATEXParser::Func_single_argContext::getRuleIndex() const {
   return LATEXParser::RuleFunc_single_arg;
 }
 
-void LATEXParser::Func_single_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFunc_single_arg(this);
-}
-
-void LATEXParser::Func_single_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFunc_single_arg(this);
-}
 
 LATEXParser::Func_single_argContext* LATEXParser::func_single_arg() {
   Func_single_argContext *_localctx = _tracker.createInstance<Func_single_argContext>(_ctx, getState());
@@ -6644,17 +6148,6 @@ size_t LATEXParser::Func_single_arg_noparensContext::getRuleIndex() const {
   return LATEXParser::RuleFunc_single_arg_noparens;
 }
 
-void LATEXParser::Func_single_arg_noparensContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFunc_single_arg_noparens(this);
-}
-
-void LATEXParser::Func_single_arg_noparensContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFunc_single_arg_noparens(this);
-}
 
 LATEXParser::Func_single_arg_noparensContext* LATEXParser::func_single_arg_noparens() {
   Func_single_arg_noparensContext *_localctx = _tracker.createInstance<Func_single_arg_noparensContext>(_ctx, getState());
@@ -6705,17 +6198,6 @@ size_t LATEXParser::Func_multi_argContext::getRuleIndex() const {
   return LATEXParser::RuleFunc_multi_arg;
 }
 
-void LATEXParser::Func_multi_argContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFunc_multi_arg(this);
-}
-
-void LATEXParser::Func_multi_argContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFunc_multi_arg(this);
-}
 
 LATEXParser::Func_multi_argContext* LATEXParser::func_multi_arg() {
   Func_multi_argContext *_localctx = _tracker.createInstance<Func_multi_argContext>(_ctx, getState());
@@ -6779,17 +6261,6 @@ size_t LATEXParser::Func_multi_arg_noparensContext::getRuleIndex() const {
   return LATEXParser::RuleFunc_multi_arg_noparens;
 }
 
-void LATEXParser::Func_multi_arg_noparensContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFunc_multi_arg_noparens(this);
-}
-
-void LATEXParser::Func_multi_arg_noparensContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFunc_multi_arg_noparens(this);
-}
 
 LATEXParser::Func_multi_arg_noparensContext* LATEXParser::func_multi_arg_noparens() {
   Func_multi_arg_noparensContext *_localctx = _tracker.createInstance<Func_multi_arg_noparensContext>(_ctx, getState());
@@ -6852,17 +6323,6 @@ size_t LATEXParser::SubexprContext::getRuleIndex() const {
   return LATEXParser::RuleSubexpr;
 }
 
-void LATEXParser::SubexprContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterSubexpr(this);
-}
-
-void LATEXParser::SubexprContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitSubexpr(this);
-}
 
 LATEXParser::SubexprContext* LATEXParser::subexpr() {
   SubexprContext *_localctx = _tracker.createInstance<SubexprContext>(_ctx, getState());
@@ -6971,17 +6431,6 @@ size_t LATEXParser::SupexprContext::getRuleIndex() const {
   return LATEXParser::RuleSupexpr;
 }
 
-void LATEXParser::SupexprContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterSupexpr(this);
-}
-
-void LATEXParser::SupexprContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitSupexpr(this);
-}
 
 LATEXParser::SupexprContext* LATEXParser::supexpr() {
   SupexprContext *_localctx = _tracker.createInstance<SupexprContext>(_ctx, getState());
@@ -7070,17 +6519,6 @@ size_t LATEXParser::SubeqContext::getRuleIndex() const {
   return LATEXParser::RuleSubeq;
 }
 
-void LATEXParser::SubeqContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterSubeq(this);
-}
-
-void LATEXParser::SubeqContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<LATEXListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitSubeq(this);
-}
 
 LATEXParser::SubeqContext* LATEXParser::subeq() {
   SubeqContext *_localctx = _tracker.createInstance<SubeqContext>(_ctx, getState());
