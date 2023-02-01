@@ -8,5 +8,8 @@ setup(
     install_requires=[
         'sympy==1.10.1',
         'antlr4-python3-runtime==4.11.1'
-    ]
+    ],
+    package_data={
+        '': ['parser/cpp/build/lib/latex2antlrJson.so']
+    }
 )
