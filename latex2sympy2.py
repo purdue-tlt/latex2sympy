@@ -5,7 +5,6 @@ import re
 import sympy
 from sympy.core.core import all_classes
 from sympy.parsing.sympy_parser import parse_expr
-from sympy.printing.str import StrPrinter
 
 try:
     from parser.python.LATEXLexer import LATEXLexer
@@ -426,11 +425,10 @@ class LatexToSympy:
                     subscript = subexpr.get('atom').get('text').strip()
                 elif 'args' in subexpr:  # subscript is args
                     subscript = subexpr.get('args').get('text').strip()
-                subscript_inner_text = StrPrinter().doprint(subscript)
-                if len(subscript_inner_text) > 1:
-                    subscript_text = '_{' + subscript_inner_text + '}'
+                if len(subscript) > 1:
+                    subscript_text = '_{' + subscript + '}'
                 else:
-                    subscript_text = '_' + subscript_inner_text
+                    subscript_text = '_' + subscript
 
             # construct the symbol using the text and optional subscript
             atom_symbol = sympy.Symbol(atom_text + subscript_text, real=True, positive=True)
@@ -512,7 +510,7 @@ class LatexToSympy:
             var = self.get_differential_var(atom.get('text'))
             return sympy.Symbol('d' + var.name, real=True, positive=True)
         elif 'mathit' in atom:
-            text = self.rule2text(atom.get('mathit').get('mathit_text'))
+            text = atom.get('mathit').get('mathit_text').get('text')
             return sympy.Symbol(text, real=True, positive=True)
         elif 'type' in atom and atom.get('type') == LATEXLexer.VARIABLE:
             text = atom.get('text')
@@ -555,15 +553,6 @@ class LatexToSympy:
                 number = sympy.Number(text)
             percent = sympy.Rational(number, 100)
             return percent
-
-    def rule2text(self, ctx):
-        stream = ctx.start.getInputStream()
-        # starting index of starting token
-        startIdx = ctx.start.start
-        # stopping index of stopping token
-        stopIdx = ctx.stop.stop
-
-        return stream.getText(startIdx, stopIdx)
 
     def convert_frac(self, frac):
         frac_upper = frac.get('upper')
@@ -690,11 +679,7 @@ class LatexToSympy:
             return expr
 
         elif 'func_normal_multi_arg' in func:
-            if 'func_multi_arg' in func:  # function called with parenthesis
-                args = func.get('func_multi_arg').get('text').split(",")
-            else:
-                args = func.get('func_multi_arg_noparens').split(",")
-
+            args = func.get('func_multi_arg').get('text').split(",")
             args = list(map(lambda arg: process_sympy(arg, self.variable_values), args))
 
             if 'tokens' in func.get('func_normal_multi_arg'):

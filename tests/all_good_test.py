@@ -65,6 +65,7 @@ class TestAllGood(object):
         ("a^2 + b^2 = c^2", Eq(a**2 + b**2, c**2)),
         ("a^2 + b^2 != 2c^2", Ne(a**2 + b**2, 2 * c**2)),
         ("a\\mod b", Mod(a, b)),
+        ("\\sin 2\\cdot \\theta", sin(_Mul(2, theta))),
         ("\\sin \\theta", sin(theta)),
         ("\\sin(\\theta)", sin(theta)),
         ("\\sin\\left(\\theta\\right)", sin(theta)),

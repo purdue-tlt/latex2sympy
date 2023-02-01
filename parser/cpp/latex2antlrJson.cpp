@@ -125,7 +125,11 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
     }
 
     // return full text of tree for specific rules
-    if (name == "func_multi_arg" || parentName == "supexpr" || parentName == "subexpr" || parentName == "accent") {
+    if (name == "func_multi_arg" ||
+        name == "mathit_text" ||
+        parentName == "supexpr" ||
+        parentName == "subexpr" ||
+        parentName == "accent") {
         node["text"] = tree->getText();
     }
 
