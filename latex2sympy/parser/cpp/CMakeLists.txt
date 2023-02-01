@@ -27,5 +27,5 @@ set_target_properties(latex2antlrJson PROPERTIES SUFFIX ".so")
 
 install(TARGETS latex2antlrJson
 	COMPONENT python
-	LIBRARY DESTINATION "~/git/purdue/github/latex2sympy/.env/lib/python3.9/site-packages"
+	LIBRARY DESTINATION "~/git/purdue/github/latex2sympy/latex2sympy"
 )

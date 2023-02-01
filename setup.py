@@ -3,13 +3,12 @@ from setuptools import setup, find_packages
 setup(
     version="1.6.1",
     name="latex2sympy",
-    packages=find_packages(exclude=('tests')),
-    py_modules=['asciimath_printer', 'latex2sympy', 'latex2sympy2'],
+    packages=find_packages(include=['latex2sympy', 'latex2sympy.*']),
     install_requires=[
         'sympy==1.10.1',
         'antlr4-python3-runtime==4.11.1'
     ],
     package_data={
-        '': ['parser/cpp/build/lib/latex2antlrJson.so']
+        '': ['latex2antlrJson.so']
     }
 )

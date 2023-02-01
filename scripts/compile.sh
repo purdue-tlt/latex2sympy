@@ -9,14 +9,14 @@ cd $rel_path
 echo ''
 echo "generating cpp parser..."
 # generate cpp parser files
-java -jar antlr-4.11.1-complete.jar -Dlanguage=Cpp -package latex2antlr -o parser/cpp -no-listener LATEX.g4
+java -jar antlr-4.11.1-complete.jar -Dlanguage=Cpp -package latex2antlr -o latex2sympy/parser/cpp -no-listener LATEX.g4
 echo "cpp parser generated"
 
 echo ''
 echo "compiling cpp parser..."
 # compile cpp
-mkdir parser/cpp/build
-cd parser/cpp/build
+mkdir latex2sympy/parser/cpp/build
+cd latex2sympy/parser/cpp/build
 conan install .. --build=antlr4-cppruntime --build=jsoncpp
 cmake .. -G "Unix Makefiles"
 make
@@ -32,7 +32,7 @@ cd $rel_path
 echo ''
 echo "generating python parser..."
 # generate python parser files
-java -jar antlr-4.11.1-complete.jar -Dlanguage=Python3 -o parser/python -no-listener LATEX.g4
+java -jar antlr-4.11.1-complete.jar -Dlanguage=Python3 -o latex2sympy/parser/python -no-listener LATEX.g4
 echo "python parser generated"
 
 # Activate virtual environment
@@ -48,7 +48,7 @@ fi
 echo ''
 echo "formatting python parser files..."
 # format parser files
-autopep8 --in-place parser/python/*.py
+autopep8 --in-place latex2sympy/parser/python/*.py
 echo "python parser files formatted"
 
 exit 0

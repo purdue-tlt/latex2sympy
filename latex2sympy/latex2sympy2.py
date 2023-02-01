@@ -1,6 +1,9 @@
 import hashlib
 import json
-from latex2antlrJson import parseToJson
+try:
+    from latex2antlrJson import parseToJson
+except Exception:
+    from .latex2antlrJson import parseToJson
 import re
 import sympy
 from sympy.core.core import all_classes
