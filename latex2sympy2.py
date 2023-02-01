@@ -1,21 +1,16 @@
+import hashlib
+import json
+from latex2antlrJson import parseToJson
 import re
 import sympy
 from sympy.core.core import all_classes
-from latex2antlrJson import parseToJson
-import json
-
-try:
-    from parser.python.LATEXParser import LATEXParser
-    from parser.python.LATEXLexer import LATEXLexer
-except Exception:
-    from .parser.python.LATEXParser import LATEXParser
-    from .parser.python.LATEXLexer import LATEXLexer
-
+from sympy.parsing.sympy_parser import parse_expr
 from sympy.printing.str import StrPrinter
 
-from sympy.parsing.sympy_parser import parse_expr
-
-import hashlib
+try:
+    from parser.python.LATEXLexer import LATEXLexer
+except Exception:
+    from .parser.python.LATEXLexer import LATEXLexer
 
 
 def process_sympy(latex: str, variable_values={}):
@@ -99,17 +94,17 @@ class LatexToSympy:
         relations = rel.get('relation')
         lh = self.convert_relation(relations[0])
         rh = self.convert_relation(relations[1])
-        if 'type' in rel and rel.get('type') == LATEXParser.LT:
+        if 'type' in rel and rel.get('type') == LATEXLexer.LT:
             return sympy.StrictLessThan(lh, rh, evaluate=False)
-        elif 'type' in rel and rel.get('type') == LATEXParser.LTE:
+        elif 'type' in rel and rel.get('type') == LATEXLexer.LTE:
             return sympy.LessThan(lh, rh, evaluate=False)
-        elif 'type' in rel and rel.get('type') == LATEXParser.GT:
+        elif 'type' in rel and rel.get('type') == LATEXLexer.GT:
             return sympy.StrictGreaterThan(lh, rh, evaluate=False)
-        elif 'type' in rel and rel.get('type') == LATEXParser.GTE:
+        elif 'type' in rel and rel.get('type') == LATEXLexer.GTE:
             return sympy.GreaterThan(lh, rh, evaluate=False)
-        elif 'type' in rel and rel.get('type') == LATEXParser.EQUAL:
+        elif 'type' in rel and rel.get('type') == LATEXLexer.EQUAL:
             return sympy.Eq(lh, rh, evaluate=False)
-        elif 'type' in rel and rel.get('type') == LATEXParser.UNEQUAL:
+        elif 'type' in rel and rel.get('type') == LATEXLexer.UNEQUAL:
             return sympy.Ne(lh, rh, evaluate=False)
 
     def convert_expr(self, expr):
@@ -200,7 +195,7 @@ class LatexToSympy:
 
         type = add.get('type')
 
-        if type == LATEXParser.ADD:
+        if type == LATEXLexer.ADD:
             lh = self.convert_add(add.get('additive')[0])
             rh = self.convert_add(add.get('additive')[1])
 
@@ -208,7 +203,7 @@ class LatexToSympy:
                 return self.mat_add_flat(lh, rh)
             else:
                 return self.add_flat(lh, rh)
-        elif type == LATEXParser.SUB:
+        elif type == LATEXLexer.SUB:
             lh = self.convert_add(add.get('additive')[0])
             rh = self.convert_add(add.get('additive')[1])
 
@@ -233,7 +228,7 @@ class LatexToSympy:
 
         type = mp.get('type')
 
-        if type == LATEXParser.MUL or type == LATEXParser.CMD_TIMES or type == LATEXParser.CMD_CDOT:
+        if type == LATEXLexer.MUL or type == LATEXLexer.CMD_TIMES or type == LATEXLexer.CMD_CDOT:
             lh = self.convert_mp(mp_left)
             rh = self.convert_mp(mp_right)
 
@@ -241,14 +236,14 @@ class LatexToSympy:
                 return self.mat_mul_flat(lh, rh)
             else:
                 return self.mul_flat(lh, rh)
-        elif type == LATEXParser.DIV or type == LATEXParser.CMD_DIV or type == LATEXParser.COLON:
+        elif type == LATEXLexer.DIV or type == LATEXLexer.CMD_DIV or type == LATEXLexer.COLON:
             lh = self.convert_mp(mp_left)
             rh = self.convert_mp(mp_right)
             if lh.is_Matrix or rh.is_Matrix:
                 return sympy.MatMul(lh, sympy.Pow(rh, -1, evaluate=False), evaluate=False)
             else:
                 return sympy.Mul(lh, sympy.Pow(rh, -1, evaluate=False), evaluate=False)
-        elif type == LATEXParser.CMD_MOD:
+        elif type == LATEXLexer.CMD_MOD:
             lh = self.convert_mp(mp_left)
             rh = self.convert_mp(mp_right)
             if rh.is_Matrix:
@@ -273,9 +268,9 @@ class LatexToSympy:
         else:
             nested_unary = unary.get('unary_nofunc')
 
-        if type == LATEXParser.ADD:
+        if type == LATEXLexer.ADD:
             return self.convert_unary(nested_unary)
-        elif type == LATEXParser.SUB:
+        elif type == LATEXLexer.SUB:
             tmp_convert_nested_unary = self.convert_unary(nested_unary)
             if tmp_convert_nested_unary.is_Matrix:
                 return self.mat_mul_flat(-1, tmp_convert_nested_unary, evaluate=False)
@@ -333,7 +328,7 @@ class LatexToSympy:
         exp = self.convert_exp(exp_nested)
         if 'postfix_op' in postfix:
             for op in postfix.get('postfix_op'):
-                if 'type' in op and op.get('type') == LATEXParser.BANG:
+                if 'type' in op and op.get('type') == LATEXLexer.BANG:
                     if isinstance(exp, list):
                         raise Exception("Cannot apply postfix to derivative")
                     exp = sympy.factorial(exp, evaluate=False)
@@ -402,11 +397,11 @@ class LatexToSympy:
 
             # find the atom's text
             atom_text = ''
-            if type == LATEXParser.LETTER_NO_E:
+            if type == LATEXLexer.LETTER_NO_E:
                 atom_text = atom_expr.get('text')
                 if atom_text == "I":
                     return sympy.I
-            elif type == LATEXParser.GREEK_CMD:
+            elif type == LATEXLexer.GREEK_CMD:
                 atom_text = atom_expr.get('text')[1:].strip()
             elif 'accent' in atom_expr:
                 atom_accent = atom_expr.get('accent')
@@ -451,7 +446,7 @@ class LatexToSympy:
                 return sympy.Pow(atom_symbol, func_pow, evaluate=False)
 
             return atom_symbol
-        elif 'type' in atom and atom.get('type') == LATEXParser.SYMBOL:
+        elif 'type' in atom and atom.get('type') == LATEXLexer.SYMBOL:
             s = atom.get('text').replace("\\$", "").replace("\\%", "")
             if s == "\\infty":
                 return sympy.oo
@@ -461,14 +456,14 @@ class LatexToSympy:
                 return sympy.S.EmptySet
             else:
                 raise Exception("Unrecognized symbol")
-        elif 'type' in atom and atom.get('type') == LATEXParser.NUMBER:
+        elif 'type' in atom and atom.get('type') == LATEXLexer.NUMBER:
             s = atom.get('text').replace(",", "")
             try:
                 sr = sympy.Rational(s)
                 return sr
             except (TypeError, ValueError):
                 return sympy.Number(s)
-        elif 'type' in atom and atom.get('type') == LATEXParser.SCI_NOTATION_NUMBER:
+        elif 'type' in atom and atom.get('type') == LATEXLexer.SCI_NOTATION_NUMBER:
             s = atom.get('text')
             s_parts = s.split('\\times 10^')
             s1 = s_parts[0].replace(',', '')
@@ -487,7 +482,7 @@ class LatexToSympy:
             except (TypeError, ValueError):
                 n = sympy.Number(n_exp)
             return n
-        elif 'type' in atom and atom.get('type') == LATEXParser.FRACTION_NUMBER:
+        elif 'type' in atom and atom.get('type') == LATEXLexer.FRACTION_NUMBER:
             s = atom.get('text').replace("\\frac{", "").replace("}{", "/").replace("}", "").replace(",", "")
             try:
                 sr = sympy.Rational(s)
@@ -506,20 +501,20 @@ class LatexToSympy:
                 return sympy.Mul(p, sympy.Pow(q, -1, evaluate=False), evaluate=False)
             except (TypeError, ValueError):
                 return sympy.Number(s)
-        elif 'type' in atom and atom.get('type') == LATEXParser.E_NOTATION:
+        elif 'type' in atom and atom.get('type') == LATEXLexer.E_NOTATION:
             s = atom.get('text').replace(",", "")
             try:
                 sr = sympy.Rational(s)
                 return sr
             except (TypeError, ValueError):
                 return sympy.Number(s)
-        elif 'type' in atom and atom.get('type') == LATEXParser.DIFFERENTIAL:
+        elif 'type' in atom and atom.get('type') == LATEXLexer.DIFFERENTIAL:
             var = self.get_differential_var(atom.get('text'))
             return sympy.Symbol('d' + var.name, real=True, positive=True)
         elif 'mathit' in atom:
             text = self.rule2text(atom.get('mathit').get('mathit_text'))
             return sympy.Symbol(text, real=True, positive=True)
-        elif 'type' in atom and atom.get('type') == LATEXParser.VARIABLE:
+        elif 'type' in atom and atom.get('type') == LATEXLexer.VARIABLE:
             text = atom.get('text')
             is_percent = text.endswith("\\%")
             trim_amount = 3 if is_percent else 1
@@ -552,7 +547,7 @@ class LatexToSympy:
             # return the symbol
             return symbol
 
-        elif 'type' in atom and atom.get('type') == LATEXParser.PERCENT_NUMBER:
+        elif 'type' in atom and atom.get('type') == LATEXLexer.PERCENT_NUMBER:
             text = atom.get('text').replace("\\%", "").replace(",", "")
             try:
                 number = sympy.Rational(text)
@@ -730,9 +725,9 @@ class LatexToSympy:
 
             return expr
 
-        elif 'type' in func and func.get('type') == LATEXParser.FUNC_INT or 'tokens' in func and func.get('tokens')[0].get('type') == LATEXParser.FUNC_INT:
+        elif 'type' in func and func.get('type') == LATEXLexer.FUNC_INT or 'tokens' in func and func.get('tokens')[0].get('type') == LATEXLexer.FUNC_INT:
             return self.handle_integral(func)
-        elif 'type' in func and func.get('type') == LATEXParser.FUNC_SQRT or 'tokens' in func and func.get('tokens')[0].get('type') == LATEXParser.FUNC_SQRT:
+        elif 'type' in func and func.get('type') == LATEXLexer.FUNC_SQRT or 'tokens' in func and func.get('tokens')[0].get('type') == LATEXLexer.FUNC_SQRT:
             exprs = func.get('expr')
             expr = self.convert_expr(exprs[1]) if isinstance(exprs, list) else self.convert_expr(exprs)
             if isinstance(exprs, list):
@@ -740,13 +735,13 @@ class LatexToSympy:
                 return sympy.Pow(expr, 1 / r, evaluate=False)
             else:
                 return sympy.Pow(expr, sympy.S.Half, evaluate=False)
-        elif 'type' in func and func.get('type') == LATEXParser.FUNC_SUM:
+        elif 'type' in func and func.get('type') == LATEXLexer.FUNC_SUM:
             return self.handle_sum_or_prod(func, "summation")
-        elif 'type' in func and func.get('type') == LATEXParser.FUNC_PROD:
+        elif 'type' in func and func.get('type') == LATEXLexer.FUNC_PROD:
             return self.handle_sum_or_prod(func, "product")
-        elif 'type' in func and func.get('type') == LATEXParser.FUNC_LIM:
+        elif 'type' in func and func.get('type') == LATEXLexer.FUNC_LIM:
             return self.handle_limit(func)
-        elif 'type' in func and func.get('type') == LATEXParser.EXP_E:
+        elif 'type' in func and func.get('type') == LATEXLexer.EXP_E:
             return self.handle_exp(func)
 
     def convert_func_arg(self, arg):
@@ -764,7 +759,7 @@ class LatexToSympy:
             integrand = 1
 
         int_var = None
-        differential = self.get_token(func, LATEXParser.DIFFERENTIAL)
+        differential = self.get_token(func, LATEXLexer.DIFFERENTIAL)
         if differential is not None:
             int_var = self.get_differential_var(differential.get('text'))
         else:
@@ -811,15 +806,15 @@ class LatexToSympy:
 
     def handle_limit(self, func):
         sub = func.get('limit_sub')
-        letter_no_e = self.get_token(sub, LATEXParser.LETTER_NO_E)
-        greek_cmd = self.get_token(sub, LATEXParser.GREEK_CMD)
+        letter_no_e = self.get_token(sub, LATEXLexer.LETTER_NO_E)
+        greek_cmd = self.get_token(sub, LATEXLexer.GREEK_CMD)
         if letter_no_e is not None:
             var = sympy.Symbol(letter_no_e.get('text'), real=True, positive=True)
         elif greek_cmd is not None:
             var = sympy.Symbol(greek_cmd.get('text')[1:].strip(), real=True, positive=True)
         else:
             var = sympy.Symbol('x', real=True, positive=True)
-        if self.get_token(sub, LATEXParser.SUB) is not None:
+        if self.get_token(sub, LATEXLexer.SUB) is not None:
             direction = "-"
         else:
             direction = "+"

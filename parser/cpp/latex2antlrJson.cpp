@@ -166,7 +166,7 @@ class MathErrorListener : public BaseErrorListener {
 };
 
 std::string parseToJson(const std::string &input) {
-    auto begin = high_resolution_clock::now();
+    // auto begin = high_resolution_clock::now();
     MathErrorListener mathErrorListener(input);
     ANTLRInputStream stream(input);
     LATEXLexer lexer(&stream);
@@ -179,16 +179,16 @@ std::string parseToJson(const std::string &input) {
     parser.addErrorListener(&mathErrorListener);
 
     LATEXParser::MathContext *math = parser.math();
-    auto end = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(end - begin);
+    // auto end = high_resolution_clock::now();
+    // auto duration = duration_cast<microseconds>(end - begin);
     // std::cout << math -> toStringTree(&parser, true) << std::endl;
-    std::cout << "parser Elapsed Time: " << duration.count() / 1000.0 << "ms" << std::endl;
+    // std::cout << "parser Elapsed Time: " << duration.count() / 1000.0 << "ms" << std::endl;
 
-    begin = high_resolution_clock::now();
+    // begin = high_resolution_clock::now();
     std::string jsonString = toJsonString(math, &parser);
-    end = high_resolution_clock::now();
-    duration = duration_cast<microseconds>(end - begin);
-    std::cout << "toJsonString Elapsed Time: " << duration.count() / 1000.0 << "ms" << std::endl;
+    // end = high_resolution_clock::now();
+    // duration = duration_cast<microseconds>(end - begin);
+    // std::cout << "toJsonString Elapsed Time: " << duration.count() / 1000.0 << "ms" << std::endl;
 
     return jsonString;
 }

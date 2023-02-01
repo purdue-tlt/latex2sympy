@@ -2,17 +2,14 @@ import re
 import sympy
 import antlr4
 from antlr4.error.ErrorListener import ErrorListener
-from sympy.core.operations import AssocOp
 from sympy.core.core import all_classes
 
 try:
     from parser.python.LATEXParser import LATEXParser
     from parser.python.LATEXLexer import LATEXLexer
-    from parser.python.LATEXListener import LATEXListener
 except Exception:
     from .parser.python.LATEXParser import LATEXParser
     from .parser.python.LATEXLexer import LATEXLexer
-    from .parser.python.LATEXListener import LATEXListener
 
 from sympy.printing.str import StrPrinter
 

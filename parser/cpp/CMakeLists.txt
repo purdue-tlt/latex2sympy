@@ -18,7 +18,7 @@ FetchContent_MakeAvailable(pybind11)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-add_library(latex2antlr LATEXLexer.cpp LATEXParser.cpp LATEXListener.cpp LATEXBaseListener.cpp)
+add_library(latex2antlr LATEXLexer.cpp LATEXParser.cpp)
 
 pybind11_add_module(latex2antlrJson latex2antlrJson.cpp)
 target_link_libraries(latex2antlrJson PUBLIC latex2antlr ${CONAN_LIBS})
