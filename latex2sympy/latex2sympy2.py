@@ -1,18 +1,11 @@
 import hashlib
 import json
-try:
-    from latex2antlrJson import parseToJson
-except Exception:
-    from .latex2antlrJson import parseToJson
+from latex2sympy.latex2antlrJson import parseToJson
+from latex2sympy.parser.python.LATEXLexer import LATEXLexer
 import re
 import sympy
 from sympy.core.core import all_classes
 from sympy.parsing.sympy_parser import parse_expr
-
-try:
-    from parser.python.LATEXLexer import LATEXLexer
-except Exception:
-    from .parser.python.LATEXLexer import LATEXLexer
 
 
 def process_sympy(latex: str, variable_values={}):

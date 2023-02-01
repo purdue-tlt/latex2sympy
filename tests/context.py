@@ -1,8 +1,6 @@
-from sympy import simplify, srepr, Add, Mul, Pow, Rational, pi, sqrt, Symbol, exp, Eq
+from sympy import srepr, Add, Mul, Pow, Rational, pi, sqrt, Symbol, exp, Eq
 from latex2sympy.latex2sympy2 import process_sympy
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 
 x = Symbol('x', real=True, positive=True)
 y = Symbol('y', real=True, positive=True)

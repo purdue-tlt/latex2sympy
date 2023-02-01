@@ -1,18 +1,13 @@
 import antlr4
 from antlr4.error.ErrorListener import ErrorListener
 import hashlib
+from latex2sympy.parser.python.LATEXParser import LATEXParser
+from latex2sympy.parser.python.LATEXLexer import LATEXLexer
 import re
 import sympy
 from sympy.core.core import all_classes
 from sympy.parsing.sympy_parser import parse_expr
 from sympy.printing.str import StrPrinter
-
-try:
-    from parser.python.LATEXParser import LATEXParser
-    from parser.python.LATEXLexer import LATEXLexer
-except Exception:
-    from .parser.python.LATEXParser import LATEXParser
-    from .parser.python.LATEXLexer import LATEXLexer
 
 
 def process_sympy(latex, variable_values={}):
