@@ -287,11 +287,12 @@ additive:
     additive (ADD | SUB) additive
     | mp;
 
-// mult part
+// multi part
 mp:
     mp (MUL | CMD_TIMES | CMD_CDOT | DIV | CMD_DIV | COLON | CMD_MOD) mp
     | unary;
 
+// multi part that does not include "func"
 mp_nofunc:
     mp_nofunc (MUL | CMD_TIMES | CMD_CDOT | DIV | CMD_DIV | COLON | CMD_MOD) mp_nofunc
     | unary_nofunc;
@@ -453,14 +454,12 @@ func_operator_names_multi_arg:
     FUNC_GCD_NAME | FUNC_LCM_NAME;
 
 func_normal_single_arg:
-    (func_normal_functions_single_arg)
-    |
-    (CMD_OPERATORNAME L_BRACE func_operator_name=func_operator_names_single_arg R_BRACE);
+    func_normal_functions_single_arg
+    | CMD_OPERATORNAME L_BRACE func_operator_name=func_operator_names_single_arg R_BRACE;
 
 func_normal_multi_arg:
-    (func_normal_functions_multi_arg)
-    |
-    (CMD_OPERATORNAME L_BRACE func_operator_name=func_operator_names_multi_arg R_BRACE);
+    func_normal_functions_multi_arg
+    | CMD_OPERATORNAME L_BRACE func_operator_name=func_operator_names_multi_arg R_BRACE;
 
 func:
     func_normal_single_arg
@@ -469,7 +468,7 @@ func:
     
     | func_normal_multi_arg
     (subexpr? supexpr? | supexpr? subexpr?)
-    (L_LEFT? L_PAREN func_multi_arg R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_multi_arg MR_RIGHT? R_PAREN | func_multi_arg_noparens)
+    (L_LEFT? L_PAREN func_multi_arg R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_multi_arg MR_RIGHT? R_PAREN)
 
     // Do not do arbitrary functions but see as multiplications
     /*| (LETTER_NO_E | SYMBOL) subexpr? // e.g. f(x)
@@ -505,7 +504,6 @@ func_single_arg: expr;
 func_single_arg_noparens: mp_nofunc;
 
 func_multi_arg: expr | (expr ',' func_multi_arg);
-func_multi_arg_noparens: mp_nofunc;
 
 subexpr: UNDERSCORE (atom | L_BRACE (expr | args) R_BRACE);
 supexpr: CARET (atom | L_BRACE expr R_BRACE);

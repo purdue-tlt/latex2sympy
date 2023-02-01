@@ -57,8 +57,7 @@ public:
     RuleFunc_operator_names_multi_arg = 38, RuleFunc_normal_single_arg = 39, 
     RuleFunc_normal_multi_arg = 40, RuleFunc = 41, RuleArgs = 42, RuleLimit_sub = 43, 
     RuleFunc_single_arg = 44, RuleFunc_single_arg_noparens = 45, RuleFunc_multi_arg = 46, 
-    RuleFunc_multi_arg_noparens = 47, RuleSubexpr = 48, RuleSupexpr = 49, 
-    RuleSubeq = 50
+    RuleSubexpr = 47, RuleSupexpr = 48, RuleSubeq = 49
   };
 
   explicit LATEXParser(antlr4::TokenStream *input);
@@ -125,7 +124,6 @@ public:
   class Func_single_argContext;
   class Func_single_arg_noparensContext;
   class Func_multi_argContext;
-  class Func_multi_arg_noparensContext;
   class SubexprContext;
   class SupexprContext;
   class SubeqContext; 
@@ -850,7 +848,6 @@ public:
     antlr4::tree::TerminalNode *MR_RIGHT();
     Func_normal_multi_argContext *func_normal_multi_arg();
     Func_multi_argContext *func_multi_arg();
-    Func_multi_arg_noparensContext *func_multi_arg_noparens();
     antlr4::tree::TerminalNode *FUNC_INT();
     antlr4::tree::TerminalNode *DIFFERENTIAL();
     FracContext *frac();
@@ -948,17 +945,6 @@ public:
   };
 
   Func_multi_argContext* func_multi_arg();
-
-  class  Func_multi_arg_noparensContext : public antlr4::ParserRuleContext {
-  public:
-    Func_multi_arg_noparensContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    Mp_nofuncContext *mp_nofunc();
-
-   
-  };
-
-  Func_multi_arg_noparensContext* func_multi_arg_noparens();
 
   class  SubexprContext : public antlr4::ParserRuleContext {
   public:
