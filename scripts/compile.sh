@@ -12,25 +12,24 @@ echo "generating cpp parser..."
 java -jar antlr-4.11.1-complete.jar -Dlanguage=Cpp -package latex2antlr -o latex2sympy/parser/cpp -no-listener LATEX.g4
 echo "cpp parser generated"
 
-echo ''
-echo "compiling cpp parser..."
-# compile cpp
-mkdir latex2sympy/parser/cpp/build
-cd latex2sympy/parser/cpp/build
-conan install .. --build=antlr4-cppruntime --build=jsoncpp
-cmake .. -G "Unix Makefiles"
-make
-make install
-echo "cpp parser compiled"
+# echo ''
+# echo "compiling cpp parser..."
+# # compile cpp
+# mkdir latex2sympy/parser/cpp/build
+# cd latex2sympy/parser/cpp/build
+# conan install .. --build=antlr4-cppruntime --build=jsoncpp
+# cmake .. -G "Unix Makefiles"
+# make
+# echo "cpp parser compiled"
 
-# Get relative path of the root directory of the project
-rdir=`git rev-parse --git-dir`
-rel_path="$(dirname "$rdir")"
-# Change to that path and run the file
-cd $rel_path
+# # Get relative path of the root directory of the project
+# rdir=`git rev-parse --git-dir`
+# rel_path="$(dirname "$rdir")"
+# # Change to that path and run the file
+# cd $rel_path
 
-# copy compiled cpp parser to root src dir
-cp latex2sympy/parser/cpp/build/lib/latex2antlrJson.so latex2sympy/
+# # copy compiled cpp parser to root src dir
+# cp latex2sympy/parser/cpp/build/lib/latex2antlrJson.so latex2sympy/
 
 echo ''
 echo "generating python parser..."
