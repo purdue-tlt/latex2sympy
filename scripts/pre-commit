@@ -20,7 +20,7 @@ fi
 
 # Run auto formatting on all staged python files, then add those changes
 echo "auto-formatting code..."
-if autopep8 --in-place `git diff --name-status --cached | grep '.py' | awk 'match($1, "A|M"){print $2}'` && git add `git diff --name-status --cached | grep '.py' | awk 'match($1, "A|M"){print $2}'`
+if autopep8 --in-place `git diff --name-status --cached | grep '.*\.py$' | awk 'match($1, "A|M"){print $2}'` && git add `git diff --name-status --cached | grep '.*\.py$' | awk 'match($1, "A|M"){print $2}'`
 then echo "code was auto-formatted."
 else echo "no code was auto-formatted."
 fi
