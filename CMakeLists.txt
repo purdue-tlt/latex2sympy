@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
-project("latex2antlrJson")
 
 SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+project("latex2antlrJson")
 
 # install pybind11
 include(FetchContent)
@@ -27,7 +28,8 @@ if(DEFINED SKBUILD)
 	include(${CMAKE_BINARY_DIR}/conan.cmake)
 
 	conan_cmake_run(REQUIRES antlr4-cppruntime/4.11.1 jsoncpp/1.9.5
-					BASIC_SETUP)
+					BASIC_SETUP
+					BUILD missing)
 else()
 	include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 	conan_basic_setup()

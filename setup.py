@@ -6,6 +6,5 @@ setup(
     name="latex2sympy",
     packages=find_packages(include=['latex2sympy', 'latex2sympy.*']),
     package_dir={'': 'src'},
-    cmake_install_dir='src/latex2sympy',
-    cmake_args=['-DCMAKE_CXX_COMPILER=clang']
+    cmake_install_dir='src/latex2sympy'
 )
