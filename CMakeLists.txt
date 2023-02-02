@@ -1,13 +1,11 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
-
 project("latex2antlrJson")
 
 SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include(GNUInstallDirs)
+# install pybind11
 include(FetchContent)
-
 FetchContent_Declare(
 	pybind11
 	GIT_REPOSITORY https://github.com/pybind/pybind11.git
@@ -16,6 +14,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(pybind11)
 
+# install conan requirements
 if(DEFINED SKBUILD)
 
 	if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
@@ -34,8 +33,10 @@ else()
 	conan_basic_setup()
 endif()
 
+# add cpp antlr lexer and parser
 add_library(latex2antlr src/latex2sympy/parser/cpp/LATEXLexer.cpp src/latex2sympy/parser/cpp/LATEXParser.cpp)
 
+# create python module
 set(python_module_name latex2antlrJson)
 pybind11_add_module(${python_module_name} src/latex2sympy/parser/cpp/latex2antlrJson.cpp)
 target_link_libraries(${python_module_name} PUBLIC latex2antlr ${CONAN_LIBS})
