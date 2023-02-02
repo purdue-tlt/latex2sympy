@@ -34,36 +34,40 @@ if(DEFINED SKBUILD)
 	conan_cmake_run(REQUIRES antlr4-cppruntime/4.11.1 jsoncpp/1.9.5
 					BASIC_SETUP
 					BUILD missing)
+
+	
+	# compile antlr cpp lexer and parser
+	# ----------------------------------------------------------------------------------------
+
+	list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+	# add external build for antlrcpp
+	include(ExternalAntlr4Cpp)
+	# add antrl4cpp artifacts to project environment
+	include_directories(${ANTLR4_INCLUDE_DIRS})
+	# set variable pointing to the antlr tool that supports C++
+	set(ANTLR_EXECUTABLE ${CMAKE_CURRENT_SOURCE_DIR}/antlr-4.11.1-complete.jar)
+	# add macros to generate ANTLR Cpp code from grammar
+	find_package(ANTLR REQUIRED)
+
+	# Call macro to add lexer and grammar to your build dependencies.
+	antlr_target(LATEX LATEX.g4 
+				LEXER
+				PARSER
+				PACKAGE latex2antlr)
+
+	# include generated files in project environment
+	include_directories(${ANTLR_LATEX_OUTPUT_DIR})
+
+	# add cpp antlr lexer and parser to library
+	add_library(latex2antlr ${ANTLR_LATEX_CXX_OUTPUTS})
 else()
 	include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 	conan_basic_setup()
+
+	# add cpp antlr lexer and parser to library
+	add_library(latex2antlr src/latex2sympy/parser/cpp/LATEXLexer.cpp src/latex2sympy/parser/cpp/LATEXParser.cpp)
 endif()
-
-# compile antlr cpp lexer and parser
-# ----------------------------------------------------------------------------------------
-
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
-# add external build for antlrcpp
-include(ExternalAntlr4Cpp)
-# add antrl4cpp artifacts to project environment
-include_directories(${ANTLR4_INCLUDE_DIRS})
-# set variable pointing to the antlr tool that supports C++
-set(ANTLR_EXECUTABLE ${CMAKE_CURRENT_SOURCE_DIR}/antlr-4.11.1-complete.jar)
-# add macros to generate ANTLR Cpp code from grammar
-find_package(ANTLR REQUIRED)
-
-# Call macro to add lexer and grammar to your build dependencies.
-antlr_target(LATEX LATEX.g4 
-			LEXER
-			PARSER
-			PACKAGE latex2antlr)
-
-# include generated files in project environment
-include_directories(${ANTLR_LATEX_OUTPUT_DIR})
-
-# add cpp antlr lexer and parser to library
-add_library(latex2antlr ${ANTLR_LATEX_CXX_OUTPUTS})
 
 # create python module
 # ----------------------------------------------------------------------------------------
