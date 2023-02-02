@@ -7,22 +7,13 @@ rel_path="$(dirname "$rdir")"
 cd $rel_path
 
 echo ''
-echo "generating cpp parser..."
-# generate cpp parser files
-java -jar antlr-4.11.1-complete.jar -Dlanguage=Cpp -package latex2antlr -o src/latex2sympy/parser/cpp -no-listener LATEX.g4
-echo "cpp parser generated"
-
-echo $(realpath $0)
-
-echo ''
-echo "compiling cpp parser..."
-# compile cpp
+echo "generate and compile cpp parser..."
 mkdir build
 cd build
 conan install .. --build missing
 cmake .. -G "Unix Makefiles"
 make
-echo "cpp parser compiled"
+echo "cpp parser generated and compiled"
 
 # Get relative path of the root directory of the project
 rdir=`git rev-parse --git-dir`
@@ -35,11 +26,9 @@ cp build/lib/latex2antlrJson.so src/latex2sympy/
 
 echo ''
 echo "generating python parser..."
-# generate python parser files
 java -jar antlr-4.11.1-complete.jar -Dlanguage=Python3 -o src/latex2sympy/parser/python -no-listener LATEX.g4
 echo "python parser generated"
 
-# Activate virtual environment
 echo ''
 echo "activating venv..."
 if test -f .env/bin/activate
@@ -51,7 +40,6 @@ fi
 
 echo ''
 echo "formatting python parser files..."
-# format parser files
 autopep8 --in-place src/latex2sympy/parser/python/*.py
 echo "python parser files formatted"
 
