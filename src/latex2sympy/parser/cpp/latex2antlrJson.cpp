@@ -1,7 +1,6 @@
 #include <chrono>
 #include <sstream>
 #include "antlr4-runtime.h"
-// #include "/opt/Homebrew/include/antlr4-runtime/antlr4-runtime.h"
 #include <json/json.h>
 #include <pybind11/pybind11.h>
 #include "LATEXLexer.h"
