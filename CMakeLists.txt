@@ -17,8 +17,6 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(pybind11)
 
-set(python_module_name latex2antlrJson)
-
 # install conan requirements
 # ----------------------------------------------------------------------------------------
 
@@ -43,7 +41,7 @@ conan_cmake_run(REQUIRES jsoncpp/1.9.5
 				BUILD missing
 				ARCH ${CONAN_SETTING_ARCH})
 
-# compile antlr cpp lexer and parser
+# compile antlr and cpp lexer and parser
 # ----------------------------------------------------------------------------------------
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -71,7 +69,7 @@ set(ANTLR_EXECUTABLE ${CMAKE_CURRENT_SOURCE_DIR}/antlr-4.11.1-complete.jar)
 # add macros to generate ANTLR Cpp code from grammar
 find_package(ANTLR REQUIRED)
 
-# Call macro to add lexer and grammar to your build dependencies.
+# Call macro to add lexer and grammar to your build dependencies
 antlr_target(LATEX LATEX.g4 
 			LEXER
 			PARSER
@@ -80,11 +78,13 @@ antlr_target(LATEX LATEX.g4
 # include generated files in project environment
 include_directories(${ANTLR_LATEX_OUTPUT_DIR})
 
-pybind11_add_module(${python_module_name} src/latex2sympy/parser/cpp/latex2antlrJson.cpp ${ANTLR_LATEX_CXX_OUTPUTS})
-target_link_libraries(${python_module_name} PUBLIC antlr4_static ${CONAN_LIBS})
-
 # create python module
 # ----------------------------------------------------------------------------------------
+
+set(python_module_name latex2antlrJson)
+
+pybind11_add_module(${python_module_name} src/latex2sympy/parser/cpp/latex2antlrJson.cpp ${ANTLR_LATEX_CXX_OUTPUTS})
+target_link_libraries(${python_module_name} PUBLIC antlr4_static ${CONAN_LIBS})
 
 target_compile_features(${python_module_name} PUBLIC cxx_std_17)
 set_target_properties(${python_module_name} PROPERTIES SUFFIX ".so")

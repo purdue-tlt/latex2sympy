@@ -10,13 +10,13 @@ latex = '\\frac{1}{\\variable{Period}}\\int ^{\\frac{\\variable{Period}}{2}}_{\\
 
 begin = time()
 
-stream = antlr4.InputStream(latex)
-lex = LATEXLexer(stream)
-tokens = antlr4.CommonTokenStream(lex)
-parser = LATEXParser(tokens)
-math = parser.math()
+# stream = antlr4.InputStream(latex)
+# lex = LATEXLexer(stream)
+# tokens = antlr4.CommonTokenStream(lex)
+# parser = LATEXParser(tokens)
+# math = parser.math()
 
-# expr = process_sympy(latex)
+expr = process_sympy(latex)
 # print(srepr(expr))
 
 end = time()

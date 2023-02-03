@@ -9,10 +9,10 @@ latex = '\\frac{1}{\\variable{Period}}\\int ^{\\frac{\\variable{Period}}{2}}_{\\
 
 begin = time()
 
-json_string = parseToJson(latex)
-print(json_string)
+# json_string = parseToJson(latex)
+# print(json_string)
 
-# expr = process_sympy(latex)
+expr = process_sympy(latex)
 # print(srepr(expr))
 
 end = time()
