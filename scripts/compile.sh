@@ -7,17 +7,11 @@ rel_path="$(dirname "$rdir")"
 cd $rel_path
 
 echo ''
-echo "generating cpp parser..."
-# generate cpp parser files
-java -jar antlr-4.11.1-complete.jar -Dlanguage=Cpp -package latex2antlr -o src/latex2sympy/parser/cpp -no-listener LATEX.g4
-echo "cpp parser generated"
-
-echo ''
 echo "generate and compile cpp parser..."
+rm -rf build
 mkdir build
 cd build
-conan install .. --build missing
-cmake .. -G "Unix Makefiles"
+cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
 make
 echo "cpp parser generated and compiled"
 
