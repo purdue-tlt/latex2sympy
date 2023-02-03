@@ -101,10 +101,14 @@ class LatexToSympy:
             return sympy.Eq(lh, rh, evaluate=False)
         elif 'type' in rel and rel.get('type') == LATEXLexer.UNEQUAL:
             return sympy.Ne(lh, rh, evaluate=False)
+        else:  # pragma: no cover
+            return None
 
     def convert_expr(self, expr):
         if 'additive' in expr:
             return self.convert_add(expr.get('additive'))
+        else:  # pragma: no cover
+            return None
 
     def convert_matrix(self, matrix):
         # build matrix
@@ -113,12 +117,11 @@ class LatexToSympy:
         rows = 0
         for r in row:
             tmp.append([])
-            if 'expr' in r:
-                if isinstance(r.get('expr'), list):
-                    for expr in r.get('expr'):
-                        tmp[rows].append(self.convert_expr(expr))
-                else:
-                    tmp[rows].append(self.convert_expr(r.get('expr')))
+            if isinstance(r.get('expr'), list):
+                for expr in r.get('expr'):
+                    tmp[rows].append(self.convert_expr(expr))
+            else:
+                tmp[rows].append(self.convert_expr(r.get('expr')))
             rows = rows + 1
 
         # return the matrix
@@ -207,6 +210,8 @@ class LatexToSympy:
             else:
                 rh = self.mul_flat(-1, rh)
                 return self.add_flat(lh, rh)
+        else:  # pragma: no cover
+            return None
 
     def convert_mp(self, mp):
         if 'unary' in mp:
@@ -245,6 +250,8 @@ class LatexToSympy:
                 raise Exception("Cannot perform modulo operation with a matrix as an operand")
             else:
                 return sympy.Mod(lh, rh, evaluate=False)
+        else:  # pragma: no cover
+            return None
 
     def convert_unary(self, unary):
         if 'postfix_nofunc' in unary:
@@ -274,6 +281,8 @@ class LatexToSympy:
                     return -tmp_convert_nested_unary
                 else:
                     return self.mul_flat(-1, tmp_convert_nested_unary)
+        else:  # pragma: no cover
+            return None
 
     def convert_postfix_list(self, arr, i=0):
         if i >= len(arr):
@@ -309,10 +318,14 @@ class LatexToSympy:
             elif len(syms) > 0:
                 sym = next(iter(syms))
                 return expr.subs(sym, at_expr)
+            else:  # pragma: no cover
+                return None
         elif 'equality' in at:
             lh = self.convert_expr(at.get('equality').get('expr')[0])
             rh = self.convert_expr(at.get('equality').get('expr')[1])
             return expr.subs(lh, rh)
+        else:  # pragma: no cover
+            return None
 
     def convert_postfix(self, postfix):
         if 'exp' in postfix:
@@ -341,6 +354,10 @@ class LatexToSympy:
                         exp = at_b
                     elif at_a is not None:
                         exp = at_a
+                    else:  # pragma: no cover
+                        return None
+                else:  # pragma: no cover
+                    return None
 
         return exp
 
@@ -354,16 +371,19 @@ class LatexToSympy:
             exp_nested = exp.get('exp')
         elif 'exp_nofunc' in exp:
             exp_nested = exp.get('exp_nofunc')
+        else:  # pragma: no cover
+            return None
 
-        if exp_nested:
-            base = self.convert_exp(exp_nested)
-            if isinstance(base, list):
-                raise Exception("Cannot raise derivative to power")
-            if 'atom' in exp:
-                exponent = self.convert_atom(exp.get('atom'))
-            elif 'expr' in exp:
-                exponent = self.convert_expr(exp.get('expr'))
-            return sympy.Pow(base, exponent, evaluate=False)
+        base = self.convert_exp(exp_nested)
+        if isinstance(base, list):
+            raise Exception("Cannot raise derivative to power")
+        if 'atom' in exp:
+            exponent = self.convert_atom(exp.get('atom'))
+        elif 'expr' in exp:
+            exponent = self.convert_expr(exp.get('expr'))
+        else:  # pragma: no cover
+            return None
+        return sympy.Pow(base, exponent, evaluate=False)
 
     def convert_comp(self, comp):
         if 'group' in comp:
@@ -384,6 +404,8 @@ class LatexToSympy:
             return self.convert_matrix(comp.get('matrix'))
         elif 'func' in comp:
             return self.convert_func(comp.get('func'))
+        else:  # pragma: no cover
+            return None
 
     def convert_atom(self, atom):
         if 'atom_expr' in atom:
@@ -549,6 +571,8 @@ class LatexToSympy:
                 number = sympy.Number(text)
             percent = sympy.Rational(number, 100)
             return percent
+        else:  # pragma: no cover
+            return None
 
     def convert_frac(self, frac):
         frac_upper = frac.get('upper')
@@ -637,6 +661,8 @@ class LatexToSympy:
                     expr = self.handle_floor(arg)
                 elif operatorname == "ceil":
                     expr = self.handle_ceil(arg)
+                else:  # pragma: no cover
+                    return None
             elif name in ["log", "ln"]:
                 if 'subexpr' in func:
                     if 'atom' in func.get('subexpr'):
@@ -647,6 +673,8 @@ class LatexToSympy:
                     base = 10
                 elif name == "ln":
                     base = sympy.E
+                else:  # pragma: no cover
+                    return None
                 expr = sympy.log(arg, base, evaluate=False)
             elif name in ["exp", "exponentialE"]:
                 expr = sympy.exp(arg)
@@ -692,6 +720,8 @@ class LatexToSympy:
             elif name in ["max", "min"]:
                 name = name[0].upper() + name[1:]
                 expr = getattr(sympy.functions, name)(*args, evaluate=False)
+            else:  # pragma: no cover
+                return None
 
             func_pow = None
             should_pow = True
@@ -724,6 +754,8 @@ class LatexToSympy:
             return self.handle_limit(func)
         elif 'type' in func and func.get('type') == LATEXLexer.EXP_E:
             return self.handle_exp(func)
+        else:  # pragma: no cover
+            return None
 
     def convert_func_arg(self, arg):
         if 'expr' in arg:
@@ -784,6 +816,8 @@ class LatexToSympy:
             return sympy.Sum(val, (iter_var, start, end))
         elif name == "product":
             return sympy.Product(val, (iter_var, start, end))
+        else:  # pragma: no cover
+            return None
 
     def handle_limit(self, func):
         sub = func.get('limit_sub')

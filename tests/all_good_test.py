@@ -61,6 +61,9 @@ class TestAllGood(object):
         ("a / b", a / b),
         ("a \\div b", a / b),
         ("a + b", a + b),
+        # add_flat
+        ("(b * c + a) + (2c + x)", Add(_Mul(b, c), a, _Mul(2, c), x, evaluate=False)),
+        ("(b * c) + (2c + x)", Add(_Mul(b, c), _Mul(2, c), x, evaluate=False)),
         ("a + b - a", Add(a, b, _Mul(-1, a), evaluate=False)),
         ("a^2 + b^2 = c^2", Eq(a**2 + b**2, c**2)),
         ("a^2 + b^2 != 2c^2", Ne(a**2 + b**2, 2 * c**2)),
