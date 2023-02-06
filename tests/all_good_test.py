@@ -20,6 +20,7 @@ f = Symbol('f', real=True, positive=True)
 t = Symbol('t', real=True, positive=True)
 k = Symbol('k', real=True, positive=True)
 n = Symbol('n', real=True, positive=True)
+alpha = Symbol('alpha', real=True, positive=True)
 theta = Symbol('theta', real=True, positive=True)
 
 # shorthand definitions
@@ -53,6 +54,7 @@ class TestAllGood(object):
         ("x", x),
         ("2x", 2 * x),
         ("x^2", x**2),
+        ("x^\\alpha", _Pow(x, alpha)),
         ("x^{3 + 1}", x**_Add(3, 1)),
         ("x^{\\left\\{3 + 1\\right\\}}", x**_Add(3, 1)),
         ("-3y + 2x", _Add(_Mul(2, x), Mul(-1, 3, y, evaluate=False))),
@@ -60,6 +62,7 @@ class TestAllGood(object):
         ("a \\cdot b", a * b),
         ("a / b", a / b),
         ("a \\div b", a / b),
+        # add
         ("a + b", a + b),
         # add_flat
         ("(b * c + a) + (2c + x)", Add(_Mul(b, c), a, _Mul(2, c), x, evaluate=False)),
@@ -80,6 +83,7 @@ class TestAllGood(object):
         ("\\sin -a", sin(_Mul(-1, a), evaluate=False)),
         ("\\sin +a", sin(a, evaluate=False)),
         ("\\sin x(y)^{2}", sin(_Mul(x, _Pow(y, 2)), evaluate=False)),
+        ("\\sin x(y)^\\theta", sin(_Mul(x, _Pow(y, theta)), evaluate=False)),
         ("\\arcsin(a)", asin(a)),
         ("\\arccos(a)", acos(a)),
         ("\\arctan(a)", atan(a)),
@@ -108,8 +112,12 @@ class TestAllGood(object):
         ("\\operatorname{floor}(a)", floor(a)),
         ("\\operatorname{ceil}(b)", ceiling(b)),
         ("\\cos^2(x)", cos(x)**2),
+        ("\\cos^\\theta(x)", cos(x)**theta),
+        ("\\cos^\\theta^\\alpha(x)", cos(x)**theta**alpha),
         ("\\cos(x)^2", cos(x)**2),
         ("\\gcd(a, b)", UnevaluatedExpr(gcd(a, b))),
+        ("\\gcd^2(a, b)", _Pow(UnevaluatedExpr(gcd(a, b)), 2)),
+        ("\\gcd^\\theta (a, b)", _Pow(UnevaluatedExpr(gcd(a, b)), theta)),
         ("\\lcm(a, b)", UnevaluatedExpr(lcm(a, b))),
         ("\\gcd(a,b)", UnevaluatedExpr(gcd(a, b))),
         ("\\lcm(a,b)", UnevaluatedExpr(lcm(a, b))),
@@ -128,6 +136,7 @@ class TestAllGood(object):
         ("\\lim_{x \\Longrightarrow 3} a", Limit(a, x, 3)),
         ("\\lim_{x \\to 3^{+}} a", Limit(a, x, 3, dir='+')),
         ("\\lim_{x \\to 3^{-}} a", Limit(a, x, 3, dir='-')),
+        ("\\lim_{\\theta \\to 3} a", Limit(a, theta, 3)),
         ("\\infty", oo),
         ("\\infty\\%", oo),
         ("\\$\\infty", oo),
@@ -136,7 +145,9 @@ class TestAllGood(object):
         ("-\\$\\infty", -oo),
         ("\\lim_{x \\to \\infty} \\frac{1}{x}", Limit(_Mul(1, _Pow(x, -1)), x, oo)),
         ("\\frac{d}{dx} x", Derivative(x, x)),
+        ("\\frac{d}{d x} x", Derivative(x, x)),
         ("\\frac{d}{dt} x", Derivative(x, t)),
+        ("\\frac{dy}{dt} x", _Mul(x, Derivative(y, t))),
         # ("f(x)", f(x)),
         # ("f(x, y)", f(x, y)),
         # ("f(x, y, z)", f(x, y, z)),
@@ -154,6 +165,7 @@ class TestAllGood(object):
         ("\\sin{\\frac{\\pi}{2}}", sin(_Mul(pi, _Pow(2, -1)), evaluate=False)),
         ("a+bI", a + I * b),
         ("e^{I\\pi}", Integer(-1)),
+        ("e^\\pi", exp(pi)),
         ("\\int x dx", Integral(x, x)),
         ("\\int x d\\theta", Integral(x, theta)),
         ("\\int (x^2 - y)dx", Integral(x**2 - y, x)),
@@ -168,10 +180,12 @@ class TestAllGood(object):
         ("\\int_{  }^{}x dx", Integral(x, x)),
         ("\\int^{  }_{ }x dx", Integral(x, x)),
         ("\\int^{b}_{a} x dx", Integral(x, (x, a, b))),
+        ("\\int^\\alpha_\\theta x dx", Integral(x, (x, theta, alpha))),
         # ("\\int_{f(a)}^{f(b)} f(z) dz", Integral(f(z), (z, f(a), f(b)))),
         ("\\int (x+a)", Integral(_Add(x, a), x)),
         ("\\int a + b + c dx", Integral(Add(a, b, c, evaluate=False), x)),
         ("\\int \\frac{dz}{z}", Integral(Pow(z, -1), z)),
+        ("\\int \\frac{d\\theta}{\\theta}", Integral(Pow(theta, -1), theta)),
         ("\\int \\frac{3 dz}{z}", Integral(3 * Pow(z, -1), z)),
         ("\\int \\frac{1}{x} dx", Integral(_Mul(1, Pow(x, -1)), x)),
         ("\\int \\frac{1}{a} + \\frac{1}{b} dx", Integral(_Add(_Mul(1, _Pow(a, -1)), _Mul(1, Pow(b, -1))), x)),
@@ -210,6 +224,7 @@ class TestAllGood(object):
         ("x \\geq y", GreaterThan(x, y)),
         ("\\sum_{k = 1}^{3} c", Sum(c, (k, 1, 3))),
         ("\\sum_{k = 1}^3 c", Sum(c, (k, 1, 3))),
+        ("\\sum_{k = 1}^\\theta c", Sum(c, (k, 1, theta))),
         ("\\sum^{3}_{k = 1} c", Sum(c, (k, 1, 3))),
         ("\\sum^3_{k = 1} c", Sum(c, (k, 1, 3))),
         ("\\sum_{k = 1}^{10} k^2", Sum(k**2, (k, 1, 10))),
@@ -222,9 +237,9 @@ class TestAllGood(object):
         ("\\ln xy", _log(x * y, E)),
         ("\\log x", _log(x, 10)),
         ("\\log xy", _log(x * y, 10)),
-        # ("\\log_2 x", _log(x, 2)),
+        ("\\log_\\theta x", _log(x, theta)),
         ("\\log_{2} x", _log(x, 2)),
-        # ("\\log_a x", _log(x, a)),
+        ("\\log_a x", _log(x, a)),
         ("\\log_{a} x", _log(x, a)),
         ("\\log_{11} x", _log(x, 11)),
         ("\\log_{a^2} x", _log(x, _Pow(a, 2))),
@@ -299,7 +314,10 @@ class TestAllGood(object):
 
         # adjacent single char sub sup
         ("4^26^2", _Mul(_Pow(4, 2), _Pow(6, 2))),
-        ("x_22^2", _Mul(Symbol('x_2', real=True, positive=True), _Pow(2, 2)))
+        ("x_22^2", _Mul(Symbol('x_2', real=True, positive=True), _Pow(2, 2))),
+
+        # mathit
+        ("\\mathit{a}", Symbol('a', real=True, positive=True))
     ]
 
     def test_good_pair(self, s, eq):

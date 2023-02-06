@@ -66,3 +66,10 @@ def test_linalg_mul_flat_in_unary():
         "-\\begin{pmatrix}1&2\\end{pmatrix}",
         MatMul(-1, Matrix([[1, 2]]), evaluate=False)
     )
+
+
+def test_linalg_in_frac():
+    assert_equal(
+        "\\frac{\\begin{pmatrix}1&2\\end{pmatrix}}{5}",
+        MatMul(Matrix([[1, 2]]), _Pow(5, -1), evaluate=False)
+    )

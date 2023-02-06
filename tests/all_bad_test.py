@@ -1,4 +1,4 @@
-from .context import assert_equal, process_sympy
+from .context import process_sympy
 import pytest
 
 
@@ -13,7 +13,9 @@ class TestAllBad(object):
         ")",
         # "a / b /",
         "\\frac{d}{dx}",
-        "(\\frac{d}{dx})"
+        "(\\frac{d}{dx})",
+        "\\frac{d}{dx}^2 x",
+        "\\frac{d}{dx}! x",
         "\\sqrt{}",
         "\\sqrt",
         "{",
