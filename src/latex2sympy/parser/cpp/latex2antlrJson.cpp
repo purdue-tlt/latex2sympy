@@ -51,8 +51,6 @@ Json::Value fracToJsonTree(LATEXParser::FracContext *frac, LATEXParser *parser) 
     lower["start"]["type"] = (int)lowerCtx->getStart()->getType();
     lower["stop"]["text"] = lowerCtx->getStop()->getText();
     lower["stop"]["type"] = (int)lowerCtx->getStop()->getType();
-    misc::Interval lowerInterval = lowerCtx->getSourceInterval();
-    lower["intervalLength"] = (int)lowerInterval.length();
     node["lower"] = lower;
 
     Json::Value tokens;

@@ -27,6 +27,10 @@ java -jar antlr-4.11.1-complete.jar -Dlanguage=Python3 -o src/latex2sympy/parser
 echo "python parser generated"
 
 echo ''
+echo "delete python LATEXParser"
+rm src/latex2sympy/parser/python/LATEXParser.py
+
+echo ''
 echo "activating venv..."
 if test -f .env/bin/activate
 then source .env/bin/activate && echo "venv activate (bin)"

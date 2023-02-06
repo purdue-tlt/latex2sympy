@@ -1,48 +1,20 @@
-import antlr4
-from antlr4.error.ErrorListener import ErrorListener
 import hashlib
-from latex2sympy.parser.python.LATEXParser import LATEXParser
+import json
+from latex2sympy.latex2antlrJson import parseToJson
 from latex2sympy.parser.python.LATEXLexer import LATEXLexer
 import re
 import sympy
 from sympy.core.core import all_classes
 from sympy.parsing.sympy_parser import parse_expr
-from sympy.printing.str import StrPrinter
 
 
-def process_sympy(latex, variable_values={}):
+def process_sympy(latex: str, variable_values={}):
     instance = LatexToSympy(latex, variable_values)
     return instance.process_sympy()
 
 
-class MathErrorListener(ErrorListener):
-    def __init__(self, src):
-        super(ErrorListener, self).__init__()
-        self.src = src
-
-    def syntaxError(self, recog, symbol, line, col, msg, e):
-        fmt = "%s\n%s\n%s"
-        marker = "~" * col + "^"
-
-        if msg.startswith("missing"):
-            err = fmt % (msg, self.src, marker)
-        elif msg.startswith("no viable"):
-            err = fmt % ("I expected something else here", self.src, marker)
-        elif msg.startswith("mismatched"):
-            names = LATEXParser.literalNames
-            expected = [names[i] for i in e.getExpectedTokens() if i < len(names)]
-            if len(expected) < 10:
-                expected = " ".join(expected)
-                err = (fmt % ("I expected one of these: " + expected, self.src, marker))
-            else:
-                err = (fmt % ("I expected something else here", self.src, marker))
-        else:
-            err = fmt % ("I don't understand this", self.src, marker)
-        raise Exception(err)
-
-
 class LatexToSympy:
-    def __init__(self, latex, variable_values={}):
+    def __init__(self, latex: str, variable_values: dict = {}):
         self.latex = latex
         if len(variable_values) > 0:
             self.variable_values = variable_values
@@ -54,48 +26,36 @@ class LatexToSympy:
         # pre-processing
         pre_processed_latex = self.pre_process_latex(self.latex)
 
-        # setup listener
-        matherror = MathErrorListener(pre_processed_latex)
-
-        # stream input
-        stream = antlr4.InputStream(pre_processed_latex)
-        lex = LATEXLexer(stream)
-        lex.removeErrorListeners()
-        lex.addErrorListener(matherror)
-
-        tokens = antlr4.CommonTokenStream(lex)
-        parser = LATEXParser(tokens)
-
-        # remove default console error listener
-        parser.removeErrorListeners()
-        parser.addErrorListener(matherror)
-
         # process the input
         return_data = None
-        math = parser.math()
+        json_string = parseToJson(pre_processed_latex)
+
+        # print(json_string)
+
+        math = json.loads(json_string)
 
         # if a list
-        if math.relation_list():
+        if 'relation_list' in math:
             return_data = []
 
             # go over list items
-            relation_list = math.relation_list().relation_list_content()
-            for list_item in relation_list.relation():
+            relation_list = math.get('relation_list').get('relation_list_content')
+            for list_item in relation_list.get('relation'):
                 expr = self.convert_relation(list_item)
                 return_data.append(expr)
 
         # if not, do default
         else:
-            relation = math.relation()
+            relation = math.get('relation')
             return_data = self.convert_relation(relation)
 
         return return_data
 
-    def pre_process_latex(self, latex):
+    def pre_process_latex(self, latex: str):
         '''
         pre-processing for issues the parser cannot handle
 
-        find any single char sup/sub and wrap them in "{}"
+        find any single char sup/sub and wrap them in '{}'
         e.g. `4^26^2` => `4^{2}6^{2}`
         e.g. `x_22` => `x_{2}2`
 
@@ -123,37 +83,45 @@ class LatexToSympy:
         return pre_processed_latex
 
     def convert_relation(self, rel):
-        if rel.expr():
-            return self.convert_expr(rel.expr())
+        if 'expr' in rel:
+            return self.convert_expr(rel.get('expr'))
 
-        lh = self.convert_relation(rel.relation(0))
-        rh = self.convert_relation(rel.relation(1))
-        if rel.LT():
+        relations = rel.get('relation')
+        lh = self.convert_relation(relations[0])
+        rh = self.convert_relation(relations[1])
+        if self.has_type_or_token(rel, LATEXLexer.LT):
             return sympy.StrictLessThan(lh, rh, evaluate=False)
-        elif rel.LTE():
+        elif self.has_type_or_token(rel, LATEXLexer.LTE):
             return sympy.LessThan(lh, rh, evaluate=False)
-        elif rel.GT():
+        elif self.has_type_or_token(rel, LATEXLexer.GT):
             return sympy.StrictGreaterThan(lh, rh, evaluate=False)
-        elif rel.GTE():
+        elif self.has_type_or_token(rel, LATEXLexer.GTE):
             return sympy.GreaterThan(lh, rh, evaluate=False)
-        elif rel.EQUAL():
+        elif self.has_type_or_token(rel, LATEXLexer.EQUAL):
             return sympy.Eq(lh, rh, evaluate=False)
-        elif rel.UNEQUAL():
+        elif self.has_type_or_token(rel, LATEXLexer.UNEQUAL):
             return sympy.Ne(lh, rh, evaluate=False)
+        else:  # pragma: no cover
+            raise Exception('Unrecognized relation')
 
     def convert_expr(self, expr):
-        if expr.additive():
-            return self.convert_add(expr.additive())
+        if 'additive' in expr:
+            return self.convert_add(expr.get('additive'))
+        else:  # pragma: no cover
+            raise Exception('Unrecognized expr')
 
     def convert_matrix(self, matrix):
         # build matrix
-        row = matrix.matrix_row()
+        row = matrix.get('matrix_row')
         tmp = []
         rows = 0
         for r in row:
             tmp.append([])
-            for expr in r.expr():
-                tmp[rows].append(self.convert_expr(expr))
+            if isinstance(r.get('expr'), list):
+                for expr in r.get('expr'):
+                    tmp[rows].append(self.convert_expr(expr))
+            else:
+                tmp[rows].append(self.convert_expr(r.get('expr')))
             rows = rows + 1
 
         # return the matrix
@@ -220,35 +188,47 @@ class LatexToSympy:
             return sympy.MatMul(lh, rh, evaluate=False)
 
     def convert_add(self, add):
-        if add.ADD():
-            lh = self.convert_add(add.additive(0))
-            rh = self.convert_add(add.additive(1))
+        if 'mp' in add:
+            return self.convert_mp(add.get('mp'))
+
+        type = add.get('type')
+
+        if type == LATEXLexer.ADD:
+            lh = self.convert_add(add.get('additive')[0])
+            rh = self.convert_add(add.get('additive')[1])
 
             if lh.is_Matrix or rh.is_Matrix:
                 return self.mat_add_flat(lh, rh)
             else:
                 return self.add_flat(lh, rh)
-        elif add.SUB():
-            lh = self.convert_add(add.additive(0))
-            rh = self.convert_add(add.additive(1))
+        elif type == LATEXLexer.SUB:
+            lh = self.convert_add(add.get('additive')[0])
+            rh = self.convert_add(add.get('additive')[1])
 
             if lh.is_Matrix or rh.is_Matrix:
                 return self.mat_add_flat(lh, self.mat_mul_flat(-1, rh))
             else:
                 rh = self.mul_flat(-1, rh)
                 return self.add_flat(lh, rh)
-        else:
-            return self.convert_mp(add.mp())
+        else:  # pragma: no cover
+            raise Exception('Unrecognized add')
 
     def convert_mp(self, mp):
-        if hasattr(mp, 'mp'):
-            mp_left = mp.mp(0)
-            mp_right = mp.mp(1)
-        else:
-            mp_left = mp.mp_nofunc(0)
-            mp_right = mp.mp_nofunc(1)
+        if 'unary' in mp:
+            return self.convert_unary(mp.get('unary'))
+        if 'unary_nofunc' in mp:
+            return self.convert_unary(mp.get('unary_nofunc'))
 
-        if mp.MUL() or mp.CMD_TIMES() or mp.CMD_CDOT():
+        if 'mp' in mp:
+            mp_left = mp.get('mp')[0]
+            mp_right = mp.get('mp')[1]
+        else:
+            mp_left = mp.get('mp_nofunc')[0]
+            mp_right = mp.get('mp_nofunc')[1]
+
+        type = mp.get('type')
+
+        if type == LATEXLexer.MUL or type == LATEXLexer.CMD_TIMES or type == LATEXLexer.CMD_CDOT:
             lh = self.convert_mp(mp_left)
             rh = self.convert_mp(mp_right)
 
@@ -256,55 +236,57 @@ class LatexToSympy:
                 return self.mat_mul_flat(lh, rh)
             else:
                 return self.mul_flat(lh, rh)
-        elif mp.DIV() or mp.CMD_DIV() or mp.COLON():
+        elif type == LATEXLexer.DIV or type == LATEXLexer.CMD_DIV or type == LATEXLexer.COLON:
             lh = self.convert_mp(mp_left)
             rh = self.convert_mp(mp_right)
             if lh.is_Matrix or rh.is_Matrix:
                 return sympy.MatMul(lh, sympy.Pow(rh, -1, evaluate=False), evaluate=False)
             else:
                 return sympy.Mul(lh, sympy.Pow(rh, -1, evaluate=False), evaluate=False)
-        elif mp.CMD_MOD():
+        elif type == LATEXLexer.CMD_MOD:
             lh = self.convert_mp(mp_left)
             rh = self.convert_mp(mp_right)
             if rh.is_Matrix:
-                raise Exception("Cannot perform modulo operation with a matrix as an operand")
+                raise Exception('Cannot perform modulo operation with a matrix as an operand')
             else:
                 return sympy.Mod(lh, rh, evaluate=False)
-        else:
-            if hasattr(mp, 'unary'):
-                return self.convert_unary(mp.unary())
-            else:
-                return self.convert_unary(mp.unary_nofunc())
+        else:  # pragma: no cover
+            raise Exception('Unrecognized mp')
 
     def convert_unary(self, unary):
-        if hasattr(unary, 'unary'):
-            nested_unary = unary.unary()
-        else:
-            nested_unary = unary.unary_nofunc()
-        if hasattr(unary, 'postfix_nofunc'):
-            first = unary.postfix()
-            tail = unary.postfix_nofunc()
-            postfix = [first] + tail
-        else:
-            postfix = unary.postfix()
+        if 'postfix_nofunc' in unary:
+            first = unary.get('postfix')
+            tail = unary.get('postfix_nofunc')
+            postfix = first + tail
+            return self.convert_postfix_list(postfix)
+        elif 'postfix' in unary:
+            postfix = unary.get('postfix')
+            return self.convert_postfix_list(postfix)
 
-        if unary.ADD():
+        type = unary.get('type')
+
+        if 'unary' in unary:
+            nested_unary = unary.get('unary')
+        else:
+            nested_unary = unary.get('unary_nofunc')
+
+        if type == LATEXLexer.ADD:
             return self.convert_unary(nested_unary)
-        elif unary.SUB():
+        elif type == LATEXLexer.SUB:
             tmp_convert_nested_unary = self.convert_unary(nested_unary)
             if tmp_convert_nested_unary.is_Matrix:
-                return self.mat_mul_flat(-1, tmp_convert_nested_unary, evaluate=False)
+                return self.mat_mul_flat(-1, tmp_convert_nested_unary)
             else:
                 if tmp_convert_nested_unary.func.is_Number:
                     return -tmp_convert_nested_unary
                 else:
                     return self.mul_flat(-1, tmp_convert_nested_unary)
-        elif postfix:
-            return self.convert_postfix_list(postfix)
+        else:  # pragma: no cover
+            raise Exception('Unrecognized unary')
 
     def convert_postfix_list(self, arr, i=0):
-        if i >= len(arr):
-            raise Exception("Index out of bounds")
+        if i >= len(arr):  # pragma: no cover
+            raise Exception('Index out of bounds')
 
         res = self.convert_postfix(arr[i])
 
@@ -322,188 +304,210 @@ class LatexToSympy:
         else:  # must be derivative
             wrt = res[0]
             if i == len(arr) - 1:
-                raise Exception("Expected expression for derivative")
+                raise Exception('Expected expression for derivative')
             else:
                 expr = self.convert_postfix_list(arr, i + 1)
                 return sympy.Derivative(expr, wrt)
 
-    def do_subs(self, expr, at):
-        if at.expr():
-            at_expr = self.convert_expr(at.expr())
+    def do_eval_at_subs(self, expr, at):
+        if 'expr' in at:
+            at_expr = self.convert_expr(at.get('expr'))
             syms = at_expr.atoms(sympy.Symbol)
             if len(syms) == 0:
                 return expr
             elif len(syms) > 0:
                 sym = next(iter(syms))
                 return expr.subs(sym, at_expr)
-        elif at.equality():
-            lh = self.convert_expr(at.equality().expr(0))
-            rh = self.convert_expr(at.equality().expr(1))
+            else:  # pragma: no cover
+                raise Exception('Unrecognized eval_at expr')
+        elif 'equality' in at:
+            lh = self.convert_expr(at.get('equality').get('expr')[0])
+            rh = self.convert_expr(at.get('equality').get('expr')[1])
             return expr.subs(lh, rh)
+        else:  # pragma: no cover
+            raise Exception('Unrecognized eval_at')
 
     def convert_postfix(self, postfix):
-        if hasattr(postfix, 'exp'):
-            exp_nested = postfix.exp()
+        if 'exp' in postfix:
+            exp_nested = postfix.get('exp')
         else:
-            exp_nested = postfix.exp_nofunc()
+            exp_nested = postfix.get('exp_nofunc')
 
         exp = self.convert_exp(exp_nested)
-        for op in postfix.postfix_op():
-            if op.BANG():
-                if isinstance(exp, list):
-                    raise Exception("Cannot apply postfix to derivative")
-                exp = sympy.factorial(exp, evaluate=False)
-            elif op.eval_at():
-                ev = op.eval_at()
-                at_b = None
-                at_a = None
-                if ev.eval_at_sup():
-                    at_b = self.do_subs(exp, ev.eval_at_sup())
-                if ev.eval_at_sub():
-                    at_a = self.do_subs(exp, ev.eval_at_sub())
-                if at_b is not None and at_a is not None:
-                    exp = self.add_flat(at_b, self.mul_flat(at_a, -1))
-                elif at_b is not None:
-                    exp = at_b
-                elif at_a is not None:
-                    exp = at_a
+        if 'postfix_op' in postfix:
+            for op in postfix.get('postfix_op'):
+                if self.has_type_or_token(op, LATEXLexer.BANG):
+                    if isinstance(exp, list):
+                        raise Exception('Cannot apply postfix to derivative')
+                    exp = sympy.factorial(exp, evaluate=False)
+                elif 'eval_at' in op:
+                    ev = op.get('eval_at')
+                    at_b = None
+                    at_a = None
+                    if 'eval_at_sup' in ev:
+                        at_b = self.do_eval_at_subs(exp, ev.get('eval_at_sup'))
+                    if 'eval_at_sub' in ev:
+                        at_a = self.do_eval_at_subs(exp, ev.get('eval_at_sub'))
+                    if at_b is not None and at_a is not None:
+                        exp = self.add_flat(at_b, self.mul_flat(at_a, -1))
+                    elif at_b is not None:
+                        exp = at_b
+                    elif at_a is not None:
+                        exp = at_a
+                    else:  # pragma: no cover
+                        raise Exception('Unrecognized eval_at')
+                else:  # pragma: no cover
+                    raise Exception('Unrecognized postfix_op')
 
         return exp
 
     def convert_exp(self, exp):
-        if hasattr(exp, 'exp'):
-            exp_nested = exp.exp()
-        else:
-            exp_nested = exp.exp_nofunc()
+        if 'comp' in exp:
+            return self.convert_comp(exp.get('comp'))
+        if 'comp_nofunc' in exp:
+            return self.convert_comp(exp.get('comp_nofunc'))
 
-        if exp_nested:
-            base = self.convert_exp(exp_nested)
-            if isinstance(base, list):
-                raise Exception("Cannot raise derivative to power")
-            if exp.atom():
-                exponent = self.convert_atom(exp.atom())
-            elif exp.expr():
-                exponent = self.convert_expr(exp.expr())
-            return sympy.Pow(base, exponent, evaluate=False)
-        else:
-            if hasattr(exp, 'comp'):
-                return self.convert_comp(exp.comp())
-            else:
-                return self.convert_comp(exp.comp_nofunc())
+        if 'exp' in exp:
+            exp_nested = exp.get('exp')
+        elif 'exp_nofunc' in exp:
+            exp_nested = exp.get('exp_nofunc')
+        else:  # pragma: no cover
+            raise Exception('Unrecognized exp')
+
+        base = self.convert_exp(exp_nested)
+        if isinstance(base, list):
+            raise Exception('Cannot raise derivative to power')
+        if 'atom' in exp:
+            exponent = self.convert_atom(exp.get('atom'))
+        elif 'expr' in exp:
+            exponent = self.convert_expr(exp.get('expr'))
+        else:  # pragma: no cover
+            raise Exception('Unrecognized exp')
+        return sympy.Pow(base, exponent, evaluate=False)
 
     def convert_comp(self, comp):
-        if comp.group():
-            return self.convert_expr(comp.group().expr())
-        elif comp.abs_group():
-            return sympy.Abs(self.convert_expr(comp.abs_group().expr()), evaluate=False)
-        elif comp.floor_group():
-            return self.handle_floor(self.convert_expr(comp.floor_group().expr()))
-        elif comp.ceil_group():
-            return self.handle_ceil(self.convert_expr(comp.ceil_group().expr()))
-        elif comp.atom():
-            return self.convert_atom(comp.atom())
-        elif comp.frac():
-            return self.convert_frac(comp.frac())
-        elif comp.binom():
-            return self.convert_binom(comp.binom())
-        elif comp.matrix():
-            return self.convert_matrix(comp.matrix())
-        elif comp.func():
-            return self.convert_func(comp.func())
+        if 'group' in comp:
+            return self.convert_expr(comp.get('group').get('expr'))
+        elif 'abs_group' in comp:
+            return sympy.Abs(self.convert_expr(comp.get('abs_group').get('expr')), evaluate=False)
+        elif 'floor_group' in comp:
+            return self.handle_floor(self.convert_expr(comp.get('floor_group').get('expr')))
+        elif 'ceil_group' in comp:
+            return self.handle_ceil(self.convert_expr(comp.get('ceil_group').get('expr')))
+        elif 'atom' in comp:
+            return self.convert_atom(comp.get('atom'))
+        elif 'frac' in comp:
+            return self.convert_frac(comp.get('frac'))
+        elif 'binom' in comp:
+            return self.convert_binom(comp.get('binom'))
+        elif 'matrix' in comp:
+            return self.convert_matrix(comp.get('matrix'))
+        elif 'func' in comp:
+            return self.convert_func(comp.get('func'))
+        else:  # pragma: no cover
+            raise Exception('Unrecognized comp')
 
     def convert_atom(self, atom):
-        if atom.atom_expr():
-            atom_expr = atom.atom_expr()
+        if 'atom_expr' in atom:
+            atom_expr = atom.get('atom_expr')
+            type = atom_expr.get('type')
 
             # find the atom's text
             atom_text = ''
-            if atom_expr.LETTER_NO_E():
-                atom_text = atom_expr.LETTER_NO_E().getText()
-                if atom_text == "I":
+            if type == LATEXLexer.LETTER_NO_E:
+                atom_text = atom_expr.get('text')
+                if atom_text == 'I':
                     return sympy.I
-            elif atom_expr.GREEK_CMD():
-                atom_text = atom_expr.GREEK_CMD().getText()[1:].strip()
-            elif atom_expr.accent():
-                atom_accent = atom_expr.accent()
+            elif type == LATEXLexer.GREEK_CMD:
+                atom_text = atom_expr.get('text')[1:].strip()
+            elif 'accent' in atom_expr:
+                atom_accent = atom_expr.get('accent')
                 # get name for accent
-                name = atom_accent.start.text[1:]
+                name = atom_accent.get('accent_symbol').get('text')[1:]
                 # exception: check if bar or overline which are treated both as bar
-                if name in ["bar", "overline"]:
-                    name = "bar"
+                if name in ['bar', 'overline']:
+                    name = 'bar'
+                else:  # pragma: no cover
+                    raise Exception('Unrecognized accent')
                 # get the base (variable)
-                base = atom_accent.base.getText()
+                base = atom_accent.get('expr').get('text')
                 # set string to base+name
                 atom_text = base + name
+            else:  # pragma: no cover
+                raise Exception('Unrecognized atom_expr')
 
             # find atom's subscript, if any
             subscript_text = ''
-            if atom_expr.subexpr():
-                subexpr = atom_expr.subexpr()
+            if 'subexpr' in atom_expr:
+                subexpr = atom_expr.get('subexpr')
                 subscript = None
-                if subexpr.expr():  # subscript is expr
-                    subscript = subexpr.expr().getText().strip()
-                elif subexpr.atom():  # subscript is atom
-                    subscript = subexpr.atom().getText().strip()
-                elif subexpr.args():  # subscript is args
-                    subscript = subexpr.args().getText().strip()
-                subscript_inner_text = StrPrinter().doprint(subscript)
-                if len(subscript_inner_text) > 1:
-                    subscript_text = '_{' + subscript_inner_text + '}'
+                if 'atom' in subexpr:  # subscript is atom
+                    subscript = subexpr.get('atom').get('text').strip()
+                elif 'expr' in subexpr:  # subscript is expr
+                    subscript = subexpr.get('expr').get('text').strip()
+                elif 'args' in subexpr:  # subscript is args
+                    subscript = subexpr.get('args').get('text').strip()
+                else:  # pragma: no cover
+                    raise Exception('Unrecognized subexpr')
+                if len(subscript) > 1:
+                    subscript_text = '_{' + subscript + '}'
                 else:
-                    subscript_text = '_' + subscript_inner_text
+                    subscript_text = '_' + subscript
 
             # construct the symbol using the text and optional subscript
             atom_symbol = sympy.Symbol(atom_text + subscript_text, real=True, positive=True)
 
             # find the atom's superscript, and return as a Pow if found
-            if atom_expr.supexpr():
-                supexpr = atom_expr.supexpr()
+            if 'supexpr' in atom_expr:
+                supexpr = atom_expr.get('supexpr')
                 func_pow = None
-                if supexpr.expr():
-                    func_pow = self.convert_expr(supexpr.expr())
-                else:
-                    func_pow = self.convert_atom(supexpr.atom())
+                if 'atom' in supexpr:
+                    func_pow = self.convert_atom(supexpr.get('atom'))
+                elif 'expr' in supexpr:
+                    func_pow = self.convert_expr(supexpr.get('expr'))
+                else:  # pragma: no cover
+                    raise Exception('Invalid supexpr')
                 return sympy.Pow(atom_symbol, func_pow, evaluate=False)
 
             return atom_symbol
-        elif atom.SYMBOL():
-            s = atom.SYMBOL().getText().replace("\\$", "").replace("\\%", "")
-            if s == "\\infty":
+        elif self.has_type_or_token(atom, LATEXLexer.SYMBOL):
+            s = atom.get('text').replace('\\$', '').replace('\\%', '')
+            if s == '\\infty':
                 return sympy.oo
             elif s == '\\pi':
                 return sympy.pi
             elif s == '\\emptyset':
                 return sympy.S.EmptySet
-            else:
-                raise Exception("Unrecognized symbol")
-        elif atom.NUMBER():
-            s = atom.NUMBER().getText().replace(",", "")
+            else:  # pragma: no cover
+                raise Exception('Unrecognized symbol')
+        elif self.has_type_or_token(atom, LATEXLexer.NUMBER):
+            s = atom.get('text').replace(',', '')
             try:
                 sr = sympy.Rational(s)
                 return sr
-            except (TypeError, ValueError):
+            except (TypeError, ValueError):  # pragma: no cover
                 return sympy.Number(s)
-        elif atom.SCI_NOTATION_NUMBER():
-            s = atom.SCI_NOTATION_NUMBER().getText()
+        elif self.has_type_or_token(atom, LATEXLexer.SCI_NOTATION_NUMBER):
+            s = atom.get('text')
             s_parts = s.split('\\times 10^')
             s1 = s_parts[0].replace(',', '')
             try:
                 n1 = sympy.Rational(s1)
-            except (TypeError, ValueError):
+            except (TypeError, ValueError):  # pragma: no cover
                 n1 = sympy.Number(s1)
             s2 = s_parts[1].replace('{', '').replace(',', '').replace('}', '')
             try:
                 n2 = sympy.Rational(s2)
-            except (TypeError, ValueError):
+            except (TypeError, ValueError):  # pragma: no cover
                 n2 = sympy.Number(s2)
             n_exp = sympy.Mul(n1, sympy.Pow(10, n2))
             try:
                 n = sympy.Rational(n_exp)
-            except (TypeError, ValueError):
+            except (TypeError, ValueError):  # pragma: no cover
                 n = sympy.Number(n_exp)
             return n
-        elif atom.FRACTION_NUMBER():
-            s = atom.FRACTION_NUMBER().getText().replace("\\frac{", "").replace("}{", "/").replace("}", "").replace(",", "")
+        elif self.has_type_or_token(atom, LATEXLexer.FRACTION_NUMBER):
+            s = atom.get('text').replace('\\frac{', '').replace('}{', '/').replace('}', '').replace(',', '')
             try:
                 sr = sympy.Rational(s)
                 return sr
@@ -512,36 +516,36 @@ class LatexToSympy:
                 s_parts = s.split('/')
                 try:
                     p = sympy.Rational(s_parts[0])
-                except (TypeError, ValueError):
+                except (TypeError, ValueError):  # pragma: no cover
                     p = sympy.Number(s_parts[0])
                 try:
                     q = sympy.Rational(s_parts[1])
-                except (TypeError, ValueError):
+                except (TypeError, ValueError):  # pragma: no cover
                     q = sympy.Number(s_parts[1])
                 return sympy.Mul(p, sympy.Pow(q, -1, evaluate=False), evaluate=False)
-            except (TypeError, ValueError):
+            except (TypeError, ValueError):  # pragma: no cover
                 return sympy.Number(s)
-        elif atom.E_NOTATION():
-            s = atom.E_NOTATION().getText().replace(",", "")
+        elif self.has_type_or_token(atom, LATEXLexer.E_NOTATION):
+            s = atom.get('text').replace(',', '')
             try:
                 sr = sympy.Rational(s)
                 return sr
-            except (TypeError, ValueError):
+            except (TypeError, ValueError):  # pragma: no cover
                 return sympy.Number(s)
-        elif atom.DIFFERENTIAL():
-            var = self.get_differential_var(atom.DIFFERENTIAL())
+        elif self.has_type_or_token(atom, LATEXLexer.DIFFERENTIAL):
+            var = self.get_differential_var(atom.get('text'))
             return sympy.Symbol('d' + var.name, real=True, positive=True)
-        elif atom.mathit():
-            text = self.rule2text(atom.mathit().mathit_text())
+        elif 'mathit' in atom:
+            text = atom.get('mathit').get('mathit_text').get('text')
             return sympy.Symbol(text, real=True, positive=True)
-        elif atom.VARIABLE():
-            text = atom.VARIABLE().getText()
-            is_percent = text.endswith("\\%")
+        elif self.has_type_or_token(atom, LATEXLexer.VARIABLE):
+            text = atom.get('text')
+            is_percent = text.endswith('\\%')
             trim_amount = 3 if is_percent else 1
             name = text[10:]
             name = name[0:len(name) - trim_amount]
 
-            # revert to the "original" variable name stored from `pre_process_latex`
+            # revert to the 'original' variable name stored from `pre_process_latex`
             # original name might be the same if it already had a wrapped single char sub
             name = self.variable_name_dict[name]
 
@@ -567,135 +571,120 @@ class LatexToSympy:
             # return the symbol
             return symbol
 
-        elif atom.PERCENT_NUMBER():
-            text = atom.PERCENT_NUMBER().getText().replace("\\%", "").replace(",", "")
+        elif self.has_type_or_token(atom, LATEXLexer.PERCENT_NUMBER):
+            text = atom.get('text').replace('\\%', '').replace(',', '')
             try:
                 number = sympy.Rational(text)
-            except (TypeError, ValueError):
+            except (TypeError, ValueError):  # pragma: no cover
                 number = sympy.Number(text)
             percent = sympy.Rational(number, 100)
             return percent
-
-    def rule2text(self, ctx):
-        stream = ctx.start.getInputStream()
-        # starting index of starting token
-        startIdx = ctx.start.start
-        # stopping index of stopping token
-        stopIdx = ctx.stop.stop
-
-        return stream.getText(startIdx, stopIdx)
+        else:  # pragma: no cover
+            raise Exception('Unrecognized atom')
 
     def convert_frac(self, frac):
-        diff_op = False
-        partial_op = False
-        lower_itv = frac.lower.getSourceInterval()
-        lower_itv_len = lower_itv[1] - lower_itv[0] + 1
-        if (frac.lower.start == frac.lower.stop and frac.lower.start.type == LATEXLexer.DIFFERENTIAL):
-            wrt = self.get_differential_var_str(frac.lower.start.text)
-            diff_op = True
-        elif (lower_itv_len == 2 and
-              frac.lower.start.type == LATEXLexer.SYMBOL and
-              frac.lower.start.text == '\\partial' and
-              (frac.lower.stop.type == LATEXLexer.LETTER_NO_E or frac.lower.stop.type == LATEXLexer.SYMBOL)):
-            partial_op = True
-            wrt = frac.lower.stop.text
-            if frac.lower.stop.type == LATEXLexer.SYMBOL:
-                wrt = wrt[1:]
+        frac_upper = frac.get('upper')
+        frac_lower = frac.get('lower')
 
-        if diff_op or partial_op:
-            wrt = sympy.Symbol(wrt, real=True, positive=True)
-            if (diff_op and frac.upper.start == frac.upper.stop and
-                frac.upper.start.type == LATEXLexer.LETTER_NO_E and
-                    frac.upper.start.text == 'd'):
+        if (frac_lower.get('start') == frac_lower.get('stop') and frac_lower.get('start').get('type') == LATEXLexer.DIFFERENTIAL):
+            wrt_text = self.get_differential_var_str(frac_lower.get('start').get('text'))
+            wrt = sympy.Symbol(wrt_text, real=True, positive=True)
+            if (frac_upper.get('start') == frac_upper.get('stop') and
+                frac_upper.get('start').get('type') == LATEXLexer.LETTER_NO_E and
+                    frac_upper.get('start').get('text') == 'd'):
                 return [wrt]
-            elif (partial_op and frac.upper.start == frac.upper.stop and
-                  frac.upper.start.type == LATEXLexer.SYMBOL and
-                  frac.upper.start.text == '\\partial'):
-                return [wrt]
-            upper_text = self.rule2text(frac.upper)
 
-            expr_top = None
-            if diff_op and upper_text.startswith('d'):
-                expr_top = process_sympy(upper_text[1:])
-            elif partial_op and frac.upper.start.text == '\\partial':
-                expr_top = process_sympy(upper_text[len('\\partial'):])
-            if expr_top:
-                return sympy.Derivative(expr_top, wrt)
+            upper_text = frac_upper.get('text')
+            expr_top = process_sympy(upper_text[1:])
+            return sympy.Derivative(expr_top, wrt)
 
-        expr_top = self.convert_expr(frac.upper)
-        expr_bot = self.convert_expr(frac.lower)
+        expr_top = self.convert_expr(frac.get('upper'))
+        expr_bot = self.convert_expr(frac.get('lower'))
         if expr_top.is_Matrix or expr_bot.is_Matrix:
             return sympy.MatMul(expr_top, sympy.Pow(expr_bot, -1, evaluate=False), evaluate=False)
         else:
             return sympy.Mul(expr_top, sympy.Pow(expr_bot, -1, evaluate=False), evaluate=False)
 
     def convert_binom(self, binom):
-        expr_top = self.convert_expr(binom.upper)
-        expr_bot = self.convert_expr(binom.lower)
+        expr_top = self.convert_expr(binom.get('expr')[0])
+        expr_bot = self.convert_expr(binom.get('expr')[1])
         return sympy.binomial(expr_top, expr_bot)
 
     def convert_func(self, func):
-        if func.func_normal_single_arg():
-            if func.L_PAREN():  # function called with parenthesis
-                arg = self.convert_func_arg(func.func_single_arg())
+        if 'func_normal_single_arg' in func:
+            if 'func_single_arg' in func:  # function called with parenthesis
+                arg = self.convert_func_arg(func.get('func_single_arg'))
             else:
-                arg = self.convert_func_arg(func.func_single_arg_noparens())
+                arg = self.convert_func_arg(func.get('func_single_arg_noparens'))
 
-            name = func.func_normal_single_arg().start.text[1:]
+            if 'tokens' in func.get('func_normal_single_arg'):
+                name = func.get('func_normal_single_arg').get('tokens')[0].get('text')[1:]
+            else:
+                name = func.get('func_normal_single_arg').get('func_normal_functions_single_arg').get('text')[1:]
 
             # change arc<trig> -> a<trig>
-            if name in ["arcsin", "arccos", "arctan", "arccsc", "arcsec",
-                        "arccot"]:
-                name = "a" + name[3:]
+            if name in ['arcsin', 'arccos', 'arctan', 'arccsc', 'arcsec',
+                        'arccot']:
+                name = 'a' + name[3:]
                 expr = getattr(sympy.functions, name)(arg, evaluate=False)
-            elif name in ["arsinh", "arcosh", "artanh"]:
-                name = "a" + name[2:]
+            elif name in ['arsinh', 'arcosh', 'artanh']:
+                name = 'a' + name[2:]
                 expr = getattr(sympy.functions, name)(arg, evaluate=False)
-            elif name in ["arcsinh", "arccosh", "arctanh"]:
-                name = "a" + name[3:]
+            elif name in ['arcsinh', 'arccosh', 'arctanh']:
+                name = 'a' + name[3:]
                 expr = getattr(sympy.functions, name)(arg, evaluate=False)
-            elif name == "operatorname":
-                operatorname = func.func_normal_single_arg().func_operator_name.getText()
+            elif name == 'operatorname':
+                operatorname = func.get('func_normal_single_arg').get('func_operator_names_single_arg').get('text')
 
-                if operatorname in ["arsinh", "arcosh", "artanh"]:
-                    operatorname = "a" + operatorname[2:]
+                if operatorname in ['arsinh', 'arcosh', 'artanh']:
+                    operatorname = 'a' + operatorname[2:]
                     expr = getattr(sympy.functions, operatorname)(arg, evaluate=False)
-                elif operatorname in ["arcsinh", "arccosh", "arctanh"]:
-                    operatorname = "a" + operatorname[3:]
+                elif operatorname in ['arcsinh', 'arccosh', 'arctanh']:
+                    operatorname = 'a' + operatorname[3:]
                     expr = getattr(sympy.functions, operatorname)(arg, evaluate=False)
-                elif operatorname == "floor":
+                elif operatorname == 'floor':
                     expr = self.handle_floor(arg)
-                elif operatorname == "ceil":
+                elif operatorname == 'ceil':
                     expr = self.handle_ceil(arg)
-            elif name in ["log", "ln"]:
-                if func.subexpr():
-                    if func.subexpr().atom():
-                        base = self.convert_atom(func.subexpr().atom())
-                    else:
-                        base = self.convert_expr(func.subexpr().expr())
-                elif name == "log":
+                else:  # pragma: no cover
+                    raise Exception('Unrecognized operatorname')
+            elif name in ['log', 'ln']:
+                if 'subexpr' in func:
+                    subexpr = func.get('subexpr')
+                    if 'atom' in subexpr:
+                        base = self.convert_atom(subexpr.get('atom'))
+                    elif 'expr' in subexpr:
+                        base = self.convert_expr(subexpr.get('expr'))
+                    else:  # pragma: no cover
+                        raise Exception('Invalid log/ln subexpr')
+                elif name == 'log':
                     base = 10
-                elif name == "ln":
+                elif name == 'ln':
                     base = sympy.E
+                else:  # pragma: no cover
+                    raise Exception('Unrecognized log/ln')
                 expr = sympy.log(arg, base, evaluate=False)
-            elif name in ["exp", "exponentialE"]:
+            elif name in ['exp', 'exponentialE']:
                 expr = sympy.exp(arg)
-            elif name == "floor":
+            elif name == 'floor':
                 expr = self.handle_floor(arg)
-            elif name == "ceil":
+            elif name == 'ceil':
                 expr = self.handle_ceil(arg)
 
             func_pow = None
             should_pow = True
-            if func.supexpr():
-                if func.supexpr().expr():
-                    func_pow = self.convert_expr(func.supexpr().expr())
-                else:
-                    func_pow = self.convert_atom(func.supexpr().atom())
+            if 'supexpr' in func:
+                supexpr = func.get('supexpr')
+                if 'atom' in supexpr:
+                    func_pow = self.convert_atom(supexpr.get('atom'))
+                elif 'expr' in supexpr:
+                    func_pow = self.convert_expr(supexpr.get('expr'))
+                else:  # pragma: no cover
+                    raise Exception('Invalid supexpr')
 
-            if name in ["sin", "cos", "tan", "csc", "sec", "cot", "sinh", "cosh", "tanh"]:
+            if name in ['sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'sinh', 'cosh', 'tanh']:
                 if func_pow == -1:
-                    name = "a" + name
+                    name = 'a' + name
                     should_pow = False
                 expr = getattr(sympy.functions, name)(arg, evaluate=False)
 
@@ -704,78 +693,89 @@ class LatexToSympy:
 
             return expr
 
-        elif func.func_normal_multi_arg():
-            if func.L_PAREN():  # function called with parenthesis
-                args = func.func_multi_arg().getText().split(",")
-            else:
-                args = func.func_multi_arg_noparens().split(",")
-
+        elif 'func_normal_multi_arg' in func:
+            args = func.get('func_multi_arg').get('text').split(',')
             args = list(map(lambda arg: process_sympy(arg, self.variable_values), args))
-            name = func.func_normal_multi_arg().start.text[1:]
 
-            if name == "operatorname":
-                operatorname = func.func_normal_multi_arg().func_operator_name.getText()
-                if operatorname in ["gcd", "lcm"]:
+            if 'tokens' in func.get('func_normal_multi_arg'):
+                name = func.get('func_normal_multi_arg').get('tokens')[0].get('text')[1:]
+            else:
+                name = func.get('func_normal_multi_arg').get('func_normal_functions_multi_arg').get('text')[1:]
+
+            if name == 'operatorname':
+                operatorname = func.get('func_normal_multi_arg').get('func_operator_names_multi_arg').get('text')
+                if operatorname in ['gcd', 'lcm']:
                     expr = self.handle_gcd_lcm(operatorname, args)
-            elif name in ["gcd", "lcm"]:
+                else:  # pragma: no cover
+                    raise Exception('Unrecognized operatorname')
+            elif name in ['gcd', 'lcm']:
                 expr = self.handle_gcd_lcm(name, args)
-            elif name in ["max", "min"]:
+            elif name in ['max', 'min']:
                 name = name[0].upper() + name[1:]
                 expr = getattr(sympy.functions, name)(*args, evaluate=False)
+            else:  # pragma: no cover
+                raise Exception('Unrecognized func_normal_multi_arg')
 
             func_pow = None
             should_pow = True
-            if func.supexpr():
-                if func.supexpr().expr():
-                    func_pow = self.convert_expr(func.supexpr().expr())
-                else:
-                    func_pow = self.convert_atom(func.supexpr().atom())
+            if 'supexpr' in func:
+                supexpr = func.get('supexpr')
+                if 'atom' in supexpr:
+                    func_pow = self.convert_atom(supexpr.get('atom'))
+                elif 'expr' in supexpr:
+                    func_pow = self.convert_expr(supexpr.get('expr'))
+                else:  # pragma: no cover
+                    raise Exception('Invalid supexpr')
 
             if func_pow and should_pow:
                 expr = sympy.Pow(expr, func_pow, evaluate=False)
 
             return expr
 
-        elif func.FUNC_INT():
+        elif self.has_type_or_token(func, LATEXLexer.FUNC_INT):
             return self.handle_integral(func)
-        elif func.FUNC_SQRT():
-            expr = self.convert_expr(func.base)
-            if func.root:
-                r = self.convert_expr(func.root)
+        elif self.has_type_or_token(func, LATEXLexer.FUNC_SQRT):
+            exprs = func.get('expr')
+            expr = self.convert_expr(exprs[1]) if isinstance(exprs, list) else self.convert_expr(exprs)
+            if isinstance(exprs, list):
+                r = self.convert_expr(exprs[0])
                 return sympy.Pow(expr, 1 / r, evaluate=False)
             else:
                 return sympy.Pow(expr, sympy.S.Half, evaluate=False)
-        elif func.FUNC_SUM():
-            return self.handle_sum_or_prod(func, "summation")
-        elif func.FUNC_PROD():
-            return self.handle_sum_or_prod(func, "product")
-        elif func.FUNC_LIM():
+        elif self.has_type_or_token(func, LATEXLexer.FUNC_SUM):
+            return self.handle_sum_or_prod(func, 'summation')
+        elif self.has_type_or_token(func, LATEXLexer.FUNC_PROD):
+            return self.handle_sum_or_prod(func, 'product')
+        elif self.has_type_or_token(func, LATEXLexer.FUNC_LIM):
             return self.handle_limit(func)
-        elif func.EXP_E():
+        elif self.has_type_or_token(func, LATEXLexer.EXP_E):
             return self.handle_exp(func)
+        else:  # pragma: no cover
+            raise Exception('Unrecognized func')
 
     def convert_func_arg(self, arg):
-        if hasattr(arg, 'expr'):
-            return self.convert_expr(arg.expr())
+        if 'expr' in arg:
+            return self.convert_expr(arg.get('expr'))
         else:
-            return self.convert_mp(arg.mp_nofunc())
+            return self.convert_mp(arg.get('mp_nofunc'))
 
     def handle_integral(self, func):
-        if func.additive():
-            integrand = self.convert_add(func.additive())
-        elif func.frac():
-            integrand = self.convert_frac(func.frac())
+        if 'additive' in func:
+            integrand = self.convert_add(func.get('additive'))
+        elif 'frac' in func:
+            integrand = self.convert_frac(func.get('frac'))
         else:
             integrand = 1
 
         int_var = None
-        if func.DIFFERENTIAL():
-            int_var = self.get_differential_var(func.DIFFERENTIAL())
+        differential = self.get_token(func, LATEXLexer.DIFFERENTIAL)
+        if differential is not None:
+            int_var = self.get_differential_var(differential.get('text'))
         else:
             for sym in integrand.atoms(sympy.Symbol):
                 s = str(sym)
                 if len(s) > 1 and s[0] == 'd':
-                    if s[1] == '\\':
+                    if s[1] == '\\':  # pragma: no cover
                         int_var = sympy.Symbol(s[2:], real=True, positive=True)
                     else:
                         int_var = sympy.Symbol(s[1:], real=True, positive=True)
@@ -786,67 +786,85 @@ class LatexToSympy:
                 # Assume dx by default
                 int_var = sympy.Symbol('x', real=True, positive=True)
 
-        if func.subexpr():
-            if func.subexpr().atom():
-                lower = self.convert_atom(func.subexpr().atom())
-            else:
-                lower = self.convert_expr(func.subexpr().expr())
-            if func.supexpr().atom():
-                upper = self.convert_atom(func.supexpr().atom())
-            else:
-                upper = self.convert_expr(func.supexpr().expr())
+        if 'subexpr' in func:
+            subexpr = func.get('subexpr')
+            supexpr = func.get('supexpr')
+
+            if 'atom' in subexpr:
+                lower = self.convert_atom(subexpr.get('atom'))
+            elif 'expr' in subexpr:
+                lower = self.convert_expr(subexpr.get('expr'))
+            else:  # pragma: no cover
+                raise Exception('Invalid subexpr')
+            if 'atom' in func.get('supexpr'):
+                upper = self.convert_atom(supexpr.get('atom'))
+            elif 'expr' in supexpr:
+                upper = self.convert_expr(supexpr.get('expr'))
+            else:  # pragma: no cover
+                raise Exception('Invalid supexpr')
             return sympy.Integral(integrand, (int_var, lower, upper))
         else:
             return sympy.Integral(integrand, int_var)
 
     def handle_sum_or_prod(self, func, name):
-        val = self.convert_mp(func.mp())
-        iter_var = self.convert_expr(func.subeq().equality().expr(0))
-        start = self.convert_expr(func.subeq().equality().expr(1))
-        if func.supexpr().expr():  # ^{expr}
-            end = self.convert_expr(func.supexpr().expr())
-        else:  # ^atom
-            end = self.convert_atom(func.supexpr().atom())
+        val = self.convert_mp(func.get('mp'))
+        iter_var = self.convert_expr(func.get('subeq').get('equality').get('expr')[0])
+        start = self.convert_expr(func.get('subeq').get('equality').get('expr')[1])
 
-        if name == "summation":
+        supexpr = func.get('supexpr')
+        if 'atom' in func.get('supexpr'):  # ^atom
+            end = self.convert_atom(supexpr.get('atom'))
+        elif 'expr' in supexpr:  # ^{expr}
+            end = self.convert_expr(supexpr.get('expr'))
+        else:  # pragma: no cover
+            raise Exception('Invalid supexpr')
+
+        if name == 'summation':
             return sympy.Sum(val, (iter_var, start, end))
-        elif name == "product":
+        elif name == 'product':
             return sympy.Product(val, (iter_var, start, end))
+        else:  # pragma: no cover
+            raise Exception('Unrecognized sum/prod')
 
     def handle_limit(self, func):
-        sub = func.limit_sub()
-        if sub.LETTER_NO_E():
-            var = sympy.Symbol(sub.LETTER_NO_E().getText(), real=True, positive=True)
-        elif sub.GREEK_CMD():
-            var = sympy.Symbol(sub.GREEK_CMD().getText()[1:].strip(), real=True, positive=True)
+        sub = func.get('limit_sub')
+        letter_no_e = self.get_token(sub, LATEXLexer.LETTER_NO_E)
+        greek_cmd = self.get_token(sub, LATEXLexer.GREEK_CMD)
+        if letter_no_e is not None:
+            var = sympy.Symbol(letter_no_e.get('text'), real=True, positive=True)
+        elif greek_cmd is not None:
+            var = sympy.Symbol(greek_cmd.get('text')[1:].strip(), real=True, positive=True)
+        else:  # pragma: no cover
+            raise Exception('Unrecognized limit')
+        if self.get_token(sub, LATEXLexer.SUB) is not None:
+            direction = '-'
         else:
-            var = sympy.Symbol('x', real=True, positive=True)
-        if sub.SUB():
-            direction = "-"
-        else:
-            direction = "+"
-        approaching = self.convert_expr(sub.expr())
-        content = self.convert_mp(func.mp())
+            direction = '+'
+        approaching = self.convert_expr(sub.get('expr'))
+        content = self.convert_mp(func.get('mp'))
 
         return sympy.Limit(content, var, approaching, direction)
 
     def handle_exp(self, func):
-        if func.supexpr():
-            if func.supexpr().expr():  # ^{expr}
-                exp_arg = self.convert_expr(func.supexpr().expr())
-            else:  # ^atom
-                exp_arg = self.convert_atom(func.supexpr().atom())
+        if 'supexpr' in func:
+            supexpr = func.get('supexpr')
+            if 'atom' in func.get('supexpr'):  # ^atom
+                exp_arg = self.convert_atom(supexpr.get('atom'))
+            elif 'expr' in supexpr:  # ^{expr}
+                exp_arg = self.convert_expr(supexpr.get('expr'))
+            else:  # pragma: no cover
+                raise Exception('Invalid supexpr')
         else:
             exp_arg = 1
         return sympy.exp(exp_arg)
 
     def handle_gcd_lcm(self, f, args):
-        """
+        '''
         Return the result of gcd() or lcm(), as UnevaluatedExpr
 
-        f: str - name of function ("gcd" or "lcm")
+        f: str - name of function ('gcd' or 'lcm')
         args: List[Expr] - list of function arguments
-        """
+        '''
 
         args = tuple(map(sympy.nsimplify, args))
 
@@ -854,32 +872,43 @@ class LatexToSympy:
         return sympy.UnevaluatedExpr(getattr(sympy, f)(args))
 
     def handle_floor(self, expr):
-        """
+        '''
         Apply floor() then return the floored expression.
 
         expr: Expr - sympy expression as an argument to floor()
-        """
+        '''
         return sympy.functions.floor(expr, evaluate=False)
 
     def handle_ceil(self, expr):
-        """
+        '''
         Apply ceil() then return the ceil-ed expression.
 
         expr: Expr - sympy expression as an argument to ceil()
-        """
+        '''
         return sympy.functions.ceiling(expr, evaluate=False)
 
     def get_differential_var(self, d):
-        text = self.get_differential_var_str(d.getText())
+        text = self.get_differential_var_str(d)
         return sympy.Symbol(text, real=True, positive=True)
 
     def get_differential_var_str(self, text):
         for i in range(1, len(text)):
             c = text[i]
-            if not (c == " " or c == "\r" or c == "\n" or c == "\t"):
+            if not (c == ' ' or c == '\r' or c == '\n' or c == '\t'):
                 idx = i
                 break
         text = text[idx:]
-        if text[0] == "\\":
+        if text[0] == '\\':
             text = text[1:]
         return text
+
+    def get_token(self, node, type):
+        tokens = node.get('tokens') if 'tokens' in node else None
+        token = next((t for t in node.get('tokens') if t.get('type') == type), None) if tokens is not None else None
+        return token
+
+    def has_type_or_token(self, node, type):
+        if 'type' in node and node.get('type') == type:
+            return True
+        token = self.get_token(node, type)
+        return token is not None

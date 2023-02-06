@@ -1,5 +1,5 @@
 from sympy import srepr, Add, Mul, Pow, Rational, pi, sqrt, Symbol, exp, Eq
-from latex2sympy.latex2sympy2 import process_sympy
+from latex2sympy.latex2sympy import process_sympy
 
 
 x = Symbol('x', real=True, positive=True)
