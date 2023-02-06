@@ -13,14 +13,5 @@
 		"tests"
 	],
 	"python.linting.enabled": true,
-	"python.linting.pycodestyleEnabled": true,
-	"files.associations": {
-		"__node_handle": "cpp",
-		"optional": "cpp",
-		"system_error": "cpp",
-		"__locale": "cpp",
-		"filesystem": "cpp",
-		"stdexcept": "cpp",
-		"string": "cpp"
-	}
+	"python.linting.pycodestyleEnabled": true
 }

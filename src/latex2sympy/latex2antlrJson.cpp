@@ -10,7 +10,20 @@ using namespace latex2antlr;
 using namespace antlr4;
 using namespace std::chrono;
 
-Json::Value toJsonNode(tree::TerminalNode *terminalNode) {
+/// @brief Return the friendly name for the given ParseTree if it is a RuleContext.
+std::string getRuleName(tree::ParseTree *tree, LATEXParser *parser) {
+    std::string name = "";
+    if (ParserRuleContext::is(tree)) {
+        ParserRuleContext *ruleContext = static_cast<ParserRuleContext *>(tree);
+        const std::vector<std::string> ruleNames = parser->getRuleNames();
+        int ruleIndex = ruleContext->getRuleIndex();
+        name = ruleNames[ruleIndex];
+    }
+    return name;
+}
+
+/// @brief Convert a terminal node into a JSON object.
+Json::Value toJson(tree::TerminalNode *terminalNode) {
     Json::Value node;
     Token* token = terminalNode->getSymbol();
     if (token) {
@@ -22,21 +35,17 @@ Json::Value toJsonNode(tree::TerminalNode *terminalNode) {
     return node;
 }
 
-std::string getRuleName(tree::ParseTree *tree, LATEXParser *parser) {
-    ParserRuleContext *ruleContext = static_cast<ParserRuleContext *>(tree);
-    const std::vector<std::string> ruleNames = parser->getRuleNames();
-    int ruleIndex = ruleContext->getRuleIndex();
-    std::string name = ruleNames[ruleIndex];
-    return name;
-}
+/// @brief Convert a ParseTree into a JSON object, recursively.
+Json::Value toJson(tree::ParseTree *tree, LATEXParser *parser);
 
-Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser);
-
-Json::Value fracToJsonTree(LATEXParser::FracContext *frac, LATEXParser *parser) {
+/// @brief Convert a FracContext into a JSON object.
+Json::Value fracToJson(LATEXParser::FracContext *frac, LATEXParser *parser) {
     Json::Value node;
 
+    // explicitly construct upper and lower nodes with required sub nodes
+
     LATEXParser::ExprContext *upperCtx = frac->expr(0);
-    Json::Value upper = toJsonTree(upperCtx, parser);
+    Json::Value upper = toJson(upperCtx, parser);
     upper["text"] = upperCtx->getText();
     upper["start"]["text"] = upperCtx->getStart()->getText();
     upper["start"]["type"] = (int)upperCtx->getStart()->getType();
@@ -45,7 +54,7 @@ Json::Value fracToJsonTree(LATEXParser::FracContext *frac, LATEXParser *parser) 
     node["upper"] = upper;
 
     LATEXParser::ExprContext *lowerCtx = frac->expr(1);
-    Json::Value lower = toJsonTree(lowerCtx, parser);
+    Json::Value lower = toJson(lowerCtx, parser);
     lower["text"] = lowerCtx->getText();
     lower["start"]["text"] = lowerCtx->getStart()->getText();
     lower["start"]["type"] = (int)lowerCtx->getStart()->getType();
@@ -53,14 +62,18 @@ Json::Value fracToJsonTree(LATEXParser::FracContext *frac, LATEXParser *parser) 
     lower["stop"]["type"] = (int)lowerCtx->getStop()->getType();
     node["lower"] = lower;
 
+    // iterate all children to find all terminal nodes to create tokens
     Json::Value tokens;
     for (auto *child : frac->children) {
         if (tree::TerminalNode::is(child)) {
             tree::TerminalNode *terminalNode = static_cast<tree::TerminalNode *>(child);
-            Json::Value childNode = toJsonNode(terminalNode);
+            Json::Value childNode = toJson(terminalNode);
             tokens.append(childNode);
         }
     }
+
+    // if there is only one token, merge it into the current node
+    // otherwise add tokens as a nested array
     if (tokens.size() == 1) {
         node["text"] = tokens[0]["text"];
         node["type"] = tokens[0]["type"];
@@ -71,22 +84,29 @@ Json::Value fracToJsonTree(LATEXParser::FracContext *frac, LATEXParser *parser) 
     return node;
 }
 
-Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
+/// @brief Convert a ParseTree into a JSON object, recursively.
+Json::Value toJson(tree::ParseTree *tree, LATEXParser *parser) {
     std::string name = getRuleName(tree, parser);
     std::string parentName = tree->parent ? getRuleName(tree->parent, parser) : "";
 
     Json::Value node;
     Json::Value tokens;
+
+    // iterate all children to find nested rule contexts and terminal nodes
     for (auto *child : tree->children) {
         if (ParserRuleContext::is(child)) {
             std::string childName = getRuleName(child, parser);
+            // frac requires additional custom subnodes
             if (childName == "frac") {
                 LATEXParser::FracContext *frac = static_cast<LATEXParser::FracContext *>(child);
-                Json::Value childNode = fracToJsonTree(frac, parser);
+                Json::Value childNode = fracToJson(frac, parser);
                 node[childName] = childNode;
             } else {
-                Json::Value childNode = toJsonTree(child, parser);
+                // recurse to convert the child tree
+                Json::Value childNode = toJson(child, parser);
                 if (node[childName].empty()) {
+                    // force certain rules to ALWAYs return as an array
+                    // otherwise, single values are set as property objects, e.g. { "foo": child }
                     if (childName == "postfix" ||
                         childName == "postfix_nofunc" ||
                         childName == "postfix_op" ||
@@ -99,8 +119,12 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
                         node[childName] = childNode;
                     }
                 } else if (node[childName].isArray()) {
+                    // if there is already an array at the given name, simply append the new child
                     node[childName].append(childNode);
                 } else {
+                    // if a child with the same name was added as a property object
+                    // convert that property to an array, and append the new child
+                    // e.g. { "foo": child1 } => { "foo": [child1, child2]}
                     Json::Value array;
                     array.append(node[childName]);
                     array.append(childNode);
@@ -109,11 +133,13 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
             }
         } else if (tree::TerminalNode::is(child)) {
             tree::TerminalNode *terminalNode = static_cast<tree::TerminalNode *>(child);
-            Json::Value childNode = toJsonNode(terminalNode);
+            Json::Value childNode = toJson(terminalNode);
             tokens.append(childNode);
         }
     }
 
+    // if there is only one token, merge it into the current node
+    // otherwise add tokens as a nested array
     if (tokens.size() == 1) {
         node["text"] = tokens[0]["text"];
         node["type"] = tokens[0]["type"];
@@ -121,7 +147,7 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
         node["tokens"] = tokens;
     }
 
-    // return full text of tree for specific rules
+    // return the full text of the tree for specific rules
     if (name == "func_multi_arg" ||
         name == "mathit_text" ||
         parentName == "supexpr" ||
@@ -133,8 +159,9 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
     return node;
 }
 
+/// @brief Convert a ParseTree to JSON and then write it to a string.
 std::string toJsonString(tree::ParseTree *tree, LATEXParser *parser) {
-    Json::Value root = toJsonTree(tree, parser);
+    Json::Value root = toJson(tree, parser);
     Json::FastWriter fastWriter;
     std::string json = fastWriter.write(root);
     return json;
@@ -166,10 +193,11 @@ class MathErrorListener : public BaseErrorListener {
 
 };
 
+/// @brief A function which parses a latex string and returns a json string of antlr data
 std::string parseToJson(const std::string &input) {
-    // auto begin = high_resolution_clock::now();
     MathErrorListener mathErrorListener(input);
     ANTLRInputStream stream(input);
+
     LATEXLexer lexer(&stream);
     lexer.removeErrorListeners();
     lexer.addErrorListener(&mathErrorListener);
@@ -180,17 +208,8 @@ std::string parseToJson(const std::string &input) {
     parser.addErrorListener(&mathErrorListener);
 
     LATEXParser::MathContext *math = parser.math();
-    // auto end = high_resolution_clock::now();
-    // auto duration = duration_cast<microseconds>(end - begin);
-    // std::cout << math -> toStringTree(&parser, true) << std::endl;
-    // std::cout << "parser Elapsed Time: " << duration.count() / 1000.0 << "ms" << std::endl;
 
-    // begin = high_resolution_clock::now();
     std::string jsonString = toJsonString(math, &parser);
-    // end = high_resolution_clock::now();
-    // duration = duration_cast<microseconds>(end - begin);
-    // std::cout << "toJsonString Elapsed Time: " << duration.count() / 1000.0 << "ms" << std::endl;
-
     return jsonString;
 }
 
