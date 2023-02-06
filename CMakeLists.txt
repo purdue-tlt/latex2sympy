@@ -83,7 +83,7 @@ include_directories(${ANTLR_LATEX_OUTPUT_DIR})
 
 set(python_module_name latex2antlrJson)
 
-pybind11_add_module(${python_module_name} src/latex2sympy/parser/cpp/latex2antlrJson.cpp ${ANTLR_LATEX_CXX_OUTPUTS})
+pybind11_add_module(${python_module_name} src/latex2sympy/latex2antlrJson.cpp ${ANTLR_LATEX_CXX_OUTPUTS})
 target_link_libraries(${python_module_name} PUBLIC antlr4_static ${CONAN_LIBS})
 
 target_compile_features(${python_module_name} PUBLIC cxx_std_17)
