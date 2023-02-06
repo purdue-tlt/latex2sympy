@@ -55,7 +55,7 @@ class LatexToSympy:
         '''
         pre-processing for issues the parser cannot handle
 
-        find any single char sup/sub and wrap them in "{}"
+        find any single char sup/sub and wrap them in '{}'
         e.g. `4^26^2` => `4^{2}6^{2}`
         e.g. `x_22` => `x_{2}2`
 
@@ -247,7 +247,7 @@ class LatexToSympy:
             lh = self.convert_mp(mp_left)
             rh = self.convert_mp(mp_right)
             if rh.is_Matrix:
-                raise Exception("Cannot perform modulo operation with a matrix as an operand")
+                raise Exception('Cannot perform modulo operation with a matrix as an operand')
             else:
                 return sympy.Mod(lh, rh, evaluate=False)
         else:  # pragma: no cover
@@ -257,7 +257,7 @@ class LatexToSympy:
         if 'postfix_nofunc' in unary:
             first = unary.get('postfix')
             tail = unary.get('postfix_nofunc')
-            postfix = [first] + tail
+            postfix = first + tail
             return self.convert_postfix_list(postfix)
         elif 'postfix' in unary:
             postfix = unary.get('postfix')
@@ -275,7 +275,7 @@ class LatexToSympy:
         elif type == LATEXLexer.SUB:
             tmp_convert_nested_unary = self.convert_unary(nested_unary)
             if tmp_convert_nested_unary.is_Matrix:
-                return self.mat_mul_flat(-1, tmp_convert_nested_unary, evaluate=False)
+                return self.mat_mul_flat(-1, tmp_convert_nested_unary)
             else:
                 if tmp_convert_nested_unary.func.is_Number:
                     return -tmp_convert_nested_unary
@@ -285,8 +285,8 @@ class LatexToSympy:
             return None
 
     def convert_postfix_list(self, arr, i=0):
-        if i >= len(arr):
-            raise Exception("Index out of bounds")
+        if i >= len(arr):  # pragma: no cover
+            raise Exception('Index out of bounds')
 
         res = self.convert_postfix(arr[i])
 
@@ -304,7 +304,7 @@ class LatexToSympy:
         else:  # must be derivative
             wrt = res[0]
             if i == len(arr) - 1:
-                raise Exception("Expected expression for derivative")
+                raise Exception('Expected expression for derivative')
             else:
                 expr = self.convert_postfix_list(arr, i + 1)
                 return sympy.Derivative(expr, wrt)
@@ -338,7 +338,7 @@ class LatexToSympy:
             for op in postfix.get('postfix_op'):
                 if 'type' in op and op.get('type') == LATEXLexer.BANG:
                     if isinstance(exp, list):
-                        raise Exception("Cannot apply postfix to derivative")
+                        raise Exception('Cannot apply postfix to derivative')
                     exp = sympy.factorial(exp, evaluate=False)
                 elif 'eval_at' in op:
                     ev = op.get('eval_at')
@@ -376,7 +376,7 @@ class LatexToSympy:
 
         base = self.convert_exp(exp_nested)
         if isinstance(base, list):
-            raise Exception("Cannot raise derivative to power")
+            raise Exception('Cannot raise derivative to power')
         if 'atom' in exp:
             exponent = self.convert_atom(exp.get('atom'))
         elif 'expr' in exp:
@@ -416,7 +416,7 @@ class LatexToSympy:
             atom_text = ''
             if type == LATEXLexer.LETTER_NO_E:
                 atom_text = atom_expr.get('text')
-                if atom_text == "I":
+                if atom_text == 'I':
                     return sympy.I
             elif type == LATEXLexer.GREEK_CMD:
                 atom_text = atom_expr.get('text')[1:].strip()
@@ -425,12 +425,16 @@ class LatexToSympy:
                 # get name for accent
                 name = atom_accent.get('accent_symbol').get('text')[1:]
                 # exception: check if bar or overline which are treated both as bar
-                if name in ["bar", "overline"]:
-                    name = "bar"
+                if name in ['bar', 'overline']:
+                    name = 'bar'
+                else:  # pragma: no cover
+                    raise Exception('unknown accent symbol')
                 # get the base (variable)
                 base = atom_accent.get('expr').get('text')
                 # set string to base+name
                 atom_text = base + name
+            else:  # pragma: no cover
+                raise Exception('invalid atom_expr')
 
             # find atom's subscript, if any
             subscript_text = ''
@@ -463,17 +467,17 @@ class LatexToSympy:
 
             return atom_symbol
         elif 'type' in atom and atom.get('type') == LATEXLexer.SYMBOL:
-            s = atom.get('text').replace("\\$", "").replace("\\%", "")
-            if s == "\\infty":
+            s = atom.get('text').replace('\\$', '').replace('\\%', '')
+            if s == '\\infty':
                 return sympy.oo
             elif s == '\\pi':
                 return sympy.pi
             elif s == '\\emptyset':
                 return sympy.S.EmptySet
             else:
-                raise Exception("Unrecognized symbol")
+                raise Exception('Unrecognized symbol')
         elif 'type' in atom and atom.get('type') == LATEXLexer.NUMBER:
-            s = atom.get('text').replace(",", "")
+            s = atom.get('text').replace(',', '')
             try:
                 sr = sympy.Rational(s)
                 return sr
@@ -499,7 +503,7 @@ class LatexToSympy:
                 n = sympy.Number(n_exp)
             return n
         elif 'type' in atom and atom.get('type') == LATEXLexer.FRACTION_NUMBER:
-            s = atom.get('text').replace("\\frac{", "").replace("}{", "/").replace("}", "").replace(",", "")
+            s = atom.get('text').replace('\\frac{', '').replace('}{', '/').replace('}', '').replace(',', '')
             try:
                 sr = sympy.Rational(s)
                 return sr
@@ -518,7 +522,7 @@ class LatexToSympy:
             except (TypeError, ValueError):
                 return sympy.Number(s)
         elif 'type' in atom and atom.get('type') == LATEXLexer.E_NOTATION:
-            s = atom.get('text').replace(",", "")
+            s = atom.get('text').replace(',', '')
             try:
                 sr = sympy.Rational(s)
                 return sr
@@ -532,12 +536,12 @@ class LatexToSympy:
             return sympy.Symbol(text, real=True, positive=True)
         elif 'type' in atom and atom.get('type') == LATEXLexer.VARIABLE:
             text = atom.get('text')
-            is_percent = text.endswith("\\%")
+            is_percent = text.endswith('\\%')
             trim_amount = 3 if is_percent else 1
             name = text[10:]
             name = name[0:len(name) - trim_amount]
 
-            # revert to the "original" variable name stored from `pre_process_latex`
+            # revert to the 'original' variable name stored from `pre_process_latex`
             # original name might be the same if it already had a wrapped single char sub
             name = self.variable_name_dict[name]
 
@@ -564,7 +568,7 @@ class LatexToSympy:
             return symbol
 
         elif 'type' in atom and atom.get('type') == LATEXLexer.PERCENT_NUMBER:
-            text = atom.get('text').replace("\\%", "").replace(",", "")
+            text = atom.get('text').replace('\\%', '').replace(',', '')
             try:
                 number = sympy.Rational(text)
             except (TypeError, ValueError):
@@ -638,49 +642,49 @@ class LatexToSympy:
                 name = func.get('func_normal_single_arg').get('func_normal_functions_single_arg').get('text')[1:]
 
             # change arc<trig> -> a<trig>
-            if name in ["arcsin", "arccos", "arctan", "arccsc", "arcsec",
-                        "arccot"]:
-                name = "a" + name[3:]
+            if name in ['arcsin', 'arccos', 'arctan', 'arccsc', 'arcsec',
+                        'arccot']:
+                name = 'a' + name[3:]
                 expr = getattr(sympy.functions, name)(arg, evaluate=False)
-            elif name in ["arsinh", "arcosh", "artanh"]:
-                name = "a" + name[2:]
+            elif name in ['arsinh', 'arcosh', 'artanh']:
+                name = 'a' + name[2:]
                 expr = getattr(sympy.functions, name)(arg, evaluate=False)
-            elif name in ["arcsinh", "arccosh", "arctanh"]:
-                name = "a" + name[3:]
+            elif name in ['arcsinh', 'arccosh', 'arctanh']:
+                name = 'a' + name[3:]
                 expr = getattr(sympy.functions, name)(arg, evaluate=False)
-            elif name == "operatorname":
+            elif name == 'operatorname':
                 operatorname = func.get('func_normal_single_arg').get('func_operator_names_single_arg').get('text')
 
-                if operatorname in ["arsinh", "arcosh", "artanh"]:
-                    operatorname = "a" + operatorname[2:]
+                if operatorname in ['arsinh', 'arcosh', 'artanh']:
+                    operatorname = 'a' + operatorname[2:]
                     expr = getattr(sympy.functions, operatorname)(arg, evaluate=False)
-                elif operatorname in ["arcsinh", "arccosh", "arctanh"]:
-                    operatorname = "a" + operatorname[3:]
+                elif operatorname in ['arcsinh', 'arccosh', 'arctanh']:
+                    operatorname = 'a' + operatorname[3:]
                     expr = getattr(sympy.functions, operatorname)(arg, evaluate=False)
-                elif operatorname == "floor":
+                elif operatorname == 'floor':
                     expr = self.handle_floor(arg)
-                elif operatorname == "ceil":
+                elif operatorname == 'ceil':
                     expr = self.handle_ceil(arg)
                 else:  # pragma: no cover
                     return None
-            elif name in ["log", "ln"]:
+            elif name in ['log', 'ln']:
                 if 'subexpr' in func:
                     if 'atom' in func.get('subexpr'):
                         base = self.convert_atom(func.get('subexpr').get('atom'))
                     else:
                         base = self.convert_expr(func.get('subexpr').get('expr'))
-                elif name == "log":
+                elif name == 'log':
                     base = 10
-                elif name == "ln":
+                elif name == 'ln':
                     base = sympy.E
                 else:  # pragma: no cover
                     return None
                 expr = sympy.log(arg, base, evaluate=False)
-            elif name in ["exp", "exponentialE"]:
+            elif name in ['exp', 'exponentialE']:
                 expr = sympy.exp(arg)
-            elif name == "floor":
+            elif name == 'floor':
                 expr = self.handle_floor(arg)
-            elif name == "ceil":
+            elif name == 'ceil':
                 expr = self.handle_ceil(arg)
 
             func_pow = None
@@ -691,9 +695,9 @@ class LatexToSympy:
                 else:
                     func_pow = self.convert_atom(func.get('supexpr').get('atom'))
 
-            if name in ["sin", "cos", "tan", "csc", "sec", "cot", "sinh", "cosh", "tanh"]:
+            if name in ['sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'sinh', 'cosh', 'tanh']:
                 if func_pow == -1:
-                    name = "a" + name
+                    name = 'a' + name
                     should_pow = False
                 expr = getattr(sympy.functions, name)(arg, evaluate=False)
 
@@ -703,7 +707,7 @@ class LatexToSympy:
             return expr
 
         elif 'func_normal_multi_arg' in func:
-            args = func.get('func_multi_arg').get('text').split(",")
+            args = func.get('func_multi_arg').get('text').split(',')
             args = list(map(lambda arg: process_sympy(arg, self.variable_values), args))
 
             if 'tokens' in func.get('func_normal_multi_arg'):
@@ -711,13 +715,13 @@ class LatexToSympy:
             else:
                 name = func.get('func_normal_multi_arg').get('func_normal_functions_multi_arg').get('text')[1:]
 
-            if name == "operatorname":
+            if name == 'operatorname':
                 operatorname = func.get('func_normal_multi_arg').get('func_operator_names_multi_arg').get('text')
-                if operatorname in ["gcd", "lcm"]:
+                if operatorname in ['gcd', 'lcm']:
                     expr = self.handle_gcd_lcm(operatorname, args)
-            elif name in ["gcd", "lcm"]:
+            elif name in ['gcd', 'lcm']:
                 expr = self.handle_gcd_lcm(name, args)
-            elif name in ["max", "min"]:
+            elif name in ['max', 'min']:
                 name = name[0].upper() + name[1:]
                 expr = getattr(sympy.functions, name)(*args, evaluate=False)
             else:  # pragma: no cover
@@ -747,9 +751,9 @@ class LatexToSympy:
             else:
                 return sympy.Pow(expr, sympy.S.Half, evaluate=False)
         elif 'type' in func and func.get('type') == LATEXLexer.FUNC_SUM:
-            return self.handle_sum_or_prod(func, "summation")
+            return self.handle_sum_or_prod(func, 'summation')
         elif 'type' in func and func.get('type') == LATEXLexer.FUNC_PROD:
-            return self.handle_sum_or_prod(func, "product")
+            return self.handle_sum_or_prod(func, 'product')
         elif 'type' in func and func.get('type') == LATEXLexer.FUNC_LIM:
             return self.handle_limit(func)
         elif 'type' in func and func.get('type') == LATEXLexer.EXP_E:
@@ -812,9 +816,9 @@ class LatexToSympy:
         else:  # ^atom
             end = self.convert_atom(func.get('supexpr').get('atom'))
 
-        if name == "summation":
+        if name == 'summation':
             return sympy.Sum(val, (iter_var, start, end))
-        elif name == "product":
+        elif name == 'product':
             return sympy.Product(val, (iter_var, start, end))
         else:  # pragma: no cover
             return None
@@ -830,9 +834,9 @@ class LatexToSympy:
         else:
             var = sympy.Symbol('x', real=True, positive=True)
         if self.get_token(sub, LATEXLexer.SUB) is not None:
-            direction = "-"
+            direction = '-'
         else:
-            direction = "+"
+            direction = '+'
         approaching = self.convert_expr(sub.get('expr'))
         content = self.convert_mp(func.get('mp'))
 
@@ -849,12 +853,12 @@ class LatexToSympy:
         return sympy.exp(exp_arg)
 
     def handle_gcd_lcm(self, f, args):
-        """
+        '''
         Return the result of gcd() or lcm(), as UnevaluatedExpr
 
-        f: str - name of function ("gcd" or "lcm")
+        f: str - name of function ('gcd' or 'lcm')
         args: List[Expr] - list of function arguments
-        """
+        '''
 
         args = tuple(map(sympy.nsimplify, args))
 
@@ -862,19 +866,19 @@ class LatexToSympy:
         return sympy.UnevaluatedExpr(getattr(sympy, f)(args))
 
     def handle_floor(self, expr):
-        """
+        '''
         Apply floor() then return the floored expression.
 
         expr: Expr - sympy expression as an argument to floor()
-        """
+        '''
         return sympy.functions.floor(expr, evaluate=False)
 
     def handle_ceil(self, expr):
-        """
+        '''
         Apply ceil() then return the ceil-ed expression.
 
         expr: Expr - sympy expression as an argument to ceil()
-        """
+        '''
         return sympy.functions.ceiling(expr, evaluate=False)
 
     def get_differential_var(self, d):
@@ -884,11 +888,11 @@ class LatexToSympy:
     def get_differential_var_str(self, text):
         for i in range(1, len(text)):
             c = text[i]
-            if not (c == " " or c == "\r" or c == "\n" or c == "\t"):
+            if not (c == ' ' or c == '\r' or c == '\n' or c == '\t'):
                 idx = i
                 break
         text = text[idx:]
-        if text[0] == "\\":
+        if text[0] == '\\':
             text = text[1:]
         return text
 

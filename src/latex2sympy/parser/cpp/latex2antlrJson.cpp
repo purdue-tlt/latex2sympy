@@ -88,11 +88,11 @@ Json::Value toJsonTree(tree::ParseTree *tree, LATEXParser *parser) {
                 node[childName] = childNode;
             } else {
                 Json::Value childNode = toJsonTree(child, parser);
-                // merge keys together into a single array
-                if (childName == "postfix_nofunc") 
-                    childName = "postfix";
                 if (node[childName].empty()) {
-                    if (childName == "postfix" || childName == "postfix_op" || childName == "matrix_row")
+                    if (childName == "postfix" ||
+                        childName == "postfix_nofunc" ||
+                        childName == "postfix_op" ||
+                        childName == "matrix_row")
                     {
                         Json::Value array;
                         array.append(childNode);
