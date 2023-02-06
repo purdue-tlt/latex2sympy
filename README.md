@@ -13,7 +13,7 @@ sh scripts/setup.sh
 
 ## Compiling
 
-The compiled parser is located in the `latex2sympy/parser/` directory. The script below should be run **every time the file `LATEX.g4` is modified**.
+The script below should be run **every time the file `LATEX.g4` or `src/latex2sympy/latex2antlrJson.cpp` are modified**.
 
 ```
 sh scripts/compile.sh
@@ -30,7 +30,7 @@ sh scripts/test.sh
 In Python:
 
 ```python
-from latex2sympy import process_sympy
+from latex2sympy.latex2sympy import process_sympy
 
 process_sympy("\\frac{d}{dx} x^{2}")
 # => "diff(x**(2), x)"
