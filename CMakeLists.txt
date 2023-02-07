@@ -29,13 +29,6 @@ endif()
 
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 
-# set default arch
-set(CONAN_SETTING_ARCH x86_64)
-# choose correct arch for conan
-if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
-	set(CONAN_SETTING_ARCH armv8)
-endif()
-
 conan_cmake_run(REQUIRES jsoncpp/1.9.5
 				BASIC_SETUP
 				BUILD missing
