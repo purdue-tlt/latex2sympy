@@ -29,6 +29,7 @@ endif()
 
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 
+# set default if not defined, see `scripts/compile.sh`
 if(NOT DEFINED CONAN_SETTING_ARCH)
 	SET(CONAN_SETTING_ARCH x86_64)
 endif()
@@ -36,7 +37,8 @@ endif()
 conan_cmake_run(REQUIRES jsoncpp/1.9.5
 				BASIC_SETUP
 				BUILD missing
-				ARCH ${CONAN_SETTING_ARCH})
+				ARCH ${CONAN_SETTING_ARCH}
+				SETTINGS arch_build=${CONAN_SETTING_ARCH})
 
 # compile antlr and cpp lexer and parser
 # ----------------------------------------------------------------------------------------

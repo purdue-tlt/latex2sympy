@@ -25,6 +25,7 @@ generator="Unix Makefiles"
 
 # update the output dir based on os and arch
 if [ $os = "Darwin" ]; then
+	# update out_dir and conan arch, if need
 	if [ $arch = "arm64" ]; then
 		out_dir="$out_dir/macOS/arm64"
 		conan_setting_arch="armv8"
