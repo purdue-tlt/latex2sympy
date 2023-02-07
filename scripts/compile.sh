@@ -34,8 +34,8 @@ if [ $os = "Darwin" ]; then
 elif [ $os = "Linux" ]; then
 	out_dir="$out_dir/linux"
 else
-	out_dir="$out_dir/windows"
-	generator="MSYS Makefiles"
+	echo 'Compiling on $os not supported'
+	exit 1
 fi
 
 echo ''

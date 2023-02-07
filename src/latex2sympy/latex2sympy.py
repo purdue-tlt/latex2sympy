@@ -6,15 +6,15 @@ import sympy
 from sympy.core.core import all_classes
 from sympy.parsing.sympy_parser import parse_expr
 
-if platform.system() == 'Windows':
-    from latex2sympy.lib.windows.latex2antlrJson import parseToJson, LATEXLexerToken
-elif platform.system() == 'Linux':
+if platform.system() == 'Linux':
     from latex2sympy.lib.linux.latex2antlrJson import parseToJson, LATEXLexerToken
 elif platform.system() == 'Darwin':
     if platform.machine() == 'arm64':
         from latex2sympy.lib.macOS.arm64.latex2antlrJson import parseToJson, LATEXLexerToken
     else:
         from latex2sympy.lib.macOS.x86_64.latex2antlrJson import parseToJson, LATEXLexerToken
+else:
+    raise Exception(platform.system() + ' platform not supported')
 
 
 def process_sympy(latex: str, variable_values={}):
