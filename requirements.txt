@@ -4,8 +4,6 @@
 #
 #    pip-compile requirements.in
 #
-antlr4-python3-runtime==4.11.1
-    # via -r requirements.in
 mpmath==1.2.1
     # via sympy
 sympy @ git+https://github.com/purdue-tlt/sympy.git@1.10-equals-fix

@@ -4,8 +4,6 @@
 #
 #    pip-compile dev-requirements.in
 #
-antlr4-python3-runtime==4.11.1
-    # via -r requirements.txt
 attrs==22.1.0
     # via pytest
 autopep8==1.7.0
