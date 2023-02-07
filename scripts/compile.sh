@@ -19,22 +19,22 @@ fi
 # get the current os and arch
 os="$(uname -s)"
 arch="$(uname -m)"
-out_dir="$(realpath ..)/src/latex2sympy"
+out_dir="$(realpath ..)/src/latex2sympy/lib"
 conan_setting_arch=$arch
 generator="Unix Makefiles"
 
 # update the output dir based on os and arch
 if [ $os = "Darwin" ]; then
 	if [ $arch = "arm64" ]; then
-		out_dir="$out_dir/parser/macOS/arm64"
+		out_dir="$out_dir/macOS/arm64"
 		conan_setting_arch="armv8"
 	else
-		out_dir="$out_dir/parser/macOS/x86_64"
+		out_dir="$out_dir/macOS/x86_64"
 	fi
 elif [ $os = "Linux" ]; then
-	out_dir="$out_dir/parser/linux"
+	out_dir="$out_dir/linux"
 else
-	out_dir="$out_dir/parser/windows"
+	out_dir="$out_dir/windows"
 	generator="MSYS Makefiles"
 fi
 
