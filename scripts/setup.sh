@@ -30,11 +30,6 @@ else exit 1
 fi
 
 echo ''
-echo "compiling parser..."
-sh scripts/compile.sh
-echo "parser compiled"
-
-echo ''
 echo "setup git hooks..."
 sh scripts/setup-hooks.sh
 echo "git hooks setup"
