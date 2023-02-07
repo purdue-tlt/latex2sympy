@@ -33,7 +33,7 @@ echo "generate and compile cpp parser..."
 rm -rf build
 mkdir build
 cd build
-cmake .. -G $generator -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$out_dir -DCONAN_SETTING_ARCH=$conan_setting_arch
+cmake .. -G "$generator" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$out_dir" -DCONAN_SETTING_ARCH="$conan_setting_arch"
 make install
 echo "cpp parser generated and compiled"
 

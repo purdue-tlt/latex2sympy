@@ -29,6 +29,10 @@ endif()
 
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 
+if(NOT DEFINED CONAN_SETTING_ARCH)
+	SET(CONAN_SETTING_ARCH x86_64)
+endif()
+
 conan_cmake_run(REQUIRES jsoncpp/1.9.5
 				BASIC_SETUP
 				BUILD missing
