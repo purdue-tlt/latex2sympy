@@ -6,14 +6,14 @@ import sympy
 from sympy.core.core import all_classes
 from sympy.parsing.sympy_parser import parse_expr
 
-if platform.system() == 'Linux':
+if platform.system() == 'Linux':  # pragma: no cover
     from latex2sympy.lib.linux.latex2antlrJson import parseToJson, LATEXLexerToken
-elif platform.system() == 'Darwin':
-    if platform.machine() == 'arm64':
+elif platform.system() == 'Darwin':  # pragma: no cover
+    if platform.machine() == 'arm64':  # pragma: no cover
         from latex2sympy.lib.macOS.arm64.latex2antlrJson import parseToJson, LATEXLexerToken
     else:
         from latex2sympy.lib.macOS.x86_64.latex2antlrJson import parseToJson, LATEXLexerToken
-else:
+else:  # pragma: no cover
     raise Exception(platform.system() + ' platform not supported')
 
 
@@ -901,7 +901,7 @@ class LatexToSympy:
         return sympy.Symbol(text, real=True, positive=True)
 
     def get_differential_var_str(self, text):
-        for i in range(1, len(text)):
+        for i in range(1, len(text)):  # pragma: no cover - loop break not recognized correctly
             c = text[i]
             if not (c == ' ' or c == '\r' or c == '\n' or c == '\t'):
                 idx = i
