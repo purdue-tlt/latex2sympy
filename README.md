@@ -1,27 +1,69 @@
 # latex2sympy
 
-latex2sympy parses LaTeX math expressions and converts it into the
-equivalent SymPy form.
+latex2sympy parses LaTeX math expressions and converts them into the equivalent SymPy form.
 
 ## Installation
 
-[ANTLR](http://www.antlr.org/) is used to generate the parser.
-
-```
+```sh
 sh scripts/setup.sh
 ```
 
+If you plan to edit the parser grammar, ensure you have java installed on your machine.
+
 ## Compiling
 
-The compiled parser is located in the `gen/` directory. The script below should be run **every time the file `PS.g4` is modified**.
+The script below should be run **every time the file `LATEX.g4` or `src/latex2sympy/latex2antlrJson.cpp` are modified**.
 
-```
+```sh
 sh scripts/compile.sh
 ```
 
+Pre-compiled parsers are stored in `src/latex2sympy/lib`. **`src/latex2sympy/lib/linux` contains the parser used in azure functions** (see below).
+
+`compile.sh` will only compile for the current system.
+
+### macOS arm64
+Run `compile.sh` on an M1 Mac
+
+### macOS x86_64
+Run `compile.sh` on an Intel Mac, or inside a "Rosetta" Terminal on an M1 Mac
+
+### azure-functions-python / Debian GNU / Linux 11
+
+1. Use docker to get the azure function image from https://hub.docker.com/_/microsoft-azure-functions-python, e.g. `mcr.microsoft.com/azure-functions/python:4-python3.9`
+1. Start a new instance and open its terminal
+1. Install git, build-essentials, default-jre
+	```sh
+	apt-get update && \
+	apt-get upgrade -y && \
+	apt-get install -y git && \
+	apt-get install -y build-essential && \
+	apt-get install -y default-jre
+
+	```
+1. clone latex2sympy with git and compile
+	```sh
+	# make a dir for the repo
+	cd /
+	mkdir git
+	cd git
+	# clone repo
+	git clone https://github.com/purdue-tlt/latex2sympy.git
+	cd latex2sympy
+	# setup venv
+	sh scripts/setup.sh
+	# compile
+	sh scripts/compile.sh
+	```
+1. copy `latex2antlrJson.so` from container
+	```sh
+	docker cp container_name:/git/latex2sympy/src/latex2sympy/lib/linux/latex2antlrJson.so ~/git/purdue/github/latex2sympy/src/latex2sympy/lib/linux/
+	```
+1. commit the updated file
+
 ## Testing
 
-```
+```sh
 sh scripts/test.sh
 ```
 
@@ -30,27 +72,12 @@ sh scripts/test.sh
 In Python:
 
 ```python
-from latex2sympy import process_sympy
+from latex2sympy.latex2sympy import process_sympy
 
 process_sympy("\\frac{d}{dx} x^{2}")
 # => "diff(x**(2), x)"
 ```
 
-- To modify parser grammar, view the existing structure in `PS.g4`.
-- To modify the action associated with each grammar, look into `latex2sympy.py`.
+To modify parser grammar, view the existing structure in `LATEX.g4`.
 
-## Examples
-
-|LaTeX|Image|Generated SymPy|
-|-----|-----|---------------|
-|`x^{3}`|![](https://latex.codecogs.com/gif.latex?%5CLARGE%20x%5E%7B3%7D)| `x**3`|
-|`\frac{d}{dx} |t|x`|![](https://latex.codecogs.com/gif.latex?%5CLARGE%20%5Cfrac%7Bd%7D%7Bdx%7D%20%7Ct%7Cx)|`Derivative(x*Abs(t), x)`|
-|`\sum_{i = 1}^{n} i`|![](https://latex.codecogs.com/gif.latex?%5CLARGE%20%5Csum_%7Bi%20%3D%201%7D%5E%7Bn%7D%20i)|`Sum(i, (i, 1, n))`|
-|`\int_{a}^{b} \frac{dt}{t}`|![](https://latex.codecogs.com/gif.latex?%5CLARGE%20%5Cint_%7Ba%7D%5E%7Bb%7D%20%5Cfrac%7Bdt%7D%7Bt%7D)|`Integral(1/t, (t, a, b))`|
-|`(2x^3 - x + z)|_{x=3}`|![](https://latex.codecogs.com/gif.latex?%5CLARGE%20%282x%5E3%20-%20x%20&plus;%20z%29%7C_%7Bx%3D3%7D)|`z + 51`
-
-## Contributing
-
-Contributors are welcome! Feel free to open a pull request
-or an issue.
-
+To modify the action associated with each grammar, look into `src/latex2sympy/latex2antlrJson.cpp` and `src/latex2sympy/latex2sympy.py`.

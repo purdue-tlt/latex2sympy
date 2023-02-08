@@ -16,11 +16,6 @@ else exit 1
 fi
 
 echo ''
-echo "compiling parser..."
-sh scripts/compile.sh
-echo "parser compiled"
-
-echo ''
 # Run unit tests
 echo "starting tests..."
 if pytest tests
