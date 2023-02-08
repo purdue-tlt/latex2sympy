@@ -1,21 +1,5 @@
 #!/bin/sh
 
-# Get relative path of the root directory of the project
-rdir=`git rev-parse --git-dir`
-rel_path="$(dirname "$rdir")"
-# Change to that path and run the file
-cd $rel_path
-
-echo ''
-# Activate virtual environment
-echo "activating venv..."
-if test -f .env/bin/activate
-then source .env/bin/activate && echo "venv activate (bin)"
-elif test -f .env/Scripts/activate
-then source .env/Scripts/activate && echo "venv activated (Scripts)"
-else exit 1
-fi
-
 # get the current os and arch
 os="$(uname -s)"
 arch="$(uname -m)"
@@ -37,6 +21,22 @@ elif [ $os = "Linux" ]; then
 else
 	echo 'Compiling on $os not supported'
 	exit 1
+fi
+
+# Get relative path of the root directory of the project
+rdir=`git rev-parse --git-dir`
+rel_path="$(dirname "$rdir")"
+# Change to that path and run the file
+cd $rel_path
+
+echo ''
+# Activate virtual environment
+echo "activating venv..."
+if test -f .env/bin/activate
+then source .env/bin/activate && echo "venv activate (bin)"
+elif test -f .env/Scripts/activate
+then source .env/Scripts/activate && echo "venv activated (Scripts)"
+else exit 1
 fi
 
 echo ''

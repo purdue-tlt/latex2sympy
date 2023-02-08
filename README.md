@@ -8,7 +8,7 @@ latex2sympy parses LaTeX math expressions and converts them into the equivalent 
 sh scripts/setup.sh
 ```
 
-If you plan to edit the parser grammar ensure you have java installed on your machine.
+If you plan to edit the parser grammar, ensure you have java installed on your machine.
 
 ## Compiling
 

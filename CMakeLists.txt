@@ -48,9 +48,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 # required if linking to static library
 add_definitions(-DANTLR4CPP_STATIC)
 
-# using /MD flag for antlr4_runtime (for Visual C++ compilers only)
-# set(ANTLR4_WITH_STATIC_CRT OFF)
-
 # Specify the version of the antlr4 library needed for this project.
 # By default the latest version of antlr4 will be used.  You can specify a
 # specific, stable version by setting a repository tag value or a link
