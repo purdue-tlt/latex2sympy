@@ -1,9 +1,15 @@
 #!/bin/sh
 
+# Get relative path of the root directory of the project
+rdir=`git rev-parse --git-dir`
+rel_path="$(dirname "$rdir")"
+# Change to that path and run the file
+cd $rel_path
+
 # get the current os and arch
 os="$(uname -s)"
 arch="$(uname -m)"
-out_dir="$(realpath ..)/src/latex2sympy/lib"
+out_dir="$(realpath .)/src/latex2sympy/lib"
 conan_setting_arch=$arch
 generator="Unix Makefiles"
 
@@ -22,12 +28,6 @@ else
 	echo 'Compiling on $os not supported'
 	exit 1
 fi
-
-# Get relative path of the root directory of the project
-rdir=`git rev-parse --git-dir`
-rel_path="$(dirname "$rdir")"
-# Change to that path and run the file
-cd $rel_path
 
 echo ''
 # Activate virtual environment
