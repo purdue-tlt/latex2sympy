@@ -1,8 +1,4 @@
-grammar PS;
-
-options {
-    language=Python2;
-}
+grammar LATEX;
 
 WS: [ \t\r\n]+ -> skip;
 DOLLAR_SIGN: '\\$' -> skip;
@@ -47,7 +43,7 @@ R_RIGHT: '\\right';
 ML_LEFT: '\\mleft';
 MR_RIGHT: '\\mright';
 
-//functions
+// functions
 FUNC_LIM:  '\\lim';
 LIM_APPROACH_SYM: '\\to' | '\\rightarrow' | '\\Rightarrow' | '\\longrightarrow' | '\\Longrightarrow';
 FUNC_INT:  '\\int';
@@ -100,7 +96,7 @@ FUNC_CEIL: '\\ceil';
 FUNC_MAX: '\\max';
 FUNC_MIN: '\\min';
 
-//commands
+// commands
 CMD_TIMES: '\\times';
 CMD_CDOT:  '\\cdot';
 CMD_DIV:   '\\div';
@@ -113,7 +109,7 @@ CMD_MATHIT: '\\mathit';
 
 CMD_OPERATORNAME: '\\operatorname';
 
-//matrix test
+// matrix test
 MATRIX_TYPE_MATRIX: 'matrix';
 MATRIX_TYPE_PMATRIX: 'pmatrix';
 MATRIX_TYPE_BMATRIX: 'bmatrix';
@@ -123,7 +119,7 @@ CMD_MATRIX_END: '\\end' L_BRACE MATRIX_TYPES R_BRACE;
 MATRIX_DEL_COL: '&';
 MATRIX_DEL_ROW: '\\\\';
 
-//accents such as overline and hat
+// accents such as overline and hat
 ACCENT_OVERLINE:  '\\overline';
 ACCENT_BAR:  '\\bar';
 
@@ -169,56 +165,56 @@ BANG: '!';
 fragment PERCENT_SIGN: '\\%';
 PERCENT_NUMBER: NUMBER PERCENT_SIGN;
 
-//Excludes some letters for use as e.g. constants in SYMBOL
+// Excludes some letters for use as e.g. constants in SYMBOL
 fragment GREEK_LETTER:
-    '\\char"000391' | //Alpha
+    '\\char"000391' | // Alpha
     '\\alpha' |
-    '\\char"000392' | //Beta
+    '\\char"000392' | // Beta
     '\\beta' |
     '\\Gamma' |
     '\\gamma' |
     '\\Delta' |
     '\\delta' |
-    '\\char"000190' | //Epsilon
+    '\\char"000190' | // Epsilon
     '\\epsilon' |
     '\\varepsilon' |
-    '\\char"000396' | //Zeta
+    '\\char"000396' | // Zeta
     '\\zeta' |
-    '\\char"000397' | //Eta
+    '\\char"000397' | // Eta
     '\\eta' |
     '\\Theta' |
     '\\theta' |
     '\\vartheta' |
-    '\\char"000399' | //Iota
+    '\\char"000399' | // Iota
     '\\iota' |
-    '\\char"00039A' | //Kappa
+    '\\char"00039A' | // Kappa
     '\\kappa' |
     '\\Lambda' |
     '\\lambda' |
-    '\\char"00039C' | //Mu
+    '\\char"00039C' | // Mu
     '\\mu' |
-    '\\char"00039D' | //Nu
+    '\\char"00039D' | // Nu
     '\\nu' |
     '\\Xi' |
     '\\xi' |
-    '\\char"00039F' | //Omicron
+    '\\char"00039F' | // Omicron
     '\\omicron' |
     '\\Pi' |
     '\\varpi' |
-    '\\char"0003A1' | //Rho
+    '\\char"0003A1' | // Rho
     '\\rho' |
     '\\varrho' |
     '\\Sigma' |
     '\\sigma' |
     '\\varsigma' |
-    '\\char"0003A4' | //Tau
+    '\\char"0003A4' | // Tau
     '\\tau' |
     '\\Upsilon' |
     '\\upsilon' |
     '\\Phi' |
     '\\phi' |
     '\\varphi' |
-    '\\char"0003A7' | //Chi
+    '\\char"0003A7' | // Chi
     '\\chi' |
     '\\Psi' |
     '\\psi' |
@@ -236,7 +232,7 @@ fragment VARIABLE_CMD: '\\variable';
 fragment VARIABLE_SYMBOL: (GREEK_CMD | LETTER | DIGIT)+ (UNDERSCORE ((L_BRACE (GREEK_CMD | LETTER | DIGIT | COMMA)+ R_BRACE) | (GREEK_CMD | LETTER | DIGIT)))?;
 VARIABLE: VARIABLE_CMD L_BRACE VARIABLE_SYMBOL R_BRACE PERCENT_SIGN?;
 
-//collection of accents
+// collection of accents
 accent_symbol:
     ACCENT_BAR | ACCENT_OVERLINE;
 
@@ -291,11 +287,12 @@ additive:
     additive (ADD | SUB) additive
     | mp;
 
-// mult part
+// multi part
 mp:
     mp (MUL | CMD_TIMES | CMD_CDOT | DIV | CMD_DIV | COLON | CMD_MOD) mp
     | unary;
 
+// multi part that does not include "func"
 mp_nofunc:
     mp_nofunc (MUL | CMD_TIMES | CMD_CDOT | DIV | CMD_DIV | COLON | CMD_MOD) mp_nofunc
     | unary_nofunc;
@@ -408,7 +405,7 @@ ceil_group:
     | ML_LEFT UL_CORNER expr MR_RIGHT UR_CORNER;
 
 
-//indicate an accent
+// indicate an accent
 accent:
     accent_symbol
     L_BRACE base=expr R_BRACE;
@@ -426,7 +423,7 @@ frac:
     lower=expr
     R_BRACE;
 
-//a binomial expression
+// a binomial expression
 binom:
     (CMD_BINOM | CMD_CHOOSE) L_BRACE
     upper=expr
@@ -457,14 +454,12 @@ func_operator_names_multi_arg:
     FUNC_GCD_NAME | FUNC_LCM_NAME;
 
 func_normal_single_arg:
-    (func_normal_functions_single_arg)
-    |
-    (CMD_OPERATORNAME L_BRACE func_operator_name=func_operator_names_single_arg R_BRACE);
+    func_normal_functions_single_arg
+    | CMD_OPERATORNAME L_BRACE func_operator_name=func_operator_names_single_arg R_BRACE;
 
 func_normal_multi_arg:
-    (func_normal_functions_multi_arg)
-    |
-    (CMD_OPERATORNAME L_BRACE func_operator_name=func_operator_names_multi_arg R_BRACE);
+    func_normal_functions_multi_arg
+    | CMD_OPERATORNAME L_BRACE func_operator_name=func_operator_names_multi_arg R_BRACE;
 
 func:
     func_normal_single_arg
@@ -473,9 +468,9 @@ func:
     
     | func_normal_multi_arg
     (subexpr? supexpr? | supexpr? subexpr?)
-    (L_LEFT? L_PAREN func_multi_arg R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_multi_arg MR_RIGHT? R_PAREN | func_multi_arg_noparens)
+    (L_LEFT? L_PAREN func_multi_arg R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_multi_arg MR_RIGHT? R_PAREN)
 
-    //Do not do arbitrary functions but see as multiplications
+    // Do not do arbitrary functions but see as multiplications
     /*| (LETTER_NO_E | SYMBOL) subexpr? // e.g. f(x)
     L_PAREN args R_PAREN
 
@@ -494,7 +489,7 @@ func:
     (subeq supexpr | supexpr subeq)
     mp
     | FUNC_LIM limit_sub mp
-    | EXP_E supexpr?; //Exponential function e^x
+    | EXP_E supexpr?; // Exponential function e^x
 
 args: (expr ',' args) | expr;
 
@@ -509,10 +504,8 @@ func_single_arg: expr;
 func_single_arg_noparens: mp_nofunc;
 
 func_multi_arg: expr | (expr ',' func_multi_arg);
-func_multi_arg_noparens: mp_nofunc;
 
 subexpr: UNDERSCORE (atom | L_BRACE (expr | args) R_BRACE);
 supexpr: CARET (atom | L_BRACE expr R_BRACE);
 
 subeq: UNDERSCORE L_BRACE equality R_BRACE;
-supeq: UNDERSCORE L_BRACE equality R_BRACE;
