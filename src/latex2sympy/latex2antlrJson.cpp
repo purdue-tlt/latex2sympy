@@ -1,4 +1,3 @@
-#include <chrono>
 #include <sstream>
 #include "antlr4-runtime.h"
 #include <json/json.h>
@@ -8,7 +7,6 @@
 
 using namespace latex2antlr;
 using namespace antlr4;
-using namespace std::chrono;
 
 /// @brief Return the friendly name for the given ParseTree if it is a RuleContext.
 std::string getRuleName(tree::ParseTree *tree, LATEXParser *parser) {
