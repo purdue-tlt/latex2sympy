@@ -12,9 +12,9 @@ echo "pre-push hook started..."
 # Activate virtual environment
 echo "activating venv..."
 if test -f .env/bin/activate
-then source .env/bin/activate && echo "venv activated."
+then . .env/bin/activate && echo "venv activated."
 elif test -f .env/Scripts/activate
-then source .env/Scripts/activate && echo "venv activated."
+then . .env/Scripts/activate && echo "venv activated."
 else exit 1
 fi
 
