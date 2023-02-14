@@ -3,6 +3,7 @@ from latex2sympy.latex2sympy import process_sympy
 # from latex2sympy.latex2antlrJson import parseToJson
 
 # enter the variables here
+# ------------------------
 
 # $PT=&random(8,12,1);
 # $pf=&random(0.75,0.85,0.025);
@@ -37,6 +38,7 @@ variable_values = {
 print('variables:', [(key, srepr(value)) for key, value in variable_values.items()])
 
 # enter the calculations here
+# ---------------------------
 
 # Calculations to set up problem variables - same as Skill Builder 3.1.8
 # $P=$PT*1E6/3;
@@ -92,37 +94,55 @@ VXS = I_var * I * Xs
 print('VXS =', VXS)
 
 # $VXSmag=abs($VXS);
+# $VXSmag=338.71215792458
+
 # $VXSphase=arg($VXS)*180/pi;
+# $VXSphase=48.5903778907291
+
 # $Ef=$VT+$VR+$VXS;
+# $Ef=6089.91576894222+172.566106088665i
+
 # $Efmag=abs($Ef);
+# $Efmag=6092.3602268564
+
 # $Efphase=arg($Ef)*180/pi;
+# $Efphase=1.62312006884331
+
 # $VLLNL=sqrt(3)*$Efmag;
+# $VLLNL=10552.2774509271
 
 # New Claculatins for Skill Builder 3.1.9
-# $phirad2=acos($pf2);
-# $I2=cplxe($Imag,-$phirad2);
-# $VXS2=$I2*i*$Xs;
-# $VT2=(($Efmag)**2-(Im($VXS2))**2)**0.5-Re($VXS2);
-# $VLL2=$VT2*sqrt(3);
-# $VLL2ang=0;
-# $delta=acos(($VT2+Re($VXS2))/$Efmag)*180/pi;
-# $VR=($Efmag-$VT2)/$VT2*100;
-# $Pmax=3*$VT2*$Efmag/$Xs;
+# ---------------------------
 
-# $Ef=6089.91576894222+172.566106088665i
-# $Efmag=6092.3602268564
-# $Efphase=1.62312006884331
-# $I2=[615.840287135601,-0.402715841580661]
-# $Pmax=197779219.944474
-# $VLL2=10308.5396944243
-# $VLL2ang=0
-# $VLLNL=10552.2774509271
-# $VT2=5951.6381675278
-# $VXS2=132.747513054755+311.615185290614i
-# $VXSmag=338.71215792458
-# $VXSphase=48.5903778907291
-# $deg2rad=0.0174532925199433
-# $delta=2.93187343130811
+# $phirad2=acos($pf2);
 # $phirad2=0.402715841580661
+
+# $I2=cplxe($Imag,-$phirad2);
+# $I2=[615.840287135601,-0.402715841580661]
+
+# $VXS2=$I2*i*$Xs;
+# $VXS2=132.747513054755+311.615185290614i
+
+# $VT2=(($Efmag)**2-(Im($VXS2))**2)**0.5-Re($VXS2);
+# $VT2=5951.6381675278
+
+# $VLL2=$VT2*sqrt(3);
+# $VLL2=10308.5396944243
+
+# $VLL2ang=0;
+
+# $delta=acos(($VT2+Re($VXS2))/$Efmag)*180/pi;
+# $delta=2.93187343130811
+
+# TODO: overwrite variable?
+# $VR=($Efmag-$VT2)/$VT2*100;
+
+# $Pmax=3*$VT2*$Efmag/$Xs;
+# $Pmax=197779219.944474
+
+# Other
+# ----------------------
+
+# $deg2rad=0.0174532925199433
 # $pi=3.14159265358979
 # $rad2deg=57.2957795130823
