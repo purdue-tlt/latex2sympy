@@ -81,7 +81,6 @@ I_var = process_sympy('\\variable{Imag}*(\\cos{-\\variable{phirad}}+I*\\sin{-\\v
 print('I_var =', N(I_var, 15))
 
 # $VR=$I*$Ra;
-# $VR=2.36442564832618
 VR = process_sympy('\\variable{I}*\\variable{Ra}', variable_values=variable_values | {'I': I_var})
 # NOTE: do NOT evaluate complex calculated numbers to float -> str -> Rational
 print('VR =', N(VR, 15))
@@ -167,6 +166,8 @@ VT2_expr = ((Efmag)**2 - (im(VXS2))**2)**0.5 - re(VXS2)
 VT2 = compute_expr(VT2_expr)
 print('VT2 =', N(VT2, 15))
 
+print('----------------------')
+
 # $VLL2=$VT2*sqrt(3);
 # $VLL2=10308.5396944243
 VLL2_expr = process_sympy('\\variable{VT2}*\\sqrt{3}', variable_values=variable_values | {'VT2': VT2})
@@ -179,12 +180,15 @@ print('VLL2ang =', N(VLL2ang, 15))
 
 # $delta=acos(($VT2+Re($VXS2))/$Efmag)*180/pi;
 # $delta=2.93187343130811
-delta_expr = acos((VT2 + re(VXS2)) / Efmag) * 180 / pi
-delta = compute_expr(delta_expr)
-print('delta =', N(delta, 15))
+# delta_expr = acos((VT2 + re(VXS2)) / Efmag) * 180 / pi
+# delta = compute_expr(delta_expr)
+# print('delta =', N(delta, 15))
 
-# TODO: overwritten variable => wrong
-# $VR=($Efmag-$VT2)/$VT2*100;
+# $VR_ans=($Efmag-$VT2)/$VT2*100;
+# $VR_ans=2.36442564832618
+VR_ans_expr = process_sympy('(\\variable{Efmag}-\\variable{VT2})/\\variable{VT2}*100', variable_values=variable_values | {'VT2': VT2, 'Efmag': Efmag})
+VR_ans = compute_expr(VR_ans_expr)
+print('VR_ans =', N(VR_ans, 15))
 
 # $Pmax=3*$VT2*$Efmag/$Xs;
 # $Pmax=197779219.944474
