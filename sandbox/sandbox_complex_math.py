@@ -129,9 +129,9 @@ print('Efmag =', N(Efmag, 15))
 
 # $Efphase=arg($Ef)*180/pi;
 # $Efphase=1.62312006884331
-Efphase_expr = arg(Ef) * 180 / pi
-Efphase = compute_expr(Efphase_expr)
-print('Efphase =', N(Efphase, 15))
+# Efphase_expr = arg(Ef) * 180 / pi
+# Efphase = compute_expr(Efphase_expr)
+# print('Efphase =', N(Efphase, 15))
 
 # $VLLNL=sqrt(3)*$Efmag;
 # $VLLNL=10552.2774509271
