@@ -87,15 +87,15 @@ print('VR =', N(VR, 15))
 
 # $VRmag=abs($VR);
 # $VRmag=123.16805742712
-VRmag_expr = process_sympy('|\\variable{VR}|', variable_values=variable_values | {'VR': VR})
-VRmag = compute_expr(VRmag_expr)
-print('VRmag =', N(VRmag, 15))
+# VRmag_expr = process_sympy('|\\variable{VR}|', variable_values=variable_values | {'VR': VR})
+# VRmag = compute_expr(VRmag_expr)
+# print('VRmag =', N(VRmag, 15))
 
 # $VRphase=arg($VR)*180/pi;
 # $VRphase=-41.4096221092709
-VRphase_expr = arg(VR) * 180 / pi
-VRphase = compute_expr(VRphase_expr)
-print('VRphase =', N(VRphase, 15))
+# VRphase_expr = arg(VR) * 180 / pi
+# VRphase = compute_expr(VRphase_expr)
+# print('VRphase =', N(VRphase, 15))
 
 # $VXS=$I*i*$Xs;
 # $VXS=224.037033975619+254.034118443435i
@@ -105,15 +105,15 @@ print('VXS =', N(VXS, 15))
 
 # $VXSmag=abs($VXS);
 # $VXSmag=338.71215792458
-VXSmag_expr = process_sympy('|\\variable{VXS}|', variable_values=variable_values | {'VXS': VXS})
-VXSmag = compute_expr(VXSmag_expr)
-print('VXSmag =', N(VXSmag, 15))
+# VXSmag_expr = process_sympy('|\\variable{VXS}|', variable_values=variable_values | {'VXS': VXS})
+# VXSmag = compute_expr(VXSmag_expr)
+# print('VXSmag =', N(VXSmag, 15))
 
 # $VXSphase=arg($VXS)*180/pi;
 # $VXSphase=48.5903778907291
-VXSphase_expr = arg(VXS) * 180 / pi
-VXSphase = compute_expr(VXSphase_expr)
-print('VXSphase =', N(VXSphase, 15))
+# VXSphase_expr = arg(VXS) * 180 / pi
+# VXSphase = compute_expr(VXSphase_expr)
+# print('VXSphase =', N(VXSphase, 15))
 
 # $Ef=$VT+$VR+$VXS;
 # $Ef=6089.91576894222+172.566106088665i
