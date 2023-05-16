@@ -634,18 +634,22 @@ class LatexToSympy:
                 'log', 'ln',
                 'exp', 'exponentialE',
                 'floor',
-                'ceil']
+                'ceil',
+                'sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'sinh', 'cosh', 'tanh']
 
             if 'func_single_arg_noparens' in func:
                 args = [self.convert_func_arg(func.get('func_single_arg_noparens'))]
             if 'func_args' in func:
-                func_args_text = func.get('func_args').get('text')
+                func_args = func.get('func_args')
+                func_args_text = func_args.get('text')
                 if name in func_names_single_arg:
-                    # force func_args to be a single argument when it is for a known required func
-                    single_arg = {
-                        expr: process_sympy(func_args_text, self.variable_values)
-                    }
-                    args = [self.convert_func_arg(single_arg)]
+                    # check if there are multiple args
+                    if 'func_args' in func_args:
+                        # force func_args to be a single arg
+                        single_arg = process_sympy(func_args_text, self.variable_values)
+                        args = [self.convert_func_arg(single_arg)]
+                    else:
+                        args = [self.convert_func_arg(func_args)]
                 else:
                     args = list(map(lambda arg: process_sympy(arg, self.variable_values), func_args_text.split(',')))
 
@@ -721,6 +725,9 @@ class LatexToSympy:
                         func_pow = self.convert_expr(supexpr.get('expr'))
                     else:  # pragma: no cover
                         raise Exception('Invalid supexpr')
+
+                if func_pow and should_pow:
+                    expr = sympy.Pow(expr, func_pow, evaluate=False)
 
             if expr is None:
                 raise Exception('Unrecognized func')
