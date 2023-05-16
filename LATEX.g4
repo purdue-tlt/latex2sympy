@@ -3,10 +3,32 @@ grammar LATEX;
 WS: [ \t\r\n]+ -> skip;
 DOLLAR_SIGN: '\\$' -> skip;
 
+UNDERSCORE: '_';
+CARET: '^';
+COLON: ':';
+SEMICOLON: ';';
+COMMA: ',';
+PERIOD: '.';
+
+fragment WS_CHAR: [ \t\r\n];
+fragment LETTER: [a-zA-Z];
+fragment DIGIT: [0-9];
+
+EXP_E: 'e' | '\\exponentialE';
+E_NOTATION_E: 'E';
+LETTER_NO_E: [a-df-zA-DF-Z]; // exclude e for exponential function and e notation
+
 ADD: '+';
 SUB: '-';
 MUL: '*';
 DIV: '/';
+EQUAL: '=';
+LT: '<';
+LTE: '\\leq' | '\\le';
+GT: '>';
+GTE: '\\geq' | '\\ge';
+UNEQUAL: '!=' | '\\ne' | '\\neq';
+BANG: '!';
 
 L_PAREN: '(';
 R_PAREN: ')';
@@ -87,6 +109,7 @@ FUNC_GCD_NAME: 'gcd';
 FUNC_LCM_NAME: 'lcm';
 FUNC_FLOOR_NAME: 'floor';
 FUNC_CEIL_NAME: 'ceil';
+FUNC_OPERATORNAME_NAME: CMD_OPERATORNAME L_BRACE LETTER+ (UNDERSCORE LETTER+)* R_BRACE;
 
 FUNC_SQRT: '\\sqrt';
 FUNC_GCD: '\\gcd';
@@ -123,21 +146,7 @@ MATRIX_DEL_ROW: '\\\\';
 ACCENT_OVERLINE:  '\\overline';
 ACCENT_BAR:  '\\bar';
 
-UNDERSCORE: '_';
-CARET: '^';
-COLON: ':';
-SEMICOLON: ';';
-COMMA: ',';
-PERIOD: '.';
-
-fragment WS_CHAR: [ \t\r\n];
 DIFFERENTIAL: 'd' WS_CHAR*? ([a-zA-Z] | '\\' [a-zA-Z]+);
-
-EXP_E: 'e' | '\\exponentialE';
-E_NOTATION_E: 'E';
-LETTER_NO_E: [a-df-zA-DF-Z]; // exclude e for exponential function and e notation
-fragment LETTER: [a-zA-Z];
-fragment DIGIT: [0-9];
 
 NUMBER:
     DIGIT+ (COMMA DIGIT DIGIT DIGIT)*
@@ -152,15 +161,6 @@ FRACTION_NUMBER: CMD_FRAC L_BRACE
 SCI_NOTATION_NUMBER: NUMBER CMD_TIMES ' 10' CARET (DIGIT | L_BRACE SUB? NUMBER R_BRACE);
 
 E_NOTATION: NUMBER E_NOTATION_E (SUB | ADD)? DIGIT+;
-
-EQUAL: '=';
-LT: '<';
-LTE: '\\leq' | '\\le';
-GT: '>';
-GTE: '\\geq' | '\\ge';
-UNEQUAL: '!=' | '\\ne' | '\\neq';
-
-BANG: '!';
 
 fragment PERCENT_SIGN: '\\%';
 PERCENT_NUMBER: NUMBER PERCENT_SIGN;
@@ -431,7 +431,7 @@ binom:
     lower=expr
     R_BRACE;
 
-func_normal_functions_single_arg:
+func_cmd_names:
     FUNC_LOG | FUNC_LN | FUNC_EXP
     | FUNC_SIN | FUNC_COS | FUNC_TAN
     | FUNC_CSC | FUNC_SEC | FUNC_COT
@@ -440,35 +440,13 @@ func_normal_functions_single_arg:
     | FUNC_SINH | FUNC_COSH | FUNC_TANH
     | FUNC_ARSINH | FUNC_ARCOSH | FUNC_ARTANH
     | FUNC_ARCSINH | FUNC_ARCCOSH | FUNC_ARCTANH
-    | FUNC_FLOOR | FUNC_CEIL;
-
-func_normal_functions_multi_arg:
-    FUNC_GCD | FUNC_LCM | FUNC_MAX | FUNC_MIN;
-
-func_operator_names_single_arg:
-    FUNC_ARSINH_NAME | FUNC_ARCOSH_NAME | FUNC_ARTANH_NAME
-    | FUNC_ARCSINH_NAME | FUNC_ARCCOSH_NAME | FUNC_ARCTANH_NAME
-    | FUNC_FLOOR_NAME | FUNC_CEIL_NAME;
-
-func_operator_names_multi_arg:
-    FUNC_GCD_NAME | FUNC_LCM_NAME;
-
-func_normal_single_arg:
-    func_normal_functions_single_arg
-    | CMD_OPERATORNAME L_BRACE func_operator_name=func_operator_names_single_arg R_BRACE;
-
-func_normal_multi_arg:
-    func_normal_functions_multi_arg
-    | CMD_OPERATORNAME L_BRACE func_operator_name=func_operator_names_multi_arg R_BRACE;
+    | FUNC_FLOOR | FUNC_CEIL
+    | FUNC_GCD | FUNC_LCM | FUNC_MAX | FUNC_MIN;
 
 func:
-    func_normal_single_arg
+    (func_cmd_names | FUNC_OPERATORNAME_NAME)
     (subexpr? supexpr? | supexpr? subexpr?)
-    (L_LEFT? L_PAREN func_single_arg R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_single_arg MR_RIGHT? R_PAREN | func_single_arg_noparens)
-    
-    | func_normal_multi_arg
-    (subexpr? supexpr? | supexpr? subexpr?)
-    (L_LEFT? L_PAREN func_multi_arg R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_multi_arg MR_RIGHT? R_PAREN)
+    (L_LEFT? L_PAREN func_args R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_args MR_RIGHT? R_PAREN | func_single_arg_noparens)
 
     // Do not do arbitrary functions but see as multiplications
     /*| (LETTER_NO_E | SYMBOL) subexpr? // e.g. f(x)
@@ -491,7 +469,7 @@ func:
     | FUNC_LIM limit_sub mp
     | EXP_E supexpr?; // Exponential function e^x
 
-args: (expr ',' args) | expr;
+args: expr (',' args)?;
 
 limit_sub:
     UNDERSCORE L_BRACE
@@ -500,10 +478,8 @@ limit_sub:
     expr (CARET L_BRACE (ADD | SUB) R_BRACE)?
     R_BRACE;
 
-func_single_arg: expr;
 func_single_arg_noparens: mp_nofunc;
-
-func_multi_arg: expr | (expr ',' func_multi_arg);
+func_args: expr (',' func_args)?;
 
 subexpr: UNDERSCORE (atom | L_BRACE (expr | args) R_BRACE);
 supexpr: CARET (atom | L_BRACE expr R_BRACE);
