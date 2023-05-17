@@ -6,7 +6,7 @@ import sympy
 # from sympy.core.core import all_classes
 from sympy.parsing.sympy_parser import parse_expr
 from sympy.parsing.maxima import parse_maxima
-from sympy.parsing.mathematica import mathematica
+from sympy.parsing.mathematica import parse_mathematica
 
 if platform.system() == 'Linux':  # pragma: no cover
     from latex2sympy.lib.linux.latex2antlrJson import parseToJson, LATEXLexerToken
@@ -600,7 +600,7 @@ class LatexToSympy:
             elif parse_name == 'maxima':
                 return parse_maxima(parse_text)
             elif parse_name == 'mathematica':
-                return mathematica(parse_text)
+                return parse_mathematica(parse_text)
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
 

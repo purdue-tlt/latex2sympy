@@ -52,7 +52,7 @@ patch-ng==1.17.4
     # via conan
 pep517==0.13.0
     # via build
-pip-tools==6.12.2
+pip-tools==6.13.0
     # via -r dev-requirements.in
 pluggy==1.0.0
     # via pytest
@@ -84,7 +84,7 @@ six==1.16.0
     # via
     #   conan
     #   python-dateutil
-sympy==1.12
+sympy @ git+https://github.com/purdue-tlt/sympy.git@1.12-equals-fix
     # via
     #   -r requirements.txt
     #   latex2sympy
