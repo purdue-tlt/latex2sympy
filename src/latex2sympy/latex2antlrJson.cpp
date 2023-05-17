@@ -136,18 +136,22 @@ Json::Value toJson(tree::ParseTree *tree, LATEXParser *parser) {
         }
     }
 
-    // if there is only one token, merge it into the current node
-    // otherwise add tokens as a nested array
-    if (tokens.size() == 1) {
-        node["text"] = tokens[0]["text"];
-        node["type"] = tokens[0]["type"];
-    } else if (tokens.size() > 0) {
-        node["tokens"] = tokens;
+    // add tokens except for excluded nodes
+    if (name != "parse_text") {
+        // if there is only one token, merge it into the current node
+        // otherwise add tokens as a nested array
+        if (tokens.size() == 1) {
+            node["text"] = tokens[0]["text"];
+            node["type"] = tokens[0]["type"];
+        } else if (tokens.size() > 0) {
+            node["tokens"] = tokens;
+        }
     }
 
     // return the full text of the tree for specific rules
     if (name == "func_args" ||
         name == "mathit_text" ||
+        name == "parse_text" ||
         parentName == "supexpr" ||
         parentName == "subexpr" ||
         parentName == "accent") {
@@ -216,7 +220,7 @@ namespace py = pybind11;
 // in order to export the LATEXLexer enum values, which is anonymous,
 // copy the enum here from LATEXLexer.h and give it a name
 enum LATEXLexerToken {
-    WS = 1, DOLLAR_SIGN = 2, UNDERSCORE = 3, CARET = 4, COLON = 5, SEMICOLON = 6, 
+        WS = 1, DOLLAR_SIGN = 2, UNDERSCORE = 3, CARET = 4, COLON = 5, SEMICOLON = 6, 
     COMMA = 7, PERIOD = 8, SPACE_CMD = 9, EXP_E = 10, E_NOTATION_E = 11, 
     LETTER_NO_E = 12, ADD = 13, SUB = 14, MUL = 15, DIV = 16, EQUAL = 17, 
     LT = 18, LTE = 19, GT = 20, GTE = 21, UNEQUAL = 22, BANG = 23, L_PAREN = 24, 
@@ -238,12 +242,13 @@ enum LATEXLexerToken {
     FUNC_OPERATORNAME_NAME = 93, FUNC_SQRT = 94, FUNC_GCD = 95, FUNC_LCM = 96, 
     FUNC_FLOOR = 97, FUNC_CEIL = 98, FUNC_MAX = 99, FUNC_MIN = 100, CMD_TIMES = 101, 
     CMD_CDOT = 102, CMD_DIV = 103, CMD_FRAC = 104, CMD_BINOM = 105, CMD_CHOOSE = 106, 
-    CMD_MOD = 107, CMD_MATHIT = 108, CMD_OPERATORNAME = 109, MATRIX_TYPE_MATRIX = 110, 
-    MATRIX_TYPE_PMATRIX = 111, MATRIX_TYPE_BMATRIX = 112, MATRIX_TYPES = 113, 
-    CMD_MATRIX_START = 114, CMD_MATRIX_END = 115, MATRIX_DEL_COL = 116, 
-    MATRIX_DEL_ROW = 117, ACCENT_OVERLINE = 118, ACCENT_BAR = 119, DIFFERENTIAL = 120, 
-    NUMBER = 121, FRACTION_NUMBER = 122, SCI_NOTATION_NUMBER = 123, E_NOTATION = 124, 
-    PERCENT_NUMBER = 125, GREEK_CMD = 126, SYMBOL = 127, VARIABLE = 128
+    CMD_MOD = 107, CMD_MATHIT = 108, CMD_OPERATORNAME = 109, PARSE_SYMPY = 110, 
+    PARSE_MAXIMA = 111, PARSE_MATHEMATICA = 112, MATRIX_TYPE_MATRIX = 113, 
+    MATRIX_TYPE_PMATRIX = 114, MATRIX_TYPE_BMATRIX = 115, MATRIX_TYPES = 116, 
+    CMD_MATRIX_START = 117, CMD_MATRIX_END = 118, MATRIX_DEL_COL = 119, 
+    MATRIX_DEL_ROW = 120, ACCENT_OVERLINE = 121, ACCENT_BAR = 122, DIFFERENTIAL = 123, 
+    NUMBER = 124, FRACTION_NUMBER = 125, SCI_NOTATION_NUMBER = 126, E_NOTATION = 127, 
+    PERCENT_NUMBER = 128, GREEK_CMD = 129, SYMBOL = 130, VARIABLE = 131
 };
 
 // in order to export the LATEXLexer enum names,
@@ -271,7 +276,8 @@ static const char* LATEXLexerTokenStrings[] = {
     "FUNC_OPERATORNAME_NAME", "FUNC_SQRT", "FUNC_GCD", "FUNC_LCM", 
     "FUNC_FLOOR", "FUNC_CEIL", "FUNC_MAX", "FUNC_MIN", "CMD_TIMES", 
     "CMD_CDOT", "CMD_DIV", "CMD_FRAC", "CMD_BINOM", "CMD_CHOOSE", 
-    "CMD_MOD", "CMD_MATHIT", "CMD_OPERATORNAME", "MATRIX_TYPE_MATRIX", 
+    "CMD_MOD", "CMD_MATHIT", "CMD_OPERATORNAME", "PARSE_SYMPY", 
+    "PARSE_MAXIMA", "PARSE_MATHEMATICA", "MATRIX_TYPE_MATRIX", 
     "MATRIX_TYPE_PMATRIX", "MATRIX_TYPE_BMATRIX", "MATRIX_TYPES", 
     "CMD_MATRIX_START", "CMD_MATRIX_END", "MATRIX_DEL_COL", 
     "MATRIX_DEL_ROW", "ACCENT_OVERLINE", "ACCENT_BAR", "DIFFERENTIAL", 

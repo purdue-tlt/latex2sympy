@@ -133,6 +133,10 @@ CMD_MATHIT: '\\mathit';
 
 CMD_OPERATORNAME: '\\operatorname';
 
+PARSE_SYMPY: '\\sympy';
+PARSE_MAXIMA: '\\maxima';
+PARSE_MATHEMATICA: '\\mathematica';
+
 // matrix test
 MATRIX_TYPE_MATRIX: 'matrix';
 MATRIX_TYPE_PMATRIX: 'pmatrix';
@@ -412,10 +416,13 @@ accent:
     L_BRACE base=expr R_BRACE;
 
 atom_expr: (LETTER_NO_E | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
-atom: atom_expr | SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE;
+atom: atom_expr | SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE | parse_block;
 
 mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
 mathit_text: (LETTER_NO_E | E_NOTATION_E | EXP_E)+;
+
+parse_block: (PARSE_SYMPY | PARSE_MAXIMA | PARSE_MATHEMATICA) L_BRACE parse_text R_BRACE;
+parse_text: .+?;
 
 frac:
     CMD_FRAC L_BRACE
