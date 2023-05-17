@@ -84,7 +84,7 @@ six==1.16.0
     # via
     #   conan
     #   python-dateutil
-sympy @ git+https://github.com/purdue-tlt/sympy.git@1.10-equals-fix
+sympy==1.12
     # via
     #   -r requirements.txt
     #   latex2sympy

@@ -23,6 +23,6 @@ setup(
         'latex2sympy.lib.macOS.x86_64': ['latex2antlrJson.so']
     },
     install_requires=[
-        'sympy==1.10.1'
+        'sympy==1.12'
     ]
 )
