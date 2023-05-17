@@ -39,7 +39,7 @@ class LatexToSympy:
         return_data = None
         json_string = parseToJson(pre_processed_latex)
 
-        # print(json_string)
+        print(json_string)
 
         math = json.loads(json_string)
 
@@ -627,7 +627,7 @@ class LatexToSympy:
             else:
                 name = func.get('func_cmd_names').get('text')[1:]
 
-            # known functions that require ONLY one argument
+            # known functions that accept ONLY one arg and should allow commas in their arg value
             func_names_single_arg = [
                 'arcsin', 'arccos', 'arctan', 'arccsc', 'arcsec', 'arccot', 'arcsinh', 'arccosh', 'arctanh',
                 'arsinh', 'arcosh', 'artanh',
@@ -637,100 +637,102 @@ class LatexToSympy:
                 'ceil',
                 'sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'sinh', 'cosh', 'tanh']
 
+            # convert args
+            # handle a single arg with no parentheses
             if 'func_single_arg_noparens' in func:
                 args = [self.convert_func_arg(func.get('func_single_arg_noparens'))]
+            # handle one or many args
             if 'func_args' in func:
                 func_args = func.get('func_args')
-                func_args_text = func_args.get('text')
-                if name in func_names_single_arg:
-                    # check if there are multiple args
-                    if 'func_args' in func_args:
-                        # force func_args to be a single arg
-                        single_arg = process_sympy(func_args_text, self.variable_values)
-                        args = [self.convert_func_arg(single_arg)]
-                    else:
-                        args = [self.convert_func_arg(func_args)]
-                else:
-                    args = list(map(lambda arg: process_sympy(arg, self.variable_values), func_args_text.split(',')))
+                # func_args_text = func_args.get('text')
+                # # for functions known to accept only one arg
+                # # re-parse them so that commas can be included inside numeric values
+                # # instead of being treated as argument separators
+                # if name in func_names_single_arg:
+                #     # check if there are multiple args
+                #     if 'func_args' in func_args:
+                #         # force func_args to be a single arg
+                #         single_arg = process_sympy(func_args_text, self.variable_values)
+                #         args = [self.convert_func_arg(single_arg)]
+                #     else:
+                #         args = [self.convert_func_arg(func_args)]
+                # else:
+                args = []
+                if 'expr' in func_args:
+                    args.append(self.convert_func_arg(func_args))
+                nested_func_args = func_args
+                while 'func_args' in nested_func_args:
+                    next_func_args = nested_func_args.get('func_args')
+                    if 'expr' in next_func_args:
+                        args.append(self.convert_func_arg(next_func_args))
+                    nested_func_args = next_func_args
+                # args = list(map(lambda arg: process_sympy(arg, self.variable_values), func_args_text.split(',')))
 
             expr = None
-            if name in func_names_single_arg:
-                arg = args[0]
-                # change arc<trig> -> a<trig>
-                if name in ['arcsin', 'arccos', 'arctan', 'arccsc', 'arcsec', 'arccot', 'arcsinh', 'arccosh', 'arctanh']:
-                    name = 'a' + name[3:]
-                    expr = getattr(sympy.functions, name)(arg, evaluate=False)
-                # change ar<trig>h -> a<trig>h
-                elif name in ['arsinh', 'arcosh', 'artanh']:
-                    name = 'a' + name[2:]
-                    expr = getattr(sympy.functions, name)(arg, evaluate=False)
-                elif name in ['log', 'ln']:
-                    if 'subexpr' in func:
-                        subexpr = func.get('subexpr')
-                        if 'atom' in subexpr:
-                            base = self.convert_atom(subexpr.get('atom'))
-                        elif 'expr' in subexpr:
-                            base = self.convert_expr(subexpr.get('expr'))
-                        else:  # pragma: no cover
-                            raise Exception('Invalid log/ln subexpr')
-                    elif name == 'log':
-                        base = 10
-                    elif name == 'ln':
-                        base = sympy.E
+
+            # change arc<trig> -> a<trig>
+            if name in ['arcsin', 'arccos', 'arctan', 'arccsc', 'arcsec', 'arccot', 'arcsinh', 'arccosh', 'arctanh']:
+                name = 'a' + name[3:]
+                expr = getattr(sympy.functions, name)(*args, evaluate=False)
+            # change ar<trig>h -> a<trig>h
+            elif name in ['arsinh', 'arcosh', 'artanh']:
+                name = 'a' + name[2:]
+                expr = getattr(sympy.functions, name)(*args, evaluate=False)
+            elif name in ['log', 'ln']:
+                if 'subexpr' in func:
+                    subexpr = func.get('subexpr')
+                    if 'atom' in subexpr:
+                        base = self.convert_atom(subexpr.get('atom'))
+                    elif 'expr' in subexpr:
+                        base = self.convert_expr(subexpr.get('expr'))
                     else:  # pragma: no cover
-                        raise Exception('Unrecognized log/ln')
-                    expr = sympy.log(arg, base, evaluate=False)
-                elif name in ['exp', 'exponentialE']:
-                    expr = sympy.exp(arg)
-                elif name == 'floor':
-                    expr = self.handle_floor(arg)
-                elif name == 'ceil':
-                    expr = self.handle_ceil(arg)
-
-                func_pow = None
-                should_pow = True
-                if 'supexpr' in func:
-                    supexpr = func.get('supexpr')
-                    if 'atom' in supexpr:
-                        func_pow = self.convert_atom(supexpr.get('atom'))
-                    elif 'expr' in supexpr:
-                        func_pow = self.convert_expr(supexpr.get('expr'))
-                    else:  # pragma: no cover
-                        raise Exception('Invalid supexpr')
-
-                if name in ['sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'sinh', 'cosh', 'tanh']:
-                    if func_pow == -1:
-                        name = 'a' + name
-                        should_pow = False
-                    expr = getattr(sympy.functions, name)(arg, evaluate=False)
-
-                if func_pow and should_pow:
-                    expr = sympy.Pow(expr, func_pow, evaluate=False)
-            else:
-                if name in ['gcd', 'lcm']:
-                    expr = self.handle_gcd_lcm(name, args)
-                elif name in ['max', 'min']:
-                    name = name[0].upper() + name[1:]
-                    expr = getattr(sympy.functions, name)(*args, evaluate=False)
+                        raise Exception('Invalid log/ln subexpr')
+                elif name == 'log':
+                    base = 10
+                elif name == 'ln':
+                    base = sympy.E
                 else:  # pragma: no cover
-                    raise Exception('Unrecognized func')
+                    raise Exception('Unrecognized log/ln')
+                expr = sympy.log(*args, base, evaluate=False)
+            elif name in ['exp', 'exponentialE']:
+                expr = sympy.exp(*args)
+            elif name == 'floor':
+                expr = self.handle_floor(*args)
+            elif name == 'ceil':
+                expr = self.handle_ceil(*args)
+            elif name in ['gcd', 'lcm']:
+                expr = self.handle_gcd_lcm(name, args)
+            elif name in ['max', 'min']:
+                name = name[0].upper() + name[1:]
+                expr = getattr(sympy.functions, name)(*args, evaluate=False)
 
-                func_pow = None
-                should_pow = True
-                if 'supexpr' in func:
-                    supexpr = func.get('supexpr')
-                    if 'atom' in supexpr:
-                        func_pow = self.convert_atom(supexpr.get('atom'))
-                    elif 'expr' in supexpr:
-                        func_pow = self.convert_expr(supexpr.get('expr'))
-                    else:  # pragma: no cover
-                        raise Exception('Invalid supexpr')
+            # handle exponents on the func
+            func_pow = None
+            should_pow = True
+            if 'supexpr' in func:
+                supexpr = func.get('supexpr')
+                if 'atom' in supexpr:
+                    func_pow = self.convert_atom(supexpr.get('atom'))
+                elif 'expr' in supexpr:
+                    func_pow = self.convert_expr(supexpr.get('expr'))
+                else:  # pragma: no cover
+                    raise Exception('Invalid supexpr')
 
-                if func_pow and should_pow:
-                    expr = sympy.Pow(expr, func_pow, evaluate=False)
+            # handle <trig> methods after parsing `supexpr`
+            if name in ['sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'sinh', 'cosh', 'tanh']:
+                # change <trig> -> a<trig> if exponent is -1
+                if func_pow == -1:
+                    name = 'a' + name
+                    should_pow = False
+                expr = getattr(sympy.functions, name)(*args, evaluate=False)
 
+            # apply exponent `supexpr`
+            if func_pow and should_pow:
+                expr = sympy.Pow(expr, func_pow, evaluate=False)
+
+            # if `expr` is not set then the func is unknown, attempt to handle it
             if expr is None:
-                raise Exception('Unrecognized func')
+                expr = self.handle_unknown_func(name, args)
 
             return expr
 
@@ -760,6 +762,20 @@ class LatexToSympy:
             return self.convert_expr(arg.get('expr'))
         else:
             return self.convert_mp(arg.get('mp_nofunc'))
+
+    def handle_unknown_func(self, name, args):
+        try:
+            # create a temp string of "None" args to match the number of provided `args`
+            # this avoids trying to parse latex or already parsed json
+            temp_args_text = 'None, ' * len(args)
+            temp_func_text = name + '(' + temp_args_text[:-2] + ')'
+            #  attempt to parse the func using the temp args, e.g. "my_func(None, None)"
+            # if the func accepts a different amount of args, an exception will be raised
+            parsed_func = parse_expr(temp_func_text, evaluate=False)
+            # recompose the func using the provided `args`
+            return parsed_func.func(*args, evaluate=False)
+        except Exception as e:
+            raise Exception('Unable to parse unknown func "' + name + '"', e)
 
     def handle_integral(self, func):
         if 'additive' in func:
