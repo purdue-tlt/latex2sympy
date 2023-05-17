@@ -9,6 +9,7 @@ COLON: ':';
 SEMICOLON: ';';
 COMMA: ',';
 PERIOD: '.';
+SPACE_CMD: '\\space';
 
 fragment WS_CHAR: [ \t\r\n];
 fragment LETTER: [a-zA-Z];
@@ -469,7 +470,7 @@ func:
     | FUNC_LIM limit_sub mp
     | EXP_E supexpr?; // Exponential function e^x
 
-args: expr (',' args)?;
+args: expr (COMMA SPACE_CMD? args)?;
 
 limit_sub:
     UNDERSCORE L_BRACE
@@ -479,7 +480,7 @@ limit_sub:
     R_BRACE;
 
 func_single_arg_noparens: mp_nofunc;
-func_args: expr (',' func_args)?;
+func_args: expr (COMMA SPACE_CMD? func_args)?;
 
 subexpr: UNDERSCORE (atom | L_BRACE (expr | args) R_BRACE);
 supexpr: CARET (atom | L_BRACE expr R_BRACE);

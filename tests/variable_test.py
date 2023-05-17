@@ -102,3 +102,7 @@ def test_variable_multi_arg_func():
 
 def test_variable_substitute_sympy_value():
     assert_equal("\\variable{x}", Rational(3, 5), {'x': Rational(3, 5)})
+
+
+def test_variable_substitute_multi_arg_func():
+    assert_equal("\\min(\\variable{x},\\variable{y})", Min(Rational(3, 5), Rational(1, 5), evaluate=False), {'x': Rational(3, 5), 'y': Rational(1, 5)})

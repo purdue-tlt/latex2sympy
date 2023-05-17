@@ -39,7 +39,7 @@ class LatexToSympy:
         return_data = None
         json_string = parseToJson(pre_processed_latex)
 
-        print(json_string)
+        # print(json_string)
 
         math = json.loads(json_string)
 
@@ -627,16 +627,6 @@ class LatexToSympy:
             else:
                 name = func.get('func_cmd_names').get('text')[1:]
 
-            # known functions that accept ONLY one arg and should allow commas in their arg value
-            func_names_single_arg = [
-                'arcsin', 'arccos', 'arctan', 'arccsc', 'arcsec', 'arccot', 'arcsinh', 'arccosh', 'arctanh',
-                'arsinh', 'arcosh', 'artanh',
-                'log', 'ln',
-                'exp', 'exponentialE',
-                'floor',
-                'ceil',
-                'sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'sinh', 'cosh', 'tanh']
-
             # convert args
             # handle a single arg with no parentheses
             if 'func_single_arg_noparens' in func:
@@ -644,19 +634,6 @@ class LatexToSympy:
             # handle one or many args
             if 'func_args' in func:
                 func_args = func.get('func_args')
-                # func_args_text = func_args.get('text')
-                # # for functions known to accept only one arg
-                # # re-parse them so that commas can be included inside numeric values
-                # # instead of being treated as argument separators
-                # if name in func_names_single_arg:
-                #     # check if there are multiple args
-                #     if 'func_args' in func_args:
-                #         # force func_args to be a single arg
-                #         single_arg = process_sympy(func_args_text, self.variable_values)
-                #         args = [self.convert_func_arg(single_arg)]
-                #     else:
-                #         args = [self.convert_func_arg(func_args)]
-                # else:
                 args = []
                 if 'expr' in func_args:
                     args.append(self.convert_func_arg(func_args))
@@ -666,7 +643,6 @@ class LatexToSympy:
                     if 'expr' in next_func_args:
                         args.append(self.convert_func_arg(next_func_args))
                     nested_func_args = next_func_args
-                # args = list(map(lambda arg: process_sympy(arg, self.variable_values), func_args_text.split(',')))
 
             expr = None
 
