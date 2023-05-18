@@ -89,7 +89,18 @@ class LatexToSympy:
             variable_name_dict[new_name] = original_name
         self.variable_name_dict = variable_name_dict
 
-        pre_processed_latex = re.sub(unwrapped_single_char_sub_sup_regex, '\\1{\\2}', latex)
+        # if latex contains single quotes, the text between should not be touched
+        if '\'' in latex:
+            quote_parts = re.split('\'', latex)
+            pre_processed_parts = []
+            for i in range(len(quote_parts)):
+                if i > 0 and quote_parts[i - 1].endswith('{'):
+                    pre_processed_parts.append(quote_parts[i])
+                else:
+                    pre_processed_parts.append(re.sub(unwrapped_single_char_sub_sup_regex, '\\1{\\2}', quote_parts[i]))
+            pre_processed_latex = '\''.join(pre_processed_parts)
+        else:
+            pre_processed_latex = re.sub(unwrapped_single_char_sub_sup_regex, '\\1{\\2}', latex)
 
         return pre_processed_latex
 
@@ -594,7 +605,7 @@ class LatexToSympy:
         elif 'parse_block' in atom:
             parse_block = atom.get('parse_block')
             parse_name = parse_block.get('tokens')[0].get('text')[1:]
-            parse_text = parse_block.get('parse_text').get('text')
+            parse_text = parse_block.get('parse_text').get('text')[1:-1]
             if parse_name == 'sympy':
                 return sympy.parse_expr(parse_text, evaluate=False)
             elif parse_name == 'maxima':
