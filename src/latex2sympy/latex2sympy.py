@@ -3,7 +3,6 @@ import json
 import platform
 import re
 import sympy
-# from sympy.core.core import all_classes
 from sympy.parsing.sympy_parser import parse_expr
 
 if platform.system() == 'Linux':  # pragma: no cover
@@ -575,14 +574,7 @@ class LatexToSympy:
 
             # replace the variable for already known variable values
             if name in self.variable_values:
-                # TODO: find alternative to all_classes check
-                # # if a sympy class
-                # if isinstance(self.variable_values[name], tuple(all_classes)):
-                #     symbol = self.variable_values[name]
-
-                # # if NOT a sympy class
-                # else:
-                symbol = parse_expr(str(self.variable_values[name]))
+                symbol = self.variable_values[name]
             else:
                 symbol = sympy.Symbol(symbol_name, real=True)
 
