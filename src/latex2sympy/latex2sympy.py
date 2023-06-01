@@ -5,6 +5,8 @@ import re
 import sympy
 # from sympy.core.core import all_classes
 from sympy.parsing.sympy_parser import parse_expr
+from sympy.parsing.maxima import parse_maxima
+from sympy.parsing.mathematica import parse_mathematica
 
 if platform.system() == 'Linux':  # pragma: no cover
     from latex2sympy.lib.linux.latex2antlrJson import parseToJson, LATEXLexerToken
@@ -600,6 +602,16 @@ class LatexToSympy:
                 number = sympy.Number(text)
             percent = sympy.Rational(number, 100)
             return percent
+        elif 'parse_block' in atom:
+            parse_block = atom.get('parse_block')
+            parse_name = parse_block.get('tokens')[0].get('text')[1:]
+            parse_text = parse_block.get('parse_text').get('text')[1:-1]
+            if parse_name == 'sympy':
+                return sympy.parse_expr(parse_text, evaluate=False)
+            elif parse_name == 'maxima':
+                return parse_maxima(parse_text)
+            elif parse_name == 'mathematica':
+                return parse_mathematica(parse_text)
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
 
