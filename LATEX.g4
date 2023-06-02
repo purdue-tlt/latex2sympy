@@ -9,7 +9,7 @@ COLON: ':';
 SEMICOLON: ';';
 COMMA: ',';
 PERIOD: '.';
-SPACE_CMD: '\\space';
+SPACE_CMD: '\\space' -> skip;
 
 fragment WS_CHAR: [ \t\r\n];
 fragment LETTER: [a-zA-Z];

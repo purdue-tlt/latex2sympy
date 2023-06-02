@@ -6,11 +6,12 @@ latex_strings = [
     '\\operatorname{arg}(3+4I)',
     '\\operatorname{im}(3+4I)',
     '\\operatorname{re}(3+4I)',
+    '3\\space +\\space 4'
 
-    '\\sympy{\'re(3+4*I)\'}',
-    '\\maxima{\'sum(k, k, 1, n)\'}',
-    '\\maxima{\'factor( x**2 + 2*x + 1)\'}',
-    '\\mathematica{\'Cos[x]^2 (1 - Cos[y]^2)\'}'
+    # '\\sympy{\'re(3+4*I)\'}',
+    # '\\maxima{\'sum(k, k, 1, n)\'}',
+    # '\\maxima{\'factor( x**2 + 2*x + 1)\'}',
+    # '\\mathematica{\'Cos[x]^2 (1 - Cos[y]^2)\'}'
 ]
 
 for latex in latex_strings:
