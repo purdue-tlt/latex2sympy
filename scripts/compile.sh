@@ -37,9 +37,9 @@ setup()
 	# Activate virtual environment
 	echo 'activate venv...'
 	if test -f .env/bin/activate; then
-		source .env/bin/activate && echo 'venv activated (bin)'
+		. .env/bin/activate && echo 'venv activated (bin)'
 	elif test -f .env/Scripts/activate; then
-		source .env/Scripts/activate && echo 'venv activated (Scripts)'
+		. .env/Scripts/activate && echo 'venv activated (Scripts)'
 	else
 		exit 1
 	fi
