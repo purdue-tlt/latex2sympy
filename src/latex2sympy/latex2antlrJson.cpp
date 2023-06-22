@@ -136,18 +136,22 @@ Json::Value toJson(tree::ParseTree *tree, LATEXParser *parser) {
         }
     }
 
-    // if there is only one token, merge it into the current node
-    // otherwise add tokens as a nested array
-    if (tokens.size() == 1) {
-        node["text"] = tokens[0]["text"];
-        node["type"] = tokens[0]["type"];
-    } else if (tokens.size() > 0) {
-        node["tokens"] = tokens;
+    // add tokens except for excluded nodes
+    if (name != "parse_text") {
+        // if there is only one token, merge it into the current node
+        // otherwise add tokens as a nested array
+        if (tokens.size() == 1) {
+            node["text"] = tokens[0]["text"];
+            node["type"] = tokens[0]["type"];
+        } else if (tokens.size() > 0) {
+            node["tokens"] = tokens;
+        }
     }
 
     // return the full text of the tree for specific rules
-    if (name == "func_multi_arg" ||
+    if (name == "func_args" ||
         name == "mathit_text" ||
+        name == "parse_text" ||
         parentName == "supexpr" ||
         parentName == "subexpr" ||
         parentName == "accent") {
@@ -216,40 +220,43 @@ namespace py = pybind11;
 // in order to export the LATEXLexer enum values, which is anonymous,
 // copy the enum here from LATEXLexer.h and give it a name
 enum LATEXLexerToken {
-    WS = 1, DOLLAR_SIGN = 2, ADD = 3, SUB = 4, MUL = 5, DIV = 6, L_PAREN = 7, 
-    R_PAREN = 8, L_GROUP = 9, R_GROUP = 10, L_BRACE = 11, R_BRACE = 12, 
-    L_BRACE_VISUAL = 13, R_BRACE_VISUAL = 14, L_BRACE_CMD = 15, R_BRACE_CMD = 16, 
-    L_BRACKET = 17, R_BRACKET = 18, L_BRACK = 19, R_BRACK = 20, BAR = 21, 
-    L_VERT = 22, R_VERT = 23, VERT = 24, L_FLOOR = 25, R_FLOOR = 26, LL_CORNER = 27, 
-    LR_CORNER = 28, L_CEIL = 29, R_CEIL = 30, UL_CORNER = 31, UR_CORNER = 32, 
-    L_LEFT = 33, R_RIGHT = 34, ML_LEFT = 35, MR_RIGHT = 36, FUNC_LIM = 37, 
-    LIM_APPROACH_SYM = 38, FUNC_INT = 39, FUNC_SUM = 40, FUNC_PROD = 41, 
-    FUNC_LOG = 42, FUNC_LN = 43, FUNC_EXP = 44, FUNC_SIN = 45, FUNC_COS = 46, 
-    FUNC_TAN = 47, FUNC_CSC = 48, FUNC_SEC = 49, FUNC_COT = 50, FUNC_ARCSIN = 51, 
-    FUNC_ARCCOS = 52, FUNC_ARCTAN = 53, FUNC_ARCCSC = 54, FUNC_ARCSEC = 55, 
-    FUNC_ARCCOT = 56, FUNC_SINH = 57, FUNC_COSH = 58, FUNC_TANH = 59, FUNC_ARSINH = 60, 
-    FUNC_ARCOSH = 61, FUNC_ARTANH = 62, FUNC_ARCSINH = 63, FUNC_ARCCOSH = 64, 
-    FUNC_ARCTANH = 65, FUNC_ARSINH_NAME = 66, FUNC_ARCSINH_NAME = 67, FUNC_ARCOSH_NAME = 68, 
-    FUNC_ARCCOSH_NAME = 69, FUNC_ARTANH_NAME = 70, FUNC_ARCTANH_NAME = 71, 
-    FUNC_GCD_NAME = 72, FUNC_LCM_NAME = 73, FUNC_FLOOR_NAME = 74, FUNC_CEIL_NAME = 75, 
-    FUNC_SQRT = 76, FUNC_GCD = 77, FUNC_LCM = 78, FUNC_FLOOR = 79, FUNC_CEIL = 80, 
-    FUNC_MAX = 81, FUNC_MIN = 82, CMD_TIMES = 83, CMD_CDOT = 84, CMD_DIV = 85, 
-    CMD_FRAC = 86, CMD_BINOM = 87, CMD_CHOOSE = 88, CMD_MOD = 89, CMD_MATHIT = 90, 
-    CMD_OPERATORNAME = 91, MATRIX_TYPE_MATRIX = 92, MATRIX_TYPE_PMATRIX = 93, 
-    MATRIX_TYPE_BMATRIX = 94, MATRIX_TYPES = 95, CMD_MATRIX_START = 96, 
-    CMD_MATRIX_END = 97, MATRIX_DEL_COL = 98, MATRIX_DEL_ROW = 99, ACCENT_OVERLINE = 100, 
-    ACCENT_BAR = 101, UNDERSCORE = 102, CARET = 103, COLON = 104, SEMICOLON = 105, 
-    COMMA = 106, PERIOD = 107, DIFFERENTIAL = 108, EXP_E = 109, E_NOTATION_E = 110, 
-    LETTER_NO_E = 111, NUMBER = 112, FRACTION_NUMBER = 113, SCI_NOTATION_NUMBER = 114, 
-    E_NOTATION = 115, EQUAL = 116, LT = 117, LTE = 118, GT = 119, GTE = 120, 
-    UNEQUAL = 121, BANG = 122, PERCENT_NUMBER = 123, GREEK_CMD = 124, SYMBOL = 125, 
-    VARIABLE = 126
+    WS = 1, DOLLAR_SIGN = 2, UNDERSCORE = 3, CARET = 4, COLON = 5, SEMICOLON = 6, 
+    COMMA = 7, PERIOD = 8, SPACE_CMD = 9, EXP_E = 10, E_NOTATION_E = 11, 
+    LETTER_NO_E = 12, ADD = 13, SUB = 14, MUL = 15, DIV = 16, EQUAL = 17, 
+    LT = 18, LTE = 19, GT = 20, GTE = 21, UNEQUAL = 22, BANG = 23, L_PAREN = 24, 
+    R_PAREN = 25, L_GROUP = 26, R_GROUP = 27, L_BRACE = 28, R_BRACE = 29, 
+    L_BRACE_VISUAL = 30, R_BRACE_VISUAL = 31, L_BRACE_CMD = 32, R_BRACE_CMD = 33, 
+    L_BRACKET = 34, R_BRACKET = 35, L_BRACK = 36, R_BRACK = 37, BAR = 38, 
+    L_VERT = 39, R_VERT = 40, VERT = 41, L_FLOOR = 42, R_FLOOR = 43, LL_CORNER = 44, 
+    LR_CORNER = 45, L_CEIL = 46, R_CEIL = 47, UL_CORNER = 48, UR_CORNER = 49, 
+    L_LEFT = 50, R_RIGHT = 51, ML_LEFT = 52, MR_RIGHT = 53, FUNC_LIM = 54, 
+    LIM_APPROACH_SYM = 55, FUNC_INT = 56, FUNC_SUM = 57, FUNC_PROD = 58, 
+    FUNC_LOG = 59, FUNC_LN = 60, FUNC_EXP = 61, FUNC_SIN = 62, FUNC_COS = 63, 
+    FUNC_TAN = 64, FUNC_CSC = 65, FUNC_SEC = 66, FUNC_COT = 67, FUNC_ARCSIN = 68, 
+    FUNC_ARCCOS = 69, FUNC_ARCTAN = 70, FUNC_ARCCSC = 71, FUNC_ARCSEC = 72, 
+    FUNC_ARCCOT = 73, FUNC_SINH = 74, FUNC_COSH = 75, FUNC_TANH = 76, FUNC_ARSINH = 77, 
+    FUNC_ARCOSH = 78, FUNC_ARTANH = 79, FUNC_ARCSINH = 80, FUNC_ARCCOSH = 81, 
+    FUNC_ARCTANH = 82, FUNC_ARSINH_NAME = 83, FUNC_ARCSINH_NAME = 84, FUNC_ARCOSH_NAME = 85, 
+    FUNC_ARCCOSH_NAME = 86, FUNC_ARTANH_NAME = 87, FUNC_ARCTANH_NAME = 88, 
+    FUNC_GCD_NAME = 89, FUNC_LCM_NAME = 90, FUNC_FLOOR_NAME = 91, FUNC_CEIL_NAME = 92, 
+    FUNC_OPERATORNAME_NAME = 93, FUNC_SQRT = 94, FUNC_GCD = 95, FUNC_LCM = 96, 
+    FUNC_FLOOR = 97, FUNC_CEIL = 98, FUNC_MAX = 99, FUNC_MIN = 100, CMD_TIMES = 101, 
+    CMD_CDOT = 102, CMD_DIV = 103, CMD_FRAC = 104, CMD_BINOM = 105, CMD_CHOOSE = 106, 
+    CMD_MOD = 107, CMD_MATHIT = 108, CMD_OPERATORNAME = 109, MATRIX_TYPE_MATRIX = 110, 
+    MATRIX_TYPE_PMATRIX = 111, MATRIX_TYPE_BMATRIX = 112, MATRIX_TYPES = 113, 
+    CMD_MATRIX_START = 114, CMD_MATRIX_END = 115, MATRIX_DEL_COL = 116, 
+    MATRIX_DEL_ROW = 117, ACCENT_OVERLINE = 118, ACCENT_BAR = 119, DIFFERENTIAL = 120, 
+    NUMBER = 121, FRACTION_NUMBER = 122, SCI_NOTATION_NUMBER = 123, E_NOTATION = 124, 
+    PERCENT_NUMBER = 125, GREEK_CMD = 126, SYMBOL = 127, VARIABLE = 128
 };
 
 // in order to export the LATEXLexer enum names,
 // convert LATEXLexerToken array to strings and copy it here
 static const char* LATEXLexerTokenStrings[] = {
-    "WS", "DOLLAR_SIGN", "ADD", "SUB", "MUL", "DIV", "L_PAREN", 
+    "WS", "DOLLAR_SIGN", "UNDERSCORE", "CARET", "COLON", "SEMICOLON", 
+    "COMMA", "PERIOD", "SPACE_CMD", "EXP_E", "E_NOTATION_E", 
+    "LETTER_NO_E", "ADD", "SUB", "MUL", "DIV", "EQUAL", 
+    "LT", "LTE", "GT", "GTE", "UNEQUAL", "BANG", "L_PAREN", 
     "R_PAREN", "L_GROUP", "R_GROUP", "L_BRACE", "R_BRACE", 
     "L_BRACE_VISUAL", "R_BRACE_VISUAL", "L_BRACE_CMD", "R_BRACE_CMD", 
     "L_BRACKET", "R_BRACKET", "L_BRACK", "R_BRACK", "BAR", 
@@ -265,18 +272,15 @@ static const char* LATEXLexerTokenStrings[] = {
     "FUNC_ARCTANH", "FUNC_ARSINH_NAME", "FUNC_ARCSINH_NAME", "FUNC_ARCOSH_NAME", 
     "FUNC_ARCCOSH_NAME", "FUNC_ARTANH_NAME", "FUNC_ARCTANH_NAME", 
     "FUNC_GCD_NAME", "FUNC_LCM_NAME", "FUNC_FLOOR_NAME", "FUNC_CEIL_NAME", 
-    "FUNC_SQRT", "FUNC_GCD", "FUNC_LCM", "FUNC_FLOOR", "FUNC_CEIL", 
-    "FUNC_MAX", "FUNC_MIN", "CMD_TIMES", "CMD_CDOT", "CMD_DIV", 
-    "CMD_FRAC", "CMD_BINOM", "CMD_CHOOSE", "CMD_MOD", "CMD_MATHIT", 
-    "CMD_OPERATORNAME", "MATRIX_TYPE_MATRIX", "MATRIX_TYPE_PMATRIX", 
-    "MATRIX_TYPE_BMATRIX", "MATRIX_TYPES", "CMD_MATRIX_START", 
-    "CMD_MATRIX_END", "MATRIX_DEL_COL", "MATRIX_DEL_ROW", "ACCENT_OVERLINE", 
-    "ACCENT_BAR", "UNDERSCORE", "CARET", "COLON", "SEMICOLON", 
-    "COMMA", "PERIOD", "DIFFERENTIAL", "EXP_E", "E_NOTATION_E", 
-    "LETTER_NO_E", "NUMBER", "FRACTION_NUMBER", "SCI_NOTATION_NUMBER", 
-    "E_NOTATION", "EQUAL", "LT", "LTE", "GT", "GTE", 
-    "UNEQUAL", "BANG", "PERCENT_NUMBER", "GREEK_CMD", "SYMBOL", 
-    "VARIABLE"
+    "FUNC_OPERATORNAME_NAME", "FUNC_SQRT", "FUNC_GCD", "FUNC_LCM", 
+    "FUNC_FLOOR", "FUNC_CEIL", "FUNC_MAX", "FUNC_MIN", "CMD_TIMES", 
+    "CMD_CDOT", "CMD_DIV", "CMD_FRAC", "CMD_BINOM", "CMD_CHOOSE", 
+    "CMD_MOD", "CMD_MATHIT", "CMD_OPERATORNAME", "MATRIX_TYPE_MATRIX", 
+    "MATRIX_TYPE_PMATRIX", "MATRIX_TYPE_BMATRIX", "MATRIX_TYPES", 
+    "CMD_MATRIX_START", "CMD_MATRIX_END", "MATRIX_DEL_COL", 
+    "MATRIX_DEL_ROW", "ACCENT_OVERLINE", "ACCENT_BAR", "DIFFERENTIAL", 
+    "NUMBER", "FRACTION_NUMBER", "SCI_NOTATION_NUMBER", "E_NOTATION", 
+    "PERCENT_NUMBER", "GREEK_CMD", "SYMBOL", "VARIABLE"
 };
 
 PYBIND11_MODULE(latex2antlrJson, m) {

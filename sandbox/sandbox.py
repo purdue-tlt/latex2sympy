@@ -1,6 +1,6 @@
-from sympy import *
+from sympy import srepr
 from latex2sympy.latex2sympy import process_sympy
-from latex2sympy.latex2antlrJson import parseToJson
+from latex2sympy.lib.macOS.arm64.latex2antlrJson import parseToJson
 
 # latex = '\\variable{a}^{\\variable{b}}'
 # variables = {'a': process_sympy('658.95998'), 'b': process_sympy('185083.8060')}
@@ -11,6 +11,37 @@ from latex2sympy.latex2antlrJson import parseToJson
 # print(c_ans)
 # print(srepr(c_ans))
 
+# latex = '\\tan x'
+# print(parseToJson(latex))
+# print(srepr(process_sympy(latex)))
+# print()
+
+latex_strings = [
+    '\\operatorname{min}(a, 450)',
+    '\\operatorname{min}(637,450)',
+    '\\operatorname{min}(637, 450)',
+    '\\operatorname{min}(637,\\space 450)',
+    '\\min(9, \\frac{{1,200}}{{2}}, 876, 543)'
+]
+for latex in latex_strings:
+    print(parseToJson(latex))
+    print(srepr(process_sympy(latex)))
+    print('')
+
+# latex = '\\operatorname{floor}(1.1)'
+# print(parseToJson(latex))
+# print(srepr(process_sympy(latex)))
+# print()
+
+# latex = '\\gcd^2(a, b)'
+# print(parseToJson(latex))
+# print(srepr(process_sympy(latex)))
+# print()
+
+# latex = '\\operatorname{arg}(\\frac{1}{x} \\cdot 5)'
+# print(parseToJson(latex))
+# print(srepr(process_sympy(latex)))
+# print()
 
 # numeric_responses = ['1', '1.0', '-1', '-1.0', '.5', '-.5', '3x10^3', '3E3', '3,000x10^{-3}', '0.5E-1', '\\frac{1}{3}', '(5\\times 3)^3', '\\sin(1)']
 # for latex in numeric_responses:

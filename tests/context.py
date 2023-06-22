@@ -117,12 +117,16 @@ def get_min_max_examples(cmd, func):
         (f"{cmd}(z, y, x)", func(z, y, x)),
 
         (f"{cmd}(1,2)", func(1, 2)),
-        (f"{cmd}(9,876,543)", func(9, 876, 543)),
+        (f"{cmd}(9,876,543)", func(9876543)),
+        (f"{cmd}(9, 876, 543)", func(9, 876, 543)),
+        (f"{cmd}(9,\\space 876,\\space 543)", func(9, 876, 543)),
         (f"{cmd}(x, y,z)", func(x, y, z)),
         (f"{cmd}(5.8,7.4, 2.2,-10)", func(Rational('5.8'), Rational('7.4'), Rational('2.2'), -10)),
         (f"{cmd}(\\pi,12E2,84,\\sqrt{{5}},\\frac{{12}}{{5}})", func(pi, Rational('12E2'), 84, sqrt(5), Rational(12, 5))),
         (f"{cmd}(823,51)", func(823, 51)),
-        (f"{cmd}(72*4, 23, 9)", func(_Mul(72, 4), 23, 9))
+        (f"{cmd}(72*4, 23, 9)", func(_Mul(72, 4), 23, 9)),
+        (f"{cmd}(9,\\frac{{1,200}}{{2}},876,543)", func(9, 600, 876543)),
+        (f"{cmd}(9, \\frac{{1,200}}{{2}}, 876, 543)", func(9, 600, 876, 543)),
     ]
 
 
@@ -172,12 +176,16 @@ def get_gcd_lcm_examples(cmd, func, func_eval, multi_func):
         (f"\\sqrt{{{cmd}(1.25E24, 1E12)}}", sqrt(func(Rational('1.25E24'), Rational('1E12')), evaluate=False)),
         (f"{cmd}(92.0, 000+2)", func(Rational('92.0'), 000 + 2)),
 
-        (f"{cmd}(830,450)", func(830, 450)),
-        (f"{cmd}(6,321,429)", multi_func(6, 321, 429)),
-        (f"{cmd}(14,2324)", func(14, 2324)),
+        (f"{cmd}(830,450,1)", func(830450, 1)),
+        (f"{cmd}(830, 450)", func(830, 450)),
+        (f"{cmd}(830,\\space 450)", func(830, 450)),
+        (f"{cmd}(6,321,429,1)", multi_func(6321429, 1)),
+        (f"{cmd}(6, 321,429)", multi_func(6, 321429)),
+        (f"{cmd}(6,\\space 321,429)", multi_func(6, 321429)),
+        (f"{cmd}(14,232,4)", func(14232, 4)),
         (f"{cmd}(3, 6, 2)", multi_func(3, 6, 2)),
         (f"{cmd}(144, 2988, 37116)", multi_func(144, 2988, 37116)),
-        (f"{cmd}(144,2988, 37116,18, 72)", multi_func(144, 2988, 37116, 18, 72)),
+        (f"{cmd}(144,298, 37116,18,72)", multi_func(144298, 37116, 18, 72)),
         (f"{cmd}(144, 2988, 37116, 18, 72, 12, 6)", multi_func(144, 2988, 37116, 18, 72, 12, 6)),
         (f"{cmd}(32)", func(32, 32)),
         (f"{cmd}(-8, 4,-2)", multi_func(-8, 4, -2)),

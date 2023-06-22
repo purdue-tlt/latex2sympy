@@ -3,7 +3,6 @@ import json
 import platform
 import re
 import sympy
-from sympy.core.core import all_classes
 from sympy.parsing.sympy_parser import parse_expr
 
 if platform.system() == 'Linux':  # pragma: no cover
@@ -87,7 +86,18 @@ class LatexToSympy:
             variable_name_dict[new_name] = original_name
         self.variable_name_dict = variable_name_dict
 
-        pre_processed_latex = re.sub(unwrapped_single_char_sub_sup_regex, '\\1{\\2}', latex)
+        # if latex contains single quotes, the text between should not be touched
+        if '\'' in latex:
+            quote_parts = re.split('\'', latex)
+            pre_processed_parts = []
+            for i in range(len(quote_parts)):
+                if i > 0 and quote_parts[i - 1].endswith('{'):
+                    pre_processed_parts.append(quote_parts[i])
+                else:
+                    pre_processed_parts.append(re.sub(unwrapped_single_char_sub_sup_regex, '\\1{\\2}', quote_parts[i]))
+            pre_processed_latex = '\''.join(pre_processed_parts)
+        else:
+            pre_processed_latex = re.sub(unwrapped_single_char_sub_sup_regex, '\\1{\\2}', latex)
 
         return pre_processed_latex
 
@@ -98,17 +108,17 @@ class LatexToSympy:
         relations = rel.get('relation')
         lh = self.convert_relation(relations[0])
         rh = self.convert_relation(relations[1])
-        if self.has_type_or_token(rel, LATEXLexerToken.LT):
+        if self.has_or_is_token(rel, LATEXLexerToken.LT):
             return sympy.StrictLessThan(lh, rh, evaluate=False)
-        elif self.has_type_or_token(rel, LATEXLexerToken.LTE):
+        elif self.has_or_is_token(rel, LATEXLexerToken.LTE):
             return sympy.LessThan(lh, rh, evaluate=False)
-        elif self.has_type_or_token(rel, LATEXLexerToken.GT):
+        elif self.has_or_is_token(rel, LATEXLexerToken.GT):
             return sympy.StrictGreaterThan(lh, rh, evaluate=False)
-        elif self.has_type_or_token(rel, LATEXLexerToken.GTE):
+        elif self.has_or_is_token(rel, LATEXLexerToken.GTE):
             return sympy.GreaterThan(lh, rh, evaluate=False)
-        elif self.has_type_or_token(rel, LATEXLexerToken.EQUAL):
+        elif self.has_or_is_token(rel, LATEXLexerToken.EQUAL):
             return sympy.Eq(lh, rh, evaluate=False)
-        elif self.has_type_or_token(rel, LATEXLexerToken.UNEQUAL):
+        elif self.has_or_is_token(rel, LATEXLexerToken.UNEQUAL):
             return sympy.Ne(lh, rh, evaluate=False)
         else:  # pragma: no cover
             raise Exception('Unrecognized relation')
@@ -345,7 +355,7 @@ class LatexToSympy:
         exp = self.convert_exp(exp_nested)
         if 'postfix_op' in postfix:
             for op in postfix.get('postfix_op'):
-                if self.has_type_or_token(op, LATEXLexerToken.BANG):
+                if self.has_or_is_token(op, LATEXLexerToken.BANG):
                     if isinstance(exp, list):
                         raise Exception('Cannot apply postfix to derivative')
                     exp = sympy.factorial(exp, evaluate=False)
@@ -479,7 +489,7 @@ class LatexToSympy:
                 return sympy.Pow(atom_symbol, func_pow, evaluate=False)
 
             return atom_symbol
-        elif self.has_type_or_token(atom, LATEXLexerToken.SYMBOL):
+        elif self.has_or_is_token(atom, LATEXLexerToken.SYMBOL):
             s = atom.get('text').replace('\\$', '').replace('\\%', '')
             if s == '\\infty':
                 return sympy.oo
@@ -489,14 +499,14 @@ class LatexToSympy:
                 return sympy.S.EmptySet
             else:  # pragma: no cover
                 raise Exception('Unrecognized symbol')
-        elif self.has_type_or_token(atom, LATEXLexerToken.NUMBER):
+        elif self.has_or_is_token(atom, LATEXLexerToken.NUMBER):
             s = atom.get('text').replace(',', '')
             try:
                 sr = sympy.Rational(s)
                 return sr
             except (TypeError, ValueError):  # pragma: no cover
                 return sympy.Number(s)
-        elif self.has_type_or_token(atom, LATEXLexerToken.SCI_NOTATION_NUMBER):
+        elif self.has_or_is_token(atom, LATEXLexerToken.SCI_NOTATION_NUMBER):
             s = atom.get('text')
             s_parts = s.split('\\times 10^')
             s1 = s_parts[0].replace(',', '')
@@ -515,7 +525,7 @@ class LatexToSympy:
             except (TypeError, ValueError):  # pragma: no cover
                 n = sympy.Number(n_exp)
             return n
-        elif self.has_type_or_token(atom, LATEXLexerToken.FRACTION_NUMBER):
+        elif self.has_or_is_token(atom, LATEXLexerToken.FRACTION_NUMBER):
             s = atom.get('text').replace('\\frac{', '').replace('}{', '/').replace('}', '').replace(',', '')
             try:
                 sr = sympy.Rational(s)
@@ -534,20 +544,20 @@ class LatexToSympy:
                 return sympy.Mul(p, sympy.Pow(q, -1, evaluate=False), evaluate=False)
             except (TypeError, ValueError):  # pragma: no cover
                 return sympy.Number(s)
-        elif self.has_type_or_token(atom, LATEXLexerToken.E_NOTATION):
+        elif self.has_or_is_token(atom, LATEXLexerToken.E_NOTATION):
             s = atom.get('text').replace(',', '')
             try:
                 sr = sympy.Rational(s)
                 return sr
             except (TypeError, ValueError):  # pragma: no cover
                 return sympy.Number(s)
-        elif self.has_type_or_token(atom, LATEXLexerToken.DIFFERENTIAL):
+        elif self.has_or_is_token(atom, LATEXLexerToken.DIFFERENTIAL):
             var = self.get_differential_var(atom.get('text'))
             return sympy.Symbol('d' + var.name, real=True, positive=True)
         elif 'mathit' in atom:
             text = atom.get('mathit').get('mathit_text').get('text')
             return sympy.Symbol(text, real=True, positive=True)
-        elif self.has_type_or_token(atom, LATEXLexerToken.VARIABLE):
+        elif self.has_or_is_token(atom, LATEXLexerToken.VARIABLE):
             text = atom.get('text')
             is_percent = text.endswith('\\%')
             trim_amount = 3 if is_percent else 1
@@ -564,13 +574,7 @@ class LatexToSympy:
 
             # replace the variable for already known variable values
             if name in self.variable_values:
-                # if a sympy class
-                if isinstance(self.variable_values[name], tuple(all_classes)):
-                    symbol = self.variable_values[name]
-
-                # if NOT a sympy class
-                else:
-                    symbol = parse_expr(str(self.variable_values[name]))
+                symbol = self.variable_values[name]
             else:
                 symbol = sympy.Symbol(symbol_name, real=True)
 
@@ -580,7 +584,7 @@ class LatexToSympy:
             # return the symbol
             return symbol
 
-        elif self.has_type_or_token(atom, LATEXLexerToken.PERCENT_NUMBER):
+        elif self.has_or_is_token(atom, LATEXLexerToken.PERCENT_NUMBER):
             text = atom.get('text').replace('\\%', '').replace(',', '')
             try:
                 number = sympy.Rational(text)
@@ -620,43 +624,40 @@ class LatexToSympy:
         return sympy.binomial(expr_top, expr_bot)
 
     def convert_func(self, func):
-        if 'func_normal_single_arg' in func:
-            if 'func_single_arg' in func:  # function called with parenthesis
-                arg = self.convert_func_arg(func.get('func_single_arg'))
+        if 'func_cmd_names' in func or self.has_or_is_token(func, LATEXLexerToken.FUNC_OPERATORNAME_NAME):
+            if self.has_or_is_token(func, LATEXLexerToken.FUNC_OPERATORNAME_NAME):
+                token = self.get_token(func, LATEXLexerToken.FUNC_OPERATORNAME_NAME)
+                name = token.get('text')[14:-1]
             else:
-                arg = self.convert_func_arg(func.get('func_single_arg_noparens'))
+                name = func.get('func_cmd_names').get('text')[1:]
 
-            if 'tokens' in func.get('func_normal_single_arg'):
-                name = func.get('func_normal_single_arg').get('tokens')[0].get('text')[1:]
-            else:
-                name = func.get('func_normal_single_arg').get('func_normal_functions_single_arg').get('text')[1:]
+            # convert args
+            # handle a single arg with no parentheses
+            if 'func_single_arg_noparens' in func:
+                args = [self.convert_func_arg(func.get('func_single_arg_noparens'))]
+            # handle one or many args
+            if 'func_args' in func:
+                func_args = func.get('func_args')
+                args = []
+                if 'expr' in func_args:
+                    args.append(self.convert_func_arg(func_args))
+                nested_func_args = func_args
+                while 'func_args' in nested_func_args:
+                    next_func_args = nested_func_args.get('func_args')
+                    if 'expr' in next_func_args:
+                        args.append(self.convert_func_arg(next_func_args))
+                    nested_func_args = next_func_args
+
+            expr = None
 
             # change arc<trig> -> a<trig>
-            if name in ['arcsin', 'arccos', 'arctan', 'arccsc', 'arcsec',
-                        'arccot']:
+            if name in ['arcsin', 'arccos', 'arctan', 'arccsc', 'arcsec', 'arccot', 'arcsinh', 'arccosh', 'arctanh']:
                 name = 'a' + name[3:]
-                expr = getattr(sympy.functions, name)(arg, evaluate=False)
+                expr = getattr(sympy.functions, name)(*args, evaluate=False)
+            # change ar<trig>h -> a<trig>h
             elif name in ['arsinh', 'arcosh', 'artanh']:
                 name = 'a' + name[2:]
-                expr = getattr(sympy.functions, name)(arg, evaluate=False)
-            elif name in ['arcsinh', 'arccosh', 'arctanh']:
-                name = 'a' + name[3:]
-                expr = getattr(sympy.functions, name)(arg, evaluate=False)
-            elif name == 'operatorname':
-                operatorname = func.get('func_normal_single_arg').get('func_operator_names_single_arg').get('text')
-
-                if operatorname in ['arsinh', 'arcosh', 'artanh']:
-                    operatorname = 'a' + operatorname[2:]
-                    expr = getattr(sympy.functions, operatorname)(arg, evaluate=False)
-                elif operatorname in ['arcsinh', 'arccosh', 'arctanh']:
-                    operatorname = 'a' + operatorname[3:]
-                    expr = getattr(sympy.functions, operatorname)(arg, evaluate=False)
-                elif operatorname == 'floor':
-                    expr = self.handle_floor(arg)
-                elif operatorname == 'ceil':
-                    expr = self.handle_ceil(arg)
-                else:  # pragma: no cover
-                    raise Exception('Unrecognized operatorname')
+                expr = getattr(sympy.functions, name)(*args, evaluate=False)
             elif name in ['log', 'ln']:
                 if 'subexpr' in func:
                     subexpr = func.get('subexpr')
@@ -672,59 +673,21 @@ class LatexToSympy:
                     base = sympy.E
                 else:  # pragma: no cover
                     raise Exception('Unrecognized log/ln')
-                expr = sympy.log(arg, base, evaluate=False)
+                expr = sympy.log(*args, base, evaluate=False)
             elif name in ['exp', 'exponentialE']:
-                expr = sympy.exp(arg)
+                expr = sympy.exp(*args)
             elif name == 'floor':
-                expr = self.handle_floor(arg)
+                expr = self.handle_floor(*args)
             elif name == 'ceil':
-                expr = self.handle_ceil(arg)
-
-            func_pow = None
-            should_pow = True
-            if 'supexpr' in func:
-                supexpr = func.get('supexpr')
-                if 'atom' in supexpr:
-                    func_pow = self.convert_atom(supexpr.get('atom'))
-                elif 'expr' in supexpr:
-                    func_pow = self.convert_expr(supexpr.get('expr'))
-                else:  # pragma: no cover
-                    raise Exception('Invalid supexpr')
-
-            if name in ['sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'sinh', 'cosh', 'tanh']:
-                if func_pow == -1:
-                    name = 'a' + name
-                    should_pow = False
-                expr = getattr(sympy.functions, name)(arg, evaluate=False)
-
-            if func_pow and should_pow:
-                expr = sympy.Pow(expr, func_pow, evaluate=False)
-
-            return expr
-
-        elif 'func_normal_multi_arg' in func:
-            args = func.get('func_multi_arg').get('text').split(',')
-            args = list(map(lambda arg: process_sympy(arg, self.variable_values), args))
-
-            if 'tokens' in func.get('func_normal_multi_arg'):
-                name = func.get('func_normal_multi_arg').get('tokens')[0].get('text')[1:]
-            else:
-                name = func.get('func_normal_multi_arg').get('func_normal_functions_multi_arg').get('text')[1:]
-
-            if name == 'operatorname':
-                operatorname = func.get('func_normal_multi_arg').get('func_operator_names_multi_arg').get('text')
-                if operatorname in ['gcd', 'lcm']:
-                    expr = self.handle_gcd_lcm(operatorname, args)
-                else:  # pragma: no cover
-                    raise Exception('Unrecognized operatorname')
+                expr = sympy.functions.ceiling(*args, evaluate=False)
             elif name in ['gcd', 'lcm']:
                 expr = self.handle_gcd_lcm(name, args)
             elif name in ['max', 'min']:
+                # capitalize name
                 name = name[0].upper() + name[1:]
                 expr = getattr(sympy.functions, name)(*args, evaluate=False)
-            else:  # pragma: no cover
-                raise Exception('Unrecognized func_normal_multi_arg')
 
+            # handle exponents on the func
             func_pow = None
             should_pow = True
             if 'supexpr' in func:
@@ -736,14 +699,27 @@ class LatexToSympy:
                 else:  # pragma: no cover
                     raise Exception('Invalid supexpr')
 
+            # handle <trig> methods after parsing `supexpr`
+            if name in ['sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'sinh', 'cosh', 'tanh']:
+                # change <trig> -> a<trig> if exponent is -1
+                if func_pow == -1:
+                    name = 'a' + name
+                    should_pow = False
+                expr = getattr(sympy.functions, name)(*args, evaluate=False)
+
+            # apply exponent `supexpr`
             if func_pow and should_pow:
                 expr = sympy.Pow(expr, func_pow, evaluate=False)
 
+            # if `expr` is not set then the func is unknown, attempt to handle it
+            if expr is None:
+                expr = self.handle_unknown_func(name, args)
+
             return expr
 
-        elif self.has_type_or_token(func, LATEXLexerToken.FUNC_INT):
+        elif self.has_or_is_token(func, LATEXLexerToken.FUNC_INT):
             return self.handle_integral(func)
-        elif self.has_type_or_token(func, LATEXLexerToken.FUNC_SQRT):
+        elif self.has_or_is_token(func, LATEXLexerToken.FUNC_SQRT):
             exprs = func.get('expr')
             expr = self.convert_expr(exprs[1]) if isinstance(exprs, list) else self.convert_expr(exprs)
             if isinstance(exprs, list):
@@ -751,13 +727,13 @@ class LatexToSympy:
                 return sympy.Pow(expr, 1 / r, evaluate=False)
             else:
                 return sympy.Pow(expr, sympy.S.Half, evaluate=False)
-        elif self.has_type_or_token(func, LATEXLexerToken.FUNC_SUM):
+        elif self.has_or_is_token(func, LATEXLexerToken.FUNC_SUM):
             return self.handle_sum_or_prod(func, 'summation')
-        elif self.has_type_or_token(func, LATEXLexerToken.FUNC_PROD):
+        elif self.has_or_is_token(func, LATEXLexerToken.FUNC_PROD):
             return self.handle_sum_or_prod(func, 'product')
-        elif self.has_type_or_token(func, LATEXLexerToken.FUNC_LIM):
+        elif self.has_or_is_token(func, LATEXLexerToken.FUNC_LIM):
             return self.handle_limit(func)
-        elif self.has_type_or_token(func, LATEXLexerToken.EXP_E):
+        elif self.has_or_is_token(func, LATEXLexerToken.EXP_E):
             return self.handle_exp(func)
         else:  # pragma: no cover
             raise Exception('Unrecognized func')
@@ -767,6 +743,20 @@ class LatexToSympy:
             return self.convert_expr(arg.get('expr'))
         else:
             return self.convert_mp(arg.get('mp_nofunc'))
+
+    def handle_unknown_func(self, name, args):
+        try:
+            # create a temp string of "None" args to match the number of provided `args`
+            # this avoids trying to parse latex or already parsed json
+            temp_args_text = 'None, ' * len(args)
+            temp_func_text = name + '(' + temp_args_text[:-2] + ')'
+            #  attempt to parse the func using the temp args, e.g. "my_func(None, None)"
+            # if the func accepts a different amount of args, an exception will be raised
+            parsed_func = parse_expr(temp_func_text, evaluate=False)
+            # recompose the func using the provided `args`
+            return parsed_func.func(*args, evaluate=False)
+        except Exception as e:
+            raise Exception('Unable to parse unknown func "' + name + '"', e)
 
     def handle_integral(self, func):
         if 'additive' in func:
@@ -912,12 +902,12 @@ class LatexToSympy:
         return text
 
     def get_token(self, node, type):
+        if 'type' in node and node.get('type') == type:
+            return node
         tokens = node.get('tokens') if 'tokens' in node else None
         token = next((t for t in node.get('tokens') if t.get('type') == type), None) if tokens is not None else None
         return token
 
-    def has_type_or_token(self, node, type):
-        if 'type' in node and node.get('type') == type:
-            return True
+    def has_or_is_token(self, node, type):
         token = self.get_token(node, type)
         return token is not None
