@@ -1,20 +1,8 @@
 import hashlib
 import json
-import platform
 import re
 import sympy
-from sympy.core.core import all_classes
-from sympy.parsing.sympy_parser import parse_expr
-
-if platform.system() == 'Linux':  # pragma: no cover
-    from latex2sympy.lib.linux.latex2antlrJson import parseToJson, LATEXLexerToken
-elif platform.system() == 'Darwin':  # pragma: no cover
-    if platform.machine() == 'arm64':  # pragma: no cover
-        from latex2sympy.lib.macOS.arm64.latex2antlrJson import parseToJson, LATEXLexerToken
-    else:
-        from latex2sympy.lib.macOS.x86_64.latex2antlrJson import parseToJson, LATEXLexerToken
-else:  # pragma: no cover
-    raise Exception(platform.system() + ' platform not supported')
+from latex2sympy.lib import parseToJson, LATEXLexerToken
 
 
 def process_sympy(latex: str, variable_values={}):
@@ -564,13 +552,7 @@ class LatexToSympy:
 
             # replace the variable for already known variable values
             if name in self.variable_values:
-                # if a sympy class
-                if isinstance(self.variable_values[name], tuple(all_classes)):
-                    symbol = self.variable_values[name]
-
-                # if NOT a sympy class
-                else:
-                    symbol = parse_expr(str(self.variable_values[name]))
+                symbol = self.variable_values[name]
             else:
                 symbol = sympy.Symbol(symbol_name, real=True)
 
