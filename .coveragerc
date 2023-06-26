@@ -2,13 +2,10 @@
 [run]
 branch = True
 include =
-    latex2sympy.py
+    src/*
 omit = 
     sandbox/*
-    gen/*
-    asciimath_printer.py
     setup.py
-    __init__.py
 
 [report]
 # Regexes for lines to exclude from consideration

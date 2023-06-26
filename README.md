@@ -18,6 +18,12 @@ The script below should be run **every time the file `LATEX.g4` or `src/latex2sy
 sh scripts/compile.sh
 ```
 
+Optionally, you can append the `-n` option for "no clean", which will _not_ completely delete the old build files, allowing for faster development.
+
+```sh
+sh scripts/compile.sh -n
+```
+
 Pre-compiled parsers are stored in `src/latex2sympy/lib`. **`src/latex2sympy/lib/linux` contains the parser used in azure functions** (see below).
 
 `compile.sh` will only compile for the current system.
