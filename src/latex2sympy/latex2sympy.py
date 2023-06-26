@@ -602,43 +602,49 @@ class LatexToSympy:
         return sympy.binomial(expr_top, expr_bot)
 
     def convert_func(self, func):
-        if 'func_normal_single_arg' in func:
-            if 'func_single_arg' in func:  # function called with parenthesis
-                arg = self.convert_func_arg(func.get('func_single_arg'))
-            else:
-                arg = self.convert_func_arg(func.get('func_single_arg_noparens'))
+        if 'func_single_arg' in func or 'func_multi_arg' in func:
+            func_single_arg = func.get('func_single_arg')
+            func_multi_arg = func.get('func_multi_arg')
+            sub_func = func_single_arg if func_single_arg is not None else func_multi_arg
 
-            if 'tokens' in func.get('func_normal_single_arg'):
-                name = func.get('func_normal_single_arg').get('tokens')[0].get('text')[1:]
+            # get name
+            if 'func_cmd_single_arg' in sub_func:
+                name = sub_func.get('func_cmd_single_arg').get('text')[1:]
+            elif 'func_cmd_multi_arg' in sub_func:
+                name = sub_func.get('func_cmd_multi_arg').get('text')[1:]
             else:
-                name = func.get('func_normal_single_arg').get('func_normal_functions_single_arg').get('text')[1:]
+                name = sub_func.get('tokens')[0].get('text')[1:]
 
+            # handle operatorname cmds
+            allowed_operatorname_cmds = ['arsinh', 'arcosh', 'artanh', 'arcsinh', 'arccosh', 'arctanh', 'floor', 'ceil', 'gcd', 'lcm']
+            if name == 'operatorname':
+                operator_name_key = 'func_name_single_arg' if func_single_arg is not None else 'func_name_multi_arg'
+                operatorname = sub_func.get(operator_name_key).get('text')
+                if operatorname in allowed_operatorname_cmds:
+                    name = operatorname
+                else:  # pragma: no cover
+                    raise Exception('Unrecognized operatorname')
+
+            # get single arg or multiple args
+            if 'func_arg_noparens' in func:
+                # handle a single arg with no parentheses
+                arg = self.convert_func_arg(func.get('func_arg_noparens'))
+            elif 'func_arg' in func:
+                arg = self.convert_func_arg(func.get('func_arg'))
+            elif 'func_args' in func:
+                # commas are **always** used to split args for multi-arg functions
+                args = func.get('func_args').get('text').split(',')
+                args = list(map(lambda arg: process_sympy(arg, self.variable_values), args))
+
+            # single arg funcs
             # change arc<trig> -> a<trig>
-            if name in ['arcsin', 'arccos', 'arctan', 'arccsc', 'arcsec',
-                        'arccot']:
+            if name in ['arcsin', 'arccos', 'arctan', 'arccsc', 'arcsec', 'arccot', 'arcsinh', 'arccosh', 'arctanh']:
                 name = 'a' + name[3:]
                 expr = getattr(sympy.functions, name)(arg, evaluate=False)
+            # change ar<trig> -> a<trig>
             elif name in ['arsinh', 'arcosh', 'artanh']:
                 name = 'a' + name[2:]
                 expr = getattr(sympy.functions, name)(arg, evaluate=False)
-            elif name in ['arcsinh', 'arccosh', 'arctanh']:
-                name = 'a' + name[3:]
-                expr = getattr(sympy.functions, name)(arg, evaluate=False)
-            elif name == 'operatorname':
-                operatorname = func.get('func_normal_single_arg').get('func_operator_names_single_arg').get('text')
-
-                if operatorname in ['arsinh', 'arcosh', 'artanh']:
-                    operatorname = 'a' + operatorname[2:]
-                    expr = getattr(sympy.functions, operatorname)(arg, evaluate=False)
-                elif operatorname in ['arcsinh', 'arccosh', 'arctanh']:
-                    operatorname = 'a' + operatorname[3:]
-                    expr = getattr(sympy.functions, operatorname)(arg, evaluate=False)
-                elif operatorname == 'floor':
-                    expr = self.handle_floor(arg)
-                elif operatorname == 'ceil':
-                    expr = self.handle_ceil(arg)
-                else:  # pragma: no cover
-                    raise Exception('Unrecognized operatorname')
             elif name in ['log', 'ln']:
                 if 'subexpr' in func:
                     subexpr = func.get('subexpr')
@@ -662,6 +668,14 @@ class LatexToSympy:
             elif name == 'ceil':
                 expr = self.handle_ceil(arg)
 
+            # multi-arg funcs
+            if name in ['gcd', 'lcm']:
+                expr = self.handle_gcd_lcm(name, args)
+            elif name in ['max', 'min']:
+                name = name[0].upper() + name[1:]
+                expr = getattr(sympy.functions, name)(*args, evaluate=False)
+
+            # handle exponents on the func
             func_pow = None
             should_pow = True
             if 'supexpr' in func:
@@ -673,53 +687,20 @@ class LatexToSympy:
                 else:  # pragma: no cover
                     raise Exception('Invalid supexpr')
 
+            # handle <trig> methods after parsing `supexpr`
             if name in ['sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'sinh', 'cosh', 'tanh']:
+                # change <trig> -> a<trig> if exponent is -1
                 if func_pow == -1:
                     name = 'a' + name
                     should_pow = False
                 expr = getattr(sympy.functions, name)(arg, evaluate=False)
 
+            # apply exponent `supexpr`
             if func_pow and should_pow:
                 expr = sympy.Pow(expr, func_pow, evaluate=False)
 
-            return expr
-
-        elif 'func_normal_multi_arg' in func:
-            args = func.get('func_multi_arg').get('text').split(',')
-            args = list(map(lambda arg: process_sympy(arg, self.variable_values), args))
-
-            if 'tokens' in func.get('func_normal_multi_arg'):
-                name = func.get('func_normal_multi_arg').get('tokens')[0].get('text')[1:]
-            else:
-                name = func.get('func_normal_multi_arg').get('func_normal_functions_multi_arg').get('text')[1:]
-
-            if name == 'operatorname':
-                operatorname = func.get('func_normal_multi_arg').get('func_operator_names_multi_arg').get('text')
-                if operatorname in ['gcd', 'lcm']:
-                    expr = self.handle_gcd_lcm(operatorname, args)
-                else:  # pragma: no cover
-                    raise Exception('Unrecognized operatorname')
-            elif name in ['gcd', 'lcm']:
-                expr = self.handle_gcd_lcm(name, args)
-            elif name in ['max', 'min']:
-                name = name[0].upper() + name[1:]
-                expr = getattr(sympy.functions, name)(*args, evaluate=False)
-            else:  # pragma: no cover
-                raise Exception('Unrecognized func_normal_multi_arg')
-
-            func_pow = None
-            should_pow = True
-            if 'supexpr' in func:
-                supexpr = func.get('supexpr')
-                if 'atom' in supexpr:
-                    func_pow = self.convert_atom(supexpr.get('atom'))
-                elif 'expr' in supexpr:
-                    func_pow = self.convert_expr(supexpr.get('expr'))
-                else:  # pragma: no cover
-                    raise Exception('Invalid supexpr')
-
-            if func_pow and should_pow:
-                expr = sympy.Pow(expr, func_pow, evaluate=False)
+            if expr is None:
+                raise Exception('Unrecognized func')
 
             return expr
 
