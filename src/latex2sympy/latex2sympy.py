@@ -27,7 +27,7 @@ class LatexToSympy:
         return_data = None
         json_string = parseToJson(pre_processed_latex)
 
-        # print(json_string)
+        print(json_string)
 
         math = json.loads(json_string)
 
@@ -475,6 +475,8 @@ class LatexToSympy:
                 return sympy.pi
             elif s == '\\emptyset':
                 return sympy.S.EmptySet
+            elif s == '\\imaginaryI' or s == '\\imaginaryJ':
+                return sympy.I
             else:  # pragma: no cover
                 raise Exception('Unrecognized symbol')
         elif self.has_type_or_token(atom, LATEXLexerToken.NUMBER):
@@ -561,7 +563,6 @@ class LatexToSympy:
 
             # return the symbol
             return symbol
-
         elif self.has_type_or_token(atom, LATEXLexerToken.PERCENT_NUMBER):
             text = atom.get('text').replace('\\%', '').replace(',', '')
             try:
@@ -570,6 +571,19 @@ class LatexToSympy:
                 number = sympy.Number(text)
             percent = sympy.Rational(number, 100)
             return percent
+        elif self.has_type_or_token(atom, LATEXLexerToken.COMPLEX_NUMBER_POLAR_ANGLE):
+            angle_str = atom.get('text').replace('\\angle ', '')
+            if '\\degree' in angle_str:
+                angle_str = angle_str.replace('\\degree', '').strip()
+                try:
+                    angle_degrees = sympy.Rational(angle_str)
+                except (TypeError, ValueError):  # pragma: no cover
+                    angle_degrees = sympy.Number(angle_str)
+                # convert angle from degrees to radians
+                angle = sympy.Mul(angle_degrees, sympy.Pow(180, -1, evaluate=False), sympy.pi, evaluate=False)
+            else:
+                angle = process_sympy(angle_str)
+            return sympy.exp(sympy.Mul(sympy.I, angle, evaluate=False), evaluate=False)
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
 
@@ -616,7 +630,13 @@ class LatexToSympy:
                 name = sub_func.get('tokens')[0].get('text')[1:]
 
             # handle operatorname cmds
-            allowed_operatorname_cmds = ['arsinh', 'arcosh', 'artanh', 'arcsinh', 'arccosh', 'arctanh', 'floor', 'ceil', 'gcd', 'lcm']
+            allowed_operatorname_cmds = [
+                'arsinh', 'arcosh', 'artanh',
+                'arcsinh', 'arccosh', 'arctanh',
+                'floor', 'ceil',
+                'gcd', 'lcm',
+                'Re', 'Im', 'Abs', 'Arg'
+            ]
             if name == 'operatorname':
                 operator_name_key = 'func_name_single_arg' if func_single_arg is not None else 'func_name_multi_arg'
                 operatorname = sub_func.get(operator_name_key).get('text')
@@ -636,7 +656,7 @@ class LatexToSympy:
                 args = func.get('func_args').get('text').split(',')
                 args = list(map(lambda arg: process_sympy(arg, self.variable_values), args))
 
-            # single arg funcs
+            # single arg functions
             # change arc<trig> -> a<trig>
             if name in ['arcsin', 'arccos', 'arctan', 'arccsc', 'arcsec', 'arccot', 'arcsinh', 'arccosh', 'arctanh']:
                 name = 'a' + name[3:]
@@ -667,8 +687,17 @@ class LatexToSympy:
                 expr = self.handle_floor(arg)
             elif name == 'ceil':
                 expr = self.handle_ceil(arg)
+            # complex functions
+            elif name == 'Re':
+                expr = sympy.re(arg, evaluate=False)
+            elif name == 'Im':
+                expr = sympy.im(arg, evaluate=False)
+            elif name == 'Abs':
+                expr = sympy.Abs(arg, evaluate=False)
+            elif name == 'Arg':
+                expr = sympy.arg(arg, evaluate=False)
 
-            # multi-arg funcs
+            # multi-arg functions
             if name in ['gcd', 'lcm']:
                 expr = self.handle_gcd_lcm(name, args)
             elif name in ['max', 'min']:

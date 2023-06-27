@@ -110,11 +110,16 @@ FUNC_CEIL: '\\ceil';
 FUNC_MAX: '\\max';
 FUNC_MIN: '\\min';
 
+FUNC_RE_NAME: 'Re';
+FUNC_IM_NAME: 'Im';
+FUNC_ARG_NAME: 'Arg';
+FUNC_ABS_NAME: 'Abs';
+
 // commands
 CMD_TIMES: '\\times';
-CMD_CDOT:  '\\cdot';
-CMD_DIV:   '\\div';
-CMD_FRAC:  '\\frac';
+CMD_CDOT: '\\cdot';
+CMD_DIV: '\\div';
+CMD_FRAC: '\\frac';
 CMD_BINOM: '\\binom';
 CMD_CHOOSE: '\\choose';
 CMD_MOD: '\\mod';
@@ -225,11 +230,20 @@ fragment PI: '\\pi';
 fragment INFTY_CMD: '\\infty';
 fragment INFTY: INFTY_CMD | DOLLAR_SIGN INFTY_CMD | INFTY_CMD PERCENT_SIGN;
 fragment EMPTYSET: '\\emptyset';
-SYMBOL: PI | INFTY | EMPTYSET;
+fragment IMAGINARY_I: '\\imaginaryI';
+fragment IMAGINARY_J: '\\imaginaryJ';
+SYMBOL: PI | INFTY | EMPTYSET | IMAGINARY_I | IMAGINARY_J;
 
 fragment VARIABLE_CMD: '\\variable';
 fragment VARIABLE_SYMBOL: (GREEK_CMD | LETTER | DIGIT)+ (UNDERSCORE ((L_BRACE (GREEK_CMD | LETTER | DIGIT | COMMA)+ R_BRACE) | (GREEK_CMD | LETTER | DIGIT)))?;
 VARIABLE: VARIABLE_CMD L_BRACE VARIABLE_SYMBOL R_BRACE PERCENT_SIGN?;
+
+fragment ANGLE: '\\angle';
+fragment DEGREE: '\\degree';
+fragment COMPLEX_NUMBER_POLAR_ANGLE_DEGREES: SUB? NUMBER DEGREE ' ';
+fragment COMPLEX_NUMBER_RADIANS: SUB? (NUMBER | NUMBER PI | PI);
+fragment COMPLEX_NUMBER_POLAR_ANGLE_RADIANS: COMPLEX_NUMBER_RADIANS | SUB? NUMBER? PI? CMD_FRAC L_BRACE COMPLEX_NUMBER_RADIANS R_BRACE L_BRACE SUB? NUMBER R_BRACE;
+COMPLEX_NUMBER_POLAR_ANGLE: ANGLE ' ' (COMPLEX_NUMBER_POLAR_ANGLE_DEGREES | COMPLEX_NUMBER_POLAR_ANGLE_RADIANS);
 
 // collection of accents
 accent_symbol:
@@ -410,7 +424,7 @@ accent:
     L_BRACE base=expr R_BRACE;
 
 atom_expr: (LETTER_NO_E | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
-atom: atom_expr | SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE;
+atom: atom_expr | SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE | COMPLEX_NUMBER_POLAR_ANGLE;
 
 mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
 mathit_text: (LETTER_NO_E | E_NOTATION_E | EXP_E)+;
@@ -455,7 +469,8 @@ func_cmd_single_arg:
     | FUNC_SINH | FUNC_COSH | FUNC_TANH
     | FUNC_ARSINH | FUNC_ARCOSH | FUNC_ARTANH
     | FUNC_ARCSINH | FUNC_ARCCOSH | FUNC_ARCTANH
-    | FUNC_FLOOR | FUNC_CEIL;
+    | FUNC_FLOOR | FUNC_CEIL
+    | FUNC_ARG;
 
 func_cmd_multi_arg:
     FUNC_GCD | FUNC_LCM | FUNC_MAX | FUNC_MIN;
@@ -463,7 +478,8 @@ func_cmd_multi_arg:
 func_name_single_arg:
     FUNC_ARSINH_NAME | FUNC_ARCOSH_NAME | FUNC_ARTANH_NAME
     | FUNC_ARCSINH_NAME | FUNC_ARCCOSH_NAME | FUNC_ARCTANH_NAME
-    | FUNC_FLOOR_NAME | FUNC_CEIL_NAME;
+    | FUNC_FLOOR_NAME | FUNC_CEIL_NAME
+    | FUNC_RE_NAME | FUNC_IM_NAME | FUNC_ARG_NAME | FUNC_ABS_NAME;
 
 func_name_multi_arg:
     FUNC_GCD_NAME | FUNC_LCM_NAME;
