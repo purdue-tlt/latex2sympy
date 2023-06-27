@@ -582,7 +582,7 @@ class LatexToSympy:
                 # convert angle from degrees to radians
                 angle = sympy.Mul(angle_degrees, sympy.Pow(180, -1, evaluate=False), sympy.pi, evaluate=False)
             else:
-                angle = process_sympy(angle_str)
+                angle = process_sympy(angle_str, variable_values=self.variable_values)
             return sympy.exp(sympy.Mul(sympy.I, angle, evaluate=False), evaluate=False)
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
