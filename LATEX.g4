@@ -3,10 +3,24 @@ grammar LATEX;
 WS: [ \t\r\n]+ -> skip;
 DOLLAR_SIGN: '\\$' -> skip;
 
+UNDERSCORE: '_';
+CARET: '^';
+COLON: ':';
+SEMICOLON: ';';
+COMMA: ',';
+PERIOD: '.';
+
 ADD: '+';
 SUB: '-';
 MUL: '*';
 DIV: '/';
+EQUAL: '=';
+LT: '<';
+LTE: '\\leq' | '\\le';
+GT: '>';
+GTE: '\\geq' | '\\ge';
+UNEQUAL: '!=' | '\\ne' | '\\neq';
+BANG: '!';
 
 L_PAREN: '(';
 R_PAREN: ')';
@@ -96,11 +110,16 @@ FUNC_CEIL: '\\ceil';
 FUNC_MAX: '\\max';
 FUNC_MIN: '\\min';
 
+FUNC_RE_NAME: 'Re';
+FUNC_IM_NAME: 'Im';
+FUNC_ARG_NAME: 'Arg';
+FUNC_ABS_NAME: 'Abs';
+
 // commands
 CMD_TIMES: '\\times';
-CMD_CDOT:  '\\cdot';
-CMD_DIV:   '\\div';
-CMD_FRAC:  '\\frac';
+CMD_CDOT: '\\cdot';
+CMD_DIV: '\\div';
+CMD_FRAC: '\\frac';
 CMD_BINOM: '\\binom';
 CMD_CHOOSE: '\\choose';
 CMD_MOD: '\\mod';
@@ -120,24 +139,18 @@ MATRIX_DEL_COL: '&';
 MATRIX_DEL_ROW: '\\\\';
 
 // accents such as overline and hat
-ACCENT_OVERLINE:  '\\overline';
-ACCENT_BAR:  '\\bar';
-
-UNDERSCORE: '_';
-CARET: '^';
-COLON: ':';
-SEMICOLON: ';';
-COMMA: ',';
-PERIOD: '.';
+ACCENT_OVERLINE: '\\overline';
+ACCENT_BAR: '\\bar';
 
 fragment WS_CHAR: [ \t\r\n];
-DIFFERENTIAL: 'd' WS_CHAR*? ([a-zA-Z] | '\\' [a-zA-Z]+);
+fragment LETTER: [a-zA-Z];
+fragment DIGIT: [0-9];
 
 EXP_E: 'e' | '\\exponentialE';
 E_NOTATION_E: 'E';
 LETTER_NO_E: [a-df-zA-DF-Z]; // exclude e for exponential function and e notation
-fragment LETTER: [a-zA-Z];
-fragment DIGIT: [0-9];
+
+DIFFERENTIAL: 'd' WS_CHAR*? (LETTER | '\\' LETTER+);
 
 NUMBER:
     DIGIT+ (COMMA DIGIT DIGIT DIGIT)*
@@ -152,15 +165,6 @@ FRACTION_NUMBER: CMD_FRAC L_BRACE
 SCI_NOTATION_NUMBER: NUMBER CMD_TIMES ' 10' CARET (DIGIT | L_BRACE SUB? NUMBER R_BRACE);
 
 E_NOTATION: NUMBER E_NOTATION_E (SUB | ADD)? DIGIT+;
-
-EQUAL: '=';
-LT: '<';
-LTE: '\\leq' | '\\le';
-GT: '>';
-GTE: '\\geq' | '\\ge';
-UNEQUAL: '!=' | '\\ne' | '\\neq';
-
-BANG: '!';
 
 fragment PERCENT_SIGN: '\\%';
 PERCENT_NUMBER: NUMBER PERCENT_SIGN;
@@ -226,11 +230,27 @@ fragment PI: '\\pi';
 fragment INFTY_CMD: '\\infty';
 fragment INFTY: INFTY_CMD | DOLLAR_SIGN INFTY_CMD | INFTY_CMD PERCENT_SIGN;
 fragment EMPTYSET: '\\emptyset';
-SYMBOL: PI | INFTY | EMPTYSET;
+fragment IMAGINARY_I: '\\imaginaryI';
+fragment IMAGINARY_J: '\\imaginaryJ';
+SYMBOL: PI | INFTY | EMPTYSET | IMAGINARY_I | IMAGINARY_J;
 
 fragment VARIABLE_CMD: '\\variable';
 fragment VARIABLE_SYMBOL: (GREEK_CMD | LETTER | DIGIT)+ (UNDERSCORE ((L_BRACE (GREEK_CMD | LETTER | DIGIT | COMMA)+ R_BRACE) | (GREEK_CMD | LETTER | DIGIT)))?;
 VARIABLE: VARIABLE_CMD L_BRACE VARIABLE_SYMBOL R_BRACE PERCENT_SIGN?;
+
+fragment ANGLE: '\\angle';
+fragment DEGREE: '\\degree';
+fragment COMPLEX_NUMBER_POLAR_ANGLE_DEGREES: (NUMBER | VARIABLE) DEGREE ' ';
+fragment COMPLEX_NUMBER_RADIANS: 
+    NUMBER ((MUL | CMD_TIMES ' ' | CMD_CDOT ' ')? PI)?
+    | (NUMBER (MUL | CMD_TIMES ' ' | CMD_CDOT ' ')?)? PI;
+fragment COMPLEX_NUMBER_RADIAN_FRACTION: CMD_FRAC L_BRACE SUB? COMPLEX_NUMBER_RADIANS R_BRACE L_BRACE SUB? NUMBER R_BRACE;
+fragment COMPLEX_NUMBER_POLAR_ANGLE_RADIANS:
+    COMPLEX_NUMBER_RADIANS
+    | COMPLEX_NUMBER_RADIAN_FRACTION
+    | FRACTION_NUMBER PI
+    | VARIABLE;
+COMPLEX_NUMBER_POLAR_ANGLE: ANGLE ' ' SUB? (COMPLEX_NUMBER_POLAR_ANGLE_DEGREES | COMPLEX_NUMBER_POLAR_ANGLE_RADIANS);
 
 // collection of accents
 accent_symbol:
@@ -411,7 +431,7 @@ accent:
     L_BRACE base=expr R_BRACE;
 
 atom_expr: (LETTER_NO_E | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
-atom: atom_expr | SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE;
+atom: atom_expr | SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE | COMPLEX_NUMBER_POLAR_ANGLE;
 
 mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
 mathit_text: (LETTER_NO_E | E_NOTATION_E | EXP_E)+;
@@ -431,7 +451,23 @@ binom:
     lower=expr
     R_BRACE;
 
-func_normal_functions_single_arg:
+args: expr (',' args)?;
+func_arg: expr;
+func_arg_noparens: mp_nofunc;
+func_args: expr (',' func_args)?;
+
+subexpr: UNDERSCORE (atom | L_BRACE (expr | args) R_BRACE);
+supexpr: CARET (atom | L_BRACE expr R_BRACE);
+subeq: UNDERSCORE L_BRACE equality R_BRACE;
+
+limit_sub:
+    UNDERSCORE L_BRACE
+    (LETTER_NO_E | GREEK_CMD)
+    LIM_APPROACH_SYM
+    expr (CARET L_BRACE (ADD | SUB) R_BRACE)?
+    R_BRACE;
+
+func_cmd_single_arg:
     FUNC_LOG | FUNC_LN | FUNC_EXP
     | FUNC_SIN | FUNC_COS | FUNC_TAN
     | FUNC_CSC | FUNC_SEC | FUNC_COT
@@ -442,33 +478,34 @@ func_normal_functions_single_arg:
     | FUNC_ARCSINH | FUNC_ARCCOSH | FUNC_ARCTANH
     | FUNC_FLOOR | FUNC_CEIL;
 
-func_normal_functions_multi_arg:
+func_cmd_multi_arg:
     FUNC_GCD | FUNC_LCM | FUNC_MAX | FUNC_MIN;
 
-func_operator_names_single_arg:
+func_name_single_arg:
     FUNC_ARSINH_NAME | FUNC_ARCOSH_NAME | FUNC_ARTANH_NAME
     | FUNC_ARCSINH_NAME | FUNC_ARCCOSH_NAME | FUNC_ARCTANH_NAME
-    | FUNC_FLOOR_NAME | FUNC_CEIL_NAME;
+    | FUNC_FLOOR_NAME | FUNC_CEIL_NAME
+    | FUNC_RE_NAME | FUNC_IM_NAME | FUNC_ARG_NAME | FUNC_ABS_NAME;
 
-func_operator_names_multi_arg:
+func_name_multi_arg:
     FUNC_GCD_NAME | FUNC_LCM_NAME;
 
-func_normal_single_arg:
-    func_normal_functions_single_arg
-    | CMD_OPERATORNAME L_BRACE func_operator_name=func_operator_names_single_arg R_BRACE;
+func_single_arg:
+    func_cmd_single_arg
+    | CMD_OPERATORNAME L_BRACE func_operator_name=func_name_single_arg R_BRACE;
 
-func_normal_multi_arg:
-    func_normal_functions_multi_arg
-    | CMD_OPERATORNAME L_BRACE func_operator_name=func_operator_names_multi_arg R_BRACE;
+func_multi_arg:
+    func_cmd_multi_arg
+    | CMD_OPERATORNAME L_BRACE func_operator_name=func_name_multi_arg R_BRACE;
 
 func:
-    func_normal_single_arg
+    func_single_arg
     (subexpr? supexpr? | supexpr? subexpr?)
-    (L_LEFT? L_PAREN func_single_arg R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_single_arg MR_RIGHT? R_PAREN | func_single_arg_noparens)
-    
-    | func_normal_multi_arg
+    (L_LEFT? L_PAREN func_arg R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_arg MR_RIGHT? R_PAREN | func_arg_noparens)
+
+    | func_multi_arg
     (subexpr? supexpr? | supexpr? subexpr?)
-    (L_LEFT? L_PAREN func_multi_arg R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_multi_arg MR_RIGHT? R_PAREN)
+    (L_LEFT? L_PAREN func_args R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_args MR_RIGHT? R_PAREN)
 
     // Do not do arbitrary functions but see as multiplications
     /*| (LETTER_NO_E | SYMBOL) subexpr? // e.g. f(x)
@@ -490,22 +527,3 @@ func:
     mp
     | FUNC_LIM limit_sub mp
     | EXP_E supexpr?; // Exponential function e^x
-
-args: (expr ',' args) | expr;
-
-limit_sub:
-    UNDERSCORE L_BRACE
-    (LETTER_NO_E | GREEK_CMD)
-    LIM_APPROACH_SYM
-    expr (CARET L_BRACE (ADD | SUB) R_BRACE)?
-    R_BRACE;
-
-func_single_arg: expr;
-func_single_arg_noparens: mp_nofunc;
-
-func_multi_arg: expr | (expr ',' func_multi_arg);
-
-subexpr: UNDERSCORE (atom | L_BRACE (expr | args) R_BRACE);
-supexpr: CARET (atom | L_BRACE expr R_BRACE);
-
-subeq: UNDERSCORE L_BRACE equality R_BRACE;
