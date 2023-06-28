@@ -413,8 +413,6 @@ class LatexToSympy:
             atom_text = ''
             if type == LATEXLexerToken.LETTER_NO_E:
                 atom_text = atom_expr.get('text')
-                if atom_text == 'I':
-                    return sympy.I
             elif type == LATEXLexerToken.GREEK_CMD:
                 atom_text = atom_expr.get('text')[1:].strip()
             elif 'accent' in atom_expr:
@@ -575,10 +573,7 @@ class LatexToSympy:
             angle_str = atom.get('text').replace('\\angle ', '')
             if '\\degree' in angle_str:
                 angle_str = angle_str.replace('\\degree', '').strip()
-                try:
-                    angle_degrees = sympy.Rational(angle_str)
-                except (TypeError, ValueError):  # pragma: no cover
-                    angle_degrees = sympy.Number(angle_str)
+                angle_degrees = process_sympy(angle_str, variable_values=self.variable_values)
                 # convert angle from degrees to radians
                 angle = sympy.Mul(angle_degrees, sympy.Pow(180, -1, evaluate=False), sympy.pi, evaluate=False)
             else:
@@ -682,7 +677,7 @@ class LatexToSympy:
                     raise Exception('Unrecognized log/ln')
                 expr = sympy.log(arg, base, evaluate=False)
             elif name in ['exp', 'exponentialE']:
-                expr = sympy.exp(arg)
+                expr = sympy.exp(arg, evaluate=False)
             elif name == 'floor':
                 expr = self.handle_floor(arg)
             elif name == 'ceil':
@@ -855,9 +850,9 @@ class LatexToSympy:
                 exp_arg = self.convert_expr(supexpr.get('expr'))
             else:  # pragma: no cover
                 raise Exception('Invalid supexpr')
+            return sympy.exp(exp_arg, evaluate=False)
         else:
-            exp_arg = 1
-        return sympy.exp(exp_arg)
+            return sympy.E
 
     def handle_gcd_lcm(self, f, args):
         '''

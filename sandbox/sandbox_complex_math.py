@@ -9,6 +9,8 @@ latex_strings = [
     # '4.1+3.2I',
     # '50(\\cos(60\\frac{\\pi}{180})+I\\sin(60\\frac{\\pi}{180}))',
     # '50e^{I60\\frac{\\pi}{180}}'
+    '\\variable{a}\\angle \\variable{b}',
+    '\\variable{a}\\angle \\variable{b}\\degree ',
     '3+4\\imaginaryI ',
     '-3-4\\imaginaryI',
     '3+\\imaginaryI 4',
@@ -20,10 +22,10 @@ latex_strings = [
     '5\\sqrt{2}\\angle 60\\degree '
 ]
 
-for latex in latex_strings:
-    print('json => ', parseToJson(latex))
-    expr = process_sympy(latex)
-    print('latex => ', latex)
+for s in latex_strings:
+    print('json => ', parseToJson(s))
+    expr = process_sympy(s)
+    print('latex => ', s)
     print('sympy =>', expr)
     print('srepr =>', srepr(expr))
     print('as_real_imag =>', expr.as_real_imag())
