@@ -578,6 +578,9 @@ class LatexToSympy:
                 angle = sympy.Mul(angle_degrees, sympy.Pow(180, -1, evaluate=False), sympy.pi, evaluate=False)
             else:
                 angle = process_sympy(angle_str, variable_values=self.variable_values)
+            # represent the polar complex number in exponential form, so that angle is not duplicated
+            # polar form: r * (cos(angle) + i * sin(angle))
+            # exponential form: r * e^{i * angle}
             return sympy.exp(sympy.Mul(sympy.I, angle, evaluate=False), evaluate=False)
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
