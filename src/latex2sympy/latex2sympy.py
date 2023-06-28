@@ -625,20 +625,9 @@ class LatexToSympy:
                 name = sub_func.get('tokens')[0].get('text')[1:]
 
             # handle operatorname cmds
-            allowed_operatorname_cmds = [
-                'arsinh', 'arcosh', 'artanh',
-                'arcsinh', 'arccosh', 'arctanh',
-                'floor', 'ceil',
-                'gcd', 'lcm',
-                'Re', 'Im', 'Abs', 'Arg'
-            ]
             if name == 'operatorname':
                 operator_name_key = 'func_name_single_arg' if func_single_arg is not None else 'func_name_multi_arg'
-                operatorname = sub_func.get(operator_name_key).get('text')
-                if operatorname in allowed_operatorname_cmds:
-                    name = operatorname
-                else:  # pragma: no cover
-                    raise Exception('Unrecognized operatorname')
+                name = sub_func.get(operator_name_key).get('text')
 
             # get single arg or multiple args
             if 'func_arg_noparens' in func:
@@ -646,7 +635,7 @@ class LatexToSympy:
                 arg = self.convert_func_arg(func.get('func_arg_noparens'))
             elif 'func_arg' in func:
                 arg = self.convert_func_arg(func.get('func_arg'))
-            elif 'func_args' in func:
+            else:  # 'func_args'
                 # commas are **always** used to split args for multi-arg functions
                 args = func.get('func_args').get('text').split(',')
                 args = list(map(lambda arg: process_sympy(arg, self.variable_values), args))
@@ -676,7 +665,7 @@ class LatexToSympy:
                 else:  # pragma: no cover
                     raise Exception('Unrecognized log/ln')
                 expr = sympy.log(arg, base, evaluate=False)
-            elif name in ['exp', 'exponentialE']:
+            elif name == 'exp':
                 expr = sympy.exp(arg, evaluate=False)
             elif name == 'floor':
                 expr = self.handle_floor(arg)
@@ -722,9 +711,6 @@ class LatexToSympy:
             # apply exponent `supexpr`
             if func_pow and should_pow:
                 expr = sympy.Pow(expr, func_pow, evaluate=False)
-
-            if expr is None:
-                raise Exception('Unrecognized func')
 
             return expr
 
