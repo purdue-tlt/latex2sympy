@@ -46,13 +46,17 @@ complex_number_polar_examples = [
     ('-50\\angle -60\\degree', Mul(-1, 50, exp(Mul(I, Mul(-60, Pow(180, -1, evaluate=False), pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), {}),
     ('50.5\\angle 60.25\\degree ', Mul(Rational(101, 2), exp(Mul(I, Mul(Rational(241, 4), Pow(180, -1, evaluate=False), pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), {}),
     ('-50\\angle -60.25\\degree ', Mul(-1, 50, exp(Mul(I, Mul(Rational(-241, 4), Pow(180, -1, evaluate=False), pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), {}),
+    # degrees w/ variables
     ('\\variable{a}\\angle \\variable{b}\\degree ', Mul(Symbol('a' + hashlib.md5('a'.encode()).hexdigest(), real=True), exp(Mul(I, Mul(Symbol('b' + hashlib.md5('b'.encode()).hexdigest(), real=True), Pow(180, -1, evaluate=False), pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), {}),
     ('\\variable{a}\\angle \\variable{b}\\degree', Mul(50, exp(Mul(I, Mul(60, Pow(180, -1, evaluate=False), pi, evaluate=False), evaluate=False), evaluate=False)), {'a': Integer(50), 'b': Integer(60)}),
-    # radians
-    ('50\\angle \\pi ', Mul(50, exp(Mul(I, pi, evaluate=False), evaluate=False), evaluate=False), {}),
-    ('50\\angle -\\pi', Mul(50, exp(Mul(I, Mul(-1, pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), {}),
+    # radians w/o pi
     ('50\\angle 3.14', Mul(50, exp(Mul(I, Rational(157, 50), evaluate=False), evaluate=False), evaluate=False), {}),
     ('50\\angle -3.14', Mul(50, exp(Mul(I, Rational(-157, 50), evaluate=False), evaluate=False), evaluate=False), {}),
+    ('50\\angle \\frac{2}{3}', Mul(50, exp(Mul(I, Rational(2, 3), evaluate=False), evaluate=False), evaluate=False), {}),
+    ('50\\angle -\\frac{2}{3}', Mul(50, exp(Mul(I, Rational(-2, 3), evaluate=False), evaluate=False), evaluate=False), {}),
+    # radians w/ pi
+    ('50\\angle \\pi ', Mul(50, exp(Mul(I, pi, evaluate=False), evaluate=False), evaluate=False), {}),
+    ('50\\angle -\\pi', Mul(50, exp(Mul(I, Mul(-1, pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), {}),
     ('50\\angle 2\\pi ', Mul(50, exp(Mul(I, Mul(2, pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), {}),
     ('50\\angle 2*\\pi', Mul(50, exp(Mul(I, Mul(2, pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), {}),
     ('50\\angle 2\\cdot \\pi ', Mul(50, exp(Mul(I, Mul(2, pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), {}),
@@ -66,8 +70,7 @@ complex_number_polar_examples = [
     ('50\\angle \\frac{2}{3}\\pi ', Mul(50, exp(Mul(I, Mul(Rational(2, 3), pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), {}),
     ('50\\angle -\\frac{2}{3}\\pi ', Mul(50, exp(Mul(I, Mul(-1, Rational(2, 3), pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), {}),
     ('50\\angle \\frac{-2}{3}\\pi ', Mul(50, exp(Mul(I, Mul(Rational(-2, 3), pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), {}),
-    ('50\\angle \\frac{2}{3}', Mul(50, exp(Mul(I, Rational(2, 3), evaluate=False), evaluate=False), evaluate=False), {}),
-    ('50\\angle -\\frac{2}{3}', Mul(50, exp(Mul(I, Rational(-2, 3), evaluate=False), evaluate=False), evaluate=False), {}),
+    # radians with variables
     ('\\variable{a}\\angle \\variable{b}', Mul(Symbol('a' + hashlib.md5('a'.encode()).hexdigest(), real=True), exp(Mul(I, Mul(Symbol('b' + hashlib.md5('b'.encode()).hexdigest(), real=True), evaluate=False), evaluate=False), evaluate=False), evaluate=False), {}),
     ('\\variable{a}\\angle \\variable{b}', Mul(50, exp(Mul(I, pi, evaluate=False), evaluate=False), evaluate=False), {'a': Integer(50), 'b': pi}),
     ('\\variable{a}\\angle \\variable{b}\\pi ', Mul(50, exp(Mul(I, Mul(Rational(2, 5), pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), {'a': Integer(50), 'b': Rational(2, 5)}),
