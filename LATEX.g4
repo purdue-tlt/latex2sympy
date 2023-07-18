@@ -228,7 +228,7 @@ GREEK_CMD: GREEK_LETTER [ ]?;
 
 fragment PI: '\\pi';
 fragment INFTY_CMD: '\\infty';
-fragment INFTY: INFTY_CMD | DOLLAR_SIGN INFTY_CMD | INFTY_CMD PERCENT_SIGN;
+fragment INFTY: INFTY_CMD | DOLLAR_SIGN INFTY_CMD | INFTY_CMD [ ]? PERCENT_SIGN;
 fragment EMPTYSET: '\\emptyset';
 fragment IMAGINARY_I: '\\imaginaryI';
 fragment IMAGINARY_J: '\\imaginaryJ';

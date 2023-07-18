@@ -466,7 +466,8 @@ class LatexToSympy:
 
             return atom_symbol
         elif self.has_type_or_token(atom, LATEXLexerToken.SYMBOL):
-            s = atom.get('text').replace('\\$', '').replace('\\%', '')
+            # remove dollar sign, percentage symbol, and whitespace
+            s = atom.get('text').replace('\\$', '').replace('\\%', '').strip()
             if s == '\\infty':
                 return sympy.oo
             elif s == '\\pi':
