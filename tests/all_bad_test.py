@@ -48,8 +48,8 @@ class TestAllBad(object):
         # "f(,",
         # "f(x,,y)",
         # "f(x,y,",
-        "\\sin^x",
-        "\\cos^2",
+        "\\sin ^x",
+        "\\cos ^2",
         # "\\cos 1 \\cos",
         # "\\gcd(3)",
         # "\\lcm(2)",
@@ -57,7 +57,7 @@ class TestAllBad(object):
         "\\",
         "~",
         "\\frac{(2 + x}{1 - x)}",
-        "\\lim_{\\pi \\to 3} a",
+        "\\lim _{\\pi \\to 3} a",
         # because mix of COMMA and SEMICOLON
         "\\left\\{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix},\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix};\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\\right\\}",
         # percentages without numbers before-hand
