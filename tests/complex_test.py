@@ -12,8 +12,8 @@ x = Symbol('x', real=True, positive=True)
 complex_expression_examples = [
     ('a+\\imaginaryI b', Add(a, Mul(I, b, evaluate=False), evaluate=False), {}),
     ('a+\\imaginaryJ b', Add(a, Mul(I, b, evaluate=False), evaluate=False), {}),
-    ('e^{\\imaginaryI \\pi }', exp(_Mul(I, pi), evaluate=False), {}),
-    ('e^{\\imaginaryJ \\pi }', exp(_Mul(I, pi), evaluate=False), {}),
+    ('\\exponentialE ^{\\imaginaryI \\pi }', exp(_Mul(I, pi), evaluate=False), {}),
+    ('\\exponentialE ^{\\imaginaryJ \\pi }', exp(_Mul(I, pi), evaluate=False), {}),
     ('\\sum_{i=0}^{n} i \\cdot x', Sum(i * x, (i, 0, n)), {}),
 ]
 

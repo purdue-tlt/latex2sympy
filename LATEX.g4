@@ -143,12 +143,11 @@ ACCENT_OVERLINE: '\\overline';
 ACCENT_BAR: '\\bar';
 
 fragment WS_CHAR: [ \t\r\n];
-fragment LETTER: [a-zA-Z];
 fragment DIGIT: [0-9];
 
-EXP_E: 'e' | '\\exponentialE';
-E_NOTATION_E: 'E';
-LETTER_NO_E: [a-df-zA-DF-Z]; // exclude e for exponential function and e notation
+EXP_E: '\\exponentialE';
+LETTER: [a-zA-Z];
+LETTERS: LETTER+;
 
 DIFFERENTIAL: 'd' WS_CHAR*? (LETTER | '\\' LETTER+);
 
@@ -164,7 +163,7 @@ FRACTION_NUMBER: CMD_FRAC L_BRACE
 
 SCI_NOTATION_NUMBER: NUMBER CMD_TIMES ' 10' CARET (DIGIT | L_BRACE SUB? NUMBER R_BRACE);
 
-E_NOTATION: NUMBER E_NOTATION_E (SUB | ADD)? DIGIT+;
+E_NOTATION: NUMBER 'E' (SUB | ADD)? DIGIT+;
 
 fragment PERCENT_SIGN: '\\%';
 PERCENT_NUMBER: NUMBER PERCENT_SIGN;
@@ -430,11 +429,11 @@ accent:
     accent_symbol
     L_BRACE base=expr R_BRACE;
 
-atom_expr: (LETTER_NO_E | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
-atom: atom_expr | SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE | COMPLEX_NUMBER_POLAR_ANGLE;
+atom_expr: (LETTER | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
+atom: atom_expr | SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE | COMPLEX_NUMBER_POLAR_ANGLE | LETTERS;
 
 mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
-mathit_text: (LETTER_NO_E | E_NOTATION_E | EXP_E)+;
+mathit_text: LETTER+;
 
 frac:
     CMD_FRAC L_BRACE
@@ -462,7 +461,7 @@ subeq: UNDERSCORE L_BRACE equality R_BRACE;
 
 limit_sub:
     UNDERSCORE L_BRACE
-    (LETTER_NO_E | GREEK_CMD)
+    (LETTER | GREEK_CMD)
     LIM_APPROACH_SYM
     expr (CARET L_BRACE (ADD | SUB) R_BRACE)?
     R_BRACE;
@@ -508,10 +507,10 @@ func:
     (L_LEFT? L_PAREN func_args R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_args MR_RIGHT? R_PAREN)
 
     // Do not do arbitrary functions but see as multiplications
-    /*| (LETTER_NO_E | SYMBOL) subexpr? // e.g. f(x)
+    /*| (LETTER | SYMBOL) subexpr? // e.g. f(x)
     L_PAREN args R_PAREN
 
-    | (LETTER_NO_E | SYMBOL) subexpr? // e.g. f(x)
+    | (LETTER | SYMBOL) subexpr? // e.g. f(x)
     L_LEFT L_PAREN args R_RIGHT R_PAREN*/
 
     | FUNC_INT
