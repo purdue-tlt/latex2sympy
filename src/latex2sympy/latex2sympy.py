@@ -433,10 +433,11 @@ class LatexToSympy:
             else:  # pragma: no cover
                 raise Exception('Unrecognized atom_expr')
 
-            # check if the text is a unit, and return if matches
-            unit = self.convert_unit(atom_text)
-            if unit is not None:
-                return unit
+            if 'subexpr' not in atom_expr and 'supexpr' not in atom_expr:
+                # check if the text is a unit, and return if matches
+                unit = self.convert_unit(atom_text)
+                if unit is not None:
+                    return unit
 
             # find atom's subscript, if any
             subscript_text = ''
@@ -597,17 +598,20 @@ class LatexToSympy:
                 return unit
             else:
                 # TODO: make each letter a separate symbol?
-                return sympy.Symbol(atom_text, real=True, positive=True)
+                args = [self.convert_atom({'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER}}) for t in list(atom_text)]
+                return sympy.Mul(*args, evaluate=False)
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
 
     def convert_unit(self, text):
+        # TODO: ignore speed_of_light, figure out better way to define constants vs. units vs. symbols
+        if text == 'c':
+            return None
         # check if a unit matches the given text
         try:
             unit_matches = sympy_physics_units.find_unit(text)
         except AttributeError as e:
             # no matches will throw an AttributeError
-            print(e)
             # check if the first letter of the text is a prefix
             prefix_text = text[:1]
             if prefix_text not in PREFIXES:

@@ -147,9 +147,10 @@ fragment DIGIT: [0-9];
 
 EXP_E: '\\exponentialE';
 LETTER: [a-zA-Z];
-LETTERS: LETTER+;
 
 DIFFERENTIAL: 'd' WS_CHAR*? (LETTER | '\\' LETTER+);
+
+LETTERS: LETTER+;
 
 NUMBER:
     DIGIT+ (COMMA DIGIT DIGIT DIGIT)*
@@ -429,11 +430,13 @@ accent:
     accent_symbol
     L_BRACE base=expr R_BRACE;
 
-atom_expr: (LETTER | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
-atom: atom_expr | SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE | COMPLEX_NUMBER_POLAR_ANGLE | LETTERS;
 
-mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
 mathit_text: LETTER+;
+mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
+
+atom_expr: (LETTER | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
+
+atom: SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | VARIABLE | COMPLEX_NUMBER_POLAR_ANGLE | LETTERS | mathit | atom_expr;
 
 frac:
     CMD_FRAC L_BRACE
