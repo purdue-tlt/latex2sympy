@@ -2,6 +2,8 @@ import hashlib
 import json
 import re
 import sympy
+import sympy.physics.units as sympy_physics_units
+from sympy.physics.units.prefixes import PREFIXES, prefix_unit
 from latex2sympy.lib import parseToJson, LATEXLexerToken
 
 
@@ -411,7 +413,7 @@ class LatexToSympy:
 
             # find the atom's text
             atom_text = ''
-            if type == LATEXLexerToken.LETTER_NO_E:
+            if type == LATEXLexerToken.LETTER:
                 atom_text = atom_expr.get('text')
             elif type == LATEXLexerToken.GREEK_CMD:
                 atom_text = atom_expr.get('text')[1:].strip()
@@ -430,6 +432,11 @@ class LatexToSympy:
                 atom_text = base + name
             else:  # pragma: no cover
                 raise Exception('Unrecognized atom_expr')
+
+            # check if the text is a unit, and return if matches
+            unit = self.convert_unit(atom_text)
+            if unit is not None:
+                return unit
 
             # find atom's subscript, if any
             subscript_text = ''
@@ -583,8 +590,45 @@ class LatexToSympy:
             # polar form: r * (cos(angle) + i * sin(angle))
             # exponential form: r * e^{i * angle}
             return sympy.exp(sympy.Mul(sympy.I, angle, evaluate=False), evaluate=False)
+        elif self.has_type_or_token(atom, LATEXLexerToken.LETTERS):
+            atom_text = atom.get('text')
+            unit = self.convert_unit(atom_text)
+            if unit is not None:
+                return unit
+            else:
+                # TODO: make each letter a separate symbol?
+                return sympy.Symbol(atom_text, real=True, positive=True)
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
+
+    def convert_unit(self, text):
+        # check if a unit matches the given text
+        try:
+            unit_matches = sympy_physics_units.find_unit(text)
+        except AttributeError as e:
+            # no matches will throw an AttributeError
+            print(e)
+            # check if the first letter of the text is a prefix
+            prefix_text = text[:1]
+            if prefix_text not in PREFIXES:
+                return None
+            prefix = PREFIXES[prefix_text]
+            # check if the remaining text after the prefix is a valid unit
+            unit = self.convert_unit(text[1:])
+            if unit is None:
+                return None
+            # combine the prefix and unit into a new `Quantity`
+            # prefix_unit accepts a dict of prefixes, so construct one
+            prefixes = {}
+            prefixes[prefix_text] = prefix
+            prefixed_units = prefix_unit(unit, prefixes)
+            return prefixed_units[0]
+        # if matches are found, return the first matching unit
+        if len(unit_matches) > 0:
+            unit_key = unit_matches[0]
+            unit = getattr(sympy_physics_units, unit_key)
+            return unit
+        return None
 
     def convert_frac(self, frac):
         frac_upper = frac.get('upper')
@@ -594,7 +638,7 @@ class LatexToSympy:
             wrt_text = self.get_differential_var_str(frac_lower.get('start').get('text'))
             wrt = sympy.Symbol(wrt_text, real=True, positive=True)
             if (frac_upper.get('start') == frac_upper.get('stop') and
-                frac_upper.get('start').get('type') == LATEXLexerToken.LETTER_NO_E and
+                frac_upper.get('start').get('type') == LATEXLexerToken.LETTER and
                     frac_upper.get('start').get('text') == 'd'):
                 return [wrt]
 
@@ -814,10 +858,10 @@ class LatexToSympy:
 
     def handle_limit(self, func):
         sub = func.get('limit_sub')
-        letter_no_e = self.get_token(sub, LATEXLexerToken.LETTER_NO_E)
+        letter = self.get_token(sub, LATEXLexerToken.LETTER)
         greek_cmd = self.get_token(sub, LATEXLexerToken.GREEK_CMD)
-        if letter_no_e is not None:
-            var = sympy.Symbol(letter_no_e.get('text'), real=True, positive=True)
+        if letter is not None:
+            var = sympy.Symbol(letter.get('text'), real=True, positive=True)
         elif greek_cmd is not None:
             var = sympy.Symbol(greek_cmd.get('text')[1:].strip(), real=True, positive=True)
         else:  # pragma: no cover
