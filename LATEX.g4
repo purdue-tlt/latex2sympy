@@ -145,11 +145,7 @@ ACCENT_BAR: '\\bar';
 fragment WS_CHAR: [ \t\r\n];
 fragment DIGIT: [0-9];
 
-EXP_E: '\\exponentialE';
 LETTER: [a-zA-Z];
-
-DIFFERENTIAL: 'd' WS_CHAR*? (LETTER | '\\' LETTER+);
-
 LETTERS: LETTER+;
 
 NUMBER:
@@ -225,6 +221,10 @@ fragment GREEK_LETTER:
     '\\Omega' |
     '\\omega';
 GREEK_CMD: GREEK_LETTER [ ]?;
+
+EXP_E: '\\exponentialE';
+DIFFERENTIAL_D: '\\differentialD';
+DIFFERENTIAL: DIFFERENTIAL_D WS_CHAR*? (LETTER | GREEK_CMD);
 
 fragment PI: '\\pi' [ ]?;
 fragment INFTY_CMD: '\\infty' [ ]?;
@@ -436,7 +436,7 @@ mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
 
 atom_expr: (LETTER | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
 
-atom: SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | VARIABLE | COMPLEX_NUMBER_POLAR_ANGLE | LETTERS | mathit | atom_expr;
+atom: SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL_D | DIFFERENTIAL | VARIABLE | COMPLEX_NUMBER_POLAR_ANGLE | LETTERS | mathit | atom_expr;
 
 frac:
     CMD_FRAC L_BRACE
@@ -509,12 +509,9 @@ func:
     (subexpr? supexpr? | supexpr? subexpr?)
     (L_LEFT? L_PAREN func_args R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_args MR_RIGHT? R_PAREN)
 
-    // Do not do arbitrary functions but see as multiplications
-    /*| (LETTER | SYMBOL) subexpr? // e.g. f(x)
-    L_PAREN args R_PAREN
-
-    | (LETTER | SYMBOL) subexpr? // e.g. f(x)
-    L_LEFT L_PAREN args R_RIGHT R_PAREN*/
+    // e.g. f(x)
+    // | LETTER  subexpr?
+    // (L_LEFT? L_PAREN func_args R_RIGHT?  R_PAREN | ML_LEFT? L_PAREN func_args MR_RIGHT? R_PAREN)
 
     | FUNC_INT
     (subexpr supexpr | supexpr subexpr | (UNDERSCORE L_BRACE R_BRACE) (CARET L_BRACE R_BRACE) | (CARET L_BRACE R_BRACE) (UNDERSCORE L_BRACE R_BRACE) )?

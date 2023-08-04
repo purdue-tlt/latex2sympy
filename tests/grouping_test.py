@@ -7,7 +7,7 @@ theta = Symbol('theta', real=True, positive=True)
 
 
 func_arg_examples = [
-    ('\\int ', 'x dx', Integral(x, x)),
+    ('\\int ', 'x\\differentialD x', Integral(x, x)),
     ('\\sin', '\\theta ', sin(theta))
 ]
 

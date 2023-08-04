@@ -642,12 +642,11 @@ class LatexToSympy:
             wrt_text = self.get_differential_var_str(frac_lower.get('start').get('text'))
             wrt = sympy.Symbol(wrt_text, real=True, positive=True)
             if (frac_upper.get('start') == frac_upper.get('stop') and
-                frac_upper.get('start').get('type') == LATEXLexerToken.LETTER and
-                    frac_upper.get('start').get('text') == 'd'):
+                    frac_upper.get('start').get('type') == LATEXLexerToken.DIFFERENTIAL_D):
                 return [wrt]
 
             upper_text = frac_upper.get('text')
-            expr_top = process_sympy(upper_text[1:])
+            expr_top = process_sympy(upper_text[15:])
             return sympy.Derivative(expr_top, wrt)
 
         expr_top = self.convert_expr(frac.get('upper'))
@@ -926,14 +925,14 @@ class LatexToSympy:
         return sympy.Symbol(text, real=True, positive=True)
 
     def get_differential_var_str(self, text):
-        for i in range(1, len(text)):  # pragma: no cover - loop break not recognized correctly
+        for i in range(15, len(text)):  # pragma: no cover - loop break not recognized correctly
             c = text[i]
             if not (c == ' ' or c == '\r' or c == '\n' or c == '\t'):
                 idx = i
                 break
         text = text[idx:]
         if text[0] == '\\':
-            text = text[1:]
+            text = text[1:].strip()
         return text
 
     def get_token(self, node, type):
