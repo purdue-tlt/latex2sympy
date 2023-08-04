@@ -146,7 +146,6 @@ fragment WS_CHAR: [ \t\r\n];
 fragment DIGIT: [0-9];
 
 LETTER: [a-zA-Z];
-LETTERS: LETTER+;
 
 NUMBER:
     DIGIT+ (COMMA DIGIT DIGIT DIGIT)*
@@ -251,6 +250,74 @@ fragment COMPLEX_NUMBER_POLAR_ANGLE_RADIANS:
     | FRACTION_NUMBER PI
     | VARIABLE PI?;
 COMPLEX_NUMBER_POLAR_ANGLE: ANGLE [ ] SUB? (COMPLEX_NUMBER_POLAR_ANGLE_DEGREES | COMPLEX_NUMBER_POLAR_ANGLE_RADIANS);
+
+fragment BASE_UNIT:
+    'm'     // meter
+    | 'g'   // gram
+    | 's'   // second
+    | 'A'   // ampere
+    | 'K'   // kelvin
+    | 'mol' // mole
+    | 'N'   // newton
+    | 'J'   // joule
+    | 'W'   // watt
+    | 'Pa'  // pascal
+    | 'Hz'  // hertz
+    | 'C'   // coulomb
+    | 'V'   // volt
+    | '\\Omega' // ohm
+    | 'S'   // siemens
+    | 'F'   // farad
+    | 'H'   // henry
+    | 'T'   // tesla
+    | 'Wb'  // weber
+    | 'L'   // liter
+    ;
+
+fragment SI_PREFIX:
+    'Y'         // yotta
+    | 'Z'       // zetta
+    | 'E'       /// exa
+    | 'P'       // peta
+    | 'T'       // tera
+    | 'G'       // giga
+    | 'M'       // mega
+    | 'k'       // kilo
+    | 'h'       // hecto
+    | 'da'      // deca
+    | 'd'       // deci
+    | 'c'       // centi
+    | 'm'       // milli
+    | 'u'       // micro
+    | 'n'       // nano
+    | 'p'       // pico
+    | 'f'       // femto
+    | 'a'       // anno
+    | 'z'       // zepto
+    | 'y'       // yocto
+    ;
+
+fragment IMPERIAL_UNIT:
+    | 'ft'  // foot
+    | 'inch'  // inch
+    | 'yd'  // yard
+    | 'mi'  // mile
+    ;
+
+fragment TIME_UNIT:
+    | 'minute'
+    | 'hour'
+    | 'day'
+    ;
+
+fragment CONSTANT:
+    'G'     // gravitational constant
+    | 'c'   // speed of light
+    | 'h'   // planck constant
+    ;
+
+UNIT_CMD: '\\' (SI_PREFIX? BASE_UNIT | IMPERIAL_UNIT | TIME_UNIT) [ ]?;
+CONSTANT_CMD: '\\' CONSTANT [ ]?;
 
 // collection of accents
 accent_symbol:
@@ -436,7 +503,21 @@ mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
 
 atom_expr: (LETTER | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
 
-atom: SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL_D | DIFFERENTIAL | VARIABLE | COMPLEX_NUMBER_POLAR_ANGLE | LETTERS | mathit | atom_expr;
+atom:
+    SYMBOL
+    | NUMBER
+    | SCI_NOTATION_NUMBER
+    | FRACTION_NUMBER
+    | PERCENT_NUMBER
+    | E_NOTATION
+    | DIFFERENTIAL_D
+    | DIFFERENTIAL
+    | VARIABLE
+    | COMPLEX_NUMBER_POLAR_ANGLE
+    | UNIT_CMD
+    | CONSTANT_CMD
+    | mathit
+    | atom_expr;
 
 frac:
     CMD_FRAC L_BRACE

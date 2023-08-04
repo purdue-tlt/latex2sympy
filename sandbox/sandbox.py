@@ -2,7 +2,7 @@
 from latex2sympy.latex2sympy import process_sympy
 from latex2sympy.lib import parseToJson
 
-latex = '\\frac{d}{dx}x'
+latex = '\\frac{\\differentialD }{\\differentialD x}x'
 
 print('json: ', parseToJson(latex))
 

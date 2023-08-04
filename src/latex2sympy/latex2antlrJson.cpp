@@ -242,10 +242,10 @@ enum LATEXLexerToken {
     MATRIX_TYPE_PMATRIX = 110, MATRIX_TYPE_BMATRIX = 111, MATRIX_TYPES = 112, 
     CMD_MATRIX_START = 113, CMD_MATRIX_END = 114, MATRIX_DEL_COL = 115, 
     MATRIX_DEL_ROW = 116, ACCENT_OVERLINE = 117, ACCENT_BAR = 118, LETTER = 119, 
-    LETTERS = 120, NUMBER = 121, FRACTION_NUMBER = 122, SCI_NOTATION_NUMBER = 123, 
-    E_NOTATION = 124, PERCENT_NUMBER = 125, GREEK_CMD = 126, EXP_E = 127, 
-    DIFFERENTIAL_D = 128, DIFFERENTIAL = 129, SYMBOL = 130, VARIABLE = 131, 
-    COMPLEX_NUMBER_POLAR_ANGLE = 132
+    NUMBER = 120, FRACTION_NUMBER = 121, SCI_NOTATION_NUMBER = 122, E_NOTATION = 123, 
+    PERCENT_NUMBER = 124, GREEK_CMD = 125, EXP_E = 126, DIFFERENTIAL_D = 127, 
+    DIFFERENTIAL = 128, SYMBOL = 129, VARIABLE = 130, COMPLEX_NUMBER_POLAR_ANGLE = 131, 
+    UNIT_CMD = 132, CONSTANT_CMD = 133
 };
 
 // in order to export the LATEXLexer enum names,
@@ -277,10 +277,10 @@ static const char* LATEXLexerTokenStrings[] = {
     "MATRIX_TYPE_PMATRIX", "MATRIX_TYPE_BMATRIX", "MATRIX_TYPES", 
     "CMD_MATRIX_START", "CMD_MATRIX_END", "MATRIX_DEL_COL", 
     "MATRIX_DEL_ROW", "ACCENT_OVERLINE", "ACCENT_BAR", "LETTER", 
-    "LETTERS", "NUMBER", "FRACTION_NUMBER", "SCI_NOTATION_NUMBER", 
-    "E_NOTATION", "PERCENT_NUMBER", "GREEK_CMD", "EXP_E", 
-    "DIFFERENTIAL_D", "DIFFERENTIAL", "SYMBOL", "VARIABLE", 
-    "COMPLEX_NUMBER_POLAR_ANGLE"
+    "NUMBER", "FRACTION_NUMBER", "SCI_NOTATION_NUMBER", "E_NOTATION", 
+    "PERCENT_NUMBER", "GREEK_CMD", "EXP_E", "DIFFERENTIAL_D", 
+    "DIFFERENTIAL", "SYMBOL", "VARIABLE", "COMPLEX_NUMBER_POLAR_ANGLE", 
+    "UNIT_CMD", "CONSTANT_CMD"
 };
 
 PYBIND11_MODULE(latex2antlrJson, m) {
@@ -288,7 +288,7 @@ PYBIND11_MODULE(latex2antlrJson, m) {
     m.def("parseToJson", &parseToJson, "A function which parses latex and returns a json string of antlr data");
     py::enum_<LATEXLexerToken> tokens = py::enum_<LATEXLexerToken>(m, "LATEXLexerToken");
     // iterate from the first to last LATEXLexer enum values
-    for (int token = LATEXLexerToken::WS; token <= LATEXLexerToken::COMPLEX_NUMBER_POLAR_ANGLE; token++)
+    for (int token = LATEXLexerToken::WS; token <= LATEXLexerToken::CONSTANT_CMD; token++)
     {
         tokens.value(LATEXLexerTokenStrings[token - 1], static_cast<LATEXLexerToken>(token));
     }

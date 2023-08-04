@@ -433,12 +433,6 @@ class LatexToSympy:
             else:  # pragma: no cover
                 raise Exception('Unrecognized atom_expr')
 
-            if 'subexpr' not in atom_expr and 'supexpr' not in atom_expr:
-                # check if the text is a unit, and return if matches
-                unit = self.convert_unit(atom_text)
-                if unit is not None:
-                    return unit
-
             # find atom's subscript, if any
             subscript_text = ''
             if 'subexpr' in atom_expr:
@@ -591,22 +585,17 @@ class LatexToSympy:
             # polar form: r * (cos(angle) + i * sin(angle))
             # exponential form: r * e^{i * angle}
             return sympy.exp(sympy.Mul(sympy.I, angle, evaluate=False), evaluate=False)
-        elif self.has_type_or_token(atom, LATEXLexerToken.LETTERS):
-            atom_text = atom.get('text')
-            unit = self.convert_unit(atom_text)
+        elif self.has_type_or_token(atom, LATEXLexerToken.UNIT_CMD):
+            atom_text = atom.get('text')[1:].strip()
+            unit = self.convert_unit_or_constant(atom_text)
             if unit is not None:
                 return unit
             else:
-                # TODO: make each letter a separate symbol?
-                args = [self.convert_atom({'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER}}) for t in list(atom_text)]
-                return sympy.Mul(*args, evaluate=False)
+                raise Exception('Unrecognized unit')
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
 
-    def convert_unit(self, text):
-        # TODO: ignore speed_of_light, figure out better way to define constants vs. units vs. symbols
-        if text == 'c':
-            return None
+    def convert_unit_or_constant(self, text):
         # check if a unit matches the given text
         try:
             unit_matches = sympy_physics_units.find_unit(text)
@@ -618,7 +607,7 @@ class LatexToSympy:
                 return None
             prefix = PREFIXES[prefix_text]
             # check if the remaining text after the prefix is a valid unit
-            unit = self.convert_unit(text[1:])
+            unit = self.convert_unit_or_constant(text[1:])
             if unit is None:
                 return None
             # combine the prefix and unit into a new `Quantity`

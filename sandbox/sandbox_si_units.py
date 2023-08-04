@@ -17,8 +17,8 @@ def find_unit(expr):
 
 
 unit_examples = [
-    ('1000g', '1kg', True),
-    ('18.36mA', '0.01836A', True)
+    ('1000\\g ', '1\\kg ', True),
+    ('18.36\\mA ', '0.01836\\A ', True)
 ]
 
 for unit_example in unit_examples:
@@ -27,18 +27,19 @@ for unit_example in unit_examples:
     expected_are_equal = unit_example[2]
 
     c = process_sympy(c_str)
-    print('c: ', srepr(c))
+    print('c:', c_str, '=>', srepr(c))
 
     a = process_sympy(a_str)
-    print('a: ', srepr(a))
+    print('a:', a_str, '=>', srepr(a))
     print('')
 
     c_unit = find_unit(c)
 
     converted_a = convert_to(a, c_unit)
-    print('convert a to c’s unit: ', srepr(converted_a))
+    print('convert a to c’s unit:', srepr(converted_a))
     print('')
 
     are_equal = simplify(c - converted_a) == 0
-    print('are_equal: ', are_equal)
-    print('are_equal == expected: ', are_equal == expected_are_equal)
+    print('are_equal:', are_equal)
+    print('are_equal == expected:', are_equal == expected_are_equal)
+    print('------------------------------------------------------------------')
