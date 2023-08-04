@@ -219,7 +219,7 @@ class TestAllGood(object):
         ("a|^{a*5*2}", _Mul(a, 5, 2)),
         ("a|^{a=5*2}", _Mul(5, 2)),
         ("a|_{a=5*2}", _Mul(5, 2)),
-        ("ab|^{b=5*2}_{b=1}", _Add(_Mul(10, a), _Mul(a, -1))),  # _Mul(a, _Add(_Mul(5, 2), _Mul(1, -1)))),
+        ("ab|^{b=5*2}_{b=1}", _Mul(a, _Add(_Mul(5, 2), _Mul(1, -1)))),
         ("\\sqrt{x}", sqrt(x)),
         ("\\sqrt{x+b}", sqrt(_Add(x, b))),
         ("\\sqrt[3]{\\sin x}", root(sin(x), 3)),
