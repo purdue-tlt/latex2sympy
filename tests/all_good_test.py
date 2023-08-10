@@ -284,6 +284,9 @@ class TestAllGood(object):
         ("2.5E2", Rational(250)),
         ("1,500E-1", Rational(150)),
 
+        # "E" as a symbol
+        ('ER+E_C', Add(Mul(Symbol('E', real=True, positive=True), Symbol('R', real=True, positive=True), evaluate=False), Symbol('E_C', real=True, positive=True), evaluate=False)),
+
         # multiplication without cmd
         ("2x2y", Mul(2, x, 2, y, evaluate=False)),
         ("2x2", Mul(2, x, 2, evaluate=False)),
