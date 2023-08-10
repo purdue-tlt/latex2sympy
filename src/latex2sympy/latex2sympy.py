@@ -27,7 +27,7 @@ class LatexToSympy:
         return_data = None
         json_string = parseToJson(pre_processed_latex)
 
-        # print(json_string)
+        print(json_string)
 
         math = json.loads(json_string)
 
@@ -411,7 +411,11 @@ class LatexToSympy:
 
             # find the atom's text
             atom_text = ''
-            if type == LATEXLexerToken.LETTER:
+            if self.has_type_or_token(atom_expr, LATEXLexerToken.DIFFERENTIAL_D):
+                letter = self.get_token(atom_expr, LATEXLexerToken.LETTER)
+                greek_cmd = self.get_token(atom_expr, LATEXLexerToken.GREEK_CMD)
+                atom_text = 'differentialD-' + (letter.get('text') if letter is not None else greek_cmd.get('text')[1:].strip())
+            elif type == LATEXLexerToken.LETTER:
                 atom_text = atom_expr.get('text')
             elif type == LATEXLexerToken.GREEK_CMD:
                 atom_text = atom_expr.get('text')[1:].strip()
@@ -530,9 +534,6 @@ class LatexToSympy:
                 return sr
             except (TypeError, ValueError):  # pragma: no cover
                 return sympy.Number(s)
-        elif self.has_type_or_token(atom, LATEXLexerToken.DIFFERENTIAL):
-            var = self.get_differential_var(atom.get('text'))
-            return sympy.Symbol('d' + var.name, real=True, positive=True)
         elif 'mathit' in atom:
             text = atom.get('mathit').get('mathit_text').get('text')
             return sympy.Symbol(text, real=True, positive=True)
@@ -590,23 +591,23 @@ class LatexToSympy:
         frac_upper = frac.get('upper')
         frac_lower = frac.get('lower')
 
-        if (frac_lower.get('start') == frac_lower.get('stop') and frac_lower.get('start').get('type') == LATEXLexerToken.DIFFERENTIAL):
-            wrt_text = self.get_differential_var_str(frac_lower.get('start').get('text'))
+        expr_lower = self.convert_expr(frac_lower)
+
+        if isinstance(expr_lower, sympy.Symbol) and len(expr_lower.name) > 14 and expr_lower.name[:14] == 'differentialD-':
+            wrt_text = expr_lower.name[14:]
             wrt = sympy.Symbol(wrt_text, real=True, positive=True)
             if (frac_upper.get('start') == frac_upper.get('stop') and
                     frac_upper.get('start').get('type') == LATEXLexerToken.DIFFERENTIAL_D):
                 return [wrt]
-
             upper_text = frac_upper.get('text')
             expr_top = process_sympy(upper_text[15:])
             return sympy.Derivative(expr_top, wrt)
 
-        expr_top = self.convert_expr(frac.get('upper'))
-        expr_bot = self.convert_expr(frac.get('lower'))
-        if expr_top.is_Matrix or expr_bot.is_Matrix:
-            return sympy.MatMul(expr_top, sympy.Pow(expr_bot, -1, evaluate=False), evaluate=False)
+        expr_upper = self.convert_expr(frac.get('upper'))
+        if expr_upper.is_Matrix or expr_lower.is_Matrix:
+            return sympy.MatMul(expr_upper, sympy.Pow(expr_lower, -1, evaluate=False), evaluate=False)
         else:
-            return sympy.Mul(expr_top, sympy.Pow(expr_bot, -1, evaluate=False), evaluate=False)
+            return sympy.Mul(expr_upper, sympy.Pow(expr_lower, -1, evaluate=False), evaluate=False)
 
     def convert_binom(self, binom):
         expr_top = self.convert_expr(binom.get('expr')[0])
@@ -745,31 +746,24 @@ class LatexToSympy:
             return self.convert_mp(arg.get('mp_nofunc'))
 
     def handle_integral(self, func):
-        if 'additive' in func:
-            integrand = self.convert_add(func.get('additive'))
-        elif 'frac' in func:
-            integrand = self.convert_frac(func.get('frac'))
-        else:
-            integrand = 1
+        integrand = 1
+        if 'expr' in func:
+            integrand = self.convert_expr(func.get('expr'))
 
         int_var = None
-        differential = self.get_token(func, LATEXLexerToken.DIFFERENTIAL)
-        if differential is not None:
-            int_var = self.get_differential_var(differential.get('text'))
+        for sym in integrand.atoms(sympy.Symbol):
+            s = sym.name
+            if len(s) > 14 and s[:14] == 'differentialD-':
+                if s[1] == '\\':  # pragma: no cover
+                    int_var = sympy.Symbol(s[15:], real=True, positive=True)
+                else:
+                    int_var = sympy.Symbol(s[14:], real=True, positive=True)
+                int_sym = sym
+        if int_var:
+            integrand = integrand.subs(int_sym, 1)
         else:
-            for sym in integrand.atoms(sympy.Symbol):
-                s = str(sym)
-                if len(s) > 1 and s[0] == 'd':
-                    if s[1] == '\\':  # pragma: no cover
-                        int_var = sympy.Symbol(s[2:], real=True, positive=True)
-                    else:
-                        int_var = sympy.Symbol(s[1:], real=True, positive=True)
-                    int_sym = sym
-            if int_var:
-                integrand = integrand.subs(int_sym, 1)
-            else:
-                # Assume dx by default
-                int_var = sympy.Symbol('x', real=True, positive=True)
+            # Assume dx by default
+            int_var = sympy.Symbol('x', real=True, positive=True)
 
         if 'subexpr' in func:
             subexpr = func.get('subexpr')

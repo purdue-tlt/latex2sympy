@@ -222,8 +222,7 @@ fragment GREEK_LETTER:
 GREEK_CMD: GREEK_LETTER [ ]?;
 
 EXP_E: '\\exponentialE';
-DIFFERENTIAL_D: '\\differentialD';
-DIFFERENTIAL: DIFFERENTIAL_D WS_CHAR*? (LETTER | '\\' LETTER+);
+DIFFERENTIAL_D: '\\differentialD' [ ]?;
 
 fragment PI: '\\pi' [ ]?;
 fragment INFTY_CMD: '\\infty' [ ]?;
@@ -432,21 +431,20 @@ accent:
 mathit_text: LETTER+;
 mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
 
-atom_expr: (LETTER | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
+atom_expr: DIFFERENTIAL_D? (LETTER | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
 
 atom:
-    SYMBOL
+    atom_expr
+    | SYMBOL
     | NUMBER
     | SCI_NOTATION_NUMBER
     | FRACTION_NUMBER
     | PERCENT_NUMBER
     | E_NOTATION
     | DIFFERENTIAL_D
-    | DIFFERENTIAL
     | VARIABLE
     | COMPLEX_NUMBER_POLAR_ANGLE
-    | mathit
-    | atom_expr;
+    | mathit;
 
 frac:
     CMD_FRAC L_BRACE
@@ -525,7 +523,7 @@ func:
 
     | FUNC_INT
     (subexpr supexpr | supexpr subexpr | (UNDERSCORE L_BRACE R_BRACE) (CARET L_BRACE R_BRACE) | (CARET L_BRACE R_BRACE) (UNDERSCORE L_BRACE R_BRACE) )?
-    (additive? DIFFERENTIAL | frac | additive)
+    expr
 
     | FUNC_SQRT
     (L_BRACKET root=expr R_BRACKET)?
