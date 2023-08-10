@@ -1,6 +1,5 @@
-from .context import assert_equal, process_sympy, _Add, _Mul, _Pow
-import pytest
-import hashlib
+from .context import assert_equal, _Add, _Mul, _Pow
+from latex2sympy.latex2sympy import EmptySet
 from sympy import (
     E, I, oo, pi, sqrt, root, Symbol, Add, Mul, Pow, Abs, factorial, log, Eq, Ne, S, Rational, Integer, UnevaluatedExpr,
     sin, cos, tan, sinh, cosh, tanh, asin, acos, atan, asinh, acosh, atanh,
@@ -314,8 +313,9 @@ class TestAllGood(object):
         ("0.05\\%", Rational(5, 10000)),
 
         # empty set
-        ("\\emptyset", S.EmptySet),
-        ("\\emptyset ", S.EmptySet),
+        ("\\emptyset", EmptySet),
+        ("\\emptyset ", EmptySet),
+        ("1+\\emptyset ", _Add(1, EmptySet)),
 
         # divide by zero
         ("\\frac{1}{0}", _Mul(1, _Pow(0, -1))),
