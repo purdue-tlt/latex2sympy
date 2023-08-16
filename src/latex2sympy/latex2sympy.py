@@ -27,7 +27,7 @@ class LatexToSympy:
         return_data = None
         json_string = parseToJson(pre_processed_latex)
 
-        print(json_string)
+        # print(json_string)
 
         math = json.loads(json_string)
 
