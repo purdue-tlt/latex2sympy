@@ -593,17 +593,19 @@ class LatexToSympy:
 
         expr_lower = self.convert_expr(frac_lower)
 
-        if isinstance(expr_lower, sympy.Symbol) and len(expr_lower.name) > 14 and expr_lower.name[:14] == 'differentialD-':
-            wrt_text = expr_lower.name[14:]
-            wrt = sympy.Symbol(wrt_text, real=True, positive=True)
-            if (frac_upper.get('start') == frac_upper.get('stop') and
-                    frac_upper.get('start').get('type') == LATEXLexerToken.DIFFERENTIAL_D):
+        if frac_upper.get('start').get('type') == LATEXLexerToken.DIFFERENTIAL_D and self.is_differential_var(expr_lower):
+            wrt = self.get_differential_var(expr_lower)
+            # fraction upper only contains `\differentialD`, don't call `convert_expr`
+            if frac_upper.get('start') == frac_upper.get('stop'):
                 return [wrt]
-            upper_text = frac_upper.get('text')
-            expr_top = process_sympy(upper_text[15:])
-            return sympy.Derivative(expr_top, wrt)
+            expr_upper = self.convert_expr(frac_upper)
+            if self.is_differential_var(expr_upper):
+                diff_var = self.get_differential_var(expr_upper)
+            else:  # pragma: no cover
+                raise Exception('Unrecognized differential')
+            return sympy.Derivative(diff_var, wrt)
 
-        expr_upper = self.convert_expr(frac.get('upper'))
+        expr_upper = self.convert_expr(frac_upper)
         if expr_upper.is_Matrix or expr_lower.is_Matrix:
             return sympy.MatMul(expr_upper, sympy.Pow(expr_lower, -1, evaluate=False), evaluate=False)
         else:
@@ -746,18 +748,12 @@ class LatexToSympy:
             return self.convert_mp(arg.get('mp_nofunc'))
 
     def handle_integral(self, func):
-        integrand = 1
-        if 'expr' in func:
-            integrand = self.convert_expr(func.get('expr'))
+        integrand = self.convert_expr(func.get('expr'))
 
         int_var = None
         for sym in integrand.atoms(sympy.Symbol):
-            s = sym.name
-            if len(s) > 14 and s[:14] == 'differentialD-':
-                if s[1] == '\\':  # pragma: no cover
-                    int_var = sympy.Symbol(s[15:], real=True, positive=True)
-                else:
-                    int_var = sympy.Symbol(s[14:], real=True, positive=True)
+            if self.is_differential_var(sym):
+                int_var = self.get_differential_var(sym)
                 int_sym = sym
         if int_var:
             integrand = integrand.subs(int_sym, 1)
@@ -866,20 +862,12 @@ class LatexToSympy:
         '''
         return sympy.functions.ceiling(expr, evaluate=False)
 
-    def get_differential_var(self, d):
-        text = self.get_differential_var_str(d)
-        return sympy.Symbol(text, real=True, positive=True)
+    def is_differential_var(self, expr):
+        return isinstance(expr, sympy.Symbol) and len(expr.name) > 14 and expr.name[:14] == 'differentialD-'
 
-    def get_differential_var_str(self, text):
-        for i in range(15, len(text)):  # pragma: no cover - loop break not recognized correctly
-            c = text[i]
-            if not (c == ' ' or c == '\r' or c == '\n' or c == '\t'):
-                idx = i
-                break
-        text = text[idx:]
-        if text[0] == '\\':
-            text = text[1:].strip()
-        return text
+    def get_differential_var(self, expr):
+        symbol_name = expr.name[14:]
+        return sympy.Symbol(symbol_name, real=True, positive=True)
 
     def get_token(self, node, type):
         tokens = node.get('tokens') if 'tokens' in node else None
