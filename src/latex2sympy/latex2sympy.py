@@ -290,7 +290,7 @@ class LatexToSympy:
 
         list_item = arr[i]
 
-        # if the list item contains a "LETTERS" atom, but `parse_letters_as_units` is False
+        # if the list item contains a "LETTERS" atom, but `parse_letters_as_units` is False,
         # split the atom into multiple "LETTER" atoms and insert them into the list
         if not self.parse_letters_as_units and \
             'exp' in list_item and \
@@ -298,8 +298,13 @@ class LatexToSympy:
             'atom' in list_item.get('exp').get('comp') and \
                 self.has_type_or_token(list_item.get('exp').get('comp').get('atom'), LATEXLexerToken.LETTERS):
             atom_text = list_item.get('exp').get('comp').get('atom').get('text')
-            new_items = [{'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}} for t in list(atom_text)]
-            new_arr = arr[:i] + new_items + arr[i + 1:]
+            # split the atom text into multiple LETTER list items
+            new_list_items = [{'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}} for t in list(atom_text)]
+            # combine the last new list item with the `list_item`, to preserve other properties on `list_item`, e.g. "postfix_op"
+            last_new_list_item = new_list_items.pop()
+            list_item['exp'] = last_new_list_item.get('exp')
+            # construct a new array of list items: items before (if any), new letter items, updated current item, items after (if any)
+            new_arr = [*arr[:i], *new_list_items, list_item, *arr[i + 1:]]
             return self.convert_postfix_list(new_arr, i)
 
         res = self.convert_postfix(list_item)
