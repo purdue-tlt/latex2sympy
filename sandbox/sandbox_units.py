@@ -12,6 +12,7 @@ unit_examples = [
     ({'value': '1.34', 'unit': 'Hz'}, {'value': '1.34', 'unit': 's^{-1}'}, True),
     ({'value': '50.1', 'unit': 'W'}, {'value': '50.1', 'unit': 'kg*m^{2}s^{-3}'}, True),
     ({'value': '1.34+\\imaginaryJ 3.2', 'unit': 'V'}, {'value': '1.34E3+\\imaginaryJ 3.2E3', 'unit': 'mV'}, True),
+    ({'value': '100', 'unit': 'apples'}, {'value': '1E2', 'unit': 'apples'}, True),
 ]
 
 for unit_example in unit_examples:
@@ -38,9 +39,9 @@ for unit_example in unit_examples:
     print('are_equal (simplify):', are_equal)
     print('')
 
-    # if a_unit == c_unit or are_equal:
-    #     print('------------------------------------------------------------------')
-    #     continue
+    if a_unit == c_unit or are_equal:
+        print('------------------------------------------------------------------')
+        continue
 
     converted_a_expr = convert_to(a_expr, c_unit)
     if len(converted_a_expr.args) > 2:
