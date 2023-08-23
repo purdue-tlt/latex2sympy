@@ -2,21 +2,24 @@ import hashlib
 import json
 import re
 import sympy
+import sympy.physics.units as sympy_physics_units
+from sympy.physics.units.prefixes import PREFIXES, prefix_unit
 from latex2sympy.lib import parseToJson, LATEXLexerToken
 
 
-def process_sympy(latex: str, variable_values={}):
-    instance = LatexToSympy(latex, variable_values)
+def process_sympy(latex: str, variable_values: dict = {}, parse_letters_as_units: bool = False):
+    instance = LatexToSympy(latex, variable_values, parse_letters_as_units)
     return instance.process_sympy()
 
 
 class LatexToSympy:
-    def __init__(self, latex: str, variable_values: dict = {}):
+    def __init__(self, latex: str, variable_values: dict = {}, parse_letters_as_units: bool = False):
         self.latex = latex
         if len(variable_values) > 0:
             self.variable_values = variable_values
         else:
             self.variable_values = {}
+        self.parse_letters_as_units = parse_letters_as_units
 
     def process_sympy(self):
 
@@ -285,7 +288,21 @@ class LatexToSympy:
         if i >= len(arr):  # pragma: no cover
             raise Exception('Index out of bounds')
 
-        res = self.convert_postfix(arr[i])
+        list_item = arr[i]
+
+        # if the list item contains a "LETTERS" atom, but `parse_letters_as_units` is False
+        # split the atom into multiple "LETTER" atoms and insert them into the list
+        if not self.parse_letters_as_units and \
+            'exp' in list_item and \
+            'comp' in list_item.get('exp') and \
+            'atom' in list_item.get('exp').get('comp') and \
+                self.has_type_or_token(list_item.get('exp').get('comp').get('atom'), LATEXLexerToken.LETTERS):
+            atom_text = list_item.get('exp').get('comp').get('atom').get('text')
+            new_items = [{'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}} for t in list(atom_text)]
+            new_arr = arr[:i] + new_items + arr[i + 1:]
+            return self.convert_postfix_list(new_arr, i)
+
+        res = self.convert_postfix(list_item)
 
         if isinstance(res, sympy.Expr) or isinstance(res, sympy.Matrix) or res is sympy.S.EmptySet:
             if i == len(arr) - 1:
@@ -456,6 +473,12 @@ class LatexToSympy:
             # construct the symbol using the text and optional subscript
             atom_symbol = sympy.Symbol(atom_text + subscript_text, real=True, positive=True)
 
+            # check if the text is a unit
+            if self.parse_letters_as_units:
+                unit = self.convert_unit(atom_text)
+                if unit is not None:
+                    atom_symbol = unit
+
             # find the atom's superscript, and return as a Pow if found
             if 'supexpr' in atom_expr:
                 supexpr = atom_expr.get('supexpr')
@@ -584,8 +607,42 @@ class LatexToSympy:
             # polar form: r * (cos(angle) + i * sin(angle))
             # exponential form: r * e^{i * angle}
             return sympy.exp(sympy.Mul(sympy.I, angle, evaluate=False), evaluate=False)
+        elif self.parse_letters_as_units and self.has_type_or_token(atom, LATEXLexerToken.LETTERS):
+            atom_text = atom.get('text')
+            unit = self.convert_unit(atom_text)
+            if unit is not None:
+                return unit
+            return sympy.Symbol(atom_text, real=True)
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
+
+    def convert_unit(self, text):
+        # check if a unit matches the given text
+        try:
+            unit_matches = sympy_physics_units.find_unit(text)
+        except AttributeError as e:
+            # no matches will throw an AttributeError
+            # check if the first letter of the text is a prefix
+            prefix_text = text[:1]
+            if prefix_text not in PREFIXES:
+                return None
+            prefix = PREFIXES[prefix_text]
+            # check if the remaining text after the prefix is a valid unit
+            unit = self.convert_unit(text[1:])
+            if unit is None:
+                return None
+            # combine the prefix and unit into a new `Quantity`
+            # prefix_unit accepts a dict of prefixes, so construct one
+            prefixes = {}
+            prefixes[prefix_text] = prefix
+            prefixed_units = prefix_unit(unit, prefixes)
+            return prefixed_units[0]
+        # if matches are found, return the first matching unit
+        if len(unit_matches) > 0:
+            unit_key = unit_matches[0]
+            unit = getattr(sympy_physics_units, unit_key)
+            return unit
+        return None
 
     def convert_frac(self, frac):
         frac_upper = frac.get('upper')
