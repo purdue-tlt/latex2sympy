@@ -146,6 +146,7 @@ fragment WS_CHAR: [ \t\r\n];
 fragment DIGIT: [0-9];
 
 LETTER: [a-zA-Z];
+LETTERS: LETTER+;
 
 NUMBER:
     DIGIT+ (COMMA DIGIT DIGIT DIGIT)*
@@ -444,6 +445,7 @@ atom:
     | DIFFERENTIAL_D
     | VARIABLE
     | COMPLEX_NUMBER_POLAR_ANGLE
+    | LETTERS
     | mathit;
 
 frac:
