@@ -3,10 +3,11 @@ import json
 import re
 import sympy
 import sympy.physics.units as sympy_physics_units
-from sympy.physics.units.prefixes import PREFIXES, BIN_PREFIXES, prefix_unit
 from latex2sympy.lib import parseToJson, LATEXLexerToken
-
-UNIT_PREFIXES = [*PREFIXES.values(), *BIN_PREFIXES.values()]
+from latex2sympy.utils.differential import DIFFERENTIAL_PREFIX, is_differential_var, get_differential_var
+from latex2sympy.utils.expression import create_rational_or_number, add_flat, mat_add_flat, mul_flat, mat_mul_flat, create_ceil, create_floor, create_gcd_lcm
+from latex2sympy.utils.json import has_type_or_token, get_token
+from latex2sympy.utils.units import convert_unit, get_prefix_matches, create_prefixed_unit
 
 
 def process_sympy(latex: str, variable_values: dict = {}, parse_letters_as_units: bool = False):
@@ -91,17 +92,17 @@ class LatexToSympy:
         relations = rel.get('relation')
         lh = self.convert_relation(relations[0])
         rh = self.convert_relation(relations[1])
-        if self.has_type_or_token(rel, LATEXLexerToken.LT):
+        if has_type_or_token(rel, LATEXLexerToken.LT):
             return sympy.StrictLessThan(lh, rh, evaluate=False)
-        elif self.has_type_or_token(rel, LATEXLexerToken.LTE):
+        elif has_type_or_token(rel, LATEXLexerToken.LTE):
             return sympy.LessThan(lh, rh, evaluate=False)
-        elif self.has_type_or_token(rel, LATEXLexerToken.GT):
+        elif has_type_or_token(rel, LATEXLexerToken.GT):
             return sympy.StrictGreaterThan(lh, rh, evaluate=False)
-        elif self.has_type_or_token(rel, LATEXLexerToken.GTE):
+        elif has_type_or_token(rel, LATEXLexerToken.GTE):
             return sympy.GreaterThan(lh, rh, evaluate=False)
-        elif self.has_type_or_token(rel, LATEXLexerToken.EQUAL):
+        elif has_type_or_token(rel, LATEXLexerToken.EQUAL):
             return sympy.Eq(lh, rh, evaluate=False)
-        elif self.has_type_or_token(rel, LATEXLexerToken.UNEQUAL):
+        elif has_type_or_token(rel, LATEXLexerToken.UNEQUAL):
             return sympy.Ne(lh, rh, evaluate=False)
         else:  # pragma: no cover
             raise Exception('Unrecognized relation')
@@ -129,66 +130,6 @@ class LatexToSympy:
         # return the matrix
         return sympy.Matrix(tmp)
 
-    def add_flat(self, lh, rh):
-        if hasattr(lh, 'is_Add') and lh.is_Add or hasattr(rh, 'is_Add') and rh.is_Add:
-            args = []
-            if hasattr(lh, 'is_Add') and lh.is_Add:
-                args += list(lh.args)
-            else:
-                args += [lh]
-            if hasattr(rh, 'is_Add') and rh.is_Add:
-                args = args + list(rh.args)
-            else:
-                args += [rh]
-            return sympy.Add(*args, evaluate=False)
-        else:
-            return sympy.Add(lh, rh, evaluate=False)
-
-    def mat_add_flat(self, lh, rh):
-        if hasattr(lh, 'is_MatAdd') and lh.is_MatAdd or hasattr(rh, 'is_MatAdd') and rh.is_MatAdd:
-            args = []
-            if hasattr(lh, 'is_MatAdd') and lh.is_MatAdd:
-                args += list(lh.args)
-            else:
-                args += [lh]
-            if hasattr(rh, 'is_MatAdd') and rh.is_MatAdd:
-                args = args + list(rh.args)
-            else:
-                args += [rh]
-            return sympy.MatAdd(*args, evaluate=False)
-        else:
-            return sympy.MatAdd(lh, rh, evaluate=False)
-
-    def mul_flat(self, lh, rh):
-        if hasattr(lh, 'is_Mul') and lh.is_Mul or hasattr(rh, 'is_Mul') and rh.is_Mul:
-            args = []
-            if hasattr(lh, 'is_Mul') and lh.is_Mul:
-                args += list(lh.args)
-            else:
-                args += [lh]
-            if hasattr(rh, 'is_Mul') and rh.is_Mul:
-                args = args + list(rh.args)
-            else:
-                args += [rh]
-            return sympy.Mul(*args, evaluate=False)
-        else:
-            return sympy.Mul(lh, rh, evaluate=False)
-
-    def mat_mul_flat(self, lh, rh):
-        if hasattr(lh, 'is_MatMul') and lh.is_MatMul or hasattr(rh, 'is_MatMul') and rh.is_MatMul:
-            args = []
-            if hasattr(lh, 'is_MatMul') and lh.is_MatMul:
-                args += list(lh.args)
-            else:
-                args += [lh]
-            if hasattr(rh, 'is_MatMul') and rh.is_MatMul:
-                args = args + list(rh.args)
-            else:
-                args += [rh]
-            return sympy.MatMul(*args, evaluate=False)
-        else:
-            return sympy.MatMul(lh, rh, evaluate=False)
-
     def convert_add(self, add):
         if 'mp' in add:
             return self.convert_mp(add.get('mp'))
@@ -200,18 +141,18 @@ class LatexToSympy:
             rh = self.convert_add(add.get('additive')[1])
 
             if lh.is_Matrix or rh.is_Matrix:
-                return self.mat_add_flat(lh, rh)
+                return mat_add_flat(lh, rh)
             else:
-                return self.add_flat(lh, rh)
+                return add_flat(lh, rh)
         elif type == LATEXLexerToken.SUB:
             lh = self.convert_add(add.get('additive')[0])
             rh = self.convert_add(add.get('additive')[1])
 
             if lh.is_Matrix or rh.is_Matrix:
-                return self.mat_add_flat(lh, self.mat_mul_flat(-1, rh))
+                return mat_add_flat(lh, mat_mul_flat(-1, rh))
             else:
-                rh = self.mul_flat(-1, rh)
-                return self.add_flat(lh, rh)
+                rh = mul_flat(-1, rh)
+                return add_flat(lh, rh)
         else:  # pragma: no cover
             raise Exception('Unrecognized add')
 
@@ -235,9 +176,9 @@ class LatexToSympy:
             rh = self.convert_mp(mp_right)
 
             if lh.is_Matrix or rh.is_Matrix:
-                return self.mat_mul_flat(lh, rh)
+                return mat_mul_flat(lh, rh)
             else:
-                return self.mul_flat(lh, rh)
+                return self.mul_flat_or_combine_prefix_and_unit(lh, rh)
         elif type == LATEXLexerToken.DIV or type == LATEXLexerToken.CMD_DIV or type == LATEXLexerToken.COLON:
             lh = self.convert_mp(mp_left)
             rh = self.convert_mp(mp_right)
@@ -277,12 +218,12 @@ class LatexToSympy:
         elif type == LATEXLexerToken.SUB:
             tmp_convert_nested_unary = self.convert_unary(nested_unary)
             if tmp_convert_nested_unary.is_Matrix:
-                return self.mat_mul_flat(-1, tmp_convert_nested_unary)
+                return mat_mul_flat(-1, tmp_convert_nested_unary)
             else:
                 if tmp_convert_nested_unary.func.is_Number:
                     return -tmp_convert_nested_unary
                 else:
-                    return self.mul_flat(-1, tmp_convert_nested_unary)
+                    return mul_flat(-1, tmp_convert_nested_unary)
         else:  # pragma: no cover
             raise Exception('Unrecognized unary')
 
@@ -298,7 +239,7 @@ class LatexToSympy:
             'exp' in list_item and \
             'comp' in list_item.get('exp') and \
             'atom' in list_item.get('exp').get('comp') and \
-                self.has_type_or_token(list_item.get('exp').get('comp').get('atom'), LATEXLexerToken.LETTERS):
+                has_type_or_token(list_item.get('exp').get('comp').get('atom'), LATEXLexerToken.LETTERS):
             atom_text = list_item.get('exp').get('comp').get('atom').get('text')
             # split the atom text into multiple LETTER list items
             new_list_items = [{'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}} for t in list(atom_text)]
@@ -319,9 +260,9 @@ class LatexToSympy:
                 rh = self.convert_postfix_list(arr, i + 1)
 
                 if res.is_Matrix or rh.is_Matrix:
-                    return self.mat_mul_flat(res, rh)
+                    return mat_mul_flat(res, rh)
                 else:
-                    return self.mul_flat(res, rh)
+                    return self.mul_flat_or_combine_prefix_and_unit(res, rh)
         else:  # must be derivative
             wrt = res[0]
             if i == len(arr) - 1:
@@ -357,7 +298,7 @@ class LatexToSympy:
         exp = self.convert_exp(exp_nested)
         if 'postfix_op' in postfix:
             for op in postfix.get('postfix_op'):
-                if self.has_type_or_token(op, LATEXLexerToken.BANG):
+                if has_type_or_token(op, LATEXLexerToken.BANG):
                     if isinstance(exp, list):
                         raise Exception('Cannot apply postfix to derivative')
                     exp = sympy.factorial(exp, evaluate=False)
@@ -370,7 +311,7 @@ class LatexToSympy:
                     if 'eval_at_sub' in ev:
                         at_a = self.do_eval_at_subs(exp, ev.get('eval_at_sub'))
                     if at_b is not None and at_a is not None:
-                        exp = self.add_flat(at_b, self.mul_flat(at_a, -1))
+                        exp = add_flat(at_b, mul_flat(at_a, -1))
                     elif at_b is not None:
                         exp = at_b
                     elif at_a is not None:
@@ -412,9 +353,9 @@ class LatexToSympy:
         elif 'abs_group' in comp:
             return sympy.Abs(self.convert_expr(comp.get('abs_group').get('expr')), evaluate=False)
         elif 'floor_group' in comp:
-            return self.handle_floor(self.convert_expr(comp.get('floor_group').get('expr')))
+            return create_floor(self.convert_expr(comp.get('floor_group').get('expr')))
         elif 'ceil_group' in comp:
-            return self.handle_ceil(self.convert_expr(comp.get('ceil_group').get('expr')))
+            return create_ceil(self.convert_expr(comp.get('ceil_group').get('expr')))
         elif 'atom' in comp:
             return self.convert_atom(comp.get('atom'))
         elif 'frac' in comp:
@@ -435,10 +376,10 @@ class LatexToSympy:
 
             # find the atom's text
             atom_text = ''
-            if self.has_type_or_token(atom_expr, LATEXLexerToken.DIFFERENTIAL_D):
-                letter = self.get_token(atom_expr, LATEXLexerToken.LETTER)
-                greek_cmd = self.get_token(atom_expr, LATEXLexerToken.GREEK_CMD)
-                atom_text = 'differentialD-' + (letter.get('text') if letter is not None else greek_cmd.get('text')[1:].strip())
+            if has_type_or_token(atom_expr, LATEXLexerToken.DIFFERENTIAL_D):
+                letter = get_token(atom_expr, LATEXLexerToken.LETTER)
+                greek_cmd = get_token(atom_expr, LATEXLexerToken.GREEK_CMD)
+                atom_text = DIFFERENTIAL_PREFIX + (letter.get('text') if letter is not None else greek_cmd.get('text')[1:].strip())
             elif type == LATEXLexerToken.LETTER:
                 atom_text = atom_expr.get('text')
             elif type == LATEXLexerToken.GREEK_CMD:
@@ -482,7 +423,7 @@ class LatexToSympy:
 
             # check if the text is a unit, and replace the symbol if matched
             if self.parse_letters_as_units:
-                unit = self.convert_unit('\\' + atom_text if type == LATEXLexerToken.GREEK_CMD else atom_text)
+                unit = convert_unit('\\' + atom_text if type == LATEXLexerToken.GREEK_CMD else atom_text)
                 if unit is not None:
                     atom_symbol = unit
 
@@ -499,7 +440,7 @@ class LatexToSympy:
                 return sympy.Pow(atom_symbol, func_pow, evaluate=False)
 
             return atom_symbol
-        elif self.has_type_or_token(atom, LATEXLexerToken.SYMBOL):
+        elif has_type_or_token(atom, LATEXLexerToken.SYMBOL):
             # remove dollar sign, percentage symbol, and whitespace
             s = atom.get('text').replace('\\$', '').replace('\\%', '').strip()
             if s == '\\infty':
@@ -512,19 +453,19 @@ class LatexToSympy:
                 return sympy.I
             else:  # pragma: no cover
                 raise Exception('Unrecognized symbol')
-        elif self.has_type_or_token(atom, LATEXLexerToken.NUMBER):
+        elif has_type_or_token(atom, LATEXLexerToken.NUMBER):
             s = atom.get('text').replace(',', '')
-            return self.try_convert_rational(s)
-        elif self.has_type_or_token(atom, LATEXLexerToken.SCI_NOTATION_NUMBER):
+            return create_rational_or_number(s)
+        elif has_type_or_token(atom, LATEXLexerToken.SCI_NOTATION_NUMBER):
             s = atom.get('text')
             s_parts = s.split('\\times 10^')
             s1 = s_parts[0].replace(',', '')
-            n1 = self.try_convert_rational(s1)
+            n1 = create_rational_or_number(s1)
             s2 = s_parts[1].replace('{', '').replace(',', '').replace('}', '')
-            n2 = self.try_convert_rational(s2)
+            n2 = create_rational_or_number(s2)
             n_exp = sympy.Mul(n1, sympy.Pow(10, n2))
-            return self.try_convert_rational(n_exp)
-        elif self.has_type_or_token(atom, LATEXLexerToken.FRACTION_NUMBER):
+            return create_rational_or_number(n_exp)
+        elif has_type_or_token(atom, LATEXLexerToken.FRACTION_NUMBER):
             s = atom.get('text').replace('\\frac{', '').replace('}{', '/').replace('}', '').replace(',', '')
             try:
                 sr = sympy.Rational(s)
@@ -532,26 +473,26 @@ class LatexToSympy:
             except ZeroDivisionError:
                 # preserve the divide by zero as an expression
                 s_parts = s.split('/')
-                p = self.try_convert_rational(s_parts[0])
-                q = self.try_convert_rational(s_parts[1])
+                p = create_rational_or_number(s_parts[0])
+                q = create_rational_or_number(s_parts[1])
                 return sympy.Mul(p, sympy.Pow(q, -1, evaluate=False), evaluate=False)
             except (TypeError, ValueError):  # pragma: no cover
                 return sympy.Number(s)
-        elif self.has_type_or_token(atom, LATEXLexerToken.E_NOTATION):
+        elif has_type_or_token(atom, LATEXLexerToken.E_NOTATION):
             text = atom.get('text').replace(',', '')
             parts = text.split('E')
 
             # parse variables if either part is a variable
             if '\\variable' in parts[0] or '\\variable' in parts[1]:
-                v1 = process_sympy(parts[0], variable_values=self.variable_values) if '\\variable' in parts[0] else self.try_convert_rational(parts[0])
-                v2 = process_sympy(parts[1], variable_values=self.variable_values) if '\\variable' in parts[1] else self.try_convert_rational(parts[1])
+                v1 = process_sympy(parts[0], variable_values=self.variable_values) if '\\variable' in parts[0] else create_rational_or_number(parts[0])
+                v2 = process_sympy(parts[1], variable_values=self.variable_values) if '\\variable' in parts[1] else create_rational_or_number(parts[1])
                 return sympy.Mul(v1, sympy.Pow(10, v2, evaluate=False), evaluate=False)
 
-            return self.try_convert_rational(text)
+            return create_rational_or_number(text)
         elif 'mathit' in atom:
             text = atom.get('mathit').get('mathit_text').get('text')
             return sympy.Symbol(text, real=True, positive=True)
-        elif self.has_type_or_token(atom, LATEXLexerToken.VARIABLE):
+        elif has_type_or_token(atom, LATEXLexerToken.VARIABLE):
             text = atom.get('text')
             is_percent = text.endswith('\\%')
             trim_amount = 3 if is_percent else 1
@@ -570,19 +511,19 @@ class LatexToSympy:
             if name in self.variable_values:
                 symbol = self.variable_values[name]
             else:
-                symbol = sympy.Symbol(symbol_name, real=True)  # TODO: should this be positive?
+                symbol = sympy.Symbol(symbol_name, real=True)
 
             if is_percent:
                 return sympy.Mul(symbol, sympy.Pow(100, -1, evaluate=False), evaluate=False)
 
             # return the symbol
             return symbol
-        elif self.has_type_or_token(atom, LATEXLexerToken.PERCENT_NUMBER):
+        elif has_type_or_token(atom, LATEXLexerToken.PERCENT_NUMBER):
             text = atom.get('text').replace('\\%', '').replace(',', '')
-            number = self.try_convert_rational(text)
+            number = create_rational_or_number(text)
             percent = sympy.Rational(number, 100)
             return percent
-        elif self.has_type_or_token(atom, LATEXLexerToken.COMPLEX_NUMBER_POLAR_ANGLE):
+        elif has_type_or_token(atom, LATEXLexerToken.COMPLEX_NUMBER_POLAR_ANGLE):
             angle_str = atom.get('text').replace('\\angle ', '')
             if '\\degree' in angle_str:
                 angle_str = angle_str.replace('\\degree', '').strip()
@@ -595,81 +536,15 @@ class LatexToSympy:
             # polar form: r * (cos(angle) + i * sin(angle))
             # exponential form: r * e^{i * angle}
             return sympy.exp(sympy.Mul(sympy.I, angle, evaluate=False), evaluate=False)
-        elif self.parse_letters_as_units and self.has_type_or_token(atom, LATEXLexerToken.LETTERS):
+        elif self.parse_letters_as_units and has_type_or_token(atom, LATEXLexerToken.LETTERS):
             atom_text = atom.get('text')
-            unit = self.convert_unit(atom_text)
+            unit = convert_unit(atom_text)
             if unit is not None:
                 return unit
+            # if not a unit, return the letters as a single symbol
             return sympy.Symbol(atom_text, real=True, positive=True)
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
-
-    def try_convert_rational(self, text):
-        try:
-            return sympy.Rational(text)
-        except (TypeError, ValueError):  # pragma: no cover
-            return sympy.Number(text)
-
-    def convert_unit(self, text):
-        unit = None
-        unit_matches = []
-
-        # check if a unit matches the given text
-        try:
-            unit_matches = sympy_physics_units.find_unit(text)
-        except AttributeError as e:
-            # no matches will throw an AttributeError
-
-            # check if a unit matches using its default latex representation
-            for i in dir(sympy_physics_units):
-                attr = getattr(sympy_physics_units, i)
-                if isinstance(attr, sympy_physics_units.Quantity) and sympy.latex(attr) == text:
-                    unit_matches.append(i)
-
-            # if no pre-defined match is found, try to account for prefixes
-            if len(unit_matches) == 0:
-                # check if the text starts with any prefixes, by name, abbrev, or latex
-                prefix_matches = []
-                for prefix in UNIT_PREFIXES:
-                    prefix_name = str(prefix.name)
-                    prefix_abbrev = str(prefix.abbrev)
-                    prefix_latex = sympy.latex(prefix)
-                    if text.startswith(prefix_name):
-                        prefix_matches.append((prefix, len(prefix_name)))
-                    elif text.startswith(prefix_abbrev):
-                        prefix_matches.append((prefix, len(prefix_abbrev)))
-                    elif text.startswith(prefix_latex):
-                        prefix_matches.append((prefix, len(prefix_latex)))
-
-                # return if no prefixes were found
-                if len(prefix_matches) == 0:
-                    return None
-
-                # find the first valid prefix + unit match, if any
-                for prefix_match in prefix_matches:
-                    prefix = prefix_match[0]
-                    prefix_len = prefix_match[1]
-                    # check if the remaining text after the prefix is a valid unit
-                    unit = self.convert_unit(text[prefix_len:].strip())
-                    if unit is None:
-                        continue
-                    # combine the prefix and unit into a new `Quantity`
-                    # `prefix_unit` accepts a dict of prefixes, so construct one
-                    prefixes = {}
-                    prefixes[prefix.abbrev] = prefix
-                    prefixed_units = prefix_unit(unit, prefixes)
-                    return prefixed_units[0]
-
-        # if matches are found, return the first matching unit
-        if len(unit_matches) > 0:
-            unit_key = unit_matches[0]
-            unit = getattr(sympy_physics_units, unit_key)
-
-        # do not allow constants
-        if unit is not None and isinstance(unit, sympy_physics_units.quantities.PhysicalConstant):
-            return None
-
-        return unit
 
     def convert_frac(self, frac):
         frac_upper = frac.get('upper')
@@ -677,14 +552,14 @@ class LatexToSympy:
 
         expr_lower = self.convert_expr(frac_lower)
 
-        if frac_upper.get('start').get('type') == LATEXLexerToken.DIFFERENTIAL_D and self.is_differential_var(expr_lower):
-            wrt = self.get_differential_var(expr_lower)
+        if frac_upper.get('start').get('type') == LATEXLexerToken.DIFFERENTIAL_D and is_differential_var(expr_lower):
+            wrt = get_differential_var(expr_lower)
             # fraction upper only contains `\differentialD`, don't call `convert_expr`
             if frac_upper.get('start') == frac_upper.get('stop'):
                 return [wrt]
             expr_upper = self.convert_expr(frac_upper)
-            if self.is_differential_var(expr_upper):
-                diff_var = self.get_differential_var(expr_upper)
+            if is_differential_var(expr_upper):
+                diff_var = get_differential_var(expr_upper)
             else:  # pragma: no cover
                 raise Exception('Unrecognized differential')
             return sympy.Derivative(diff_var, wrt)
@@ -758,9 +633,9 @@ class LatexToSympy:
             elif name == 'exp':
                 expr = sympy.exp(arg, evaluate=False)
             elif name == 'floor':
-                expr = self.handle_floor(arg)
+                expr = create_floor(arg)
             elif name == 'ceil':
-                expr = self.handle_ceil(arg)
+                expr = create_ceil(arg)
             # complex functions
             elif name == 'Re':
                 expr = sympy.re(arg, evaluate=False)
@@ -773,7 +648,7 @@ class LatexToSympy:
 
             # multi-arg functions
             if name in ['gcd', 'lcm']:
-                expr = self.handle_gcd_lcm(name, args)
+                expr = create_gcd_lcm(name, args)
             elif name in ['max', 'min']:
                 name = name[0].upper() + name[1:]
                 expr = getattr(sympy.functions, name)(*args, evaluate=False)
@@ -804,9 +679,9 @@ class LatexToSympy:
 
             return expr
 
-        elif self.has_type_or_token(func, LATEXLexerToken.FUNC_INT):
-            return self.handle_integral(func)
-        elif self.has_type_or_token(func, LATEXLexerToken.FUNC_SQRT):
+        elif has_type_or_token(func, LATEXLexerToken.FUNC_INT):
+            return self.convert_func_integral(func)
+        elif has_type_or_token(func, LATEXLexerToken.FUNC_SQRT):
             exprs = func.get('expr')
             expr = self.convert_expr(exprs[1]) if isinstance(exprs, list) else self.convert_expr(exprs)
             if isinstance(exprs, list):
@@ -814,14 +689,14 @@ class LatexToSympy:
                 return sympy.Pow(expr, 1 / r, evaluate=False)
             else:
                 return sympy.Pow(expr, sympy.S.Half, evaluate=False)
-        elif self.has_type_or_token(func, LATEXLexerToken.FUNC_SUM):
-            return self.handle_sum_or_prod(func, 'summation')
-        elif self.has_type_or_token(func, LATEXLexerToken.FUNC_PROD):
-            return self.handle_sum_or_prod(func, 'product')
-        elif self.has_type_or_token(func, LATEXLexerToken.FUNC_LIM):
-            return self.handle_limit(func)
-        elif self.has_type_or_token(func, LATEXLexerToken.EXP_E):
-            return self.handle_exp(func)
+        elif has_type_or_token(func, LATEXLexerToken.FUNC_SUM):
+            return self.convert_func_sum_or_prod(func, 'summation')
+        elif has_type_or_token(func, LATEXLexerToken.FUNC_PROD):
+            return self.convert_func_sum_or_prod(func, 'product')
+        elif has_type_or_token(func, LATEXLexerToken.FUNC_LIM):
+            return self.convert_func_limit(func)
+        elif has_type_or_token(func, LATEXLexerToken.EXP_E):
+            return self.convert_func_exp_e(func)
         else:  # pragma: no cover
             raise Exception('Unrecognized func')
 
@@ -831,13 +706,13 @@ class LatexToSympy:
         else:
             return self.convert_mp(arg.get('mp_nofunc'))
 
-    def handle_integral(self, func):
+    def convert_func_integral(self, func):
         integrand = self.convert_expr(func.get('expr'))
 
         int_var = None
         for sym in integrand.atoms(sympy.Symbol):
-            if self.is_differential_var(sym):
-                int_var = self.get_differential_var(sym)
+            if is_differential_var(sym):
+                int_var = get_differential_var(sym)
                 int_sym = sym
         if int_var:
             integrand = integrand.subs(int_sym, 1)
@@ -865,7 +740,7 @@ class LatexToSympy:
         else:
             return sympy.Integral(integrand, int_var)
 
-    def handle_sum_or_prod(self, func, name):
+    def convert_func_sum_or_prod(self, func, name):
         val = self.convert_mp(func.get('mp'))
         iter_var = self.convert_expr(func.get('subeq').get('equality').get('expr')[0])
         start = self.convert_expr(func.get('subeq').get('equality').get('expr')[1])
@@ -885,17 +760,17 @@ class LatexToSympy:
         else:  # pragma: no cover
             raise Exception('Unrecognized sum/prod')
 
-    def handle_limit(self, func):
+    def convert_func_limit(self, func):
         sub = func.get('limit_sub')
-        letter = self.get_token(sub, LATEXLexerToken.LETTER)
-        greek_cmd = self.get_token(sub, LATEXLexerToken.GREEK_CMD)
+        letter = get_token(sub, LATEXLexerToken.LETTER)
+        greek_cmd = get_token(sub, LATEXLexerToken.GREEK_CMD)
         if letter is not None:
             var = sympy.Symbol(letter.get('text'), real=True, positive=True)
         elif greek_cmd is not None:
             var = sympy.Symbol(greek_cmd.get('text')[1:].strip(), real=True, positive=True)
         else:  # pragma: no cover
             raise Exception('Unrecognized limit')
-        if self.get_token(sub, LATEXLexerToken.SUB) is not None:
+        if get_token(sub, LATEXLexerToken.SUB) is not None:
             direction = '-'
         else:
             direction = '+'
@@ -904,7 +779,7 @@ class LatexToSympy:
 
         return sympy.Limit(content, var, approaching, direction)
 
-    def handle_exp(self, func):
+    def convert_func_exp_e(self, func):
         if 'supexpr' in func:
             supexpr = func.get('supexpr')
             if 'atom' in func.get('supexpr'):  # ^atom
@@ -917,49 +792,12 @@ class LatexToSympy:
         else:
             return sympy.E
 
-    def handle_gcd_lcm(self, f, args):
-        '''
-        Return the result of gcd() or lcm(), as UnevaluatedExpr
-
-        f: str - name of function ('gcd' or 'lcm')
-        args: List[Expr] - list of function arguments
-        '''
-
-        args = tuple(map(sympy.nsimplify, args))
-
-        # gcd() and lcm() don't support evaluate=False
-        return sympy.UnevaluatedExpr(getattr(sympy, f)(args))
-
-    def handle_floor(self, expr):
-        '''
-        Apply floor() then return the floored expression.
-
-        expr: Expr - sympy expression as an argument to floor()
-        '''
-        return sympy.functions.floor(expr, evaluate=False)
-
-    def handle_ceil(self, expr):
-        '''
-        Apply ceil() then return the ceil-ed expression.
-
-        expr: Expr - sympy expression as an argument to ceil()
-        '''
-        return sympy.functions.ceiling(expr, evaluate=False)
-
-    def is_differential_var(self, expr):
-        return isinstance(expr, sympy.Symbol) and len(expr.name) > 14 and expr.name[:14] == 'differentialD-'
-
-    def get_differential_var(self, expr):
-        symbol_name = expr.name[14:]
-        return sympy.Symbol(symbol_name, real=True, positive=True)
-
-    def get_token(self, node, type):
-        tokens = node.get('tokens') if 'tokens' in node else None
-        token = next((t for t in node.get('tokens') if t.get('type') == type), None) if tokens is not None else None
-        return token
-
-    def has_type_or_token(self, node, type):
-        if 'type' in node and node.get('type') == type:
-            return True
-        token = self.get_token(node, type)
-        return token is not None
+    def mul_flat_or_combine_prefix_and_unit(self, lh, rh):
+        # attempt to combine an adjacent prefix + unit
+        if self.parse_letters_as_units and isinstance(lh, sympy.Symbol) and isinstance(rh, sympy_physics_units.Quantity):
+            prefix_matches = get_prefix_matches(lh.name, exact=True)
+            # use the first match, if any
+            if len(prefix_matches) > 0:
+                prefix = prefix_matches[0][0]
+                return create_prefixed_unit(rh, prefix)
+        return mul_flat(lh, rh)

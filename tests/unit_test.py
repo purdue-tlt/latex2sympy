@@ -1,16 +1,9 @@
 from .context import _Mul, _Pow, assert_equal
+from latex2sympy.latex2sympy import create_prefixed_unit
 import pytest
 from sympy import Symbol
 import sympy.physics.units as sympy_physics_units
-from sympy.physics.units.prefixes import PREFIXES, prefix_unit
-
-
-def create_prefixed_unit(unit, prefix_text):
-    prefix = PREFIXES[prefix_text]
-    prefixes = {}
-    prefixes[prefix_text] = prefix
-    prefixed_units = prefix_unit(unit, prefixes)
-    return prefixed_units[0]
+from sympy.physics.units.prefixes import PREFIXES
 
 
 unit_examples = [
@@ -23,10 +16,11 @@ unit_examples = [
     ('ampere', sympy_physics_units.A),
     # si units by latex
     ('\\Omega', sympy_physics_units.ohm),
-    # si units with prefixes that are not pre-defined
-    ('mV', create_prefixed_unit(sympy_physics_units.V, 'm')),
-    ('millivolt', create_prefixed_unit(sympy_physics_units.V, 'm')),
     ('\\mu g', sympy_physics_units.microgram),
+    # si units with prefixes that are not pre-defined
+    ('mV', create_prefixed_unit(sympy_physics_units.V, PREFIXES['m'])),
+    ('millivolt', create_prefixed_unit(sympy_physics_units.V, PREFIXES['m'])),
+    ('\\mu \\Omega ', create_prefixed_unit(sympy_physics_units.ohm, PREFIXES['mu'])),
     # compound si units
     ('kg\\times \\frac{m}{s^{2}}', _Mul(sympy_physics_units.kg, sympy_physics_units.m, _Pow(_Pow(sympy_physics_units.s, 2), -1))),
     ('kg*m^{2}s^{-3}', _Mul(sympy_physics_units.kg, _Pow(sympy_physics_units.m, 2), _Pow(sympy_physics_units.s, -3))),
@@ -34,6 +28,7 @@ unit_examples = [
     ('c', Symbol('c', real=True, positive=True)),
     # non si-units
     ('apples', Symbol('apples', real=True, positive=True)),
+    ('apples\\times grams', _Mul(Symbol('apples', real=True, positive=True), sympy_physics_units.g)),
 ]
 
 
