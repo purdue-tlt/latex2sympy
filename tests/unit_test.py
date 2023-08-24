@@ -29,6 +29,7 @@ unit_examples = [
     # non si-units
     ('apples', Symbol('apples', real=True, positive=True)),
     ('apples\\times grams', _Mul(Symbol('apples', real=True, positive=True), sympy_physics_units.g)),
+    ('pen\\times pineapple\\times apple\\times pen', _Mul(Symbol('pen', real=True, positive=True), Symbol('pineapple', real=True, positive=True), Symbol('apple', real=True, positive=True), Symbol('pen', real=True, positive=True)))
 ]
 
 
