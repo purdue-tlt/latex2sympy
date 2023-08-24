@@ -512,30 +512,16 @@ class LatexToSympy:
                 raise Exception('Unrecognized symbol')
         elif self.has_type_or_token(atom, LATEXLexerToken.NUMBER):
             s = atom.get('text').replace(',', '')
-            try:
-                sr = sympy.Rational(s)
-                return sr
-            except (TypeError, ValueError):  # pragma: no cover
-                return sympy.Number(s)
+            return self.try_convert_rational(s)
         elif self.has_type_or_token(atom, LATEXLexerToken.SCI_NOTATION_NUMBER):
             s = atom.get('text')
             s_parts = s.split('\\times 10^')
             s1 = s_parts[0].replace(',', '')
-            try:
-                n1 = sympy.Rational(s1)
-            except (TypeError, ValueError):  # pragma: no cover
-                n1 = sympy.Number(s1)
+            n1 = self.try_convert_rational(s1)
             s2 = s_parts[1].replace('{', '').replace(',', '').replace('}', '')
-            try:
-                n2 = sympy.Rational(s2)
-            except (TypeError, ValueError):  # pragma: no cover
-                n2 = sympy.Number(s2)
+            n2 = self.try_convert_rational(s2)
             n_exp = sympy.Mul(n1, sympy.Pow(10, n2))
-            try:
-                n = sympy.Rational(n_exp)
-            except (TypeError, ValueError):  # pragma: no cover
-                n = sympy.Number(n_exp)
-            return n
+            return self.try_convert_rational(n_exp)
         elif self.has_type_or_token(atom, LATEXLexerToken.FRACTION_NUMBER):
             s = atom.get('text').replace('\\frac{', '').replace('}{', '/').replace('}', '').replace(',', '')
             try:
@@ -544,24 +530,22 @@ class LatexToSympy:
             except ZeroDivisionError:
                 # preserve the divide by zero as an expression
                 s_parts = s.split('/')
-                try:
-                    p = sympy.Rational(s_parts[0])
-                except (TypeError, ValueError):  # pragma: no cover
-                    p = sympy.Number(s_parts[0])
-                try:
-                    q = sympy.Rational(s_parts[1])
-                except (TypeError, ValueError):  # pragma: no cover
-                    q = sympy.Number(s_parts[1])
+                p = self.try_convert_rational(s_parts[0])
+                q = self.try_convert_rational(s_parts[1])
                 return sympy.Mul(p, sympy.Pow(q, -1, evaluate=False), evaluate=False)
             except (TypeError, ValueError):  # pragma: no cover
                 return sympy.Number(s)
         elif self.has_type_or_token(atom, LATEXLexerToken.E_NOTATION):
-            s = atom.get('text').replace(',', '')
-            try:
-                sr = sympy.Rational(s)
-                return sr
-            except (TypeError, ValueError):  # pragma: no cover
-                return sympy.Number(s)
+            text = atom.get('text').replace(',', '')
+            parts = text.split('E')
+
+            # parse variables if either part is a variable
+            if '\\variable' in parts[0] or '\\variable' in parts[1]:
+                v1 = process_sympy(parts[0], variable_values=self.variable_values) if '\\variable' in parts[0] else self.try_convert_rational(parts[0])
+                v2 = process_sympy(parts[1], variable_values=self.variable_values) if '\\variable' in parts[1] else self.try_convert_rational(parts[1])
+                return sympy.Mul(v1, sympy.Pow(10, v2, evaluate=False), evaluate=False)
+
+            return self.try_convert_rational(text)
         elif 'mathit' in atom:
             text = atom.get('mathit').get('mathit_text').get('text')
             return sympy.Symbol(text, real=True, positive=True)
@@ -593,10 +577,7 @@ class LatexToSympy:
             return symbol
         elif self.has_type_or_token(atom, LATEXLexerToken.PERCENT_NUMBER):
             text = atom.get('text').replace('\\%', '').replace(',', '')
-            try:
-                number = sympy.Rational(text)
-            except (TypeError, ValueError):  # pragma: no cover
-                number = sympy.Number(text)
+            number = self.try_convert_rational(text)
             percent = sympy.Rational(number, 100)
             return percent
         elif self.has_type_or_token(atom, LATEXLexerToken.COMPLEX_NUMBER_POLAR_ANGLE):
@@ -620,6 +601,12 @@ class LatexToSympy:
             return sympy.Symbol(atom_text, real=True)
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
+
+    def try_convert_rational(self, text):
+        try:
+            return sympy.Rational(text)
+        except (TypeError, ValueError):  # pragma: no cover
+            return sympy.Number(text)
 
     def convert_unit(self, text):
         # check if a unit matches the given text

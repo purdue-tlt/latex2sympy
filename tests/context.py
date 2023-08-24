@@ -1,5 +1,6 @@
-from sympy import srepr, Add, Mul, Pow, Rational, pi, sqrt, Symbol, exp, Eq
+import hashlib
 from latex2sympy.latex2sympy import process_sympy
+from sympy import srepr, Add, Mul, Pow, Rational, pi, sqrt, Symbol, exp, Eq
 
 
 x = Symbol('x', real=True, positive=True)
@@ -24,6 +25,10 @@ def _Pow(a, b):
 
 def _Eq(a, b):
     return Eq(a, b, evaluate=False)
+
+
+def get_variable_symbol(name):
+    return Symbol(name + hashlib.md5(name.encode()).hexdigest(), real=True)
 
 
 def get_simple_examples(func):

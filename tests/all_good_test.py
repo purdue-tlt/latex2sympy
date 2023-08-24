@@ -1,6 +1,4 @@
-from .context import assert_equal, process_sympy, _Add, _Mul, _Pow
-import pytest
-import hashlib
+from .context import assert_equal, _Add, _Mul, _Pow, get_variable_symbol
 from sympy import (
     E, I, oo, pi, sqrt, root, Symbol, Add, Mul, Pow, Abs, factorial, log, Eq, Ne, S, Rational, Integer, UnevaluatedExpr,
     sin, cos, tan, sinh, cosh, tanh, asin, acos, atan, asinh, acosh, atanh,
@@ -284,10 +282,16 @@ class TestAllGood(object):
         # scientific notation
         ("2.5\\times 10^2", Rational(250)),
         ("1,500\\times 10^{-1}", Rational(150)),
+        # sci notation with variables
+        ("\\variable{a}\\times 10^{\\variable{b}}", _Mul(get_variable_symbol('a'), _Pow(10, get_variable_symbol('b')))),
 
         # e notation
         ("2.5E2", Rational(250)),
         ("1,500E-1", Rational(150)),
+        # e notation with variables
+        ("\\variable{a}E3", _Mul(get_variable_symbol('a'), _Pow(10, 3))),
+        ("5E\\variable{b}", _Mul(5, _Pow(10, get_variable_symbol('b')))),
+        ("\\variable{a}E\\variable{b}", _Mul(get_variable_symbol('a'), _Pow(10, get_variable_symbol('b')))),
 
         # "E" as a symbol
         ('ER+E_C', Add(Mul(Symbol('E', real=True, positive=True), Symbol('R', real=True, positive=True), evaluate=False), Symbol('E_C', real=True, positive=True), evaluate=False)),
