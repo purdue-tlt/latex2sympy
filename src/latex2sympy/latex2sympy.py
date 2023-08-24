@@ -3,8 +3,10 @@ import json
 import re
 import sympy
 import sympy.physics.units as sympy_physics_units
-from sympy.physics.units.prefixes import PREFIXES, prefix_unit
+from sympy.physics.units.prefixes import PREFIXES, BIN_PREFIXES, prefix_unit
 from latex2sympy.lib import parseToJson, LATEXLexerToken
+
+UNIT_PREFIXES = [*PREFIXES.values(), *BIN_PREFIXES.values()]
 
 
 def process_sympy(latex: str, variable_values: dict = {}, parse_letters_as_units: bool = False):
@@ -478,9 +480,9 @@ class LatexToSympy:
             # construct the symbol using the text and optional subscript
             atom_symbol = sympy.Symbol(atom_text + subscript_text, real=True, positive=True)
 
-            # check if the text is a unit
+            # check if the text is a unit, and replace the symbol if matched
             if self.parse_letters_as_units:
-                unit = self.convert_unit(atom_text)
+                unit = self.convert_unit('\\' + atom_text if type == LATEXLexerToken.GREEK_CMD else atom_text)
                 if unit is not None:
                     atom_symbol = unit
 
@@ -568,7 +570,7 @@ class LatexToSympy:
             if name in self.variable_values:
                 symbol = self.variable_values[name]
             else:
-                symbol = sympy.Symbol(symbol_name, real=True)
+                symbol = sympy.Symbol(symbol_name, real=True)  # TODO: should this be positive?
 
             if is_percent:
                 return sympy.Mul(symbol, sympy.Pow(100, -1, evaluate=False), evaluate=False)
@@ -598,7 +600,7 @@ class LatexToSympy:
             unit = self.convert_unit(atom_text)
             if unit is not None:
                 return unit
-            return sympy.Symbol(atom_text, real=True)
+            return sympy.Symbol(atom_text, real=True, positive=True)
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
 
@@ -609,32 +611,65 @@ class LatexToSympy:
             return sympy.Number(text)
 
     def convert_unit(self, text):
+        unit = None
+        unit_matches = []
+
         # check if a unit matches the given text
         try:
             unit_matches = sympy_physics_units.find_unit(text)
         except AttributeError as e:
             # no matches will throw an AttributeError
-            # check if the first letter of the text is a prefix
-            prefix_text = text[:1]
-            if prefix_text not in PREFIXES:
-                return None
-            prefix = PREFIXES[prefix_text]
-            # check if the remaining text after the prefix is a valid unit
-            unit = self.convert_unit(text[1:])
-            if unit is None:
-                return None
-            # combine the prefix and unit into a new `Quantity`
-            # prefix_unit accepts a dict of prefixes, so construct one
-            prefixes = {}
-            prefixes[prefix_text] = prefix
-            prefixed_units = prefix_unit(unit, prefixes)
-            return prefixed_units[0]
+
+            # check if a unit matches using its default latex representation
+            for i in dir(sympy_physics_units):
+                attr = getattr(sympy_physics_units, i)
+                if isinstance(attr, sympy_physics_units.Quantity) and sympy.latex(attr) == text:
+                    unit_matches.append(i)
+
+            # if no pre-defined match is found, try to account for prefixes
+            if len(unit_matches) == 0:
+                # check if the text starts with any prefixes, by name, abbrev, or latex
+                prefix_matches = []
+                for prefix in UNIT_PREFIXES:
+                    prefix_name = str(prefix.name)
+                    prefix_abbrev = str(prefix.abbrev)
+                    prefix_latex = sympy.latex(prefix)
+                    if text.startswith(prefix_name):
+                        prefix_matches.append((prefix, len(prefix_name)))
+                    elif text.startswith(prefix_abbrev):
+                        prefix_matches.append((prefix, len(prefix_abbrev)))
+                    elif text.startswith(prefix_latex):
+                        prefix_matches.append((prefix, len(prefix_latex)))
+
+                # return if no prefixes were found
+                if len(prefix_matches) == 0:
+                    return None
+
+                # find the first valid prefix + unit match, if any
+                for prefix_match in prefix_matches:
+                    prefix = prefix_match[0]
+                    prefix_len = prefix_match[1]
+                    # check if the remaining text after the prefix is a valid unit
+                    unit = self.convert_unit(text[prefix_len:].strip())
+                    if unit is None:
+                        continue
+                    # combine the prefix and unit into a new `Quantity`
+                    # `prefix_unit` accepts a dict of prefixes, so construct one
+                    prefixes = {}
+                    prefixes[prefix.abbrev] = prefix
+                    prefixed_units = prefix_unit(unit, prefixes)
+                    return prefixed_units[0]
+
         # if matches are found, return the first matching unit
         if len(unit_matches) > 0:
             unit_key = unit_matches[0]
             unit = getattr(sympy_physics_units, unit_key)
-            return unit
-        return None
+
+        # do not allow constants
+        if unit is not None and isinstance(unit, sympy_physics_units.quantities.PhysicalConstant):
+            return None
+
+        return unit
 
     def convert_frac(self, frac):
         frac_upper = frac.get('upper')
