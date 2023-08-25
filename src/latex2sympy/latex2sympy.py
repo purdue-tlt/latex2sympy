@@ -9,6 +9,9 @@ from latex2sympy.utils.expression import create_rational_or_number, add_flat, ma
 from latex2sympy.utils.json import has_type_or_token, get_token
 from latex2sympy.utils.units import convert_unit, get_prefix_matches, create_prefixed_unit
 
+# replacement for `sympy.S.EmptySet` which can be printed to a string, or used in expression comparisons
+EmptySet = sympy.Symbol('emptyset')
+
 
 def process_sympy(latex: str, variable_values: dict = {}, parse_letters_as_units: bool = False):
     instance = LatexToSympy(latex, variable_values, parse_letters_as_units)
@@ -252,7 +255,7 @@ class LatexToSympy:
 
         res = self.convert_postfix(list_item)
 
-        if isinstance(res, sympy.Expr) or isinstance(res, sympy.Matrix) or res is sympy.S.EmptySet:
+        if isinstance(res, sympy.Expr) or isinstance(res, sympy.Matrix) or res is EmptySet:
             if i == len(arr) - 1:
                 return res  # nothing to multiply by
             else:
@@ -448,7 +451,7 @@ class LatexToSympy:
             elif s == '\\pi':
                 return sympy.pi
             elif s == '\\emptyset':
-                return sympy.S.EmptySet
+                return EmptySet
             elif s == '\\imaginaryI' or s == '\\imaginaryJ':
                 return sympy.I
             else:  # pragma: no cover
