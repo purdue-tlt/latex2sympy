@@ -143,14 +143,9 @@ ACCENT_OVERLINE: '\\overline';
 ACCENT_BAR: '\\bar';
 
 fragment WS_CHAR: [ \t\r\n];
-fragment LETTER: [a-zA-Z];
 fragment DIGIT: [0-9];
 
-EXP_E: 'e' | '\\exponentialE';
-E_NOTATION_E: 'E';
-LETTER_NO_E: [a-df-zA-DF-Z]; // exclude e for exponential function and e notation
-
-DIFFERENTIAL: 'd' WS_CHAR*? (LETTER | '\\' LETTER+);
+LETTER: [a-zA-Z];
 
 NUMBER:
     DIGIT+ (COMMA DIGIT DIGIT DIGIT)*
@@ -164,7 +159,7 @@ FRACTION_NUMBER: CMD_FRAC L_BRACE
 
 SCI_NOTATION_NUMBER: NUMBER CMD_TIMES ' 10' CARET (DIGIT | L_BRACE SUB? NUMBER R_BRACE);
 
-E_NOTATION: NUMBER E_NOTATION_E (SUB | ADD)? DIGIT+;
+E_NOTATION: (NUMBER | VARIABLE) 'E' (SUB | ADD)? (DIGIT+ | VARIABLE);
 
 fragment PERCENT_SIGN: '\\%';
 PERCENT_NUMBER: NUMBER PERCENT_SIGN;
@@ -225,6 +220,9 @@ fragment GREEK_LETTER:
     '\\Omega' |
     '\\omega';
 GREEK_CMD: GREEK_LETTER [ ]?;
+
+EXP_E: '\\exponentialE';
+DIFFERENTIAL_D: '\\differentialD' [ ]?;
 
 fragment PI: '\\pi' [ ]?;
 fragment INFTY_CMD: '\\infty' [ ]?;
@@ -430,11 +428,23 @@ accent:
     accent_symbol
     L_BRACE base=expr R_BRACE;
 
-atom_expr: (LETTER_NO_E | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
-atom: atom_expr | SYMBOL | NUMBER | SCI_NOTATION_NUMBER | FRACTION_NUMBER | PERCENT_NUMBER | E_NOTATION | DIFFERENTIAL | mathit | VARIABLE | COMPLEX_NUMBER_POLAR_ANGLE;
-
+mathit_text: LETTER+;
 mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
-mathit_text: (LETTER_NO_E | E_NOTATION_E | EXP_E)+;
+
+atom_expr: DIFFERENTIAL_D? (LETTER | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
+
+atom:
+    atom_expr
+    | SYMBOL
+    | NUMBER
+    | SCI_NOTATION_NUMBER
+    | FRACTION_NUMBER
+    | PERCENT_NUMBER
+    | E_NOTATION
+    | DIFFERENTIAL_D
+    | VARIABLE
+    | COMPLEX_NUMBER_POLAR_ANGLE
+    | mathit;
 
 frac:
     CMD_FRAC L_BRACE
@@ -462,7 +472,7 @@ subeq: UNDERSCORE L_BRACE equality R_BRACE;
 
 limit_sub:
     UNDERSCORE L_BRACE
-    (LETTER_NO_E | GREEK_CMD)
+    (LETTER | GREEK_CMD)
     LIM_APPROACH_SYM
     expr (CARET L_BRACE (ADD | SUB) R_BRACE)?
     R_BRACE;
@@ -507,16 +517,13 @@ func:
     (subexpr? supexpr? | supexpr? subexpr?)
     (L_LEFT? L_PAREN func_args R_RIGHT? R_PAREN | ML_LEFT? L_PAREN func_args MR_RIGHT? R_PAREN)
 
-    // Do not do arbitrary functions but see as multiplications
-    /*| (LETTER_NO_E | SYMBOL) subexpr? // e.g. f(x)
-    L_PAREN args R_PAREN
-
-    | (LETTER_NO_E | SYMBOL) subexpr? // e.g. f(x)
-    L_LEFT L_PAREN args R_RIGHT R_PAREN*/
+    // e.g. f(x)
+    // | LETTER  subexpr?
+    // (L_LEFT? L_PAREN func_args R_RIGHT?  R_PAREN | ML_LEFT? L_PAREN func_args MR_RIGHT? R_PAREN)
 
     | FUNC_INT
     (subexpr supexpr | supexpr subexpr | (UNDERSCORE L_BRACE R_BRACE) (CARET L_BRACE R_BRACE) | (CARET L_BRACE R_BRACE) (UNDERSCORE L_BRACE R_BRACE) )?
-    (additive? DIFFERENTIAL | frac | additive)
+    expr
 
     | FUNC_SQRT
     (L_BRACKET root=expr R_BRACKET)?

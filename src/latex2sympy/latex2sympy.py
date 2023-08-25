@@ -414,7 +414,11 @@ class LatexToSympy:
 
             # find the atom's text
             atom_text = ''
-            if type == LATEXLexerToken.LETTER_NO_E:
+            if self.has_type_or_token(atom_expr, LATEXLexerToken.DIFFERENTIAL_D):
+                letter = self.get_token(atom_expr, LATEXLexerToken.LETTER)
+                greek_cmd = self.get_token(atom_expr, LATEXLexerToken.GREEK_CMD)
+                atom_text = 'differentialD-' + (letter.get('text') if letter is not None else greek_cmd.get('text')[1:].strip())
+            elif type == LATEXLexerToken.LETTER:
                 atom_text = atom_expr.get('text')
             elif type == LATEXLexerToken.GREEK_CMD:
                 atom_text = atom_expr.get('text')[1:].strip()
@@ -483,30 +487,16 @@ class LatexToSympy:
                 raise Exception('Unrecognized symbol')
         elif self.has_type_or_token(atom, LATEXLexerToken.NUMBER):
             s = atom.get('text').replace(',', '')
-            try:
-                sr = sympy.Rational(s)
-                return sr
-            except (TypeError, ValueError):  # pragma: no cover
-                return sympy.Number(s)
+            return self.try_convert_rational(s)
         elif self.has_type_or_token(atom, LATEXLexerToken.SCI_NOTATION_NUMBER):
             s = atom.get('text')
             s_parts = s.split('\\times 10^')
             s1 = s_parts[0].replace(',', '')
-            try:
-                n1 = sympy.Rational(s1)
-            except (TypeError, ValueError):  # pragma: no cover
-                n1 = sympy.Number(s1)
+            n1 = self.try_convert_rational(s1)
             s2 = s_parts[1].replace('{', '').replace(',', '').replace('}', '')
-            try:
-                n2 = sympy.Rational(s2)
-            except (TypeError, ValueError):  # pragma: no cover
-                n2 = sympy.Number(s2)
+            n2 = self.try_convert_rational(s2)
             n_exp = sympy.Mul(n1, sympy.Pow(10, n2))
-            try:
-                n = sympy.Rational(n_exp)
-            except (TypeError, ValueError):  # pragma: no cover
-                n = sympy.Number(n_exp)
-            return n
+            return self.try_convert_rational(n_exp)
         elif self.has_type_or_token(atom, LATEXLexerToken.FRACTION_NUMBER):
             s = atom.get('text').replace('\\frac{', '').replace('}{', '/').replace('}', '').replace(',', '')
             try:
@@ -515,27 +505,22 @@ class LatexToSympy:
             except ZeroDivisionError:
                 # preserve the divide by zero as an expression
                 s_parts = s.split('/')
-                try:
-                    p = sympy.Rational(s_parts[0])
-                except (TypeError, ValueError):  # pragma: no cover
-                    p = sympy.Number(s_parts[0])
-                try:
-                    q = sympy.Rational(s_parts[1])
-                except (TypeError, ValueError):  # pragma: no cover
-                    q = sympy.Number(s_parts[1])
+                p = self.try_convert_rational(s_parts[0])
+                q = self.try_convert_rational(s_parts[1])
                 return sympy.Mul(p, sympy.Pow(q, -1, evaluate=False), evaluate=False)
             except (TypeError, ValueError):  # pragma: no cover
                 return sympy.Number(s)
         elif self.has_type_or_token(atom, LATEXLexerToken.E_NOTATION):
-            s = atom.get('text').replace(',', '')
-            try:
-                sr = sympy.Rational(s)
-                return sr
-            except (TypeError, ValueError):  # pragma: no cover
-                return sympy.Number(s)
-        elif self.has_type_or_token(atom, LATEXLexerToken.DIFFERENTIAL):
-            var = self.get_differential_var(atom.get('text'))
-            return sympy.Symbol('d' + var.name, real=True, positive=True)
+            text = atom.get('text').replace(',', '')
+            parts = text.split('E')
+
+            # parse variables if either part is a variable
+            if '\\variable' in parts[0] or '\\variable' in parts[1]:
+                v1 = process_sympy(parts[0], variable_values=self.variable_values) if '\\variable' in parts[0] else self.try_convert_rational(parts[0])
+                v2 = process_sympy(parts[1], variable_values=self.variable_values) if '\\variable' in parts[1] else self.try_convert_rational(parts[1])
+                return sympy.Mul(v1, sympy.Pow(10, v2, evaluate=False), evaluate=False)
+
+            return self.try_convert_rational(text)
         elif 'mathit' in atom:
             text = atom.get('mathit').get('mathit_text').get('text')
             return sympy.Symbol(text, real=True, positive=True)
@@ -567,10 +552,7 @@ class LatexToSympy:
             return symbol
         elif self.has_type_or_token(atom, LATEXLexerToken.PERCENT_NUMBER):
             text = atom.get('text').replace('\\%', '').replace(',', '')
-            try:
-                number = sympy.Rational(text)
-            except (TypeError, ValueError):  # pragma: no cover
-                number = sympy.Number(text)
+            number = self.try_convert_rational(text)
             percent = sympy.Rational(number, 100)
             return percent
         elif self.has_type_or_token(atom, LATEXLexerToken.COMPLEX_NUMBER_POLAR_ANGLE):
@@ -589,28 +571,35 @@ class LatexToSympy:
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
 
+    def try_convert_rational(self, text):
+        try:
+            return sympy.Rational(text)
+        except (TypeError, ValueError):  # pragma: no cover
+            return sympy.Number(text)
+
     def convert_frac(self, frac):
         frac_upper = frac.get('upper')
         frac_lower = frac.get('lower')
 
-        if (frac_lower.get('start') == frac_lower.get('stop') and frac_lower.get('start').get('type') == LATEXLexerToken.DIFFERENTIAL):
-            wrt_text = self.get_differential_var_str(frac_lower.get('start').get('text'))
-            wrt = sympy.Symbol(wrt_text, real=True, positive=True)
-            if (frac_upper.get('start') == frac_upper.get('stop') and
-                frac_upper.get('start').get('type') == LATEXLexerToken.LETTER_NO_E and
-                    frac_upper.get('start').get('text') == 'd'):
+        expr_lower = self.convert_expr(frac_lower)
+
+        if frac_upper.get('start').get('type') == LATEXLexerToken.DIFFERENTIAL_D and self.is_differential_var(expr_lower):
+            wrt = self.get_differential_var(expr_lower)
+            # fraction upper only contains `\differentialD`, don't call `convert_expr`
+            if frac_upper.get('start') == frac_upper.get('stop'):
                 return [wrt]
+            expr_upper = self.convert_expr(frac_upper)
+            if self.is_differential_var(expr_upper):
+                diff_var = self.get_differential_var(expr_upper)
+            else:  # pragma: no cover
+                raise Exception('Unrecognized differential')
+            return sympy.Derivative(diff_var, wrt)
 
-            upper_text = frac_upper.get('text')
-            expr_top = process_sympy(upper_text[1:])
-            return sympy.Derivative(expr_top, wrt)
-
-        expr_top = self.convert_expr(frac.get('upper'))
-        expr_bot = self.convert_expr(frac.get('lower'))
-        if expr_top.is_Matrix or expr_bot.is_Matrix:
-            return sympy.MatMul(expr_top, sympy.Pow(expr_bot, -1, evaluate=False), evaluate=False)
+        expr_upper = self.convert_expr(frac_upper)
+        if expr_upper.is_Matrix or expr_lower.is_Matrix:
+            return sympy.MatMul(expr_upper, sympy.Pow(expr_lower, -1, evaluate=False), evaluate=False)
         else:
-            return sympy.Mul(expr_top, sympy.Pow(expr_bot, -1, evaluate=False), evaluate=False)
+            return sympy.Mul(expr_upper, sympy.Pow(expr_lower, -1, evaluate=False), evaluate=False)
 
     def convert_binom(self, binom):
         expr_top = self.convert_expr(binom.get('expr')[0])
@@ -749,31 +738,18 @@ class LatexToSympy:
             return self.convert_mp(arg.get('mp_nofunc'))
 
     def handle_integral(self, func):
-        if 'additive' in func:
-            integrand = self.convert_add(func.get('additive'))
-        elif 'frac' in func:
-            integrand = self.convert_frac(func.get('frac'))
-        else:
-            integrand = 1
+        integrand = self.convert_expr(func.get('expr'))
 
         int_var = None
-        differential = self.get_token(func, LATEXLexerToken.DIFFERENTIAL)
-        if differential is not None:
-            int_var = self.get_differential_var(differential.get('text'))
+        for sym in integrand.atoms(sympy.Symbol):
+            if self.is_differential_var(sym):
+                int_var = self.get_differential_var(sym)
+                int_sym = sym
+        if int_var:
+            integrand = integrand.subs(int_sym, 1)
         else:
-            for sym in integrand.atoms(sympy.Symbol):
-                s = str(sym)
-                if len(s) > 1 and s[0] == 'd':
-                    if s[1] == '\\':  # pragma: no cover
-                        int_var = sympy.Symbol(s[2:], real=True, positive=True)
-                    else:
-                        int_var = sympy.Symbol(s[1:], real=True, positive=True)
-                    int_sym = sym
-            if int_var:
-                integrand = integrand.subs(int_sym, 1)
-            else:
-                # Assume dx by default
-                int_var = sympy.Symbol('x', real=True, positive=True)
+            # Assume dx by default
+            int_var = sympy.Symbol('x', real=True, positive=True)
 
         if 'subexpr' in func:
             subexpr = func.get('subexpr')
@@ -817,10 +793,10 @@ class LatexToSympy:
 
     def handle_limit(self, func):
         sub = func.get('limit_sub')
-        letter_no_e = self.get_token(sub, LATEXLexerToken.LETTER_NO_E)
+        letter = self.get_token(sub, LATEXLexerToken.LETTER)
         greek_cmd = self.get_token(sub, LATEXLexerToken.GREEK_CMD)
-        if letter_no_e is not None:
-            var = sympy.Symbol(letter_no_e.get('text'), real=True, positive=True)
+        if letter is not None:
+            var = sympy.Symbol(letter.get('text'), real=True, positive=True)
         elif greek_cmd is not None:
             var = sympy.Symbol(greek_cmd.get('text')[1:].strip(), real=True, positive=True)
         else:  # pragma: no cover
@@ -876,20 +852,12 @@ class LatexToSympy:
         '''
         return sympy.functions.ceiling(expr, evaluate=False)
 
-    def get_differential_var(self, d):
-        text = self.get_differential_var_str(d)
-        return sympy.Symbol(text, real=True, positive=True)
+    def is_differential_var(self, expr):
+        return isinstance(expr, sympy.Symbol) and len(expr.name) > 14 and expr.name[:14] == 'differentialD-'
 
-    def get_differential_var_str(self, text):
-        for i in range(1, len(text)):  # pragma: no cover - loop break not recognized correctly
-            c = text[i]
-            if not (c == ' ' or c == '\r' or c == '\n' or c == '\t'):
-                idx = i
-                break
-        text = text[idx:]
-        if text[0] == '\\':
-            text = text[1:]
-        return text
+    def get_differential_var(self, expr):
+        symbol_name = expr.name[14:]
+        return sympy.Symbol(symbol_name, real=True, positive=True)
 
     def get_token(self, node, type):
         tokens = node.get('tokens') if 'tokens' in node else None
