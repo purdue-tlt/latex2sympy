@@ -4,6 +4,9 @@ import re
 import sympy
 from latex2sympy.lib import parseToJson, LATEXLexerToken
 
+# replacement for `sympy.S.EmptySet` which can be printed to a string, or used in expression comparisons
+EmptySet = sympy.Symbol('emptyset')
+
 
 def process_sympy(latex: str, variable_values={}):
     instance = LatexToSympy(latex, variable_values)
@@ -287,7 +290,7 @@ class LatexToSympy:
 
         res = self.convert_postfix(arr[i])
 
-        if isinstance(res, sympy.Expr) or isinstance(res, sympy.Matrix) or res is sympy.S.EmptySet:
+        if isinstance(res, sympy.Expr) or isinstance(res, sympy.Matrix) or res is EmptySet:
             if i == len(arr) - 1:
                 return res  # nothing to multiply by
             else:
@@ -477,7 +480,7 @@ class LatexToSympy:
             elif s == '\\pi':
                 return sympy.pi
             elif s == '\\emptyset':
-                return sympy.S.EmptySet
+                return EmptySet
             elif s == '\\imaginaryI' or s == '\\imaginaryJ':
                 return sympy.I
             else:  # pragma: no cover
