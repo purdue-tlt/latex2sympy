@@ -1,6 +1,5 @@
-from .context import assert_equal, process_sympy, _Add, _Mul, _Pow
-import pytest
-import hashlib
+from .context import assert_equal, _Add, _Mul, _Pow, get_variable_symbol
+from latex2sympy.latex2sympy import EmptySet
 from sympy import (
     E, I, oo, pi, sqrt, root, Symbol, Add, Mul, Pow, Abs, factorial, log, Eq, Ne, S, Rational, Integer, UnevaluatedExpr,
     sin, cos, tan, sinh, cosh, tanh, asin, acos, atan, asinh, acosh, atanh,
@@ -152,15 +151,14 @@ class TestAllGood(object):
         ("-\\infty \\%", -oo),
         ("-\\$\\infty ", -oo),
         ("\\lim _{x\\to \\infty }\\frac{1}{x}", Limit(_Mul(1, _Pow(x, -1)), x, oo)),
-        ("\\frac{d}{dx}x", Derivative(x, x)),
-        ("\\frac{d}{d x}x", Derivative(x, x)),
-        ("\\frac{d}{dt}x", Derivative(x, t)),
-        ("\\frac{dy}{dt}x", _Mul(x, Derivative(y, t))),
+        ("\\frac{\\differentialD }{\\differentialD x}x", Derivative(x, x)),
+        ("\\frac{\\differentialD }{\\differentialD t}x", Derivative(x, t)),
+        ("\\frac{\\differentialD y}{\\differentialD t}x", _Mul(x, Derivative(y, t))),
         # ("f(x)", f(x)),
         # ("f(x, y)", f(x, y)),
         # ("f(x, y, z)", f(x, y, z)),
-        # ("\\frac{d f(x)}{dx}", Derivative(f(x), x)),
-        # ("\\frac{d\\theta(x)}{dx}", Derivative(theta(x), x)),
+        # ("\\frac{d f(x)}{\\differentialD x}", Derivative(f(x), x)),
+        # ("\\frac{d\\theta(x)}{\\differentialD x}", Derivative(theta(x), x)),
         ("|x|", _Abs(x)),
         ("\\left|x\\right|", _Abs(x)),
         ("||x||", _Abs(_Abs(x))),
@@ -172,33 +170,38 @@ class TestAllGood(object):
         ("\\frac{\\pi}{3}", _Mul(pi, _Pow(3, -1))),
         ("\\sin{\\frac{\\pi }{2}}", sin(_Mul(pi, _Pow(2, -1)), evaluate=False)),
         ("a+b\\imaginaryI ", a + I * b),
-        ("e^{\\imaginaryI \\pi }", exp(_Mul(I, pi), evaluate=False)),
-        ("e^\\pi ", exp(pi, evaluate=False)),
-        ("\\int xdx", Integral(x, x)),
-        ("\\int xd\\theta ", Integral(x, theta)),
-        ("\\int (x^2 - y)dx", Integral(x**2 - y, x)),
-        ("\\int x+adx", Integral(_Add(x, a), x)),
-        ("\\int da", Integral(1, a)),
-        ("\\int _0^7 dx", Integral(1, (x, 0, 7))),
-        ("\\int _a^b x dx", Integral(x, (x, a, b))),
-        ("\\int ^b_a x dx", Integral(x, (x, a, b))),
-        ("\\int _{a}^b x dx", Integral(x, (x, a, b))),
-        ("\\int ^{b}_a x dx", Integral(x, (x, a, b))),
-        ("\\int _{a}^{b} x dx", Integral(x, (x, a, b))),
-        ("\\int _{  }^{}x dx", Integral(x, x)),
-        ("\\int ^{  }_{ }x dx", Integral(x, x)),
-        ("\\int ^{b}_{a} x dx", Integral(x, (x, a, b))),
-        ("\\int ^\\alpha _\\theta  x dx", Integral(x, (x, theta, alpha))),
+        ("\\exponentialE ^{\\imaginaryI \\pi }", exp(_Mul(I, pi), evaluate=False)),
+        ("\\exponentialE ^\\pi ", exp(pi, evaluate=False)),
+        ("\\int x\\differentialD x", Integral(x, x)),
+        ("\\int x\\differentialD \\theta ", Integral(x, theta)),
+        ("\\int (x^2 - y)\\differentialD x", Integral(x**2 - y, x)),
+        ("\\int x+a\\differentialD x", Integral(_Add(x, a), x)),
+        ("\\int \\differentialD a", Integral(1, a)),
+        ("\\int _0^7 \\differentialD x", Integral(1, (x, 0, 7))),
+        ("\\int _a^b x \\differentialD x", Integral(x, (x, a, b))),
+        ("\\int ^b_a x \\differentialD x", Integral(x, (x, a, b))),
+        ("\\int _{a}^b x \\differentialD x", Integral(x, (x, a, b))),
+        ("\\int ^{b}_a x \\differentialD x", Integral(x, (x, a, b))),
+        ("\\int _{a}^{b} x \\differentialD x", Integral(x, (x, a, b))),
+        ("\\int _{  }^{}x \\differentialD x", Integral(x, x)),
+        ("\\int ^{  }_{ }x \\differentialD x", Integral(x, x)),
+        ("\\int ^{b}_{a} x \\differentialD x", Integral(x, (x, a, b))),
+        ("\\int ^\\alpha _\\theta  x \\differentialD x", Integral(x, (x, theta, alpha))),
         # ("\\int_{f(a)}^{f(b)} f(z) dz", Integral(f(z), (z, f(a), f(b)))),
         ("\\int (x+a)", Integral(_Add(x, a), x)),
-        ("\\int a + b + c dx", Integral(Add(a, b, c, evaluate=False), x)),
-        ("\\int \\frac{dz}{z}", Integral(Pow(z, -1), z)),
-        ("\\int \\frac{d\\theta }{\\theta }", Integral(Pow(theta, -1), theta)),
-        ("\\int \\frac{3 dz}{z}", Integral(3 * Pow(z, -1), z)),
-        ("\\int \\frac{1}{x} dx", Integral(_Mul(1, Pow(x, -1)), x)),
-        ("\\int \\frac{1}{a} + \\frac{1}{b} dx", Integral(_Add(_Mul(1, _Pow(a, -1)), _Mul(1, Pow(b, -1))), x)),
-        ("\\int \\frac{3 \\cdot d\\theta }{\\theta }", Integral(3 * _Mul(1, _Pow(theta, -1)), theta)),
-        ("\\int \\frac{1}{x}+1dx", Integral(_Add(_Mul(1, _Pow(x, -1)), 1), x)),
+        ("\\int a + b + c \\differentialD x", Integral(_Add(a, b, c), x)),
+        ("\\int \\frac{\\differentialD z}{z}", Integral(_Pow(z, -1), z)),
+        ("\\int \\frac{\\differentialD \\theta }{\\theta }", Integral(_Pow(theta, -1), theta)),
+        ("\\int \\frac{3\\differentialD z}{z}", Integral(3 * _Pow(z, -1), z)),
+        ("\\int \\frac{1}{x}\\differentialD x", Integral(_Pow(x, -1), x)),
+        ("\\int \\frac{1}{a}+\\frac{1}{b} \\differentialD x", Integral(_Add(_Pow(a, -1), _Pow(b, -1)), x)),
+        ("\\int \\frac{3 \\cdot \\differentialD \\theta }{\\theta }", Integral(3 * _Mul(1, _Pow(theta, -1)), theta)),
+        ("\\int \\frac{1}{x}+1\\differentialD x", Integral(_Add(_Mul(1, _Pow(x, -1)), 1), x)),
+
+        # differentials with subscripts
+        ("\\int \\differentialD x_1", Integral(1, Symbol('x_1', real=True, positive=True))),
+        ("\\frac{\\differentialD }{\\differentialD x_1}x_1", Derivative(Symbol('x_1', real=True, positive=True), Symbol('x_1', real=True, positive=True))),
+
         ("x_0", Symbol('x_0', real=True, positive=True)),
         ("x_{1}", Symbol('x_1', real=True, positive=True)),
         ("x_a", Symbol('x_a', real=True, positive=True)),
@@ -253,7 +256,7 @@ class TestAllGood(object):
         ("\\log _{a^2}x", _log(x, _Pow(a, 2))),
         ("[x]", x),
         ("[a+b]", _Add(a, b)),
-        ("\\frac{d}{dx}[\\tan x]", Derivative(tan(x), x)),
+        ("\\frac{\\differentialD }{\\differentialD x}[\\tan x]", Derivative(tan(x), x)),
         ("2\\overline{x}", 2 * Symbol('xbar', real=True, positive=True)),
         ("2\\overline{x}_n", 2 * Symbol('xbar_n', real=True, positive=True)),
         ("\\frac{x}{\\overline{x}_n}", x / Symbol('xbar_n', real=True, positive=True)),
@@ -280,10 +283,19 @@ class TestAllGood(object):
         # scientific notation
         ("2.5\\times 10^2", Rational(250)),
         ("1,500\\times 10^{-1}", Rational(150)),
+        # sci notation with variables
+        ("\\variable{a}\\times 10^{\\variable{b}}", _Mul(get_variable_symbol('a'), _Pow(10, get_variable_symbol('b')))),
 
         # e notation
         ("2.5E2", Rational(250)),
         ("1,500E-1", Rational(150)),
+        # e notation with variables
+        ("\\variable{a}E3", _Mul(get_variable_symbol('a'), _Pow(10, 3))),
+        ("5E\\variable{b}", _Mul(5, _Pow(10, get_variable_symbol('b')))),
+        ("\\variable{a}E\\variable{b}", _Mul(get_variable_symbol('a'), _Pow(10, get_variable_symbol('b')))),
+
+        # "E" as a symbol
+        ('ER+E_C', Add(Mul(Symbol('E', real=True, positive=True), Symbol('R', real=True, positive=True), evaluate=False), Symbol('E_C', real=True, positive=True), evaluate=False)),
 
         # multiplication without cmd
         ("2x2y", Mul(2, x, 2, y, evaluate=False)),
@@ -314,8 +326,9 @@ class TestAllGood(object):
         ("0.05\\%", Rational(5, 10000)),
 
         # empty set
-        ("\\emptyset", S.EmptySet),
-        ("\\emptyset ", S.EmptySet),
+        ("\\emptyset", EmptySet),
+        ("\\emptyset ", EmptySet),
+        ("1+\\emptyset ", _Add(1, EmptySet)),
 
         # divide by zero
         ("\\frac{1}{0}", _Mul(1, _Pow(0, -1))),

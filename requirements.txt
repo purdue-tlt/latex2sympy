@@ -6,5 +6,5 @@
 #
 mpmath==1.2.1
     # via sympy
-sympy @ git+https://github.com/purdue-tlt/sympy.git@1.12-equals-fix
+sympy==1.12
     # via -r requirements.in

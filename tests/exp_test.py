@@ -5,39 +5,30 @@ x = Symbol('x', real=True, positive=True)
 y = Symbol('y', real=True, positive=True)
 
 
-def test_exp_letter():
-    assert_equal("e", E)
-    assert_equal("e", exp(1))
-
-
-def test_exp_letter_numeric():
-    assert_equal("e^{1}", exp(1, evaluate=False))
-    assert_equal("e^{3}", exp(3, evaluate=False))
-
-
-def test_exp_letter_symbol():
-    assert_equal("e^{x}", exp(x, evaluate=False))
-
-
-def test_exp_letter_symbol_expr():
-    assert_equal("e^{x+y}", exp(x + y, evaluate=False))
-
-
-def test_exp_letter_symbol_expr_group():
-    assert_equal("e^{(x+y)}", exp(x + y, evaluate=False))
-
-
-def test_exp_letter_expr():
-    assert_equal("\\sin(x)*e^{x}", sin(x, evaluate=False) * exp(x, evaluate=False))
-
-
 def test_exp_command():
-    assert_equal("\\exponentialE", E)
-    assert_equal("\\exponentialE", exp(1))
+    assert_equal("\\exponentialE ", E)
+    assert_equal("\\exponentialE ", exp(1))
 
 
-def test_exp_command_expression():
-    assert_equal("\\exponentialE^{3}", exp(3, evaluate=False))
+def test_exp_command_numeric():
+    assert_equal("\\exponentialE ^{1}", exp(1, evaluate=False))
+    assert_equal("\\exponentialE ^{3}", exp(3, evaluate=False))
+
+
+def test_exp_command_symbol():
+    assert_equal("\\exponentialE ^{x}", exp(x, evaluate=False))
+
+
+def test_exp_command_symbol_expr():
+    assert_equal("\\exponentialE ^{x+y}", exp(x + y, evaluate=False))
+
+
+def test_exp_command_symbol_expr_group():
+    assert_equal("\\exponentialE ^{(x+y)}", exp(x + y, evaluate=False))
+
+
+def test_exp_command_expr():
+    assert_equal("\\sin(x)*\\exponentialE ^{x}", sin(x, evaluate=False) * exp(x, evaluate=False))
 
 
 def test_exp_command_multiplied():
