@@ -144,9 +144,10 @@ ACCENT_BAR: '\\bar';
 
 fragment WS_CHAR: [ \t\r\n];
 fragment DIGIT: [0-9];
+fragment SPACE: '\\: ';
 
 LETTER: [a-zA-Z];
-LETTERS: LETTER+;
+LETTERS: (LETTER | SPACE)+;
 
 NUMBER:
     DIGIT+ (COMMA DIGIT DIGIT DIGIT)*

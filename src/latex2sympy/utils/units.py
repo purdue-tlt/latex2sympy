@@ -5,6 +5,12 @@ from sympy.physics.units.prefixes import PREFIXES, BIN_PREFIXES, prefix_unit
 # combine all known prefixes into a single list
 UNIT_PREFIXES = [*PREFIXES.values(), *BIN_PREFIXES.values()]
 
+additional_unit_aliases = {
+    'hr': sympy_physics_units.h
+}
+
+additional_units = []
+
 
 def get_prefix_matches(text, exact=False):
     '''

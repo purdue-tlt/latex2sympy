@@ -243,7 +243,8 @@ class LatexToSympy:
             'comp' in list_item.get('exp') and \
             'atom' in list_item.get('exp').get('comp') and \
                 has_type_or_token(list_item.get('exp').get('comp').get('atom'), LATEXLexerToken.LETTERS):
-            atom_text = list_item.get('exp').get('comp').get('atom').get('text')
+            # get atom text without spaces
+            atom_text = list_item.get('exp').get('comp').get('atom').get('text').replace('\\: ', '')
             # split the atom text into multiple LETTER list items
             new_list_items = [{'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}} for t in list(atom_text)]
             # combine the last new list item with the `list_item`, to preserve other properties on `list_item`, e.g. "postfix_op"
@@ -422,13 +423,17 @@ class LatexToSympy:
                     subscript_text = '_' + subscript
 
             # construct the symbol using the text and optional subscript
-            atom_symbol = sympy.Symbol(atom_text + subscript_text, real=True, positive=True)
+            atom_name = atom_text + subscript_text
+            atom_symbol = None
 
-            # check if the text is a unit, and replace the symbol if matched
+            # check if the text should be parsed as a unit, and replace the symbol if matched
             if self.parse_letters_as_units:
-                unit = convert_unit('\\' + atom_text if type == LATEXLexerToken.GREEK_CMD else atom_text)
+                unit = convert_unit('\\' + atom_name if type == LATEXLexerToken.GREEK_CMD else atom_name)
                 if unit is not None:
                     atom_symbol = unit
+
+            if atom_symbol is None:
+                atom_symbol = sympy.Symbol(atom_name, real=True, positive=True)
 
             # find the atom's superscript, and return as a Pow if found
             if 'supexpr' in atom_expr:
@@ -541,11 +546,23 @@ class LatexToSympy:
             return sympy.exp(sympy.Mul(sympy.I, angle, evaluate=False), evaluate=False)
         elif self.parse_letters_as_units and has_type_or_token(atom, LATEXLexerToken.LETTERS):
             atom_text = atom.get('text')
+            # split unit on space, returning them as multiplication
+            # but only if each separate "word" is a valid SI unit
+            if '\\: ' in atom_text:
+                atom_text_split = atom_text.split('\\: ')
+                units = []
+                for t in atom_text_split:
+                    unit = convert_unit(t)
+                    if unit is not None:
+                        units.append(unit)
+                if len(units) == len(atom_text_split):
+                    return sympy.Mul(*units, evaluate=False)
+
             unit = convert_unit(atom_text)
             if unit is not None:
                 return unit
-            # if not a unit, return the letters as a single symbol
-            return sympy.Symbol(atom_text, real=True, positive=True)
+
+            raise Exception('Unrecognized unit')
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
 
