@@ -1,8 +1,8 @@
 from .context import _Mul, _Pow, assert_equal
 from latex2sympy.latex2sympy import process_sympy
+from latex2sympy.definitions.units import cal, lbf, slug, degC, degF
 from latex2sympy.utils.units import create_prefixed_unit
 import pytest
-from sympy import Symbol
 import sympy.physics.units as sympy_physics_units
 from sympy.physics.units.prefixes import PREFIXES, BIN_PREFIXES
 from sympy.physics.units.definitions.unit_definitions import gauss, Ci
@@ -28,12 +28,12 @@ unit_examples = [
     ('kg*m^{2}s^{-3}', _Mul(sympy_physics_units.kg, _Pow(sympy_physics_units.m, 2), _Pow(sympy_physics_units.s, -3))),
     # space as either multiplication or as part of custom unit
     ('kg\\: m', _Mul(sympy_physics_units.kg, sympy_physics_units.m)),
+    # only allow certain constants
+    ('c', sympy_physics_units.c)
 ]
 
 bad_unit_examples = [
-    # do not allow certain constants
-    'c',
-    # non si-units
+    # custom units
     'apples',
     'apples\\times grams',
     'pen\\times pineapple\\times apple\\times pen',
@@ -41,35 +41,32 @@ bad_unit_examples = [
 ]
 
 suffix_unit_examples = [
+    # TODO: what about when no units are parsed?
+    # ('1', sympy_physics_units.g),
     ('\\%', sympy_physics_units.percent),
     ('\\degree ', sympy_physics_units.deg),
-    # TODO: degree, degree C, degree F
-    ('\\degree \\: C', sympy_physics_units.g),
-    ('\\degree C', sympy_physics_units.g),
-    ('\\degree C\\: ', sympy_physics_units.g),
-    ('\\degree C\\/W', sympy_physics_units.g),
-    ('\\degree s', sympy_physics_units.g),
-    ('\\frac{\\degree C}{W}', sympy_physics_units.g),
+    # TODO: degree C, degree F
+    ('\\degree \\: C', degC),
+    ('\\degree C', degC),
+    ('\\degree C\\: ', degC),
+    ('\\degree C/W', _Mul(degC, _Pow(sympy_physics_units.W, -1))),
+    ('\\degree F', degF),
+    ('\\frac{\\degree C}{W}', _Mul(degC, _Pow(sympy_physics_units.W, -1))),
     ('\\frac{\\mu g}{m^{3}}', _Mul(sympy_physics_units.ug, _Pow(_Pow(sympy_physics_units.m, 3), -1))),
     ('\\frac{kg}{m^{3}}', _Mul(sympy_physics_units.kg, _Pow(_Pow(sympy_physics_units.m, 3), -1))),
     ('\\frac{kg}{s}', _Mul(sympy_physics_units.kg, _Pow(sympy_physics_units.s, -1))),
-    ('\\frac{kg\\: m}{s}', _Mul(sympy_physics_units.kg, sympy_physics_units.m, _Pow(sympy_physics_units.s, -1))),
+    ('\\frac{kg\\: m}{s}', _Mul(_Mul(sympy_physics_units.kg, sympy_physics_units.m), _Pow(sympy_physics_units.s, -1))),
     ('\\frac{km}{hr}', _Mul(sympy_physics_units.km, _Pow(sympy_physics_units.h, -1))),
-    ('\\frac{1}{\\degree C}', _Mul(1, _Pow(sympy_physics_units.g, -1))),
+    ('\\frac{1}{\\degree C}', _Mul(1, _Pow(degC, -1))),
     ('\\frac{1}{m}', _Mul(1, _Pow(sympy_physics_units.m, -1))),
     ('\\frac{1}{s}', _Mul(1, _Pow(sympy_physics_units.s, -1))),
     ('\\frac{A}{\\mu s}', _Mul(sympy_physics_units.A, _Pow(sympy_physics_units.us, -1))),
-    # TODO: dB, decade, octave
-    ('\\frac{dB}{decade}', _Mul(sympy_physics_units.g, _Pow(sympy_physics_units.g, -1))),
-    ('\\frac{dB}{octave}', _Mul(sympy_physics_units.g, _Pow(sympy_physics_units.g, -1))),
     ('\\frac{ft}{s}', _Mul(sympy_physics_units.ft, _Pow(sympy_physics_units.s, -1))),
-    ('\\frac{ft^{3}}{s}', _Mul(_Pow(sympy_physics_units.g, 3), _Pow(sympy_physics_units.g, -1))),
+    ('\\frac{ft^{3}}{s}', _Mul(_Pow(sympy_physics_units.ft, 3), _Pow(sympy_physics_units.s, -1))),
     ('\\frac{g}{mol}', _Mul(sympy_physics_units.g, _Pow(sympy_physics_units.mol, -1))),
-    # TODO: gauss vs. gigasecond
-    ('\\frac{Gs}{A}', _Mul(gauss, _Pow(sympy_physics_units.mol, -1))),
     ('\\frac{J}{kg\\: K}', _Mul(sympy_physics_units.joule, _Pow(_Mul(sympy_physics_units.kg, sympy_physics_units.K), -1))),
     ('\\frac{kJ}{mol}', _Mul(create_prefixed_unit(sympy_physics_units.joule, PREFIXES['k']), _Pow(sympy_physics_units.mol, -1))),
-    ('\\frac{lbf}{ft^{2}}', _Mul(sympy_physics_units.g, _Pow(_Pow(sympy_physics_units.ft, 2), -1))),
+    ('\\frac{lbf}{ft^{2}}', _Mul(lbf, _Pow(_Pow(sympy_physics_units.ft, 2), -1))),
     ('\\frac{m}{s}', _Mul(sympy_physics_units.m, _Pow(sympy_physics_units.s, -1))),
     ('\\frac{m}{s^{2}}', _Mul(sympy_physics_units.m, _Pow(_Pow(sympy_physics_units.s, 2), -1))),
     ('\\frac{m^{3}}{s}', _Mul(_Pow(sympy_physics_units.m, 3), _Pow(sympy_physics_units.s, -1))),
@@ -77,8 +74,6 @@ suffix_unit_examples = [
     ('\\frac{mV}{\\mu s}', _Mul(create_prefixed_unit(sympy_physics_units.V, PREFIXES['m']), _Pow(sympy_physics_units.us, -1))),
     ('\\frac{N}{m}', _Mul(sympy_physics_units.N, _Pow(sympy_physics_units.m, -1))),
     ('\\frac{N}{m^{2}}', _Mul(sympy_physics_units.N, _Pow(_Pow(sympy_physics_units.m, 2), -1))),
-    ('\\frac{R}{hr}', _Mul(sympy_physics_units.g, _Pow(sympy_physics_units.h, -1))),
-    ('\\frac{Rad}{s}', _Mul(sympy_physics_units.g, _Pow(sympy_physics_units.s, -1))),
     ('\\frac{rad}{sec}', _Mul(sympy_physics_units.rad, _Pow(sympy_physics_units.s, -1))),
     ('\\frac{T}{A}', _Mul(sympy_physics_units.T, _Pow(sympy_physics_units.A, -1))),
     ('\\frac{V}{\\mu s}', _Mul(sympy_physics_units.V, _Pow(sympy_physics_units.us, -1))),
@@ -100,8 +95,6 @@ suffix_unit_examples = [
     ('kg\\: m^{2}', _Mul(sympy_physics_units.kg, _Pow(sympy_physics_units.m, 2))),
     ('mm^{2}', _Pow(sympy_physics_units.mm, 2)),
     ('sec', sympy_physics_units.s),
-    # TODO: what about when no units are parsed?
-    # ('1', sympy_physics_units.g),
     ('1/hr', _Mul(1, _Pow(sympy_physics_units.h, -1))),
     ('10^{-6}\\: \\frac{m^{2}}{s}', _Mul(_Pow(10, -6), _Mul(_Pow(sympy_physics_units.m, 2), sympy_physics_units.s))),
     ('A', sympy_physics_units.A),
@@ -109,22 +102,12 @@ suffix_unit_examples = [
     ('amu', sympy_physics_units.amu),
     ('atm', sympy_physics_units.atm),
     ('C', sympy_physics_units.C),
-    # TODO: cfm, cfs
-    ('cfm', sympy_physics_units.g),
-    ('cfs', sympy_physics_units.g),
     ('cm', sympy_physics_units.cm),
     ('days', sympy_physics_units.day),
-    # TODO: dB, dBV
-    ('dB', sympy_physics_units.g),
-    ('dBV', sympy_physics_units.g),
     ('deg', sympy_physics_units.deg),
-    # TODO: deg C
-    ('deg\\: \\frac{C}{W}', sympy_physics_units.g),
-    ('deg\\: C', sympy_physics_units.g),
-    ('degC', sympy_physics_units.g),
-    ('degC/W', sympy_physics_units.g),
-    ('Degrees', sympy_physics_units.g),
-    ('degrees\\: Celsius', sympy_physics_units.g),
+    ('degC', degC),
+    ('degC/W', _Mul(degC, _Pow(sympy_physics_units.W, -1))),
+    ('Degrees', sympy_physics_units.deg),
     ('eV', sympy_physics_units.eV),
     ('F', sympy_physics_units.F),
     ('Farads', sympy_physics_units.F),
@@ -132,18 +115,14 @@ suffix_unit_examples = [
     ('ft', sympy_physics_units.ft),
     ('ft/(cfm)^{2}', _Mul(sympy_physics_units.ft, _Pow(sympy_physics_units.g, -1))),
     ('ft/s', _Mul(sympy_physics_units.ft, _Pow(sympy_physics_units.s, -1))),
-    ('ft^{3}/s', _Mul(_Pow(sympy_physics_units.ft, 3), _Pow(sympy_physics_units.g, -1))),
-    ('ft3/s', _Mul(sympy_physics_units.ft, 3, _Pow(sympy_physics_units.g, -1))),
+    ('ft^{3}/s', _Mul(_Pow(sympy_physics_units.ft, 3), _Pow(sympy_physics_units.s, -1))),
+    ('ft3/s', _Mul(_Mul(sympy_physics_units.ft, 3), _Pow(sympy_physics_units.s, -1))),
     ('g', sympy_physics_units.g),
     ('g/mol', _Mul(sympy_physics_units.g, _Pow(sympy_physics_units.mol, -1))),
-    ('gpm', sympy_physics_units.g),
-    # TODO: gpm
     ('grams', sympy_physics_units.g),
     ('Gs', create_prefixed_unit(sympy_physics_units.s, PREFIXES['G'])),
     ('H', sympy_physics_units.H),
     ('hours', sympy_physics_units.h),
-    # TODO: hp
-    ('Hp', sympy_physics_units.g),
     ('hr^{-1}', _Pow(sympy_physics_units.h, -1)),
     ('hrs', sympy_physics_units.h),
     ('Hz', sympy_physics_units.Hz),
@@ -153,8 +132,7 @@ suffix_unit_examples = [
     ('J', sympy_physics_units.J),
     ('K', sympy_physics_units.K),
     ('k\\Omega ', create_prefixed_unit(sympy_physics_units.ohm, PREFIXES['k'])),
-    # TODO: cal
-    ('kcal', sympy_physics_units.g),
+    ('kcal', create_prefixed_unit(cal, PREFIXES['k'])),
     ('kg', sympy_physics_units.kg),
     ('kg/kmole', _Mul(sympy_physics_units.kg, _Pow(create_prefixed_unit(sympy_physics_units.mol, PREFIXES['k']), -1))),
     ('kHz', create_prefixed_unit(sympy_physics_units.Hz, PREFIXES['k'])),
@@ -162,8 +140,6 @@ suffix_unit_examples = [
     ('kJ/mol', _Mul(create_prefixed_unit(sympy_physics_units.J, PREFIXES['k']), _Pow(sympy_physics_units.mol, -1))),
     ('kN', create_prefixed_unit(sympy_physics_units.N, PREFIXES['k'])),
     ('kN/m', _Mul(create_prefixed_unit(sympy_physics_units.N, PREFIXES['k']), _Pow(sympy_physics_units.m, -1))),
-    # TODO: knot
-    ('knot', sympy_physics_units.g),
     ('kohms', create_prefixed_unit(sympy_physics_units.ohm, PREFIXES['k'])),
     ('kPa', create_prefixed_unit(sympy_physics_units.Pa, PREFIXES['k'])),
     ('ks', create_prefixed_unit(sympy_physics_units.s, PREFIXES['k'])),
@@ -171,26 +147,20 @@ suffix_unit_examples = [
     ('L', sympy_physics_units.L),
     ('L/day', _Mul(sympy_physics_units.L, _Pow(sympy_physics_units.day, -1))),
     ('L/hr', _Mul(sympy_physics_units.L, _Pow(sympy_physics_units.h, -1))),
-    # TODO: lb, lbs, lbf, lbf-in
     ('lb', sympy_physics_units.pound),
     ('lb/ft2', _Mul(sympy_physics_units.pound, _Pow(_Mul(sympy_physics_units.ft, 2), -1))),
-    ('lbf', sympy_physics_units.g),
-    ('lbf-in', sympy_physics_units.g),
-    ('lbf.ft', sympy_physics_units.g),
+    ('lbf', lbf),
     ('lbs', sympy_physics_units.pound),
     ('m', sympy_physics_units.m),
     ('m/s', _Mul(sympy_physics_units.m, _Pow(sympy_physics_units.s, -1))),
     ('m/s^{2}', _Mul(sympy_physics_units.m, _Pow(_Pow(sympy_physics_units.s, 2), -1))),
-    # TODO: M (mol/L)
-    ('M', sympy_physics_units.g),
     ('M\\Omega ', create_prefixed_unit(sympy_physics_units.ohm, PREFIXES['M'])),
-    ('m^{2}', _Pow(sympy_physics_units.g, 2)),
-    ('m^{2}/s^{2}', _Mul(_Pow(sympy_physics_units.g, 2), _Pow(_Pow(sympy_physics_units.s, 2), -1))),
-    ('m^{3}', _Pow(sympy_physics_units.g, 3)),
-    ('m^{3}/s', _Mul(_Pow(sympy_physics_units.g, 3), _Pow(sympy_physics_units.s, -1))),
-    ('m3/s', _Mul(sympy_physics_units.g, 3, _Pow(sympy_physics_units.s, -1))),
+    ('m^{2}', _Pow(sympy_physics_units.m, 2)),
+    ('m^{2}/s^{2}', _Mul(_Pow(sympy_physics_units.m, 2), _Pow(_Pow(sympy_physics_units.s, 2), -1))),
+    ('m^{3}', _Pow(sympy_physics_units.m, 3)),
+    ('m^{3}/s', _Mul(_Pow(sympy_physics_units.m, 3), _Pow(sympy_physics_units.s, -1))),
+    ('m3/s', _Mul(_Mul(sympy_physics_units.m, 3), _Pow(sympy_physics_units.s, -1))),
     ('mA', create_prefixed_unit(sympy_physics_units.A, PREFIXES['m'])),
-    # TODO: mb
     ('mb', create_prefixed_unit(sympy_physics_units.bar, PREFIXES['m'])),
     ('mcg', sympy_physics_units.ug),
     ('mCi', create_prefixed_unit(Ci, PREFIXES['m'])),
@@ -228,22 +198,16 @@ suffix_unit_examples = [
     ('pebibit', create_prefixed_unit(sympy_physics_units.bit, BIN_PREFIXES['Pi'])),
     ('percent', sympy_physics_units.percent),
     ('pF', create_prefixed_unit(sympy_physics_units.F, PREFIXES['p'])),
-    ('photons', sympy_physics_units.g),
     ('pounds', sympy_physics_units.pound),
-    # TODO: psi, psia
-    ('psi', sympy_physics_units.g),
-    ('psia', sympy_physics_units.g),
+    ('psi', sympy_physics_units.psi),
     ('rad/s', _Mul(sympy_physics_units.rad, _Pow(sympy_physics_units.s, -1))),
     ('rad/sec', _Mul(sympy_physics_units.rad, _Pow(sympy_physics_units.s, -1))),
     ('rad\\: /\\: sec', _Mul(sympy_physics_units.rad, _Pow(sympy_physics_units.s, -1))),
-    # TODO: rpm
-    ('rpm', sympy_physics_units.g),
     ('s', sympy_physics_units.s),
     ('s^{-1}', _Pow(sympy_physics_units.s, -1)),
     ('sec', sympy_physics_units.s),
     ('Seconds', sympy_physics_units.s),
-    # TODO: slug
-    ('slugs/ft3', _Mul(sympy_physics_units.g, _Pow(_Mul(sympy_physics_units.ft, 3), -1))),
+    ('slugs/ft3', _Mul(slug, _Pow(_Mul(sympy_physics_units.ft, 3), -1))),
     ('T', sympy_physics_units.T),
     ('uA', create_prefixed_unit(sympy_physics_units.A, PREFIXES['mu'])),
     ('uF', create_prefixed_unit(sympy_physics_units.F, PREFIXES['mu'])),
@@ -261,10 +225,42 @@ suffix_unit_examples = [
     ('yrs', sympy_physics_units.year),
 ]
 
+unsupported_unit_examples = [
+    # TODO: dB, decade, octave
+    ('\\frac{dB}{decade}', _Mul(sympy_physics_units.g, _Pow(sympy_physics_units.g, -1))),
+    ('\\frac{dB}{octave}', _Mul(sympy_physics_units.g, _Pow(sympy_physics_units.g, -1))),
+    # TODO: gauss vs. gigasecond
+    ('\\frac{Gs}{A}', _Mul(gauss, _Pow(sympy_physics_units.mol, -1))),
+    # TODO: R - https://en.wikipedia.org/wiki/Roentgen_(unit)
+    ('\\frac{R}{hr}', _Mul(sympy_physics_units.g, _Pow(sympy_physics_units.h, -1))),
+    #  TODO: Rad
+    ('\\frac{Rad}{s}', _Mul(sympy_physics_units.g, _Pow(sympy_physics_units.s, -1))),
+    # TODO: cfm, cfs
+    ('cfm', sympy_physics_units.g),
+    ('cfs', sympy_physics_units.g),
+    # TODO: dB, dBV
+    ('dB', sympy_physics_units.g),
+    ('dBV', sympy_physics_units.g),
+    # TODO: gpm
+    ('gpm', sympy_physics_units.g),
+    # TODO: hp
+    ('Hp', sympy_physics_units.g),
+    # TODO: knot
+    ('knot', sympy_physics_units.g),
+    # TODO: lbf-in, lbf.ft
+    ('lbf-in', sympy_physics_units.g),
+    ('lbf.ft', sympy_physics_units.g),
+    # TODO: M (mol/L) - conflicts with mega prefix
+    ('M', sympy_physics_units.g),
+    ('psia', sympy_physics_units.g),
+    ('rpm', sympy_physics_units.g),
+]
+
 bad_suffix_unit_examples = [
     '\\$',
     '\\$/unit',
     '\\$\\: per\\: unit',
+    '\\degree s',  # plural degrees
     'cost\\: per\\: servable\\: pound\\: \\left(EP\\right)',
     '\\frac{\\operatorname{kg}}{m^{3}}',
     '\\frac{\\operatorname{kg}}{s}',
@@ -291,7 +287,6 @@ bad_suffix_unit_examples = [
     '℃',
     '°C\\: ',
     '+\\: f\\mleft(x,y\\mright)\\text{ ; where f is a general function of x and y}',
-    '1',
     'A\\: peak',
     'ADC',
     'Ap',
@@ -307,12 +302,14 @@ bad_suffix_unit_examples = [
     'customers\\: will\\: order\\: asparagus',
     'customers\\: will\\: order\\: fresh\\: fruit',
     'customers\\: will\\: order\\: lemon-pepper\\: chicken',
+    'deg\\: C',
+    'degrees\\: Celsius',
     'dollar',
     'dollars',
     'E-9',
     'E3',
     'electrons'
-    'ft.lbf',
+    'ft.lbf',  # lbf⋅ft, lb-ft, "pound-foot", lb-ft or ft-lb
     'giga',
     'H\\: \\: \\: \\: \\: \\left(copy\\: from\\: Activity\\: 1\\right)',
     'H\\: \\left(copy\\: from\\: Activity\\: 1\\right)',

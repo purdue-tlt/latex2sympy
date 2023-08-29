@@ -1,15 +1,8 @@
 import sympy
 import sympy.physics.units as sympy_physics_units
-from sympy.physics.units.prefixes import PREFIXES, BIN_PREFIXES, prefix_unit
-
-# combine all known prefixes into a single list
-UNIT_PREFIXES = [*PREFIXES.values(), *BIN_PREFIXES.values()]
-
-additional_unit_aliases = {
-    'hr': sympy_physics_units.h
-}
-
-additional_units = []
+from sympy.physics.units.prefixes import prefix_unit
+from sympy.physics.units.quantities import PhysicalConstant, Quantity
+from latex2sympy.definitions.units import UNIT_PREFIXES, ADDITIONAL_UNITS, ADDITIONAL_UNIT_ALIASES, ALLOWED_CONSTANTS, ADDITIONAL_PREFIX_ALIASES
 
 
 def get_prefix_matches(text, exact=False):
@@ -31,6 +24,10 @@ def get_prefix_matches(text, exact=False):
             prefix_matches.append((prefix, len(prefix_abbrev)))
         elif text == prefix_latex if exact else text.startswith(prefix_latex):
             prefix_matches.append((prefix, len(prefix_latex)))
+        if prefix in ADDITIONAL_PREFIX_ALIASES:
+            for additional_prefix_alias in ADDITIONAL_PREFIX_ALIASES[prefix]:
+                if text == additional_prefix_alias if exact else text.startswith(additional_prefix_alias):
+                    prefix_matches.append((prefix, len(additional_prefix_alias)))
     prefix_matches.sort(key=lambda m: m[1], reverse=True)
     return prefix_matches
 
@@ -50,6 +47,17 @@ def convert_unit(text):
     unit = None
     unit_matches = []
 
+    text = text.replace('\\: ', '')
+
+    # check if a unit matches using additional aliases
+    if text in ADDITIONAL_UNIT_ALIASES:
+        return ADDITIONAL_UNIT_ALIASES[text]
+
+    # check if a unit matches using additional units
+    for u in ADDITIONAL_UNITS:
+        if text == str(u.name) or text == str(u.abbrev) or text == sympy.latex(u):
+            return u
+
     # check if a unit matches the given text
     try:
         unit_matches = sympy_physics_units.find_unit(text)
@@ -59,10 +67,10 @@ def convert_unit(text):
         # check if a unit matches using its default latex representation
         for i in dir(sympy_physics_units):
             attr = getattr(sympy_physics_units, i)
-            if isinstance(attr, sympy_physics_units.Quantity) and sympy.latex(attr) == text:
+            if isinstance(attr, Quantity) and sympy.latex(attr) == text:
                 unit_matches.append(i)
 
-        # if no pre-defined match is found, try to account for prefixes
+        # if no match is found, try to account for prefixes
         if len(unit_matches) == 0:
             # check if the text starts with any prefixes, by name, abbrev, or latex
             prefix_matches = get_prefix_matches(text)
@@ -86,7 +94,7 @@ def convert_unit(text):
         unit = getattr(sympy_physics_units, unit_key)
 
     # do not allow constants
-    if unit is not None and isinstance(unit, sympy_physics_units.quantities.PhysicalConstant):
+    if unit is not None and isinstance(unit, PhysicalConstant) and unit not in ALLOWED_CONSTANTS:
         return None
 
     return unit
