@@ -7,7 +7,7 @@ from latex2sympy.lib import parseToJson, LATEXLexerToken
 from latex2sympy.utils.differential import DIFFERENTIAL_PREFIX, is_differential_var, get_differential_var
 from latex2sympy.utils.expression import create_rational_or_number, add_flat, mat_add_flat, mul_flat, mat_mul_flat, create_ceil, create_floor, create_gcd_lcm
 from latex2sympy.utils.json import has_type_or_token, get_token
-from latex2sympy.utils.units import convert_unit, get_prefix_matches, create_prefixed_unit
+from latex2sympy.units import UNIT_ALIASES, PREFIX_ALIASES, find_unit
 
 # replacement for `sympy.S.EmptySet` which can be printed to a string, or used in expression comparisons
 EmptySet = sympy.Symbol('emptyset')
@@ -236,23 +236,37 @@ class LatexToSympy:
 
         list_item = arr[i]
 
-        # if the list item contains a "LETTERS" atom, but `parse_letters_as_units` is False,
+        # if the list item contains a "LETTERS" atom, but `parse_letters_as_units` is False, or it contains `\\: ` spaces,
         # split the atom into multiple "LETTER" atoms and insert them into the list
-        if not self.parse_letters_as_units and \
-            'exp' in list_item and \
-            'comp' in list_item.get('exp') and \
-            'atom' in list_item.get('exp').get('comp') and \
-                has_type_or_token(list_item.get('exp').get('comp').get('atom'), LATEXLexerToken.LETTERS):
-            # get atom text without spaces
-            atom_text = list_item.get('exp').get('comp').get('atom').get('text').replace('\\: ', '')
-            # split the atom text into multiple LETTER list items
-            new_list_items = [{'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}} for t in list(atom_text)]
-            # combine the last new list item with the `list_item`, to preserve other properties on `list_item`, e.g. "postfix_op"
-            last_new_list_item = new_list_items.pop()
-            list_item['exp'] = last_new_list_item.get('exp')
-            # construct a new array of list items: items before (if any), new letter items, updated current item, items after (if any)
-            new_arr = [*arr[:i], *new_list_items, list_item, *arr[i + 1:]]
-            return self.convert_postfix_list(new_arr, i)
+        atom = list_item.get('exp', {}).get('comp', {}).get('atom')
+        nested_exp_atom = list_item.get('exp', {}).get('exp', {}).get('comp', {}).get('atom')
+        if atom and has_type_or_token(atom, LATEXLexerToken.LETTERS) or \
+                nested_exp_atom and has_type_or_token(nested_exp_atom, LATEXLexerToken.LETTERS):
+            is_nested_exp = nested_exp_atom is not None
+            # get atom text
+            atom_text = (atom if atom else nested_exp_atom).get('text')
+
+            # split the atom text into multiple LETTER list items, if needed
+            new_list_items = []
+            if self.parse_letters_as_units and '\\: ' in atom_text:
+                atom_text_split = atom_text.split('\\: ')
+                for t in atom_text_split:
+                    if len(t) > 0:
+                        new_list_items.append({'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}})
+            elif not self.parse_letters_as_units:
+                # TODO handle splitting commands, e.g. "a\\%" => ["a", "\\%"]
+                new_list_items = [{'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}} for t in list(atom_text)]
+
+            if len(new_list_items) > 0:
+                # combine the last new list item with the `list_item`, to preserve other properties on `list_item`, e.g. "postfix_op"
+                last_new_list_item = new_list_items.pop()
+                if is_nested_exp:
+                    list_item['exp']['exp'] = last_new_list_item.get('exp')
+                else:
+                    list_item['exp'] = last_new_list_item.get('exp')
+                # construct a new array of list items: items before (if any), new letter items, updated current item, items after (if any)
+                new_arr = [*arr[:i], *new_list_items, list_item, *arr[i + 1:]]
+                return self.convert_postfix_list(new_arr, i)
 
         res = self.convert_postfix(list_item)
 
@@ -428,7 +442,7 @@ class LatexToSympy:
 
             # check if the text should be parsed as a unit, and replace the symbol if matched
             if self.parse_letters_as_units:
-                unit = convert_unit('\\' + atom_name if type == LATEXLexerToken.GREEK_CMD else atom_name)
+                unit = find_unit('\\' + atom_name if type == LATEXLexerToken.GREEK_CMD else atom_name)
                 if unit is not None:
                     atom_symbol = unit
 
@@ -546,22 +560,9 @@ class LatexToSympy:
             return sympy.exp(sympy.Mul(sympy.I, angle, evaluate=False), evaluate=False)
         elif self.parse_letters_as_units and has_type_or_token(atom, LATEXLexerToken.LETTERS):
             atom_text = atom.get('text')
-            # split unit on space, returning them as multiplication
-            # but only if each separate "word" is a valid SI unit
-            if '\\: ' in atom_text:
-                atom_text_split = atom_text.split('\\: ')
-                units = []
-                for t in atom_text_split:
-                    unit = convert_unit(t)
-                    if unit is not None:
-                        units.append(unit)
-                if len(units) == len(atom_text_split):
-                    return sympy.Mul(*units, evaluate=False)
-
-            unit = convert_unit(atom_text)
+            unit = find_unit(atom_text)
             if unit is not None:
                 return unit
-
             raise Exception('Unrecognized unit')
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
@@ -813,11 +814,14 @@ class LatexToSympy:
             return sympy.E
 
     def mul_flat_or_combine_prefix_and_unit(self, lh, rh):
-        # attempt to combine an adjacent prefix + unit
+        # check if an adjacent Symbol and Quantity can be combined into a prefixed unit
         if self.parse_letters_as_units and isinstance(lh, sympy.Symbol) and isinstance(rh, sympy_physics_units.Quantity):
-            prefix_matches = get_prefix_matches(lh.name, exact=True)
-            # use the first match, if any
-            if len(prefix_matches) > 0:
-                prefix = prefix_matches[0][0]
-                return create_prefixed_unit(rh, prefix)
+            possible_prefix_alias = str(lh.name)
+            # check if the Symbol a valid prefix
+            if possible_prefix_alias in PREFIX_ALIASES:
+                prefix = PREFIX_ALIASES[possible_prefix_alias]
+                unit_name = str(prefix.name) + str(rh.name)
+                # check if the combined prefix name + unit name are valid
+                if unit_name in UNIT_ALIASES:
+                    return UNIT_ALIASES[unit_name]
         return mul_flat(lh, rh)

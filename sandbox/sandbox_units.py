@@ -12,9 +12,10 @@ unit_examples = [
     ({'value': '1.34', 'unit': 'Hz'}, {'value': '1.34', 'unit': 's^{-1}'}),
     ({'value': '50.1', 'unit': 'W'}, {'value': '50.1', 'unit': 'kg*m^{2}s^{-3}'}),
     ({'value': '1.34+\\imaginaryJ 3.2', 'unit': 'V'}, {'value': '1.34E3+\\imaginaryJ 3.2E3', 'unit': 'mV'}),
-    ({'value': '100', 'unit': 'apples'}, {'value': '1E2', 'unit': 'apples'}),
+    # ({'value': '100', 'unit': 'apples'}, {'value': '1E2', 'unit': 'apples'}),
     ({'value': '100', 'unit': 's'}, {'value': '1E2', 'unit': 'g'}),
     ({'value': '999', 'unit': 'g'}, {'value': '1', 'unit': 'kg'}),
+    ({'value': '1', 'unit': 'degC'}, {'value': '1', 'unit': 'degF'}),
 ]
 
 for unit_example in unit_examples:
