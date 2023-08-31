@@ -7,25 +7,25 @@ from latex2sympy.lib import parseToJson, LATEXLexerToken
 from latex2sympy.utils.differential import DIFFERENTIAL_PREFIX, is_differential_var, get_differential_var
 from latex2sympy.utils.expression import create_rational_or_number, add_flat, mat_add_flat, mul_flat, mat_mul_flat, create_ceil, create_floor, create_gcd_lcm
 from latex2sympy.utils.json import has_type_or_token, get_token
-from latex2sympy.units import UNIT_ALIASES, PREFIX_ALIASES, find_unit, find_prefix
+from latex2sympy.units import UNIT_ALIASES, find_unit, find_prefix, is_unit
 
 # replacement for `sympy.S.EmptySet` which can be printed to a string, or used in expression comparisons
 EmptySet = sympy.Symbol('emptyset')
 
 
-def process_sympy(latex: str, variable_values: dict = {}, parse_letters_as_units: bool = False):
-    instance = LatexToSympy(latex, variable_values, parse_letters_as_units)
+def process_sympy(latex: str, variable_values: dict = {}, parse_as_unit: bool = False):
+    instance = LatexToSympy(latex, variable_values, parse_as_unit)
     return instance.process_sympy()
 
 
 class LatexToSympy:
-    def __init__(self, latex: str, variable_values: dict = {}, parse_letters_as_units: bool = False):
+    def __init__(self, latex: str, variable_values: dict = {}, parse_as_unit: bool = False):
         self.latex = latex
         if len(variable_values) > 0:
             self.variable_values = variable_values
         else:
             self.variable_values = {}
-        self.parse_letters_as_units = parse_letters_as_units
+        self.parse_as_unit = parse_as_unit
 
     def process_sympy(self):
 
@@ -54,6 +54,9 @@ class LatexToSympy:
         else:
             relation = math.get('relation')
             return_data = self.convert_relation(relation)
+
+        if self.parse_as_unit and not is_unit(return_data):
+            raise Exception('Unrecognized unit')
 
         return return_data
 
@@ -236,7 +239,7 @@ class LatexToSympy:
 
         list_item = arr[i]
 
-        # if the list item contains a "LETTERS" atom, but `parse_letters_as_units` is False, or it contains `\\: ` spaces,
+        # if the list item contains a "LETTERS" atom, but `parse_as_unit` is False, or it contains `\\: ` spaces,
         # split the atom into multiple "LETTER" atoms and insert them into the list
         atom = list_item.get('exp', {}).get('comp', {}).get('atom')
         nested_exp_atom = list_item.get('exp', {}).get('exp', {}).get('comp', {}).get('atom')
@@ -248,14 +251,14 @@ class LatexToSympy:
 
             # split the atom text into multiple LETTER list items, if needed
             new_list_items = []
-            if self.parse_letters_as_units and '\\: ' in atom_text:
+            if self.parse_as_unit and '\\: ' in atom_text:
                 atom_text_split = atom_text.split('\\: ')
                 for t in atom_text_split:
                     if len(t) > 0:
                         new_list_items.append({'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}})
-            elif not self.parse_letters_as_units:
+            elif not self.parse_as_unit:
                 if '\\%' in atom_text:
-                    raise Exception('"\\%" symbol is invalid when "parse_letters_as_units" is False')
+                    raise Exception('"\\%" symbol is invalid when "parse_as_unit" is False')
                 new_list_items = [{'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}} for t in list(atom_text)]
 
             if len(new_list_items) > 0:
@@ -442,7 +445,7 @@ class LatexToSympy:
             atom_symbol = None
 
             # check if the text should be parsed as a unit, and replace the symbol if matched
-            if self.parse_letters_as_units:
+            if self.parse_as_unit:
                 search_name = '\\' + atom_name if type == LATEXLexerToken.GREEK_CMD else atom_name
                 unit = find_unit(search_name)
                 if unit is not None:
@@ -566,7 +569,7 @@ class LatexToSympy:
             # polar form: r * (cos(angle) + i * sin(angle))
             # exponential form: r * e^{i * angle}
             return sympy.exp(sympy.Mul(sympy.I, angle, evaluate=False), evaluate=False)
-        elif self.parse_letters_as_units and has_type_or_token(atom, LATEXLexerToken.LETTERS):
+        elif self.parse_as_unit and has_type_or_token(atom, LATEXLexerToken.LETTERS):
             atom_text = atom.get('text')
             unit = find_unit(atom_text)
             if unit is not None:
@@ -827,15 +830,17 @@ class LatexToSympy:
 
     def mul_flat_or_combine_prefix_and_unit(self, lh, rh):
         # check if an adjacent Prefix and Quantity should be combined into a prefixed unit
-        if self.parse_letters_as_units:
+        if self.parse_as_unit:
             lh_is_prefix = isinstance(lh, sympy_physics_units.prefixes.Prefix)
             rh_is_quantity = isinstance(rh, sympy_physics_units.Quantity)
             # prefix without a quantity after is invalid
             if lh_is_prefix and not rh_is_quantity:
-                raise Exception('Only a Prefix and Quantity can be combined')
+                raise Exception('Only a prefix and a quantity can be combined')
             if lh_is_prefix and rh_is_quantity:
                 unit_name = str(lh.name) + str(rh.name)
                 # check if the combined prefix name + unit name are valid
                 if unit_name in UNIT_ALIASES:
                     return UNIT_ALIASES[unit_name]
+                else:
+                    raise Exception('Unrecognized unit')
         return mul_flat(lh, rh)

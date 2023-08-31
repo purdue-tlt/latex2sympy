@@ -26,7 +26,9 @@ from sympy.physics.units.definitions.unit_definitions import (
     atomic_mass_constant,
     atmosphere,
     electronvolt,
-    bar, psi, bit
+    bar, psi, bit, nmi,
+    hbar,
+    dyne
 )
 from latex2sympy.latex2sympy import process_sympy
 from latex2sympy.units.additional_units import cal, kcal, lbf, slug, degC, degF, dB, btu
@@ -146,7 +148,8 @@ unit_examples = [
     # prefix abbrev + unit latex
     ('M\\Omega ', create_prefixed_unit(ohm, PREFIXES['M'])),
     ('k\\Omega ', create_prefixed_unit(ohm, PREFIXES['k'])),
-    ('mu \\Omega ', microohm),
+    ('mu\\Omega ', microohm),
+    ('u\\Omega ', microohm),
 
     # only allow certain constants
     ('c', speed_of_light),
@@ -178,6 +181,18 @@ unit_examples = [
     ('lb', pound),
     ('lbs', pound),
     ('in', inch),
+    ('mcg', microgram),
+    ('dyn', dyne),
+
+    # unit expressions
+    # mile per hour
+    ('mph', _Mul(mile, _Pow(hour, -1))),
+    # cubic foot per minute
+    ('cfm', _Mul(_Pow(foot, 3), _Pow(minute, -1))),
+    # cubic foot per second
+    ('cfs', _Mul(_Pow(foot, 3), _Pow(second, -1))),
+    # knot = nautical mile per hour
+    ('knot', _Mul(nmi, _Pow(hour, -1))),
 
     # additional units
     ('lbf', lbf),
@@ -191,6 +206,36 @@ unit_examples = [
     ('degF', degF),
     ('dB', dB),
 
+    # TODO: define additional units, if possible/needed
+    # 'decade',
+    # 'octave',
+    # 'Gs',  # for gauss - conflicts with gigasecond
+    # 'R',  # https://en.wikipedia.org/wiki/Roentgen_(unit)
+    # 'mR',
+    # 'Rad',  # could conflict with radians
+    # 'dBV',
+    # 'gpm',  # multiple versions exist, gallons per minute
+    # 'hp',  # multiple versions exist, horse power
+    # 'lbf.ft', 'lb-ft,  # "pound-foot" (torque), sometimes still called a "foot-pound"
+    # 'lbf-in',  # "pound-inch" 1/12 of "pound-foot"
+    # 'ft⋅lbf', 'ft⋅lb'  # "foot-pound" (energy)
+    # 'psia',
+
+    # TODO: missing from LON-CAPA
+    # ('hbar', hbar),  # conflicts with hectobar
+    # 'oz',  # ounce mass
+    # 'rood',  # area
+    # 'acre',  # area
+    # 'lm',  # lumen
+    # 'Sv',  # sievert
+    # 'M',  # M (mol/L) - conflicts with mega prefix
+    # 'cc',  # cubic centimeter
+    # 'e',  # electron charge
+    # 'rpm', 'rpms',  # rounds per minute
+    # 'pc',  # parsec
+
+    # 'u',  # for amu
+
     # trailing spaces are stripped
     ('\\degree C\\: ', degC),
     ('years\\: ', year),
@@ -203,6 +248,8 @@ unit_examples = [
     ('kg\\: m', _Mul(kilogram, meter)),
 
     # assorted compound unit expressions (from suffixes)
+    ('deg\\: C', _Mul(degree, coulomb)),
+    ('\\degree \\: C', _Mul(degree, coulomb)),
     ('degC/W', _Mul(degC, _Pow(watt, -1))),
     ('\\degree C/W', _Mul(degC, _Pow(watt, -1))),
     ('\\frac{\\degree C}{W}', _Mul(degC, _Pow(watt, -1))),
@@ -276,11 +323,11 @@ unit_examples = [
 
 @pytest.mark.parametrize('input, output', unit_examples)
 def test_covert_unit_should_succeed(input, output):
-    assert_equal(input, output, parse_letters_as_units=True)
+    assert_equal(input, output, parse_as_unit=True)
 
 
 bad_unit_examples = [
-    # non-Quantity, numeric or symbols
+    # non-Quantity, numeric value or symbols
     '1',
     'E-9',
     'E3',
@@ -298,7 +345,10 @@ bad_unit_examples = [
     '\\mu 1',
     '\\mu x',
 
-    # unsupported constant / prefix w/o Quantity
+    # invalid prefix + quantity
+    '\\mu slug',
+
+    # unsupported constant or prefix w/o Quantity
     'G',
     'giga',
     'pico',
@@ -327,7 +377,7 @@ bad_unit_examples = [
     'Vpeak',
     'Vrms',
 
-    # unit sentences
+    # unit phrases
     'cubic\\: inches',
     'meters\\: per\\: second',
     'meters\\: per\\: second\\: squared',
@@ -344,53 +394,18 @@ bad_unit_examples = [
     'MeV/nucleon',
 
     # assorted invalid units
-    '\\degree s',  # plural degrees
-    '\\degree \\: C',  # invalid space
-    'deg\\: C',
+    '\\degree s',  # plural degrees w/ latex
     'degrees\\: Celsius',
     'o',  # meant to be \degree
-    'msec',
+    'msec',  # ms
 
     # other unsupported units
     'PPS',  # pulses per second
-    'ft.lbf',  # lbf⋅ft, lb-ft, "pound-foot", lb-ft or ft-lb
     'kN.m',
 ]
 
 
 @pytest.mark.parametrize('input', bad_unit_examples)
 def test_covert_unit_should_fail(input):
-    did_fail = False
-    try:
-        result = process_sympy(input, parse_letters_as_units=True)
-        did_fail = is_or_contains_instance(result, Symbol) or not is_or_contains_instance(result, Quantity)
-    except Exception as e:
-        did_fail = True
-    assert did_fail
-
-
-# TODO: define additional units, if needed
-unsupported_unit_examples = [
-    ('\\frac{dB}{decade}', _Mul(gram, _Pow(gram, -1))),
-    ('\\frac{dB}{octave}', _Mul(gram, _Pow(gram, -1))),
-    ('\\frac{Gs}{A}', _Mul(gauss, _Pow(ampere, -1))),
-    # R - https://en.wikipedia.org/wiki/Roentgen_(unit)
-    ('\\frac{R}{hr}', _Mul(gram, _Pow(hour, -1))),
-    ('\\frac{mR}{hr}', _Mul(gram, _Pow(hour, -1))),
-    ('\\frac{Rad}{s}', _Mul(gram, _Pow(second, -1))),
-    ('cfm', gram),
-    ('ft/(cfm)^{2}', _Mul(foot, _Pow(gram, -1))),
-    ('cfs', gram),
-    ('dBV', gram),
-    ('gpm', gram),
-    ('Hp', gram),
-    ('mph', _Mul(mile, _Pow(hour, -1))),
-    ('knot', gram),
-    ('lbf-in', gram),
-    ('lbf.ft', gram),
-    # M (mol/L) - conflicts with mega prefix
-    ('M', gram),
-    ('psia', gram),
-    ('rpm', gram),
-    ('mcg', microgram),
-]
+    with pytest.raises(Exception):
+        process_sympy(input, parse_as_unit=True)

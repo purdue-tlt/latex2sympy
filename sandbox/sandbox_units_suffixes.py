@@ -313,8 +313,8 @@ suffix_examples = [
 
 for suffix in suffix_examples:
     try:
-        suffix_as_unit = process_sympy(suffix, parse_letters_as_units=True)
-        print('suffix:', suffix, ', sympy =>', suffix_as_unit, ', srepr =>', srepr(suffix_as_unit), ', latex =>', latex(suffix_as_unit))
+        suffix_as_unit = process_sympy(suffix, parse_as_unit=True)
+        print('suffix:', suffix, ', sympy =>', suffix_as_unit)  # ', srepr =>', srepr(suffix_as_unit))
     except Exception as e:
         print('suffix:', suffix, '=>', e)
     print('------------------------------------------------------------------')

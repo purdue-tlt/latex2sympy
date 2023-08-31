@@ -224,6 +224,6 @@ def compare(actual, expected):
         raise
 
 
-def assert_equal(latex, expr, variable_values={}, parse_letters_as_units=False):
-    parsed = process_sympy(latex, variable_values, parse_letters_as_units)
+def assert_equal(latex, expr, variable_values={}, parse_as_unit=False):
+    parsed = process_sympy(latex, variable_values, parse_as_unit)
     compare(parsed, expr)

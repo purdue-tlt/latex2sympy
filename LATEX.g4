@@ -149,7 +149,7 @@ fragment PERCENT_SIGN: '\\%' [ ]?;
 fragment DEGREE: '\\degree';
 
 LETTER: [a-zA-Z];
-LETTERS: (LETTER | SPACE | PERCENT_SIGN | DEGREE [ ]?)+;
+LETTERS: (LETTER | SPACE | PERCENT_SIGN | DEGREE [ ]? | PERIOD)+;
 
 NUMBER:
     DIGIT+ (COMMA DIGIT DIGIT DIGIT)*
