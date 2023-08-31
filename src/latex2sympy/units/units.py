@@ -7,15 +7,15 @@ from sympy.physics.units.systems.si import all_units as si_units
 from latex2sympy.units.prefixes import PREFIXES, BIN_PREFIXES, ALL_PREFIXES, prefix_unit
 import latex2sympy.units.additional_units as additional_units
 
-# define which constants are allowed
-ALLOWED_CONSTANTS = [
+# define which PhysicalConstants are allowed
+allowed_constants = [
     sympy_units.speed_of_light,
     sympy_units.atomic_mass_constant,
     sympy_units.electronvolt
 ]
 
 # define additional aliases for pre-defined units
-CUSTOM_UNIT_ALIASES = {
+custom_unit_aliases = {
     sympy_units.degree: [r'\degree'],
     sympy_units.percent: [r'\%'],
     sympy_units.ampere: ['amp', 'amps', 'Amp', 'Amps'],
@@ -29,20 +29,23 @@ CUSTOM_UNIT_ALIASES = {
 
 # fixed/additional sympy units
 
+# the default liter unit does not correctly define "L" as its abbrev
 liter = Quantity('liter', abbrev='L')
 liter_prefixed_units = prefix_unit(liter, PREFIXES)
+
 eV_prefixed_units = prefix_unit(sympy_units.eV, PREFIXES)
 Ci_prefixed_units = prefix_unit(sympy_units.Ci, PREFIXES)
 bar_prefixed_units = prefix_unit(sympy_units.bar, PREFIXES)
 byte_prefixed_units = prefix_unit(sympy_units.byte, BIN_PREFIXES)
 bit_prefixed_units = prefix_unit(sympy_units.bit, BIN_PREFIXES)
 
-FIXED_SYMPY_UNITS = {}
-FIXED_SYMPY_UNITS[str(liter.name)] = liter
+# units that will replace the original sympy version
+fixed_sympy_units = {}
+fixed_sympy_units[str(liter.name)] = liter
 for u in [*liter_prefixed_units, *byte_prefixed_units]:
-    FIXED_SYMPY_UNITS[str(u.name)] = u
+    fixed_sympy_units[str(u.name)] = u
 
-ADDITIONAL_SYMPY_PREFIXED_UNITS = [
+additional_sympy_prefixed_units = [
     *liter_prefixed_units,
     *eV_prefixed_units,
     *Ci_prefixed_units,
@@ -51,7 +54,7 @@ ADDITIONAL_SYMPY_PREFIXED_UNITS = [
     *bit_prefixed_units
 ]
 
-ALIASES_TO_IGNORE = [
+aliases_to_exclude = [
     'l',
     'cl',
     'dl',
@@ -61,11 +64,11 @@ ALIASES_TO_IGNORE = [
     'wb'
 ]
 
-ALIASES_TO_PLURALIZE = [
+aliases_to_pluralize = [
     'tonne'
 ]
 
-ALIASES_TO_NOT_CAPITALIZE = [
+aliases_to_not_capitalize = [
     'au',
     'h',
     'amu',
@@ -95,7 +98,7 @@ def get_base_unit(unit, dir_module):
     return None
 
 
-def get_aliases_for_unit(unit, dir_module=None, attribute_name=None):
+def get_aliases_for_unit(unit, dir_module, attr_name=None):
     unit_aliases = []
 
     # abbrev
@@ -107,27 +110,34 @@ def get_aliases_for_unit(unit, dir_module=None, attribute_name=None):
     unit_name = str(unit.name)
     if '_' not in unit_name:
         unit_aliases.append(unit_name)
+        # plural name
+        if unit_name in aliases_to_pluralize:
+            unit_aliases.append(f'{unit_name}s')
+        # capitalized name
+        if unit_name not in aliases_to_not_capitalize:
+            unit_name_capitalized = capitalize_first_letter(unit_name)
+            unit_aliases.append(unit_name_capitalized)
+            # plural capitalized name
+            if unit_name in aliases_to_pluralize:
+                unit_aliases.append(f'{unit_name_capitalized}s')
 
-    if unit_name in ALIASES_TO_PLURALIZE:
-        unit_aliases.append(f'{unit_name}s')
-
-    # allow capitalized name, e.g. "Gram", "Milligram"
-    # except when containing underscores, e.g. "atomic_mass_constant"
-    unit_name_capitalized = capitalize_first_letter(unit_name)
-    if '_' not in unit_name and unit_name_capitalized != unit_name and unit_name not in ALIASES_TO_NOT_CAPITALIZE:
-        unit_aliases.append(unit_name_capitalized)
-        if unit_name in ALIASES_TO_PLURALIZE:
-            unit_aliases.append(f'{unit_name_capitalized}s')
-
-    # if provided, allow attribute name, and capitalized attribute name (if not prefixed)
-    if attribute_name is not None and attribute_name != unit_name and attribute_name != unit_abbrev and\
-            '_' not in attribute_name:
-        unit_aliases.append(attribute_name)
-        if not unit.is_prefixed and attribute_name not in ALIASES_TO_NOT_CAPITALIZE:
-            attr_capitalized = capitalize_first_letter(attribute_name)
+    # attr name
+    # except when containing underscores, e.g. "metric_ton"
+    if attr_name is not None and '_' not in attr_name and \
+            attr_name != unit_name and attr_name != unit_abbrev:
+        unit_aliases.append(attr_name)
+        # plural attr name
+        if attr_name in aliases_to_pluralize:
+            unit_aliases.append(f'{attr_name}s')
+        # capitalized attr name, when not prefixed, and not excluded
+        if not unit.is_prefixed and attr_name not in aliases_to_not_capitalize:
+            attr_capitalized = capitalize_first_letter(attr_name)
             unit_aliases.append(attr_capitalized)
+            # plural capitalized attr name
+            if unit_name in aliases_to_pluralize:
+                unit_aliases.append(f'{unit_name_capitalized}s')
 
-    # if the unit is prefixed, check if the base unit is pluralized
+    # if the unit is prefixed, check if the base unit is pluralized in the given `dir_module`
     # if so, then add the pluralized name and pluralized capital name of the prefixed unit
     if unit.is_prefixed:
         base_unit = get_base_unit(unit, dir_module)
@@ -136,18 +146,19 @@ def get_aliases_for_unit(unit, dir_module=None, attribute_name=None):
             unit_aliases.append(f'{unit_name}s')
             unit_aliases.append(f'{capitalize_first_letter(unit_name)}s')
 
-    # allow "u" as an additional "micro" prefix
+    # add "u" as an additional "micro" prefix
     if unit.is_prefixed and unit_abbrev.startswith('mu'):
         unit_aliases.append('u' + unit_abbrev[2:])
 
     # latex
+    # except when value is wrapped in "\text{}"
     unit_latex = latex(unit)
     if '\\text' not in unit_latex:
         unit_aliases.append(unit_latex)
 
-    # add custom unit aliases, if defined
-    if u in CUSTOM_UNIT_ALIASES:
-        unit_aliases.extend(CUSTOM_UNIT_ALIASES[u])
+    # custom unit aliases, if defined
+    if u in custom_unit_aliases:
+        unit_aliases.extend(custom_unit_aliases[u])
 
     return unit_aliases
 
@@ -157,29 +168,29 @@ def get_aliases_for_unit(unit, dir_module=None, attribute_name=None):
 # construct a dict of every allowed string alias of each unit
 UNIT_ALIASES = {}
 
-# loop through every defined unit by attribute name
+# add aliases for defined attributes
 for attr in dir(sympy_units):
     u = getattr(sympy_units, attr)
-    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in ALLOWED_CONSTANTS) and attr not in ALIASES_TO_IGNORE:
+    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and attr not in aliases_to_exclude:
         # override sympy units that have been fixed
-        if str(u.name) in FIXED_SYMPY_UNITS:
-            u = FIXED_SYMPY_UNITS[str(u.name)]
+        if str(u.name) in fixed_sympy_units:
+            u = fixed_sympy_units[str(u.name)]
         for alias in get_aliases_for_unit(u, sympy_units, attr):
             if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):
-                raise Exception(f'unit attr: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
+                raise Exception(f'attr: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
             UNIT_ALIASES[alias] = u
 
 # `all_si_units` contains every MKS/MKSA/SI unit and each possible prefixed variation
-all_si_units = set([*mks_units, *mksa_units, *si_units, *ADDITIONAL_SYMPY_PREFIXED_UNITS])
-# loop through to add aliases for all prefixed units
+all_si_units = set([*mks_units, *mksa_units, *si_units, *additional_sympy_prefixed_units])
+# add aliases for all prefixed units
 for u in all_si_units:
-    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in ALLOWED_CONSTANTS):
+    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants):
         for alias in get_aliases_for_unit(u, sympy_units):
             if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):
-                raise Exception(f'si unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
+                raise Exception(f'unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
             UNIT_ALIASES[alias] = u
 
-# add additional units
+# add aliases for additional units
 for attr in dir(additional_units):
     u = getattr(additional_units, attr)
     if isinstance(u, Quantity):
@@ -191,15 +202,15 @@ for attr in dir(additional_units):
 # -------------------------------------------------------------------------------------------------
 
 # test output
-# ALIASES_BY_UNIT = {}
-# for alias, unit in UNIT_ALIASES.items():
-#     base_sympy_unit = get_base_unit(unit, sympy_units)
-#     base_unit = get_base_unit(unit, additional_units) if base_sympy_unit is None else base_sympy_unit
-#     unit_name = str(unit.name) if base_unit is None else str(base_unit.name)
-#     aliases = ALIASES_BY_UNIT.get(unit_name, [])
-#     aliases.append(alias)
-#     ALIASES_BY_UNIT[unit_name] = aliases
-# print(ALIASES_BY_UNIT)
+ALIASES_BY_UNIT = {}
+for alias, unit in UNIT_ALIASES.items():
+    base_sympy_unit = get_base_unit(unit, sympy_units)
+    base_unit = get_base_unit(unit, additional_units) if base_sympy_unit is None else base_sympy_unit
+    unit_name = str(unit.name) if base_unit is None else str(base_unit.name)
+    aliases = ALIASES_BY_UNIT.get(unit_name, [])
+    aliases.append(alias)
+    ALIASES_BY_UNIT[unit_name] = aliases
+print(ALIASES_BY_UNIT)
 
 # output = list(UNIT_ALIASES)
 # print(output)

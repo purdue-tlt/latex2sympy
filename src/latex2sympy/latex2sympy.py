@@ -7,7 +7,7 @@ from latex2sympy.lib import parseToJson, LATEXLexerToken
 from latex2sympy.utils.differential import DIFFERENTIAL_PREFIX, is_differential_var, get_differential_var
 from latex2sympy.utils.expression import create_rational_or_number, add_flat, mat_add_flat, mul_flat, mat_mul_flat, create_ceil, create_floor, create_gcd_lcm
 from latex2sympy.utils.json import has_type_or_token, get_token
-from latex2sympy.units import UNIT_ALIASES, PREFIX_ALIASES, find_unit
+from latex2sympy.units import UNIT_ALIASES, PREFIX_ALIASES, find_unit, find_prefix
 
 # replacement for `sympy.S.EmptySet` which can be printed to a string, or used in expression comparisons
 EmptySet = sympy.Symbol('emptyset')
@@ -254,7 +254,8 @@ class LatexToSympy:
                     if len(t) > 0:
                         new_list_items.append({'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}})
             elif not self.parse_letters_as_units:
-                # TODO handle splitting commands, e.g. "a\\%" => ["a", "\\%"]
+                if '\\%' in atom_text:
+                    raise Exception('"\\%" symbol is invalid when "parse_letters_as_units" is False')
                 new_list_items = [{'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}} for t in list(atom_text)]
 
             if len(new_list_items) > 0:
@@ -442,9 +443,16 @@ class LatexToSympy:
 
             # check if the text should be parsed as a unit, and replace the symbol if matched
             if self.parse_letters_as_units:
-                unit = find_unit('\\' + atom_name if type == LATEXLexerToken.GREEK_CMD else atom_name)
+                search_name = '\\' + atom_name if type == LATEXLexerToken.GREEK_CMD else atom_name
+                unit = find_unit(search_name)
                 if unit is not None:
                     atom_symbol = unit
+                else:
+                    # prefixes can be combined in `convert_postfix_list`
+                    prefix = find_prefix(search_name)
+                    if prefix is not None:
+                        return prefix
+                    raise Exception('Unrecognized unit')
 
             if atom_symbol is None:
                 atom_symbol = sympy.Symbol(atom_name, real=True, positive=True)
@@ -563,6 +571,10 @@ class LatexToSympy:
             unit = find_unit(atom_text)
             if unit is not None:
                 return unit
+            # prefixes can be combined in `convert_postfix_list`
+            prefix = find_prefix(atom_text)
+            if prefix is not None:
+                return prefix
             raise Exception('Unrecognized unit')
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
@@ -814,13 +826,15 @@ class LatexToSympy:
             return sympy.E
 
     def mul_flat_or_combine_prefix_and_unit(self, lh, rh):
-        # check if an adjacent Symbol and Quantity can be combined into a prefixed unit
-        if self.parse_letters_as_units and isinstance(lh, sympy.Symbol) and isinstance(rh, sympy_physics_units.Quantity):
-            possible_prefix_alias = str(lh.name)
-            # check if the Symbol a valid prefix
-            if possible_prefix_alias in PREFIX_ALIASES:
-                prefix = PREFIX_ALIASES[possible_prefix_alias]
-                unit_name = str(prefix.name) + str(rh.name)
+        # check if an adjacent Prefix and Quantity should be combined into a prefixed unit
+        if self.parse_letters_as_units:
+            lh_is_prefix = isinstance(lh, sympy_physics_units.prefixes.Prefix)
+            rh_is_quantity = isinstance(rh, sympy_physics_units.Quantity)
+            # prefix without a quantity after is invalid
+            if lh_is_prefix and not rh_is_quantity:
+                raise Exception('Only a Prefix and Quantity can be combined')
+            if lh_is_prefix and rh_is_quantity:
+                unit_name = str(lh.name) + str(rh.name)
                 # check if the combined prefix name + unit name are valid
                 if unit_name in UNIT_ALIASES:
                     return UNIT_ALIASES[unit_name]
