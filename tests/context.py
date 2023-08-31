@@ -195,6 +195,24 @@ def get_gcd_lcm_examples(cmd, func, func_eval, multi_func):
     ]
 
 
+def is_or_contains_instance(expr, type):
+    '''
+    Determine if the expression `expr` is or contains an instance of `type`
+    '''
+    if expr is None:  # pragma: no cover
+        return False
+    if isinstance(expr, type):
+        return True
+    if not hasattr(expr, 'args') or len(expr.args) <= 0:  # pragma: no cover
+        return False
+
+    for arg in expr.args:
+        if is_or_contains_instance(arg, type):
+            return True
+
+    return False
+
+
 def compare(actual, expected):
     actual_exp_tree = srepr(actual)
     expected_exp_tree = srepr(expected)

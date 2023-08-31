@@ -1,4 +1,5 @@
 import pytest
+from sympy import Symbol
 from sympy.physics.units.prefixes import PREFIXES, BIN_PREFIXES
 from sympy.physics.units.definitions.unit_definitions import (
     # MKS - "meter, kilogram, second"
@@ -27,9 +28,9 @@ from sympy.physics.units.definitions.unit_definitions import (
     bar, psi, bit
 )
 from latex2sympy.latex2sympy import process_sympy
-from latex2sympy.units.additional_units import cal, lbf, slug, degC, degF
+from latex2sympy.units.additional_units import cal, lbf, slug, degC, degF, dB
 from latex2sympy.units import create_prefixed_unit, UNIT_ALIASES
-from .context import _Mul, _Pow, assert_equal
+from .context import _Mul, _Pow, assert_equal, is_or_contains_instance
 
 # create local vars for known units
 millivolt = UNIT_ALIASES['millivolt']
@@ -68,11 +69,9 @@ bad_unit_examples = [
 ]
 
 suffix_unit_examples = [
-    # TODO: what about when no units are parsed?
-    # ('1', gram),
     ('\\%', percent),
+    ('dB', dB),
     ('\\degree ', degree),
-    # TODO: degree C, degree F
     ('\\degree C', degC),
     ('\\degree C\\: ', degC),
     ('\\degree C/W', _Mul(degC, _Pow(watt, -1))),
@@ -157,13 +156,11 @@ suffix_unit_examples = [
     ('k\\Omega ', create_prefixed_unit(ohm, PREFIXES['k'])),
     ('kcal', create_prefixed_unit(cal, PREFIXES['k'])),
     ('kg', kilogram),
-    ('kg/kmole', _Mul(kilogram, _Pow(create_prefixed_unit(mol, PREFIXES['k']), -1))),
     ('kHz', create_prefixed_unit(hertz, PREFIXES['k'])),
     ('kJ', create_prefixed_unit(joule, PREFIXES['k'])),
     ('kJ/mol', _Mul(create_prefixed_unit(joule, PREFIXES['k']), _Pow(mol, -1))),
     ('kN', create_prefixed_unit(newton, PREFIXES['k'])),
     ('kN/m', _Mul(create_prefixed_unit(newton, PREFIXES['k']), _Pow(meter, -1))),
-    ('kohms', create_prefixed_unit(ohm, PREFIXES['k'])),
     ('kPa', create_prefixed_unit(pascal, PREFIXES['k'])),
     ('ks', create_prefixed_unit(second, PREFIXES['k'])),
     ('kW', create_prefixed_unit(watt, PREFIXES['k'])),
@@ -184,8 +181,6 @@ suffix_unit_examples = [
     ('m^{3}/s', _Mul(_Pow(meter, 3), _Pow(second, -1))),
     ('m3/s', _Mul(_Mul(meter, 3), _Pow(second, -1))),
     ('mA', create_prefixed_unit(ampere, PREFIXES['m'])),
-    ('mb', create_prefixed_unit(bar, PREFIXES['m'])),
-    ('mcg', microgram),
     ('mCi', create_prefixed_unit(curie, PREFIXES['m'])),
     ('Megajoules', create_prefixed_unit(joule, PREFIXES['M'])),
     ('MeV', create_prefixed_unit(electronvolt, PREFIXES['M'])),
@@ -199,17 +194,13 @@ suffix_unit_examples = [
     ('mL/hr', _Mul(milliliter, _Pow(hour, -1))),
     ('mm', millimeter),
     ('MN', create_prefixed_unit(newton, PREFIXES['M'])),
-    ('Mohms', create_prefixed_unit(ohm, PREFIXES['M'])),
     ('moles', mol),
-    # TODO: mph
-    ('mph', _Mul(mile, _Pow(hour, -1))),
     ('ms', millisecond),
-    ('msec', millisecond),
     ('mV', create_prefixed_unit(volt, PREFIXES['m'])),
     ('mW', create_prefixed_unit(watt, PREFIXES['m'])),
     ('N', newton),
     ('N/m^{2}', _Mul(newton, _Pow(_Pow(meter, 2), -1))),
-    ('N\\: s\\: /\\: m^{2}', _Mul(newton, second, _Pow(_Pow(meter, 2), -1))),
+    ('N\\: s\\: /\\: m^{2}', _Mul(_Mul(newton, second), _Pow(_Pow(meter, 2), -1))),
     ('N\\cdot m', _Mul(newton, meter)),
     ('N\\cdot m^{2}', _Mul(newton, _Pow(meter, 2))),
     ('nF', create_prefixed_unit(farad, PREFIXES['n'])),
@@ -236,7 +227,7 @@ suffix_unit_examples = [
     ('uF', create_prefixed_unit(farad, PREFIXES['mu'])),
     ('ug', microgram),
     ('uH', create_prefixed_unit(henry, PREFIXES['mu'])),
-    ('uS', create_prefixed_unit(second, PREFIXES['mu'])),
+    ('uS', create_prefixed_unit(siemens, PREFIXES['mu'])),
     ('V', volt),
     ('V/us', _Mul(volt, _Pow(microsecond, -1))),
     ('V\\cdot m', _Mul(volt, meter)),
@@ -248,40 +239,42 @@ suffix_unit_examples = [
     ('yrs', year),
 ]
 
+# TODO: define additional units, if needed
 unsupported_unit_examples = [
-    # TODO: dB, decade, octave
     ('\\frac{dB}{decade}', _Mul(gram, _Pow(gram, -1))),
     ('\\frac{dB}{octave}', _Mul(gram, _Pow(gram, -1))),
-    # TODO: gauss vs. gigasecond
     ('\\frac{Gs}{A}', _Mul(gauss, _Pow(ampere, -1))),
-    # TODO: R - https://en.wikipedia.org/wiki/Roentgen_(unit)
+    # R - https://en.wikipedia.org/wiki/Roentgen_(unit)
     ('\\frac{R}{hr}', _Mul(gram, _Pow(hour, -1))),
     ('\\frac{mR}{hr}', _Mul(gram, _Pow(hour, -1))),
-    #  TODO: Rad
     ('\\frac{Rad}{s}', _Mul(gram, _Pow(second, -1))),
-    # TODO: cfm, cfs
     ('cfm', gram),
     ('ft/(cfm)^{2}', _Mul(foot, _Pow(gram, -1))),
     ('cfs', gram),
-    # TODO: dB, dBV
-    ('dB', gram),
     ('dBV', gram),
-    # TODO: gpm
     ('gpm', gram),
-    # TODO: hp
     ('Hp', gram),
-    # TODO: knot
+    ('mph', _Mul(mile, _Pow(hour, -1))),
     ('knot', gram),
-    # TODO: lbf-in, lbf.ft
     ('lbf-in', gram),
     ('lbf.ft', gram),
-    # TODO: M (mol/L) - conflicts with mega prefix
+    # M (mol/L) - conflicts with mega prefix
     ('M', gram),
     ('psia', gram),
     ('rpm', gram),
+    ('mcg', microgram),
 ]
 
 bad_suffix_unit_examples = [
+    '1',
+
+    # combined prefix with non-abbreviated name
+
+    'Mohms',  # megaohms or M\Omega
+    'kohms',  # killiohms or k\Omega
+    'kg/kmole',  # kmol
+    'mb',  # millibar or mbar
+
     '10^{-6}\\: \\frac{m^{2}}{s}',
     '\\$',
     '\\$/unit',
@@ -355,6 +348,7 @@ bad_suffix_unit_examples = [
     'lone\\: pairs',
     'M\\: \\: K_{2}SO_{4}',
     'M\\: potassium\\: sulfate',
+    'msec',
     'meters\\: per\\: second',
     'meters\\: per\\: second\\: squared',
     'MeV/nucleon',
@@ -412,8 +406,13 @@ def test_covert_unit_should_succeed(input, output):
 
 @pytest.mark.parametrize('input', bad_unit_examples)
 def test_covert_unit_should_fail(input):
-    with pytest.raises(Exception):
-        process_sympy(input, parse_letters_as_units=True)
+    did_fail = False
+    try:
+        result = process_sympy(input, parse_letters_as_units=True)
+        did_fail = is_or_contains_instance(result, Symbol)
+    except Exception:
+        did_fail = True
+    assert did_fail
 
 
 @pytest.mark.parametrize('input, output', suffix_unit_examples)
@@ -423,5 +422,10 @@ def test_covert_suffix_as_unit_should_succeed(input, output):
 
 @pytest.mark.parametrize('input', bad_suffix_unit_examples)
 def test_covert_suffix_as_unit_should_fail(input):
-    with pytest.raises(Exception):
-        process_sympy(input, parse_letters_as_units=True)
+    did_fail = False
+    try:
+        result = process_sympy(input, parse_letters_as_units=True)
+        did_fail = is_or_contains_instance(result, Symbol)
+    except Exception:
+        did_fail = True
+    assert did_fail

@@ -1,16 +1,5 @@
-from sympy.physics.units.prefixes import prefix_unit
-from latex2sympy.units.aliases import UNIT_ALIASES, PREFIX_ALIASES
-
-
-def create_prefixed_unit(unit, prefix):
-    '''
-    combine the prefix and unit into a new `Quantity`
-    '''
-    # `prefix_unit` accepts a dict of prefixes, so construct one
-    prefixes = {}
-    prefixes[prefix.abbrev] = prefix
-    prefixed_units = prefix_unit(unit, prefixes)
-    return prefixed_units[0]
+from latex2sympy.units.units import UNIT_ALIASES
+from latex2sympy.units.prefixes import PREFIX_ALIASES, create_prefixed_unit
 
 
 def find_unit(text):
