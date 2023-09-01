@@ -26,13 +26,13 @@ custom_unit_aliases = {
     sympy_units.pound: ['lb', 'lbs'],
     sympy_units.inch: ['in'],
     sympy_units.microgram: ['mcg'],
-    sympy_units.dyne: ['dyn'],
+    sympy_units.dyne: ['dyn']
 }
 
 # fixed/additional sympy units
 
 # the default liter unit does not correctly define "L" as its abbrev
-liter = Quantity('liter', abbrev='L')
+liter = additional_units.liter
 liter_prefixed_units = prefix_unit(liter, PREFIXES)
 
 eV_prefixed_units = prefix_unit(sympy_units.eV, PREFIXES)
@@ -201,34 +201,21 @@ for attr in dir(additional_units):
                 raise Exception(f'additional unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
             UNIT_ALIASES[alias] = u
 
-# add derived unit expressions
-# TODO: could these be defined as Quantity objects instead?
-
-UNIT_ALIASES['mph'] = Mul(sympy_units.mile, Pow(sympy_units.hour, -1, evaluate=False), evaluate=False)
-UNIT_ALIASES['cfm'] = Mul(Pow(sympy_units.foot, 3, evaluate=False), Pow(sympy_units.minute, -1, evaluate=False), evaluate=False)
-UNIT_ALIASES['cfs'] = Mul(Pow(sympy_units.foot, 3, evaluate=False), Pow(sympy_units.second, -1, evaluate=False), evaluate=False)
-
-knot = Mul(sympy_units.nmi, Pow(sympy_units.hour, -1, evaluate=False), evaluate=False)
-UNIT_ALIASES['knot'] = knot
-UNIT_ALIASES['kn'] = knot
-UNIT_ALIASES['kt'] = knot
-
-
 # -------------------------------------------------------------------------------------------------
 
-# # test output
-# ALIASES_BY_UNIT = {}
-# for alias, unit in UNIT_ALIASES.items():
-#     if isinstance(unit, Mul):
-#         ALIASES_BY_UNIT[alias] = srepr(unit)
-#         continue
-#     base_sympy_unit = get_base_unit(unit, sympy_units)
-#     base_unit = get_base_unit(unit, additional_units) if base_sympy_unit is None else base_sympy_unit
-#     unit_name = str(unit.name) if base_unit is None else str(base_unit.name)
-#     aliases = ALIASES_BY_UNIT.get(unit_name, [])
-#     aliases.append(alias)
-#     ALIASES_BY_UNIT[unit_name] = aliases
-# print(ALIASES_BY_UNIT)
+# test output
+ALIASES_BY_UNIT = {}
+for alias, unit in UNIT_ALIASES.items():
+    if isinstance(unit, Mul):
+        ALIASES_BY_UNIT[alias] = srepr(unit)
+        continue
+    base_sympy_unit = get_base_unit(unit, sympy_units)
+    base_unit = get_base_unit(unit, additional_units) if base_sympy_unit is None else base_sympy_unit
+    unit_name = str(unit.name) if base_unit is None else str(base_unit.name)
+    aliases = ALIASES_BY_UNIT.get(unit_name, [])
+    aliases.append(alias)
+    ALIASES_BY_UNIT[unit_name] = aliases
+print(ALIASES_BY_UNIT)
 
 # output = list(UNIT_ALIASES)
 # print(output)

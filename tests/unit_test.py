@@ -1,6 +1,5 @@
 import pytest
-from sympy import Symbol
-from sympy.physics.units import Quantity
+from sympy import Rational, pi
 from sympy.physics.units.prefixes import PREFIXES, BIN_PREFIXES
 from sympy.physics.units.definitions.unit_definitions import (
     # MKS - "meter, kilogram, second"
@@ -15,29 +14,45 @@ from sympy.physics.units.definitions.unit_definitions import (
     kilometer, centimeter, millimeter, nanometer,
     milligram, microgram,
     millisecond, microsecond,
-    liter, milliliter,
     # Other
     percent,
     degree,
     rad,
     minute, hour, day, year,
-    foot, inch, mile, pound,
+    foot, inch, mile, pound, yard,
     curie, gauss,
     atomic_mass_constant,
     atmosphere,
     electronvolt,
     bar, psi, bit, nmi,
     hbar,
-    dyne
+    dyne,
+    astronomical_unit
 )
 from latex2sympy.latex2sympy import process_sympy
-from latex2sympy.units.additional_units import cal, kcal, lbf, slug, degC, degF, dB, btu
-from latex2sympy.units import create_prefixed_unit, UNIT_ALIASES
-from .context import _Mul, _Pow, assert_equal, is_or_contains_instance
+from latex2sympy.units.additional_units import (
+    liter,
+    lbf,
+    slug,
+    cal, kcal,
+    btu,
+    degC, degF,
+    dB,
+    mph, knot,
+    # lumen,
+    cfm, cfs,
+    rood, acre,
+    sievert,
+    ounce,
+    parsec
+)
+from latex2sympy.units import UNIT_ALIASES, create_prefixed_unit, convert_to
+from .context import _Mul, _Pow, _Add, assert_equal, compare
 
 # create local vars for prefixed units for convenience
 millivolt = UNIT_ALIASES['millivolt']
 microohm = UNIT_ALIASES['microohm']
+milliliter = UNIT_ALIASES['milliliter']
 
 unit_examples = [
     # units by abbrev
@@ -184,16 +199,6 @@ unit_examples = [
     ('mcg', microgram),
     ('dyn', dyne),
 
-    # unit expressions
-    # mile per hour
-    ('mph', _Mul(mile, _Pow(hour, -1))),
-    # cubic foot per minute
-    ('cfm', _Mul(_Pow(foot, 3), _Pow(minute, -1))),
-    # cubic foot per second
-    ('cfs', _Mul(_Pow(foot, 3), _Pow(second, -1))),
-    # knot = nautical mile per hour
-    ('knot', _Mul(nmi, _Pow(hour, -1))),
-
     # additional units
     ('lbf', lbf),
     ('slug', slug),
@@ -202,9 +207,21 @@ unit_examples = [
     ('btu', btu),
     ('\\degree C', degC),
     ('degC', degC),
+    ('celsius', degC),
     ('\\degree F', degF),
     ('degF', degF),
+    ('fahrenheit', degF),
     ('dB', dB),
+    ('mph', mph),
+    ('knot', knot),
+    ('cfm', cfm),
+    ('cfs', cfs),
+    # ('lm', lumen),
+    ('rood', rood),
+    ('acre', acre),
+    ('Sv', sievert),
+    ('oz', ounce),
+    ('pc', parsec),
 
     # TODO: define additional units, if possible/needed
     # 'decade',
@@ -223,18 +240,12 @@ unit_examples = [
 
     # TODO: missing from LON-CAPA
     # ('hbar', hbar),  # conflicts with hectobar
-    # 'oz',  # ounce mass
-    # 'rood',  # area
-    # 'acre',  # area
     # 'lm',  # lumen
-    # 'Sv',  # sievert
     # 'M',  # M (mol/L) - conflicts with mega prefix
     # 'cc',  # cubic centimeter
     # 'e',  # electron charge
     # 'rpm', 'rpms',  # rounds per minute
-    # 'pc',  # parsec
-
-    # 'u',  # for amu
+    # 'u',  # alias for amu - conflicts with "u" prefix for micro
 
     # trailing spaces are stripped
     ('\\degree C\\: ', degC),
@@ -250,6 +261,8 @@ unit_examples = [
     # assorted compound unit expressions (from suffixes)
     ('deg\\: C', _Mul(degree, coulomb)),
     ('\\degree \\: C', _Mul(degree, coulomb)),
+    ('degrees\\: Celsius', _Mul(degree, degC)),
+
     ('degC/W', _Mul(degC, _Pow(watt, -1))),
     ('\\degree C/W', _Mul(degC, _Pow(watt, -1))),
     ('\\frac{\\degree C}{W}', _Mul(degC, _Pow(watt, -1))),
@@ -322,7 +335,7 @@ unit_examples = [
 
 
 @pytest.mark.parametrize('input, output', unit_examples)
-def test_covert_unit_should_succeed(input, output):
+def test_parse_as_unit_should_succeed(input, output):
     assert_equal(input, output, parse_as_unit=True)
 
 
@@ -395,7 +408,6 @@ bad_unit_examples = [
 
     # assorted invalid units
     '\\degree s',  # plural degrees w/ latex
-    'degrees\\: Celsius',
     'o',  # meant to be \degree
     'msec',  # ms
 
@@ -406,6 +418,49 @@ bad_unit_examples = [
 
 
 @pytest.mark.parametrize('input', bad_unit_examples)
-def test_covert_unit_should_fail(input):
+def test_parse_as_unit_should_fail(input):
     with pytest.raises(Exception):
         process_sympy(input, parse_as_unit=True)
+
+
+convert_to_unit_examples = [
+    ('kg', 'g', _Mul(1000, gram)),
+    ('L', 'mL', _Mul(1000, milliliter)),
+    ('m^{3}', 'L', _Mul(1000, liter)),
+    # additional units
+    ('\\frac{mile}{hour}', 'mph', mph),
+    ('\\frac{feet}{second}', 'mph', _Mul(mph, Rational(15, 22))),
+    ('\\frac{nmi}{hour}', 'knot', knot),
+    # ('sr*cd', 'lm', lumen),
+    ('\\frac{foot^{3}}{minute}', 'cfm', cfm),
+    ('\\frac{foot^{3}}{second}', 'cfs', cfs),
+    ('cfs', 'cfm', _Mul(60, cfm)),
+    ('rood', 'yard', _Mul(1210, _Pow(yard, 2))),
+    ('acre', 'yard', _Mul(4840, _Pow(yard, 2))),
+    ('\\frac{J}{kg}', 'Sv', sievert),
+    ('lb', 'oz', _Mul(ounce, 16)),
+    ('parsec', 'AU', _Mul(648000, _Pow(pi, -1), astronomical_unit)),
+]
+
+
+@pytest.mark.parametrize('src, dest, expected', convert_to_unit_examples)
+def test_covert_to_unit_should_succeed(src, dest, expected):
+    src_unit = process_sympy(src, parse_as_unit=True)
+    dest_unit = process_sympy(dest, parse_as_unit=True)
+    src_unit_converted = convert_to(src_unit, dest_unit)
+    compare(src_unit_converted, expected)
+
+
+convert_to_unit_incompatible_examples = [
+    ('kg', 'm'),
+    ('Gy', 'Sv')
+]
+
+
+@pytest.mark.parametrize('src, dest', convert_to_unit_incompatible_examples)
+def test_covert_to_unit_should_fail(src, dest):
+    src_unit = process_sympy(src, parse_as_unit=True)
+    dest_unit = process_sympy(dest, parse_as_unit=True)
+    src_unit_converted = convert_to(src_unit, dest_unit)
+    # if units are incompatible, the src unit will not change
+    compare(src_unit, src_unit_converted)

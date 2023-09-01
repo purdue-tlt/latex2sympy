@@ -1,5 +1,5 @@
-from sympy import Symbol
-from sympy.physics.units import Quantity
+import sympy.physics.units as sympy_units
+import latex2sympy.units.additional_units as additional_units
 from latex2sympy.units.units import UNIT_ALIASES
 from latex2sympy.units.prefixes import PREFIX_ALIASES, create_prefixed_unit
 
@@ -37,4 +37,12 @@ def is_or_contains_instance(expr, type):
 
 
 def is_unit(expr):
-    return is_or_contains_instance(expr, Quantity)
+    return is_or_contains_instance(expr, sympy_units.Quantity)
+
+
+def convert_to(expr, target_units):
+    # do not convert gray with sievert
+    if expr == sympy_units.gray and target_units == additional_units.sievert or\
+            expr == additional_units.sievert and target_units == sympy_units.gray:
+        return expr
+    return sympy_units.convert_to(expr, target_units)
