@@ -172,6 +172,7 @@ unit_examples = [
     ('c', speed_of_light),
     ('amu', atomic_mass_constant),
     ('eV', electronvolt),
+    ('e', elementary_charge),
 
     # additional prefixed units (not defined in sympy)
     ('mCi', create_prefixed_unit(curie, PREFIXES['m'])),
@@ -202,7 +203,7 @@ unit_examples = [
     ('in', inch),
     ('mcg', microgram),
     ('dyn', dyne),
-    ('e', elementary_charge),
+    ('u', atomic_mass_constant),
 
     # additional units
     ('lbf', lbf),
@@ -229,7 +230,6 @@ unit_examples = [
     ('pc', parsec),
     ('cc', cc),
     ('M', molar),
-    ('u', atomic_mass_constant),
 
     # TODO: LON-CAPA units
     # 'hbar',  # conflicts with hectobar
