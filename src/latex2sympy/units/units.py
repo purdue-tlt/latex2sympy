@@ -11,7 +11,8 @@ import latex2sympy.units.additional_units as additional_units
 allowed_constants = [
     sympy_units.speed_of_light,
     sympy_units.atomic_mass_constant,
-    sympy_units.electronvolt
+    sympy_units.electronvolt,
+    sympy_units.elementary_charge
 ]
 
 # define additional aliases for pre-defined units
@@ -26,7 +27,8 @@ custom_unit_aliases = {
     sympy_units.pound: ['lb', 'lbs'],
     sympy_units.inch: ['in'],
     sympy_units.microgram: ['mcg'],
-    sympy_units.dyne: ['dyn']
+    sympy_units.dyne: ['dyn'],
+    sympy_units.amu: ['u']
 }
 
 # fixed/additional sympy units
@@ -35,17 +37,13 @@ custom_unit_aliases = {
 liter = additional_units.liter
 liter_prefixed_units = prefix_unit(liter, PREFIXES)
 
+# add additional prefixed units
 eV_prefixed_units = prefix_unit(sympy_units.eV, PREFIXES)
 Ci_prefixed_units = prefix_unit(sympy_units.Ci, PREFIXES)
 bar_prefixed_units = prefix_unit(sympy_units.bar, PREFIXES)
 byte_prefixed_units = prefix_unit(sympy_units.byte, BIN_PREFIXES)
 bit_prefixed_units = prefix_unit(sympy_units.bit, BIN_PREFIXES)
-
-# units that will replace the original sympy version
-fixed_sympy_units = {}
-fixed_sympy_units[str(liter.name)] = liter
-for u in [*liter_prefixed_units, *byte_prefixed_units]:
-    fixed_sympy_units[str(u.name)] = u
+M_prefixed_units = prefix_unit(additional_units.molar, PREFIXES)
 
 additional_sympy_prefixed_units = [
     *liter_prefixed_units,
@@ -53,8 +51,15 @@ additional_sympy_prefixed_units = [
     *Ci_prefixed_units,
     *bar_prefixed_units,
     *byte_prefixed_units,
-    *bit_prefixed_units
+    *bit_prefixed_units,
+    *M_prefixed_units
 ]
+
+# units that will replace the original sympy versions
+fixed_sympy_units = {}
+fixed_sympy_units[str(liter.name)] = liter
+for u in [*liter_prefixed_units, *byte_prefixed_units]:
+    fixed_sympy_units[str(u.name)] = u
 
 aliases_to_exclude = [
     'l',
@@ -203,19 +208,19 @@ for attr in dir(additional_units):
 
 # -------------------------------------------------------------------------------------------------
 
-# test output
-ALIASES_BY_UNIT = {}
-for alias, unit in UNIT_ALIASES.items():
-    if isinstance(unit, Mul):
-        ALIASES_BY_UNIT[alias] = srepr(unit)
-        continue
-    base_sympy_unit = get_base_unit(unit, sympy_units)
-    base_unit = get_base_unit(unit, additional_units) if base_sympy_unit is None else base_sympy_unit
-    unit_name = str(unit.name) if base_unit is None else str(base_unit.name)
-    aliases = ALIASES_BY_UNIT.get(unit_name, [])
-    aliases.append(alias)
-    ALIASES_BY_UNIT[unit_name] = aliases
-print(ALIASES_BY_UNIT)
+# # test output
+# ALIASES_BY_UNIT = {}
+# for alias, unit in UNIT_ALIASES.items():
+#     if isinstance(unit, Mul):
+#         ALIASES_BY_UNIT[alias] = srepr(unit)
+#         continue
+#     base_sympy_unit = get_base_unit(unit, sympy_units)
+#     base_unit = get_base_unit(unit, additional_units) if base_sympy_unit is None else base_sympy_unit
+#     unit_name = str(unit.name) if base_unit is None else str(base_unit.name)
+#     aliases = ALIASES_BY_UNIT.get(unit_name, [])
+#     aliases.append(alias)
+#     ALIASES_BY_UNIT[unit_name] = aliases
+# print(ALIASES_BY_UNIT)
 
 # output = list(UNIT_ALIASES)
 # print(output)

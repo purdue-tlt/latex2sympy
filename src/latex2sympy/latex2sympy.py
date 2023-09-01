@@ -7,7 +7,7 @@ from latex2sympy.lib import parseToJson, LATEXLexerToken
 from latex2sympy.utils.differential import DIFFERENTIAL_PREFIX, is_differential_var, get_differential_var
 from latex2sympy.utils.expression import create_rational_or_number, add_flat, mat_add_flat, mul_flat, mat_mul_flat, create_ceil, create_floor, create_gcd_lcm
 from latex2sympy.utils.json import has_type_or_token, get_token
-from latex2sympy.units import UNIT_ALIASES, find_unit, find_prefix, is_unit
+from latex2sympy.units import UNIT_ALIASES, PREFIX_ALIASES, find_unit, find_prefix, is_unit
 
 # replacement for `sympy.S.EmptySet` which can be printed to a string, or used in expression comparisons
 EmptySet = sympy.Symbol('emptyset')
@@ -284,7 +284,7 @@ class LatexToSympy:
                 if res.is_Matrix or rh.is_Matrix:
                     return mat_mul_flat(res, rh)
                 else:
-                    return self.mul_flat_or_combine_prefix_and_unit(res, rh)
+                    return self.mul_flat_or_combine_prefix_and_unit(res, rh, nested_exp_atom if nested_exp_atom is not None else atom)
         else:  # must be derivative
             wrt = res[0]
             if i == len(arr) - 1:
@@ -828,16 +828,27 @@ class LatexToSympy:
         else:
             return sympy.E
 
-    def mul_flat_or_combine_prefix_and_unit(self, lh, rh):
-        # check if an adjacent Prefix and Quantity should be combined into a prefixed unit
+    def mul_flat_or_combine_prefix_and_unit(self, lh, rh, lh_atom=None):
+        # check if an adjacent items should be combined into a prefixed unit
+        # this happens with a prefix or unit that uses a greek letter latex command
+        # .e.g. "\mu H" or "k\Omega "
         if self.parse_as_unit:
             lh_is_prefix = isinstance(lh, sympy_physics_units.prefixes.Prefix)
+            lh_is_quantity = isinstance(lh, sympy_physics_units.Quantity)
             rh_is_quantity = isinstance(rh, sympy_physics_units.Quantity)
-            # prefix without a quantity after is invalid
+            # prefix without a quantity after it is invalid
             if lh_is_prefix and not rh_is_quantity:
                 raise Exception('Only a prefix and a quantity can be combined')
-            if lh_is_prefix and rh_is_quantity:
-                unit_name = str(lh.name) + str(rh.name)
+            prefix_text = None
+            if lh_is_prefix:
+                prefix_text = str(lh.name)
+            # handle the edge case where a unit’s abbrev is the same as a prefix
+            # e.g. "M\Omega ", where "M" is parsed as "molar", but should become "megaohm"
+            # `is_postfix_list` excludes the case of explicit multiplication e.g. "molar*ohm"
+            elif lh_is_quantity and lh_atom is not None and lh_atom.get('atom_expr', {}).get('text') in PREFIX_ALIASES:
+                prefix_text = str(PREFIX_ALIASES[lh_atom.get('atom_expr').get('text')].name)
+            if prefix_text is not None and rh_is_quantity:
+                unit_name = prefix_text + str(rh.name)
                 # check if the combined prefix name + unit name are valid
                 if unit_name in UNIT_ALIASES:
                     return UNIT_ALIASES[unit_name]

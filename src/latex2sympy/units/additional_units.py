@@ -2,7 +2,7 @@ from sympy import Rational, pi
 import sympy.physics.units.definitions.unit_definitions as sympy_units
 import sympy.physics.units.prefixes as sympy_prefixes
 import sympy.physics.units.definitions.dimension_definitions as sympy_dimensions
-from sympy.physics.units.quantities import Quantity
+from sympy.physics.units.quantities import Quantity, PhysicalConstant
 from sympy.physics.units.systems.si import SI
 from latex2sympy.units.prefixes import create_prefixed_unit
 
@@ -10,7 +10,7 @@ from latex2sympy.units.prefixes import create_prefixed_unit
 liter = Quantity('liter', abbrev='L')
 # scale factor not set in sympy
 SI.set_quantity_dimension(liter, sympy_dimensions.volume)
-SI.set_quantity_scale_factor(liter, 10**3 * sympy_units.centimeter**3)
+SI.set_quantity_scale_factor(liter, 1000 * sympy_units.centimeter**3)
 
 # define additional units, scale factors taken from LON-CAPA / CAPA / Wikipedia
 # https://loncapa04.purdue.edu/adm/help/Physical_Units.hlp
@@ -79,3 +79,11 @@ ounce.set_global_relative_scale_factor(Rational(1, 16), sympy_units.pound)
 
 pc = parsec = Quantity('parsec', abbrev='pc')
 parsec.set_global_relative_scale_factor(648000 / pi, sympy_units.astronomical_unit)
+
+cc = ccs = cubic_centimeter = Quantity('cubic_centimeter', abbrev='cc')
+SI.set_quantity_dimension(cc, sympy_dimensions.volume)
+SI.set_quantity_scale_factor(cc, sympy_units.cm**3)
+
+M = molar = Quantity('molar', abbrev='M')
+SI.set_quantity_dimension(molar, sympy_dimensions.amount_of_substance / sympy_dimensions.volume)
+SI.set_quantity_scale_factor(molar, sympy_units.mole / liter)

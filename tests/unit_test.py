@@ -27,7 +27,7 @@ from sympy.physics.units.definitions.unit_definitions import (
     bar, psi, bit, nmi,
     hbar,
     dyne,
-    astronomical_unit
+    astronomical_unit, elementary_charge
 )
 from latex2sympy.latex2sympy import process_sympy
 from latex2sympy.units.additional_units import (
@@ -44,7 +44,9 @@ from latex2sympy.units.additional_units import (
     rood, acre,
     sievert,
     ounce,
-    parsec
+    parsec,
+    cc,
+    molar
 )
 from latex2sympy.units import UNIT_ALIASES, create_prefixed_unit, convert_to
 from .context import _Mul, _Pow, _Add, assert_equal, compare
@@ -177,6 +179,8 @@ unit_examples = [
     ('mbar', create_prefixed_unit(bar, PREFIXES['m'])),
     # binary prefixed unit
     ('pebibit', create_prefixed_unit(bit, BIN_PREFIXES['Pi'])),
+    ('mM', create_prefixed_unit(molar, PREFIXES['m'])),
+    ('\\mu M', create_prefixed_unit(molar, PREFIXES['mu'])),
 
     # additional aliases
     ('\\degree ', degree),
@@ -198,6 +202,7 @@ unit_examples = [
     ('in', inch),
     ('mcg', microgram),
     ('dyn', dyne),
+    ('e', elementary_charge),
 
     # additional units
     ('lbf', lbf),
@@ -222,14 +227,22 @@ unit_examples = [
     ('Sv', sievert),
     ('oz', ounce),
     ('pc', parsec),
+    ('cc', cc),
+    ('M', molar),
+    ('u', atomic_mass_constant),
 
-    # TODO: define additional units, if possible/needed
+    # TODO: LON-CAPA units
+    # 'hbar',  # conflicts with hectobar
+    # 'lm',  # lumen
+    # 'rpm', 'rpms',  # rounds per minute
+
+    # TODO: additional units (from suffixes)
     # 'decade',
     # 'octave',
     # 'Gs',  # for gauss - conflicts with gigasecond
-    # 'R',  # https://en.wikipedia.org/wiki/Roentgen_(unit)
+    # 'R',  # legacy unit for radiation - https://en.wikipedia.org/wiki/Roentgen_(unit)
     # 'mR',
-    # 'Rad',  # could conflict with radians
+    # 'rad', 'Rad',  # conflicts with radians, CGS unit
     # 'dBV',
     # 'gpm',  # multiple versions exist, gallons per minute
     # 'hp',  # multiple versions exist, horse power
@@ -237,15 +250,6 @@ unit_examples = [
     # 'lbf-in',  # "pound-inch" 1/12 of "pound-foot"
     # 'ft⋅lbf', 'ft⋅lb'  # "foot-pound" (energy)
     # 'psia',
-
-    # TODO: missing from LON-CAPA
-    # ('hbar', hbar),  # conflicts with hectobar
-    # 'lm',  # lumen
-    # 'M',  # M (mol/L) - conflicts with mega prefix
-    # 'cc',  # cubic centimeter
-    # 'e',  # electron charge
-    # 'rpm', 'rpms',  # rounds per minute
-    # 'u',  # alias for amu - conflicts with "u" prefix for micro
 
     # trailing spaces are stripped
     ('\\degree C\\: ', degC),
@@ -331,6 +335,8 @@ unit_examples = [
     ('V\\cdot m', _Mul(volt, meter)),
     ('kJ/mol', _Mul(create_prefixed_unit(joule, PREFIXES['k']), _Pow(mole, -1))),
     ('kN/m', _Mul(create_prefixed_unit(newton, PREFIXES['k']), _Pow(meter, -1))),
+    ('molar*ohm', _Mul(molar, ohm)),
+    ('M*\\Omega', _Mul(molar, ohm)),
 ]
 
 
@@ -440,6 +446,9 @@ convert_to_unit_examples = [
     ('\\frac{J}{kg}', 'Sv', sievert),
     ('lb', 'oz', _Mul(ounce, 16)),
     ('parsec', 'AU', _Mul(648000, _Pow(pi, -1), astronomical_unit)),
+    ('cm^{3}', 'cc', cc),
+    ('mol/L', 'M', molar),
+    ('mmol/L', 'M', _Mul(Rational(1, 1000), molar))
 ]
 
 
