@@ -8,6 +8,7 @@ from sympy.physics.units.systems.si import all_units as si_units
 from sympy.physics.units.systems.si import SI
 from latex2sympy.units.prefixes import PREFIXES, BIN_PREFIXES, ALL_PREFIXES, prefix_unit
 import latex2sympy.units.additional_units as additional_units
+import json
 
 # define which PhysicalConstants are allowed
 allowed_constants = [
@@ -248,8 +249,8 @@ for attr in dir(additional_units):
 #     aliases = ALIASES_BY_UNIT.get(unit_name, [])
 #     aliases.append(alias)
 #     ALIASES_BY_UNIT[unit_name] = aliases
-# print(ALIASES_BY_UNIT)
 
-# output = list(UNIT_ALIASES)
-# print(output)
-# print(len(output))
+# with open('src/latex2sympy/units/unit-aliases.json', 'w', encoding='utf-8') as f:
+#     json.dump(ALIASES_BY_UNIT, f, ensure_ascii=False, indent=4)
+
+# print(ALIASES_BY_UNIT)
