@@ -40,7 +40,7 @@ mph = MPH = miles_per_hour = Quantity('miles_per_hour', abbrev='mph')
 SI.set_quantity_dimension(mph, sympy_dimensions.velocity)
 SI.set_quantity_scale_factor(mph, sympy_units.mile / sympy_units.hour)
 
-kn = kt = knot = Quantity('knot', abbrev='kn')
+kn = kt = knots = knot = Quantity('knot', abbrev='kn')
 SI.set_quantity_dimension(knot, sympy_dimensions.velocity)
 SI.set_quantity_scale_factor(knot, sympy_units.nautical_mile / sympy_units.hour)
 
@@ -60,7 +60,7 @@ SI.set_quantity_dimension(acre, sympy_dimensions.area)
 SI.set_quantity_scale_factor(acre, 4840 * sympy_units.yard**2)
 
 # sievert is similar to gray, but they are not equatable
-sievert = Quantity('sievert', abbrev='Sv')
+sieverts = sievert = Quantity('sievert', abbrev='Sv')
 SI.set_quantity_dimension(sievert, sympy_dimensions.energy / sympy_dimensions.mass)
 SI.set_quantity_scale_factor(sievert, sympy_units.meter**2 / sympy_units.second**2)
 
@@ -77,7 +77,7 @@ ounce.set_global_relative_scale_factor(Rational(1, 16), sympy_units.pound)
 # SI.set_quantity_dimension(sympy_units.lux, sympy_dimensions.luminous_intensity / sympy_dimensions.length**2)
 # SI.set_quantity_scale_factor(sympy_units.lux, lumen / sympy_units.meter**2)
 
-pc = parsec = Quantity('parsec', abbrev='pc')
+pc = parsecs = parsec = Quantity('parsec', abbrev='pc')
 parsec.set_global_relative_scale_factor(648000 / pi, sympy_units.astronomical_unit)
 
 cc = ccs = cubic_centimeter = Quantity('cubic_centimeter', abbrev='cc')

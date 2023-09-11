@@ -1,9 +1,11 @@
-from sympy import latex, Mul, Pow, srepr
+from sympy import latex, Mul, srepr
+import sympy.physics.units.definitions.dimension_definitions as sympy_dimensions
 import sympy.physics.units.definitions.unit_definitions as sympy_units
 from sympy.physics.units.quantities import Quantity, PhysicalConstant
 from sympy.physics.units.systems.mks import all_units as mks_units
 from sympy.physics.units.systems.mksa import all_units as mksa_units
 from sympy.physics.units.systems.si import all_units as si_units
+from sympy.physics.units.systems.si import SI
 from latex2sympy.units.prefixes import PREFIXES, BIN_PREFIXES, ALL_PREFIXES, prefix_unit
 import latex2sympy.units.additional_units as additional_units
 
@@ -20,10 +22,10 @@ custom_unit_aliases = {
     sympy_units.degree: [r'\degree'],
     sympy_units.percent: [r'\%'],
     sympy_units.ampere: ['amp', 'amps', 'Amp', 'Amps'],
-    sympy_units.second: ['sec', 'secs'],
-    sympy_units.minute: ['min', 'mins'],
-    sympy_units.hour: ['hr', 'hrs'],
-    sympy_units.year: ['yr', 'yrs'],
+    sympy_units.second: ['sec', 'secs', 'Sec', 'Secs'],
+    sympy_units.minute: ['min', 'mins', 'Min', 'Mins'],
+    sympy_units.hour: ['hr', 'hrs', 'Hr', 'Hrs'],
+    sympy_units.year: ['yr', 'yrs', 'Yr', 'Yrs'],
     sympy_units.pound: ['lb', 'lbs'],
     sympy_units.inch: ['in'],
     sympy_units.microgram: ['mcg'],
@@ -61,6 +63,10 @@ fixed_sympy_units[str(liter.name)] = liter
 for u in [*liter_prefixed_units, *byte_prefixed_units]:
     fixed_sympy_units[str(u.name)] = u
 
+# add missing sympy dimensions
+SI.set_quantity_dimension(sympy_units.hectare, sympy_dimensions.area)
+SI.set_quantity_scale_factor(sympy_units.hectare, 10000 * sympy_units.meter**2)
+
 # sympy unit aliases we don't want to use
 aliases_to_exclude = [
     'l',
@@ -74,7 +80,23 @@ aliases_to_exclude = [
 
 # sympy unit aliases that should have a pluralized form added
 aliases_to_pluralize = [
-    'tonne'
+    'becquerel',
+    'katal',
+    'gray',
+    'curie',
+    'rutherford',
+    'permille',
+    'tonne',
+    'dioptre',
+    'diopter',
+    'dalton',
+    'torr',
+    'statampere',
+    'statcoulomb',
+    'statvolt',
+    'franklin',
+    'hectare',
+    'maxwell'
 ]
 
 # sympy unit aliases that should not have a capitalized form added
@@ -87,7 +109,10 @@ aliases_to_not_capitalize = [
     'mmu',
     'mmus',
     'mi',
-    'mmHg'
+    'mmHg',
+    'psi',
+    'kt',
+    'ccs'
 ]
 
 
@@ -144,15 +169,15 @@ def get_aliases_for_unit(unit, dir_module, attr_name=None):
             attr_capitalized = capitalize_first_letter(attr_name)
             unit_aliases.append(attr_capitalized)
             # plural capitalized attr name
-            if unit_name in aliases_to_pluralize:
-                unit_aliases.append(f'{unit_name_capitalized}s')
+            if attr_name in aliases_to_pluralize:
+                unit_aliases.append(f'{attr_capitalized}s')
 
     # if the unit is prefixed, check if the base unit is pluralized in the given `dir_module`
     # if so, then add the pluralized name and pluralized capital name of the prefixed unit
     if unit.is_prefixed:
         base_unit = get_base_unit(unit, dir_module)
         base_unit_name = str(base_unit.name) if base_unit is not None else None
-        if base_unit is not None and f'{base_unit_name}s' in dir(dir_module):
+        if base_unit is not None and (f'{base_unit_name}s' in dir(dir_module) or base_unit_name in aliases_to_pluralize):
             unit_aliases.append(f'{unit_name}s')
             unit_aliases.append(f'{capitalize_first_letter(unit_name)}s')
 
@@ -161,9 +186,9 @@ def get_aliases_for_unit(unit, dir_module, attr_name=None):
         unit_aliases.append('u' + unit_abbrev[2:])
 
     # latex
-    # except when value is wrapped in "\text{}"
+    # except when value contains "\text{}" or "\r{}" or "\circ"
     unit_latex = latex(unit)
-    if '\\text' not in unit_latex:
+    if '\\text{' not in unit_latex and '\\r{' not in unit_latex and '\\circ' not in unit_latex:
         unit_aliases.append(unit_latex)
 
     # custom unit aliases, if defined
