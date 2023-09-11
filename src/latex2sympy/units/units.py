@@ -15,7 +15,7 @@ allowed_constants = [
     sympy_units.elementary_charge
 ]
 
-# define additional aliases for pre-defined units
+# define additional aliases for sympy units
 custom_unit_aliases = {
     sympy_units.degree: [r'\degree'],
     sympy_units.percent: [r'\%'],
@@ -31,7 +31,7 @@ custom_unit_aliases = {
     sympy_units.amu: ['u']
 }
 
-# fixed/additional sympy units
+# define fixed sympy units/additional prefixed units
 
 # the default liter unit does not correctly define "L" as its abbrev
 liter = additional_units.liter
@@ -61,6 +61,7 @@ fixed_sympy_units[str(liter.name)] = liter
 for u in [*liter_prefixed_units, *byte_prefixed_units]:
     fixed_sympy_units[str(u.name)] = u
 
+# sympy unit aliases we don't want to use
 aliases_to_exclude = [
     'l',
     'cl',
@@ -71,10 +72,12 @@ aliases_to_exclude = [
     'wb'
 ]
 
+# sympy unit aliases that should have a pluralized form added
 aliases_to_pluralize = [
     'tonne'
 ]
 
+# sympy unit aliases that should not have a capitalized form added
 aliases_to_not_capitalize = [
     'au',
     'h',
