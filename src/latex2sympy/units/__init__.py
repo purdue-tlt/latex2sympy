@@ -2,6 +2,7 @@ import sympy.physics.units as sympy_units
 import latex2sympy.units.additional_units as additional_units
 from latex2sympy.units.units import UNIT_ALIASES
 from latex2sympy.units.prefixes import PREFIX_ALIASES, create_prefixed_unit
+from latex2sympy.units.sie import SIE
 
 
 def find_prefix(text):
@@ -45,4 +46,4 @@ def convert_to(expr, target_units):
     if expr == sympy_units.gray and target_units == additional_units.sievert or\
             expr == additional_units.sievert and target_units == sympy_units.gray:
         return expr
-    return sympy_units.convert_to(expr, target_units)
+    return sympy_units.convert_to(expr, target_units, SIE)
