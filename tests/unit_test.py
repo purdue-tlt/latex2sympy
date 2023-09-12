@@ -1,6 +1,5 @@
 import pytest
 from sympy import Rational, pi
-from sympy.physics.units.prefixes import PREFIXES, BIN_PREFIXES
 from sympy.physics.units.definitions.unit_definitions import (
     # MKS - "meter, kilogram, second"
     meter, gram, kilogram, second, joule, newton, watt, pascal, hertz, speed_of_light,
@@ -24,14 +23,17 @@ from sympy.physics.units.definitions.unit_definitions import (
     atomic_mass_constant,
     atmosphere,
     electronvolt,
-    bar, psi, bit, nmi,
+    bar, psi, nmi,
     hbar,
     dyne,
     astronomical_unit, elementary_charge
 )
 from latex2sympy.latex2sympy import process_sympy
+from latex2sympy.units.prefixes import SI_PREFIXES, BIN_PREFIXES
 from latex2sympy.units.additional_units import (
     liter,
+    bit,
+    byte,
     lbf,
     slug,
     cal, kcal,
@@ -120,27 +122,27 @@ unit_examples = [
     ('mL', milliliter),
 
     # assorted prefixed si units (from suffixes)
-    ('Gs', create_prefixed_unit(second, PREFIXES['G'])),
-    ('MHz', create_prefixed_unit(hertz, PREFIXES['M'])),
-    ('MN', create_prefixed_unit(newton, PREFIXES['M'])),
-    ('kHz', create_prefixed_unit(hertz, PREFIXES['k'])),
-    ('kJ', create_prefixed_unit(joule, PREFIXES['k'])),
-    ('kN', create_prefixed_unit(newton, PREFIXES['k'])),
-    ('kPa', create_prefixed_unit(pascal, PREFIXES['k'])),
-    ('ks', create_prefixed_unit(second, PREFIXES['k'])),
-    ('kW', create_prefixed_unit(watt, PREFIXES['k'])),
-    ('mA', create_prefixed_unit(ampere, PREFIXES['m'])),
-    ('mH', create_prefixed_unit(henry, PREFIXES['m'])),
-    ('mV', create_prefixed_unit(volt, PREFIXES['m'])),
-    ('mW', create_prefixed_unit(watt, PREFIXES['m'])),
-    ('uA', create_prefixed_unit(ampere, PREFIXES['mu'])),
-    ('uF', create_prefixed_unit(farad, PREFIXES['mu'])),
-    ('uH', create_prefixed_unit(henry, PREFIXES['mu'])),
-    ('uS', create_prefixed_unit(siemens, PREFIXES['mu'])),
-    ('nF', create_prefixed_unit(farad, PREFIXES['n'])),
-    ('nL', create_prefixed_unit(liter, PREFIXES['n'])),
-    ('pF', create_prefixed_unit(farad, PREFIXES['p'])),
-    ('fF', create_prefixed_unit(farad, PREFIXES['f'])),
+    ('Gs', create_prefixed_unit(second, SI_PREFIXES['G'])),
+    ('MHz', create_prefixed_unit(hertz, SI_PREFIXES['M'])),
+    ('MN', create_prefixed_unit(newton, SI_PREFIXES['M'])),
+    ('kHz', create_prefixed_unit(hertz, SI_PREFIXES['k'])),
+    ('kJ', create_prefixed_unit(joule, SI_PREFIXES['k'])),
+    ('kN', create_prefixed_unit(newton, SI_PREFIXES['k'])),
+    ('kPa', create_prefixed_unit(pascal, SI_PREFIXES['k'])),
+    ('ks', create_prefixed_unit(second, SI_PREFIXES['k'])),
+    ('kW', create_prefixed_unit(watt, SI_PREFIXES['k'])),
+    ('mA', create_prefixed_unit(ampere, SI_PREFIXES['m'])),
+    ('mH', create_prefixed_unit(henry, SI_PREFIXES['m'])),
+    ('mV', create_prefixed_unit(volt, SI_PREFIXES['m'])),
+    ('mW', create_prefixed_unit(watt, SI_PREFIXES['m'])),
+    ('uA', create_prefixed_unit(ampere, SI_PREFIXES['mu'])),
+    ('uF', create_prefixed_unit(farad, SI_PREFIXES['mu'])),
+    ('uH', create_prefixed_unit(henry, SI_PREFIXES['mu'])),
+    ('uS', create_prefixed_unit(siemens, SI_PREFIXES['mu'])),
+    ('nF', create_prefixed_unit(farad, SI_PREFIXES['n'])),
+    ('nL', create_prefixed_unit(liter, SI_PREFIXES['n'])),
+    ('pF', create_prefixed_unit(farad, SI_PREFIXES['p'])),
+    ('fF', create_prefixed_unit(farad, SI_PREFIXES['f'])),
 
     # prefixed units by full name
     ('millivolt', millivolt),
@@ -148,23 +150,23 @@ unit_examples = [
     ('Millivolt', millivolt),
     ('Millivolts', millivolt),
 
-    ('Megajoules', create_prefixed_unit(joule, PREFIXES['M'])),
+    ('Megajoules', create_prefixed_unit(joule, SI_PREFIXES['M'])),
 
     # prefix latex + unit abbrev
     ('\\mu g', microgram),
     ('\\mu s', microsecond),
-    ('\\mu A', create_prefixed_unit(ampere, PREFIXES['mu'])),
-    ('\\mu V', create_prefixed_unit(volt, PREFIXES['mu'])),
-    ('\\mu C', create_prefixed_unit(coulomb, PREFIXES['mu'])),
-    ('\\mu F', create_prefixed_unit(farad, PREFIXES['mu'])),
-    ('\\mu H', create_prefixed_unit(henry, PREFIXES['mu'])),
+    ('\\mu A', create_prefixed_unit(ampere, SI_PREFIXES['mu'])),
+    ('\\mu V', create_prefixed_unit(volt, SI_PREFIXES['mu'])),
+    ('\\mu C', create_prefixed_unit(coulomb, SI_PREFIXES['mu'])),
+    ('\\mu F', create_prefixed_unit(farad, SI_PREFIXES['mu'])),
+    ('\\mu H', create_prefixed_unit(henry, SI_PREFIXES['mu'])),
 
     # prefix latex + unit latex
     ('\\mu \\Omega ', microohm),
 
     # prefix abbrev + unit latex
-    ('M\\Omega ', create_prefixed_unit(ohm, PREFIXES['M'])),
-    ('k\\Omega ', create_prefixed_unit(ohm, PREFIXES['k'])),
+    ('M\\Omega ', create_prefixed_unit(ohm, SI_PREFIXES['M'])),
+    ('k\\Omega ', create_prefixed_unit(ohm, SI_PREFIXES['k'])),
     ('mu\\Omega ', microohm),
     ('u\\Omega ', microohm),
 
@@ -175,13 +177,29 @@ unit_examples = [
     ('e', elementary_charge),
 
     # additional prefixed units (not defined in sympy)
-    ('mCi', create_prefixed_unit(curie, PREFIXES['m'])),
-    ('MeV', create_prefixed_unit(electronvolt, PREFIXES['M'])),
-    ('mbar', create_prefixed_unit(bar, PREFIXES['m'])),
-    # binary prefixed unit
+    ('MeV', create_prefixed_unit(electronvolt, SI_PREFIXES['M'])),
+    ('mCi', create_prefixed_unit(curie, SI_PREFIXES['m'])),
+    ('mbar', create_prefixed_unit(bar, SI_PREFIXES['m'])),
+    ('mM', create_prefixed_unit(molar, SI_PREFIXES['m'])),
+    ('\\mu M', create_prefixed_unit(molar, SI_PREFIXES['mu'])),
+    # binary prefixed units
     ('pebibit', create_prefixed_unit(bit, BIN_PREFIXES['Pi'])),
-    ('mM', create_prefixed_unit(molar, PREFIXES['m'])),
-    ('\\mu M', create_prefixed_unit(molar, PREFIXES['mu'])),
+    ('Pibit', create_prefixed_unit(bit, BIN_PREFIXES['Pi'])),
+    ('Pib', create_prefixed_unit(bit, BIN_PREFIXES['Pi'])),
+    # new binary prefixes
+    ('zebibyte', create_prefixed_unit(byte, BIN_PREFIXES['Zi'])),
+    ('yobibit', create_prefixed_unit(bit, BIN_PREFIXES['Yi'])),
+    # si prefixed information units
+    ('megabit', create_prefixed_unit(bit, SI_PREFIXES['M'])),
+    ('Mbit', create_prefixed_unit(bit, SI_PREFIXES['M'])),
+    ('Mb', create_prefixed_unit(bit, SI_PREFIXES['M'])),
+    ('gigabyte', create_prefixed_unit(byte, SI_PREFIXES['G'])),
+    ('GB', create_prefixed_unit(byte, SI_PREFIXES['G'])),
+    # new si prefixes
+    ('Qg', create_prefixed_unit(gram, SI_PREFIXES['Q'])),
+    ('Rm', create_prefixed_unit(meter, SI_PREFIXES['R'])),
+    ('rg', create_prefixed_unit(gram, SI_PREFIXES['r'])),
+    ('qm', create_prefixed_unit(meter, SI_PREFIXES['q'])),
 
     # additional aliases
     ('\\degree ', degree),
@@ -192,12 +210,20 @@ unit_examples = [
     ('Amps', ampere),
     ('sec', second),
     ('secs', second),
+    ('Sec', second),
+    ('Secs', second),
     ('min', minute),
     ('mins', minute),
+    ('Min', minute),
+    ('Mins', minute),
     ('hr', hour),
     ('hrs', hour),
+    ('Hr', hour),
+    ('Hrs', hour),
     ('yr', year),
     ('yrs', year),
+    ('Yr', year),
+    ('Yrs', year),
     ('lb', pound),
     ('lbs', pound),
     ('in', inch),
@@ -283,12 +309,12 @@ unit_examples = [
     ('\\frac{ft^{3}}{s}', _Mul(_Pow(foot, 3), _Pow(second, -1))),
     ('\\frac{g}{mol}', _Mul(gram, _Pow(mole, -1))),
     ('\\frac{J}{kg\\: K}', _Mul(joule, _Pow(_Mul(kilogram, kelvin), -1))),
-    ('\\frac{kJ}{mol}', _Mul(create_prefixed_unit(joule, PREFIXES['k']), _Pow(mole, -1))),
+    ('\\frac{kJ}{mol}', _Mul(create_prefixed_unit(joule, SI_PREFIXES['k']), _Pow(mole, -1))),
     ('\\frac{lbf}{ft^{2}}', _Mul(lbf, _Pow(_Pow(foot, 2), -1))),
     ('\\frac{m}{s}', _Mul(meter, _Pow(second, -1))),
     ('\\frac{m}{s^{2}}', _Mul(meter, _Pow(_Pow(second, 2), -1))),
     ('\\frac{m^{3}}{s}', _Mul(_Pow(meter, 3), _Pow(second, -1))),
-    ('\\frac{mV}{\\mu s}', _Mul(create_prefixed_unit(volt, PREFIXES['m']), _Pow(microsecond, -1))),
+    ('\\frac{mV}{\\mu s}', _Mul(create_prefixed_unit(volt, SI_PREFIXES['m']), _Pow(microsecond, -1))),
     ('\\frac{N}{m}', _Mul(newton, _Pow(meter, -1))),
     ('\\frac{N}{m^{2}}', _Mul(newton, _Pow(_Pow(meter, 2), -1))),
     ('\\frac{rad}{sec}', _Mul(rad, _Pow(second, -1))),
@@ -333,8 +359,8 @@ unit_examples = [
     ('slugs/ft3', _Mul(slug, _Pow(_Mul(foot, 3), -1))),
     ('V/us', _Mul(volt, _Pow(microsecond, -1))),
     ('V\\cdot m', _Mul(volt, meter)),
-    ('kJ/mol', _Mul(create_prefixed_unit(joule, PREFIXES['k']), _Pow(mole, -1))),
-    ('kN/m', _Mul(create_prefixed_unit(newton, PREFIXES['k']), _Pow(meter, -1))),
+    ('kJ/mol', _Mul(create_prefixed_unit(joule, SI_PREFIXES['k']), _Pow(mole, -1))),
+    ('kN/m', _Mul(create_prefixed_unit(newton, SI_PREFIXES['k']), _Pow(meter, -1))),
     ('molar*ohm', _Mul(molar, ohm)),
     ('M*\\Omega', _Mul(molar, ohm)),
 ]
@@ -448,7 +474,11 @@ convert_to_unit_examples = [
     ('parsec', 'AU', _Mul(648000, _Pow(pi, -1), astronomical_unit)),
     ('cm^{3}', 'cc', cc),
     ('mol/L', 'M', molar),
-    ('mmol/L', 'M', _Mul(Rational(1, 1000), molar))
+    ('mmol/L', 'M', _Mul(Rational(1, 1000), molar)),
+    ('hectare', 'm', _Mul(10000, _Pow(meter, 2))),
+    ('mebibit', 'bit', _Mul(1048576, bit)),
+    ('kb', 'bit', _Mul(1000, bit)),
+    ('Mb/s', 'MB/s', _Mul(Rational(1, 8), _Pow(second, -1), create_prefixed_unit(byte, SI_PREFIXES['M'])))
 ]
 
 

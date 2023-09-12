@@ -2,21 +2,17 @@ from sympy import latex, Mul, srepr
 import sympy.physics.units.definitions.dimension_definitions as sympy_dimensions
 import sympy.physics.units.definitions.unit_definitions as sympy_units
 from sympy.physics.units.quantities import Quantity, PhysicalConstant
-from sympy.physics.units.systems.mks import all_units as mks_units
-from sympy.physics.units.systems.mksa import all_units as mksa_units
-from sympy.physics.units.systems.si import all_units as si_units
+from sympy.physics.units.systems.mks import all_units as mks_units, units as mks_base_units
+from sympy.physics.units.systems.mksa import all_units as mksa_units, units as mksa_base_units
+from sympy.physics.units.systems.si import all_units as si_units, units as si_base_units
 from sympy.physics.units.systems.si import SI
-from latex2sympy.units.prefixes import PREFIXES, BIN_PREFIXES, ALL_PREFIXES, prefix_unit
+from latex2sympy.units.prefixes import NEW_SI_PREFIXES, SI_PREFIXES, INFORMATION_SI_PREFIXES, BIN_PREFIXES, ALL_PREFIXES, prefix_unit
 import latex2sympy.units.additional_units as additional_units
 import json
 
-# define which PhysicalConstants are allowed
-allowed_constants = [
-    sympy_units.speed_of_light,
-    sympy_units.atomic_mass_constant,
-    sympy_units.electronvolt,
-    sympy_units.elementary_charge
-]
+# -------------------------------------------------------------------------------------------------
+# define fixed sympy units / additional prefixed units
+# -------------------------------------------------------------------------------------------------
 
 # define additional aliases for sympy units
 custom_unit_aliases = {
@@ -34,41 +30,75 @@ custom_unit_aliases = {
     sympy_units.amu: ['u']
 }
 
-# define fixed sympy units/additional prefixed units
-
 # the default liter unit does not correctly define "L" as its abbrev
 liter = additional_units.liter
-liter_prefixed_units = prefix_unit(liter, PREFIXES)
+liter_prefixed_units = prefix_unit(liter, SI_PREFIXES)
 
-# add additional prefixed units
-eV_prefixed_units = prefix_unit(sympy_units.eV, PREFIXES)
-Ci_prefixed_units = prefix_unit(sympy_units.Ci, PREFIXES)
-bar_prefixed_units = prefix_unit(sympy_units.bar, PREFIXES)
-byte_prefixed_units = prefix_unit(sympy_units.byte, BIN_PREFIXES)
-bit_prefixed_units = prefix_unit(sympy_units.bit, BIN_PREFIXES)
-M_prefixed_units = prefix_unit(additional_units.molar, PREFIXES)
+# the default liter unit does not correctly define "bit" as its abbrev
+bit = additional_units.bit
+# define all binary and SI prefixes for bit
+bit_prefixed_units = prefix_unit(bit, BIN_PREFIXES)
+bit_si_prefixed_units = prefix_unit(bit, INFORMATION_SI_PREFIXES)
+# also add "b" as an alternate abbrev for bit, and all its prefixed forms
+custom_unit_aliases[bit] = ['b']
+for bit_prefixed_unit in [*bit_prefixed_units, *bit_si_prefixed_units]:
+    bit_prefixed_unit_abbrev = str(bit_prefixed_unit.abbrev)
+    custom_unit_aliases[bit_prefixed_unit] = [
+        bit_prefixed_unit_abbrev[:-2]
+    ]
 
+# the default liter unit does not correctly define "B" as its abbrev
+byte = additional_units.byte
+# define all binary and SI prefixes for byte
+byte_prefixed_units = prefix_unit(byte, BIN_PREFIXES)
+byte_si_prefixed_units = prefix_unit(byte, INFORMATION_SI_PREFIXES)
+
+# define additional prefixed units
 additional_sympy_prefixed_units = [
     *liter_prefixed_units,
-    *eV_prefixed_units,
-    *Ci_prefixed_units,
-    *bar_prefixed_units,
-    *byte_prefixed_units,
     *bit_prefixed_units,
-    *M_prefixed_units
+    *bit_si_prefixed_units,
+    *byte_prefixed_units,
+    *byte_si_prefixed_units,
 ]
+
+units_to_prefix = [
+    sympy_units.eV,
+    sympy_units.Ci,
+    sympy_units.bar,
+    additional_units.molar
+]
+for u in units_to_prefix:
+    additional_sympy_prefixed_units.extend(prefix_unit(u, SI_PREFIXES))
+
+base_units = [*mks_base_units, *mksa_base_units, *si_base_units]
+for base_unit in base_units:
+    additional_sympy_prefixed_units.extend(prefix_unit(base_unit, NEW_SI_PREFIXES))
 
 # units that will replace the original sympy versions
 fixed_sympy_units = {}
 fixed_sympy_units[str(liter.name)] = liter
-for u in [*liter_prefixed_units, *byte_prefixed_units]:
+fixed_sympy_units[str(bit.name)] = bit
+fixed_sympy_units[str(byte.name)] = byte
+for u in [*liter_prefixed_units, *bit_prefixed_units, *byte_prefixed_units]:
     fixed_sympy_units[str(u.name)] = u
 
 # add missing sympy dimensions
 SI.set_quantity_dimension(sympy_units.hectare, sympy_dimensions.area)
 SI.set_quantity_scale_factor(sympy_units.hectare, 10000 * sympy_units.meter**2)
 
+# -------------------------------------------------------------------------------------------------
+
+# define which PhysicalConstants are allowed
+allowed_constants = [
+    sympy_units.speed_of_light,
+    sympy_units.atomic_mass_constant,
+    sympy_units.electronvolt,
+    sympy_units.elementary_charge
+]
+
 # sympy unit aliases we don't want to use
+# TODO: allow these?
 aliases_to_exclude = [
     'l',
     'cl',
@@ -100,7 +130,7 @@ aliases_to_pluralize = [
     'maxwell'
 ]
 
-# sympy unit aliases that should not have a capitalized form added
+# sympy unit aliases that should be capitalized
 aliases_to_not_capitalize = [
     'au',
     'h',
@@ -115,6 +145,8 @@ aliases_to_not_capitalize = [
     'kt',
     'ccs'
 ]
+
+# -------------------------------------------------------------------------------------------------
 
 
 def capitalize_first_letter(name):
@@ -200,8 +232,9 @@ def get_aliases_for_unit(unit, dir_module, attr_name=None):
 
 
 # -------------------------------------------------------------------------------------------------
-
 # construct a dict of every allowed string alias of each unit
+# -------------------------------------------------------------------------------------------------
+
 UNIT_ALIASES = {}
 
 # add aliases for defined attributes
@@ -236,8 +269,9 @@ for attr in dir(additional_units):
             UNIT_ALIASES[alias] = u
 
 # -------------------------------------------------------------------------------------------------
+# test output
+# -------------------------------------------------------------------------------------------------
 
-# # test output
 # ALIASES_BY_UNIT = {}
 # for alias, unit in UNIT_ALIASES.items():
 #     if isinstance(unit, Mul):

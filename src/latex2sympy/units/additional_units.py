@@ -2,15 +2,23 @@ from sympy import Rational, pi
 import sympy.physics.units.definitions.unit_definitions as sympy_units
 import sympy.physics.units.prefixes as sympy_prefixes
 import sympy.physics.units.definitions.dimension_definitions as sympy_dimensions
-from sympy.physics.units.quantities import Quantity, PhysicalConstant
+from sympy.physics.units.quantities import Quantity
 from sympy.physics.units.systems.si import SI
 from latex2sympy.units.prefixes import create_prefixed_unit
 
-# the default liter unit does not correctly define "L" as its abbrev
+# the default liter unit does not correctly define "L" as its abbrev, to work with prefixes
 liter = Quantity('liter', abbrev='L')
 # scale factor not set in sympy
 SI.set_quantity_dimension(liter, sympy_dimensions.volume)
 SI.set_quantity_scale_factor(liter, 1000 * sympy_units.centimeter**3)
+
+# the default bit unit does not define an abbrev, to work with prefixes
+bit = Quantity('bit', abbrev='bit')
+bit.set_global_dimension(sympy_dimensions.information)
+
+# the default byte unit does not define an abbrev, to work with prefixes
+byte = Quantity('byte', abbrev='B')
+byte.set_global_relative_scale_factor(8, bit)
 
 # define additional units, scale factors taken from LON-CAPA / CAPA / Wikipedia
 # https://loncapa04.purdue.edu/adm/help/Physical_Units.hlp
@@ -67,7 +75,7 @@ SI.set_quantity_scale_factor(sievert, sympy_units.meter**2 / sympy_units.second*
 oz = ounces = ounce = Quantity('ounce', abbrev='oz')
 ounce.set_global_relative_scale_factor(Rational(1, 16), sympy_units.pound)
 
-# TODO: lumen, can't get scale factor to work
+# TODO: lumen - can't get scale factor to work
 # SI.set_quantity_scale_factor(sympy_units.steradian, sympy_units.meter**2 / sympy_units.meter**2)
 
 # lm = lumen = Quantity('lumen', abbrev='lm')
