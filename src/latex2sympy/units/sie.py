@@ -1,7 +1,7 @@
 """
 SI Extended unit system.
 Based on SI.
-Added lumen, steradian and dimensions.
+Added solid_angle, luminous_flux dimensions, plus other additional quantities.
 
 """
 
@@ -88,7 +88,6 @@ SIE.set_quantity_scale_factor(knot, nautical_mile / hour)
 # cfm
 SIE.set_quantity_dimension(cfm, volume / time)
 SIE.set_quantity_scale_factor(cfm, foot**3 / minute)
-
 
 # rood
 SIE.set_quantity_dimension(rood, area)
