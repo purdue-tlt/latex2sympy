@@ -5,7 +5,7 @@ from sympy.physics.units.quantities import Quantity, PhysicalConstant
 from sympy.physics.units.systems.mks import all_units as mks_units, units as mks_base_units
 from sympy.physics.units.systems.mksa import all_units as mksa_units, units as mksa_base_units
 from sympy.physics.units.systems.si import all_units as si_units, units as si_base_units
-from sympy.physics.units.systems.si import SI
+from latex2sympy.units.sie import SIE, all_units as sie_units
 from latex2sympy.units.prefixes import NEW_SI_PREFIXES, SI_PREFIXES, INFORMATION_SI_PREFIXES, BIN_PREFIXES, ALL_PREFIXES, prefix_unit
 import latex2sympy.units.additional_units as additional_units
 import json
@@ -83,10 +83,6 @@ fixed_sympy_units[str(byte.name)] = byte
 for u in [*liter_prefixed_units, *bit_prefixed_units, *byte_prefixed_units]:
     fixed_sympy_units[str(u.name)] = u
 
-# add missing sympy dimensions
-SI.set_quantity_dimension(sympy_units.hectare, sympy_dimensions.area)
-SI.set_quantity_scale_factor(sympy_units.hectare, 10000 * sympy_units.meter**2)
-
 # -------------------------------------------------------------------------------------------------
 
 # define which PhysicalConstants are allowed
@@ -143,7 +139,8 @@ aliases_to_not_capitalize = [
     'mmHg',
     'psi',
     'kt',
-    'ccs'
+    'ccs',
+    'rpms'
 ]
 
 # -------------------------------------------------------------------------------------------------
@@ -250,7 +247,13 @@ for attr in dir(sympy_units):
             UNIT_ALIASES[alias] = u
 
 # `all_si_units` contains every MKS/MKSA/SI unit and each possible prefixed variation
-all_si_units = set([*mks_units, *mksa_units, *si_units, *additional_sympy_prefixed_units])
+all_si_units = set([
+    *mks_units,
+    *mksa_units,
+    *si_units,
+    *sie_units,
+    *additional_sympy_prefixed_units,
+])
 # add aliases for all prefixed units
 for u in all_si_units:
     if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants):

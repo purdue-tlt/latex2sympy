@@ -18,15 +18,15 @@ from sympy.physics.units.definitions.unit_definitions import (
     degree,
     rad,
     minute, hour, day, year,
-    foot, inch, mile, pound, yard,
-    curie, gauss,
+    foot, inch, pound, yard,
+    curie,
     atomic_mass_constant,
     atmosphere,
     electronvolt,
-    bar, psi, nmi,
-    hbar,
+    bar, psi,
     dyne,
-    astronomical_unit, elementary_charge
+    astronomical_unit, elementary_charge,
+    steradian
 )
 from latex2sympy.latex2sympy import process_sympy
 from latex2sympy.units.prefixes import SI_PREFIXES, BIN_PREFIXES
@@ -41,14 +41,15 @@ from latex2sympy.units.additional_units import (
     degC, degF,
     dB,
     mph, knot,
-    # lumen,
+    lumen,
     cfm, cfs,
     rood, acre,
     sievert,
     ounce,
     parsec,
     cc,
-    molar
+    molar,
+    rpm
 )
 from latex2sympy.units import UNIT_ALIASES, create_prefixed_unit, convert_to
 from .context import _Mul, _Pow, _Add, assert_equal, compare
@@ -89,6 +90,7 @@ unit_examples = [
     ('atm', atmosphere),
     ('ft', foot),
     ('L', liter),
+    ('sr', steradian),
 
     # units by names
     ('gram', gram),
@@ -248,7 +250,7 @@ unit_examples = [
     ('knot', knot),
     ('cfm', cfm),
     ('cfs', cfs),
-    # ('lm', lumen),
+    ('lm', lumen),
     ('rood', rood),
     ('acre', acre),
     ('Sv', sievert),
@@ -256,11 +258,10 @@ unit_examples = [
     ('pc', parsec),
     ('cc', cc),
     ('M', molar),
+    ('rpm', rpm),
 
     # TODO: LON-CAPA units
     # 'hbar',  # conflicts with hectobar
-    # 'lm',  # lumen
-    # 'rpm', 'rpms',  # rounds per minute
 
     # TODO: additional units (from suffixes)
     # 'decade',
@@ -456,14 +457,15 @@ def test_parse_as_unit_should_fail(input):
 
 
 convert_to_unit_examples = [
+    # basic
     ('kg', 'g', _Mul(1000, gram)),
+    # fixed liter conversion
     ('L', 'mL', _Mul(1000, milliliter)),
     ('m^{3}', 'L', _Mul(1000, liter)),
     # additional units
     ('\\frac{mile}{hour}', 'mph', mph),
     ('\\frac{feet}{second}', 'mph', _Mul(mph, Rational(15, 22))),
     ('\\frac{nmi}{hour}', 'knot', knot),
-    # ('sr*cd', 'lm', lumen),
     ('\\frac{foot^{3}}{minute}', 'cfm', cfm),
     ('\\frac{foot^{3}}{second}', 'cfs', cfs),
     ('cfs', 'cfm', _Mul(60, cfm)),
@@ -476,9 +478,26 @@ convert_to_unit_examples = [
     ('mol/L', 'M', molar),
     ('mmol/L', 'M', _Mul(Rational(1, 1000), molar)),
     ('hectare', 'm', _Mul(10000, _Pow(meter, 2))),
+    # information
     ('mebibit', 'bit', _Mul(1048576, bit)),
     ('kb', 'bit', _Mul(1000, bit)),
-    ('Mb/s', 'MB/s', _Mul(Rational(1, 8), _Pow(second, -1), create_prefixed_unit(byte, SI_PREFIXES['M'])))
+    ('Mb/s', 'MB/s', _Mul(Rational(1, 8), _Pow(second, -1), create_prefixed_unit(byte, SI_PREFIXES['M']))),
+    # lumen, lux, candela, steradian
+    ('lumen', 'sr*cd', _Mul(steradian, candela)),
+    ('sr*cd', 'lumen', lumen),
+    ('\\frac{cd*sr}{m^{2}}', 'lux', lux),
+    ('lux*m^{2}', 'lumen', lumen),
+    ('lux', '\\frac{lumen}{m^{2}}', _Mul(lumen, _Pow(_Pow(meter, 2), -1))),
+    # hertz, rad/s, rpm
+    ('hertz', 'second', _Pow(second, -1)),
+    ('s^{-1}', 'Hz', hertz),
+    # TODO rad/s => Hz
+    # ('\\frac{rad}{s}', 'hertz', _Mul(_Pow(_Mul(2, pi), -1), hertz)),
+    # ('rad*hertz', 's', _Mul(_Pow(_Mul(2, pi), -1), hertz)),
+    ('rpm', 'hertz', _Mul(Rational(1, 60), hertz)),
+    ('hertz', 'rpm', _Mul(60, rpm)),
+    # TODO: rpm => rad/s
+    # ('rpm', 'rad/s', _Mul(Rational(2, 60), pi, rad, _Pow(second, -1))),
 ]
 
 
