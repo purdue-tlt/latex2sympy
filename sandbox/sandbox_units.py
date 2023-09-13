@@ -1,6 +1,6 @@
 from latex2sympy.latex2sympy import process_sympy
+from latex2sympy.units import convert_to
 from sympy import srepr, simplify, Mul, re, im
-from sympy.physics.units import convert_to
 
 unit_examples = [
     ({'value': '1000', 'unit': 'g'}, {'value': '1,000', 'unit': 'g'}),

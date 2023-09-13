@@ -183,6 +183,7 @@ unit_examples = [
     ('mM', create_prefixed_unit(molar, SI_PREFIXES['m'])),
     ('\\mu M', create_prefixed_unit(molar, SI_PREFIXES['mu'])),
     ('mcal', create_prefixed_unit(cal, SI_PREFIXES['m'])),
+    ('mGy', create_prefixed_unit(gray, SI_PREFIXES['m'])),
     # binary prefixed units
     ('pebibit', create_prefixed_unit(bit, BIN_PREFIXES['Pi'])),
     ('Pibit', create_prefixed_unit(bit, BIN_PREFIXES['Pi'])),
@@ -548,7 +549,11 @@ convert_to_unit_incompatible_examples = [
     ('Gy', 'Sv'),
     # rpm cannot convert
     ('rpm', 'Hz'),
-    ('rpm', 'rad/s')
+    ('rpm', 'rad/s'),
+    # cannot covert degC or degF
+    ('degC', 'K'),
+    ('degF', 'K'),
+    ('degC', 'degF'),
 ]
 
 

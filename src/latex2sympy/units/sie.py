@@ -27,7 +27,7 @@ from latex2sympy.units.unit_definitions import (
 )
 from latex2sympy.units.prefixes import SI_PREFIXES, prefix_unit, create_prefixed_unit
 
-units = [lumen, calorie]
+units = [lumen]
 
 all_units: list[Quantity] = []
 for u in units:
