@@ -5,7 +5,7 @@ from sympy.physics.units.systems.mks import all_units as mks_units, units as mks
 from sympy.physics.units.systems.mksa import all_units as mksa_units, units as mksa_base_units
 from sympy.physics.units.systems.si import all_units as si_units, units as si_base_units
 from latex2sympy.units.sie import all_units as sie_units
-from latex2sympy.units.prefixes import NEW_SI_PREFIXES, SI_PREFIXES, INFORMATION_SI_PREFIXES, BIN_PREFIXES, ALL_PREFIXES, prefix_unit
+from latex2sympy.units.prefixes import NEW_SI_PREFIXES, SI_PREFIXES, INFORMATION_SI_PREFIXES, BIN_PREFIXES, ALL_PREFIXES, PREFIX_ALIASES, prefix_unit
 import latex2sympy.units.unit_definitions as additional_units
 import json
 
@@ -327,11 +327,18 @@ for attr in dir(additional_units):
 #     aliases = unit_obj.get('aliases', [])
 
 #     if unit.is_prefixed and base_unit is not None:
-#         prefix_name = str(unit.name).replace(str(base_unit.name), '')
 #         prefixes = unit_obj.get('prefixes', {})
-#         prefix_aliases = prefixes.get(prefix_name, [])
+
+#         prefix_name = str(unit.name).replace(str(base_unit.name), '')
+#         prefix = PREFIX_ALIASES[prefix_name]
+#         prefix_index = [*ALL_PREFIXES.keys()].index(str(prefix.abbrev))
+#         prefixes_key = f'{prefix_index}-{prefix_name}'
+#         prefix_aliases = prefixes.get(prefixes_key, [])
+
 #         prefix_aliases.append(alias)
-#         prefixes[prefix_name] = prefix_aliases
+
+#         prefixes[prefixes_key] = prefix_aliases
+#         prefixes = dict(sorted(prefixes.items(), key=lambda kvp: int(kvp[0][:kvp[0].find('-')])))
 #         unit_obj['prefixes'] = prefixes
 #     else:
 #         aliases.append(alias)
