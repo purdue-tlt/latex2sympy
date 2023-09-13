@@ -6,7 +6,7 @@ from sympy.physics.units.quantities import Quantity
 # redefine liter to add "L" as its abbrev, to work with prefixes
 liter = Quantity('liter', abbrev='L')
 
-# redefine liter to add "Gy" as its abbrev, to work with prefixes
+# redefine gray to add "Gy" as its abbrev, to work with prefixes
 gray = Quantity('gray', abbrev='Gy')
 
 # redefine bit to define "bit" as its abbrev, to work with prefixes

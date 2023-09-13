@@ -72,7 +72,7 @@ SIE.set_quantity_scale_factor(lux, lumen / meter**2)
 SIE.set_quantity_dimension(liter, volume)
 SIE.set_quantity_scale_factor(liter, 1000 * cm**3)
 
-# define new fixed verion of gray
+# define new fixed version of gray
 SIE.set_quantity_dimension(gray, energy / mass)
 SIE.set_quantity_scale_factor(gray, meter**2 / second**2)
 
