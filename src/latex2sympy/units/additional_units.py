@@ -5,14 +5,14 @@ import sympy.physics.units.definitions.dimension_definitions as sympy_dimensions
 from sympy.physics.units.quantities import Quantity
 from latex2sympy.units.prefixes import create_prefixed_unit
 
-# the default liter unit does not correctly define "L" as its abbrev, to work with prefixes
+# redefine liter to add "L" as its abbrev, to work with prefixes
 liter = Quantity('liter', abbrev='L')
 
-# the default bit unit does not define an abbrev, to work with prefixes
+# redefine bit to define "bit" as its abbrev, to work with prefixes
 bit = Quantity('bit', abbrev='bit')
 bit.set_global_dimension(sympy_dimensions.information)
 
-# the default byte unit does not define an abbrev, to work with prefixes
+# redefine byte to define "B" as its abbrev, to work with prefixes
 byte = Quantity('byte', abbrev='B')
 byte.set_global_relative_scale_factor(8, bit)
 

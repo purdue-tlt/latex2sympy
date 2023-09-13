@@ -14,9 +14,8 @@ from sympy.physics.units.definitions.unit_definitions import (
     milligram, microgram,
     millisecond, microsecond,
     # Other
-    percent,
-    degree,
-    rad,
+    percent, permille,
+    degree, rad, steradian, angular_mil,
     minute, hour, day, year,
     foot, inch, pound, yard,
     curie,
@@ -26,7 +25,7 @@ from sympy.physics.units.definitions.unit_definitions import (
     bar, psi,
     dyne,
     astronomical_unit, elementary_charge,
-    steradian
+    dioptre
 )
 from latex2sympy.latex2sympy import process_sympy
 from latex2sympy.units.prefixes import SI_PREFIXES, BIN_PREFIXES
@@ -457,11 +456,28 @@ def test_parse_as_unit_should_fail(input):
 
 
 convert_to_unit_examples = [
-    # basic
+    # sympy included units
     ('kg', 'g', _Mul(1000, gram)),
-    # fixed liter conversion
+    ('hertz', 'second', _Pow(second, -1)),
+    ('s^{-1}', 'Hz', hertz),
+    ('m^{-1}', 'dioptre', dioptre),
+    ('percent', 'permille', _Mul(10, permille)),
+    ('hectare', 'm', _Mul(10000, _Pow(meter, 2))),
+    # added rad to angular_mil conversion
+    ('rad', 'mil', _Mul(1000, angular_mil)),
+    # conversion for fixed liter unit
     ('L', 'mL', _Mul(1000, milliliter)),
     ('m^{3}', 'L', _Mul(1000, liter)),
+    # information
+    ('mebibit', 'bit', _Mul(1048576, bit)),
+    ('kb', 'bit', _Mul(1000, bit)),
+    ('Mb/s', 'MB/s', _Mul(Rational(1, 8), _Pow(second, -1), create_prefixed_unit(byte, SI_PREFIXES['M']))),
+    # added lumen - conversions with lux, candela, steradian
+    ('lumen', 'sr*cd', _Mul(steradian, candela)),
+    ('sr*cd', 'lumen', lumen),
+    ('\\frac{cd*sr}{m^{2}}', 'lux', lux),
+    ('lux*m^{2}', 'lumen', lumen),
+    ('lux', '\\frac{lumen}{m^{2}}', _Mul(lumen, _Pow(_Pow(meter, 2), -1))),
     # additional units
     ('\\frac{mile}{hour}', 'mph', mph),
     ('\\frac{feet}{second}', 'mph', _Mul(mph, Rational(15, 22))),
@@ -477,20 +493,7 @@ convert_to_unit_examples = [
     ('cm^{3}', 'cc', cc),
     ('mol/L', 'M', molar),
     ('mmol/L', 'M', _Mul(Rational(1, 1000), molar)),
-    ('hectare', 'm', _Mul(10000, _Pow(meter, 2))),
-    # information
-    ('mebibit', 'bit', _Mul(1048576, bit)),
-    ('kb', 'bit', _Mul(1000, bit)),
-    ('Mb/s', 'MB/s', _Mul(Rational(1, 8), _Pow(second, -1), create_prefixed_unit(byte, SI_PREFIXES['M']))),
-    # lumen, lux, candela, steradian
-    ('lumen', 'sr*cd', _Mul(steradian, candela)),
-    ('sr*cd', 'lumen', lumen),
-    ('\\frac{cd*sr}{m^{2}}', 'lux', lux),
-    ('lux*m^{2}', 'lumen', lumen),
-    ('lux', '\\frac{lumen}{m^{2}}', _Mul(lumen, _Pow(_Pow(meter, 2), -1))),
     # hertz, rad/s, rpm
-    ('hertz', 'second', _Pow(second, -1)),
-    ('s^{-1}', 'Hz', hertz),
     # TODO rad/s => Hz
     # ('\\frac{rad}{s}', 'hertz', _Mul(_Pow(_Mul(2, pi), -1), hertz)),
     # ('rad*hertz', 's', _Mul(_Pow(_Mul(2, pi), -1), hertz)),

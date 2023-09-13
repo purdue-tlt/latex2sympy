@@ -1,5 +1,4 @@
 from sympy import latex, Mul, srepr
-import sympy.physics.units.definitions.dimension_definitions as sympy_dimensions
 import sympy.physics.units.definitions.unit_definitions as sympy_units
 from sympy.physics.units.quantities import Quantity, PhysicalConstant
 from sympy.physics.units.systems.mks import all_units as mks_units, units as mks_base_units
@@ -27,7 +26,8 @@ custom_unit_aliases = {
     sympy_units.inch: ['in'],
     sympy_units.microgram: ['mcg'],
     sympy_units.dyne: ['dyn'],
-    sympy_units.amu: ['u']
+    sympy_units.amu: ['u'],
+    sympy_units.mil: ['mrad']
 }
 
 # the default liter unit does not correctly define "L" as its abbrev

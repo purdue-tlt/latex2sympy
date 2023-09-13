@@ -14,7 +14,8 @@ from sympy.physics.units.definitions.dimension_definitions import (
 )
 from sympy.physics.units.definitions.unit_definitions import (
     meter, cm, foot, mile, nautical_mile,
-    yard, hectare,
+    yard,
+    rad, angular_mil,
     steradian, candela, lux,
     second, minute, hour,
     mole,
@@ -65,17 +66,16 @@ SIE.set_quantity_dimension(steradian, solid_angle)
 SIE.set_quantity_dimension(lumen, luminous_flux)
 SIE.set_quantity_scale_factor(lumen, steradian * candela)
 
-# redefine lux from the original in SI
+# redefine lux to use lumen
 SIE.set_quantity_dimension(lux, luminous_flux / length**2)
 SIE.set_quantity_scale_factor(lux, lumen / meter**2)
 
-# liter scale factor not set in sympy
+# define new fixed version of liter
 SIE.set_quantity_dimension(liter, volume)
 SIE.set_quantity_scale_factor(liter, 1000 * cm**3)
 
-# add hectare scale factor and dimension
-SIE.set_quantity_dimension(hectare, area)
-SIE.set_quantity_scale_factor(hectare, 10000 * meter**2)
+# define angular_mil/mil/mrad to rad conversion
+angular_mil.set_global_relative_scale_factor(Rational(1, 1000), rad)
 
 # mph
 SIE.set_quantity_dimension(mph, velocity)
