@@ -28,9 +28,6 @@ slug.set_global_relative_scale_factor(Rational('14.59390'), sympy_units.kilogram
 cal = calories = calorie = Quantity('calorie', abbrev='cal')
 calorie.set_global_relative_scale_factor(Rational('4.1868'), sympy_units.joule)
 
-# TODO: other SI prefixes for calorie?
-kcal = create_prefixed_unit(cal, sympy_prefixes.kilo)
-
 btu = btus = Quantity('Btu', abbrev='btu')
 btu.set_global_relative_scale_factor(Rational('1.05506E3'), sympy_units.joule)
 
@@ -53,11 +50,7 @@ rood = roods = Quantity('rood')
 
 acre = acres = Quantity('acre')
 
-# sievert is similar to gray, but they are not equatable
 sieverts = sievert = Quantity('sievert', abbrev='Sv')
-
-oz = ounces = ounce = Quantity('ounce', abbrev='oz')
-ounce.set_global_relative_scale_factor(Rational(1, 16), sympy_units.pound)
 
 pc = parsecs = parsec = Quantity('parsec', abbrev='pc')
 parsec.set_global_relative_scale_factor(648000 / pi, sympy_units.astronomical_unit)

@@ -38,10 +38,18 @@ def is_or_contains_instance(expr, type):
 
 
 def is_unit(expr):
+    '''
+    Check if the expr is or contains a `Quantity`
+    '''
     return is_or_contains_instance(expr, sympy_units.Quantity)
 
 
 def convert_to(expr, target_units):
+    '''
+    Convert the given expr to the target units using the "SI Extended" unit system.
+
+    If not able to convert, expr is returned unchanged.
+    '''
     # do not convert gray with sievert
     if expr == sympy_units.gray and target_units == additional_units.sievert or\
             expr == additional_units.sievert and target_units == sympy_units.gray:

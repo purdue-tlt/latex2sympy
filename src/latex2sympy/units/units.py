@@ -25,14 +25,16 @@ custom_unit_aliases = {
     sympy_units.pound: ['lb', 'lbs'],
     sympy_units.inch: ['in'],
     sympy_units.microgram: ['mcg'],
-    sympy_units.dyne: ['dyn'],
     sympy_units.amu: ['u'],
-    sympy_units.mil: ['mrad']
+    sympy_units.mil: ['mrad'],
+    sympy_units.meter: ['metre', 'metres', 'Metre', 'Metres']
 }
 
 # the default liter unit does not correctly define "L" as its abbrev
 liter = additional_units.liter
 liter_prefixed_units = prefix_unit(liter, SI_PREFIXES)
+# add alternate spelling
+custom_unit_aliases[liter] = ['litre', 'litres', 'Litre', 'Litres']
 
 # the default liter unit does not correctly define "bit" as its abbrev
 bit = additional_units.bit
@@ -93,6 +95,22 @@ allowed_constants = [
     sympy_units.elementary_charge
 ]
 
+# define with sympy units should be excluded
+units_to_exclude = [
+    sympy_units.quart,
+    # CGS derived units
+    sympy_units.dyne,
+    sympy_units.erg,
+    # CGS units for electromagnetic quantities
+    sympy_units.statampere,
+    sympy_units.statcoulomb,
+    sympy_units.statvolt,
+    sympy_units.gauss,
+    sympy_units.maxwell,
+    sympy_units.debye,
+    sympy_units.oersted
+]
+
 # sympy unit aliases we don't want to use
 # TODO: allow these?
 aliases_to_exclude = [
@@ -118,12 +136,7 @@ aliases_to_pluralize = [
     'diopter',
     'dalton',
     'torr',
-    'statampere',
-    'statcoulomb',
-    'statvolt',
-    'franklin',
-    'hectare',
-    'maxwell'
+    'hectare'
 ]
 
 # sympy unit aliases that should be capitalized
@@ -202,14 +215,23 @@ def get_aliases_for_unit(unit, dir_module, attr_name=None):
             if attr_name in aliases_to_pluralize:
                 unit_aliases.append(f'{attr_capitalized}s')
 
-    # if the unit is prefixed, check if the base unit is pluralized in the given `dir_module`
-    # if so, then add the pluralized name and pluralized capital name of the prefixed unit
+    # check if the unit is prefixed
+    # if the base unit is pluralized in the given `dir_module`, add the pluralized name and pluralized capital name of the prefixed unit
     if unit.is_prefixed:
         base_unit = get_base_unit(unit, dir_module)
         base_unit_name = str(base_unit.name) if base_unit is not None else None
         if base_unit is not None and (f'{base_unit_name}s' in dir(dir_module) or base_unit_name in aliases_to_pluralize):
             unit_aliases.append(f'{unit_name}s')
             unit_aliases.append(f'{capitalize_first_letter(unit_name)}s')
+
+        # add alternate spellings for "meter" and "liter" prefixed units
+        if base_unit_name in ['meter', 'liter']:
+            alt_base_unit_name = 'metre' if base_unit_name == 'meter' else 'litre'
+            alt_unit_aliases = []
+            for ua in unit_aliases:
+                if base_unit_name in ua:
+                    alt_unit_aliases.append(ua.replace(base_unit_name, alt_base_unit_name))
+            unit_aliases.extend(alt_unit_aliases)
 
     # add "u" as an additional "micro" prefix
     if unit.is_prefixed and unit_abbrev.startswith('mu'):
@@ -237,7 +259,7 @@ UNIT_ALIASES = {}
 # add aliases for defined attributes
 for attr in dir(sympy_units):
     u = getattr(sympy_units, attr)
-    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and attr not in aliases_to_exclude:
+    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and attr not in aliases_to_exclude and u not in units_to_exclude:
         # override sympy units that have been fixed
         if str(u.name) in fixed_sympy_units:
             u = fixed_sympy_units[str(u.name)]
@@ -256,7 +278,7 @@ all_si_units = set([
 ])
 # add aliases for all prefixed units
 for u in all_si_units:
-    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants):
+    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and u not in units_to_exclude:
         for alias in get_aliases_for_unit(u, sympy_units):
             if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):  # pragma: no cover
                 raise Exception(f'unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')

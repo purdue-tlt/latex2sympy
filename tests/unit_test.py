@@ -23,7 +23,6 @@ from sympy.physics.units.definitions.unit_definitions import (
     atmosphere,
     electronvolt,
     bar, psi,
-    dyne,
     astronomical_unit, elementary_charge,
     dioptre
 )
@@ -35,7 +34,7 @@ from latex2sympy.units.additional_units import (
     byte,
     lbf,
     slug,
-    cal, kcal,
+    cal,
     btu,
     degC, degF,
     dB,
@@ -44,7 +43,6 @@ from latex2sympy.units.additional_units import (
     cfm, cfs,
     rood, acre,
     sievert,
-    ounce,
     parsec,
     cc,
     molar,
@@ -57,6 +55,7 @@ from .context import _Mul, _Pow, _Add, assert_equal, compare
 millivolt = UNIT_ALIASES['millivolt']
 microohm = UNIT_ALIASES['microohm']
 milliliter = UNIT_ALIASES['milliliter']
+kcal = UNIT_ALIASES['kcal']
 
 unit_examples = [
     # units by abbrev
@@ -183,6 +182,7 @@ unit_examples = [
     ('mbar', create_prefixed_unit(bar, SI_PREFIXES['m'])),
     ('mM', create_prefixed_unit(molar, SI_PREFIXES['m'])),
     ('\\mu M', create_prefixed_unit(molar, SI_PREFIXES['mu'])),
+    ('mcal', create_prefixed_unit(cal, SI_PREFIXES['m'])),
     # binary prefixed units
     ('pebibit', create_prefixed_unit(bit, BIN_PREFIXES['Pi'])),
     ('Pibit', create_prefixed_unit(bit, BIN_PREFIXES['Pi'])),
@@ -229,8 +229,25 @@ unit_examples = [
     ('lbs', pound),
     ('in', inch),
     ('mcg', microgram),
-    ('dyn', dyne),
     ('u', atomic_mass_constant),
+
+    ('litre', liter),
+    ('Litre', liter),
+    ('litres', liter),
+    ('Litres', liter),
+    ('millilitre', create_prefixed_unit(liter, SI_PREFIXES['m'])),
+    ('millilitres', create_prefixed_unit(liter, SI_PREFIXES['m'])),
+    ('Millilitre', create_prefixed_unit(liter, SI_PREFIXES['m'])),
+    ('Millilitres', create_prefixed_unit(liter, SI_PREFIXES['m'])),
+
+    ('metre', meter),
+    ('Metre', meter),
+    ('metres', meter),
+    ('Metres', meter),
+    ('millimetre', create_prefixed_unit(meter, SI_PREFIXES['m'])),
+    ('millimetres', create_prefixed_unit(meter, SI_PREFIXES['m'])),
+    ('Millimetre', create_prefixed_unit(meter, SI_PREFIXES['m'])),
+    ('Millimetres', create_prefixed_unit(meter, SI_PREFIXES['m'])),
 
     # additional units
     ('lbf', lbf),
@@ -253,29 +270,10 @@ unit_examples = [
     ('rood', rood),
     ('acre', acre),
     ('Sv', sievert),
-    ('oz', ounce),
     ('pc', parsec),
     ('cc', cc),
     ('M', molar),
     ('rpm', rpm),
-
-    # TODO: LON-CAPA units
-    # 'hbar',  # conflicts with hectobar
-
-    # TODO: additional units (from suffixes)
-    # 'decade',
-    # 'octave',
-    # 'Gs',  # for gauss - conflicts with gigasecond
-    # 'R',  # legacy unit for radiation - https://en.wikipedia.org/wiki/Roentgen_(unit)
-    # 'mR',
-    # 'rad', 'Rad',  # conflicts with radians, CGS unit
-    # 'dBV',
-    # 'gpm',  # multiple versions exist, gallons per minute
-    # 'hp',  # multiple versions exist, horse power
-    # 'lbf.ft', 'lb-ft,  # "pound-foot" (torque), sometimes still called a "foot-pound"
-    # 'lbf-in',  # "pound-inch" 1/12 of "pound-foot"
-    # 'ft⋅lbf', 'ft⋅lb'  # "foot-pound" (energy)
-    # 'psia',
 
     # trailing spaces are stripped
     ('\\degree C\\: ', degC),
@@ -443,7 +441,42 @@ bad_unit_examples = [
     'o',  # meant to be \degree
     'msec',  # ms
 
+    # unsupported CGS units
+    'dyne',
+    'erg',
+    'statampere',
+    'statcoulomb',
+    'statvolt',
+    'gauss',
+    'maxwell',
+    'debye',
+    'oersted',
+
     # other unsupported units
+    'quart',
+    'planck',
+
+    'ounce',
+    'oz',
+    'gallon',
+    'decade',
+    'octave',
+    'R',
+    'dbV',
+    'gpm',
+    'hp',
+
+    'lbf⋅ft',
+    'lbf.ft',
+    'lb⋅in',
+    'lb.in',
+    'ft⋅lbf',
+    'ft.lbf',
+    'ft⋅lb',
+    'ft.lb',
+
+    'psia',
+
     'PPS',  # pulses per second
     'kN.m',
 ]
@@ -463,21 +496,26 @@ convert_to_unit_examples = [
     ('m^{-1}', 'dioptre', dioptre),
     ('percent', 'permille', _Mul(10, permille)),
     ('hectare', 'm', _Mul(10000, _Pow(meter, 2))),
+
     # added rad to angular_mil conversion
     ('rad', 'mil', _Mul(1000, angular_mil)),
-    # conversion for fixed liter unit
+
+    # conversion for fixed liter unit with abbrev
     ('L', 'mL', _Mul(1000, milliliter)),
     ('m^{3}', 'L', _Mul(1000, liter)),
-    # information
+
+    # information - bit and byte
     ('mebibit', 'bit', _Mul(1048576, bit)),
     ('kb', 'bit', _Mul(1000, bit)),
     ('Mb/s', 'MB/s', _Mul(Rational(1, 8), _Pow(second, -1), create_prefixed_unit(byte, SI_PREFIXES['M']))),
+
     # added lumen - conversions with lux, candela, steradian
     ('lumen', 'sr*cd', _Mul(steradian, candela)),
     ('sr*cd', 'lumen', lumen),
     ('\\frac{cd*sr}{m^{2}}', 'lux', lux),
     ('lux*m^{2}', 'lumen', lumen),
     ('lux', '\\frac{lumen}{m^{2}}', _Mul(lumen, _Pow(_Pow(meter, 2), -1))),
+
     # additional units
     ('\\frac{mile}{hour}', 'mph', mph),
     ('\\frac{feet}{second}', 'mph', _Mul(mph, Rational(15, 22))),
@@ -488,19 +526,10 @@ convert_to_unit_examples = [
     ('rood', 'yard', _Mul(1210, _Pow(yard, 2))),
     ('acre', 'yard', _Mul(4840, _Pow(yard, 2))),
     ('\\frac{J}{kg}', 'Sv', sievert),
-    ('lb', 'oz', _Mul(ounce, 16)),
     ('parsec', 'AU', _Mul(648000, _Pow(pi, -1), astronomical_unit)),
     ('cm^{3}', 'cc', cc),
     ('mol/L', 'M', molar),
-    ('mmol/L', 'M', _Mul(Rational(1, 1000), molar)),
-    # hertz, rad/s, rpm
-    # TODO rad/s => Hz
-    # ('\\frac{rad}{s}', 'hertz', _Mul(_Pow(_Mul(2, pi), -1), hertz)),
-    # ('rad*hertz', 's', _Mul(_Pow(_Mul(2, pi), -1), hertz)),
-    ('rpm', 'hertz', _Mul(Rational(1, 60), hertz)),
-    ('hertz', 'rpm', _Mul(60, rpm)),
-    # TODO: rpm => rad/s
-    # ('rpm', 'rad/s', _Mul(Rational(2, 60), pi, rad, _Pow(second, -1))),
+    ('mmol/L', 'M', _Mul(Rational(1, 1000), molar))
 ]
 
 
@@ -513,8 +542,13 @@ def test_covert_to_unit_should_succeed(src, dest, expected):
 
 
 convert_to_unit_incompatible_examples = [
+    # basic - different dimensions
     ('kg', 'm'),
-    ('Gy', 'Sv')
+    # explicit gray != sievert
+    ('Gy', 'Sv'),
+    # rpm cannot convert
+    ('rpm', 'Hz'),
+    ('rpm', 'rad/s')
 ]
 
 

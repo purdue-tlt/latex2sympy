@@ -1,7 +1,7 @@
 """
 SI Extended unit system.
 Based on SI.
-Added solid_angle, luminous_flux dimensions, plus other additional quantities.
+Added solid_angle and luminous_flux dimensions, plus other additional quantities.
 
 """
 
@@ -10,7 +10,7 @@ from sympy.physics.units import Dimension
 from sympy.physics.units.quantities import Quantity
 from sympy.physics.units.systems.si import SI, dimsys_SI
 from sympy.physics.units.definitions.dimension_definitions import (
-    mass, length, time, velocity, energy, area, volume, frequency, amount_of_substance
+    mass, length, time, velocity, energy, area, volume, amount_of_substance
 )
 from sympy.physics.units.definitions.unit_definitions import (
     meter, cm, foot, mile, nautical_mile,
@@ -18,11 +18,10 @@ from sympy.physics.units.definitions.unit_definitions import (
     rad, angular_mil,
     steradian, candela, lux,
     second, minute, hour,
-    mole,
-    hertz
+    mole
 )
 from latex2sympy.units.additional_units import (
-    liter, lumen, mph, knot, cfm, rood, acre, sievert, cc, molar, rpm
+    liter, calorie, lumen, mph, knot, cfm, rood, acre, sievert, cc, molar
 )
 from latex2sympy.units.prefixes import SI_PREFIXES, prefix_unit, create_prefixed_unit
 
@@ -30,12 +29,12 @@ from latex2sympy.units.prefixes import SI_PREFIXES, prefix_unit, create_prefixed
 solid_angle = Dimension("solid_angle")
 luminous_flux = Dimension("luminous_flux")
 
-units = [lumen]
+units = [lumen, calorie]
 
 all_units: list[Quantity] = []
 for u in units:
     all_units.extend(prefix_unit(u, SI_PREFIXES))
-
+# only add milli and micro prefixed steradians
 all_units.extend([
     create_prefixed_unit(steradian, SI_PREFIXES['m']),
     create_prefixed_unit(steradian, SI_PREFIXES['mu'])
@@ -98,6 +97,7 @@ SIE.set_quantity_dimension(acre, area)
 SIE.set_quantity_scale_factor(acre, 4840 * yard**2)
 
 # sievert
+# sievert is similar to gray, but they are not equatable (see convert_to in units/utils)
 SIE.set_quantity_dimension(sievert, energy / mass)
 SIE.set_quantity_scale_factor(sievert, meter**2 / second**2)
 
@@ -108,12 +108,3 @@ SIE.set_quantity_scale_factor(cc, cm**3)
 # molar
 SIE.set_quantity_dimension(molar, amount_of_substance / volume)
 SIE.set_quantity_scale_factor(molar, mole / liter)
-
-# rpm
-# allow rpm conversion to Hz for frequency
-SIE.set_quantity_dimension(rpm, frequency)
-SIE.set_quantity_scale_factor(rpm, Rational(1, 60) * hertz)
-
-# TODO: conversion to rad/s for angular velocity doesn't work
-# SI.set_quantity_scale_factor(rpm, Rational(1, 30) * pi * rad / second)
-# SI.set_quantity_scale_factor(hertz, 2 * pi * rad / second)
