@@ -6,7 +6,6 @@ Added solid_angle and luminous_flux dimensions, plus other additional quantities
 """
 
 from sympy import Rational
-from sympy.physics.units import Dimension
 from sympy.physics.units.quantities import Quantity
 from sympy.physics.units.systems.si import SI, dimsys_SI
 from sympy.physics.units.definitions.dimension_definitions import (
@@ -20,28 +19,28 @@ from sympy.physics.units.definitions.unit_definitions import (
     second, minute, hour,
     mole
 )
-from latex2sympy.units.additional_units import (
+from latex2sympy.units.dimensions import (
+    solid_angle, luminous_flux
+)
+from latex2sympy.units.unit_definitions import (
     liter, calorie, lumen, mph, knot, cfm, rood, acre, sievert, cc, molar
 )
 from latex2sympy.units.prefixes import SI_PREFIXES, prefix_unit, create_prefixed_unit
-
-# define new dimensions
-solid_angle = Dimension("solid_angle")
-luminous_flux = Dimension("luminous_flux")
 
 units = [lumen, calorie]
 
 all_units: list[Quantity] = []
 for u in units:
     all_units.extend(prefix_unit(u, SI_PREFIXES))
+
 # only add milli and micro prefixed steradians
 all_units.extend([
     create_prefixed_unit(steradian, SI_PREFIXES['m']),
     create_prefixed_unit(steradian, SI_PREFIXES['mu'])
 ])
+
 all_units.extend(units)
 all_units.extend([steradian, lumen])
-
 
 dimsys_SIE = dimsys_SI.extend(
     [

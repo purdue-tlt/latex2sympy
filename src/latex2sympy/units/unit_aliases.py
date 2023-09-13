@@ -4,9 +4,9 @@ from sympy.physics.units.quantities import Quantity, PhysicalConstant
 from sympy.physics.units.systems.mks import all_units as mks_units, units as mks_base_units
 from sympy.physics.units.systems.mksa import all_units as mksa_units, units as mksa_base_units
 from sympy.physics.units.systems.si import all_units as si_units, units as si_base_units
-from latex2sympy.units.sie import SIE, all_units as sie_units
+from latex2sympy.units.sie import all_units as sie_units
 from latex2sympy.units.prefixes import NEW_SI_PREFIXES, SI_PREFIXES, INFORMATION_SI_PREFIXES, BIN_PREFIXES, ALL_PREFIXES, prefix_unit
-import latex2sympy.units.additional_units as additional_units
+import latex2sympy.units.unit_definitions as additional_units
 import json
 
 # -------------------------------------------------------------------------------------------------
@@ -112,7 +112,6 @@ units_to_exclude = [
 ]
 
 # sympy unit aliases we don't want to use
-# TODO: allow these?
 aliases_to_exclude = [
     'l',
     'cl',
@@ -309,7 +308,7 @@ for attr in dir(additional_units):
 #     aliases.append(alias)
 #     ALIASES_BY_UNIT[unit_name] = aliases
 
-# with open('src/latex2sympy/units/unit-aliases.json', 'w', encoding='utf-8') as f:
+# with open('src/latex2sympy/units/unit_aliases.json', 'w', encoding='utf-8') as f:
 #     json.dump(ALIASES_BY_UNIT, f, ensure_ascii=False, indent=4)
 
 # print(ALIASES_BY_UNIT)

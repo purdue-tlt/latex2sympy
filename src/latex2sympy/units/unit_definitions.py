@@ -1,9 +1,7 @@
 from sympy import Rational, pi
 import sympy.physics.units.definitions.unit_definitions as sympy_units
-import sympy.physics.units.prefixes as sympy_prefixes
 import sympy.physics.units.definitions.dimension_definitions as sympy_dimensions
 from sympy.physics.units.quantities import Quantity
-from latex2sympy.units.prefixes import create_prefixed_unit
 
 # redefine liter to add "L" as its abbrev, to work with prefixes
 liter = Quantity('liter', abbrev='L')

@@ -28,7 +28,7 @@ from sympy.physics.units.definitions.unit_definitions import (
 )
 from latex2sympy.latex2sympy import process_sympy
 from latex2sympy.units.prefixes import SI_PREFIXES, BIN_PREFIXES
-from latex2sympy.units.additional_units import (
+from latex2sympy.units.unit_definitions import (
     liter,
     bit,
     byte,
