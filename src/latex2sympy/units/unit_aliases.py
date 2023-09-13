@@ -174,14 +174,15 @@ def capitalize_first_letter(name):
 
 def get_base_unit(unit, dir_module):
     unit_name = str(unit.name)
-    if unit.is_prefixed:
-        base_unit_name = None
-        for _, prefix in ALL_PREFIXES.items():
-            prefix_name = str(prefix.name)
-            if unit_name.startswith(prefix_name):
-                base_unit_name = unit_name[len(prefix_name):]
-        if base_unit_name is not None and base_unit_name in dir(dir_module):
-            return getattr(dir_module, base_unit_name)
+    if not unit.is_prefixed:  # pragma: no cover
+        return None
+    base_unit_name = None
+    for _, prefix in ALL_PREFIXES.items():
+        prefix_name = str(prefix.name)
+        if unit_name.startswith(prefix_name):
+            base_unit_name = unit_name[len(prefix_name):]
+    if base_unit_name is not None and base_unit_name in dir(dir_module):
+        return getattr(dir_module, base_unit_name)
     return None
 
 
