@@ -8,7 +8,7 @@ from sympy.physics.units.definitions.unit_definitions import (
     # SI - based on MKSA, added kelvin, candela and mole
     mole, kelvin, lux,
     candela, becquerel,
-    gray, katal,
+    katal,
     # Derived
     kilometer, centimeter, millimeter, nanometer,
     milligram, microgram,
@@ -30,6 +30,7 @@ from latex2sympy.latex2sympy import process_sympy
 from latex2sympy.units.prefixes import SI_PREFIXES, BIN_PREFIXES
 from latex2sympy.units.unit_definitions import (
     liter,
+    gray,
     bit,
     byte,
     lbf,
@@ -504,6 +505,8 @@ convert_to_unit_examples = [
     # conversion for fixed liter unit with abbrev
     ('L', 'mL', _Mul(1000, milliliter)),
     ('m^{3}', 'L', _Mul(1000, liter)),
+    ('mGy', 'Gy', _Mul(Rational(1, 1000), gray)),
+    ('\\frac{m^{2}}{s^{2}}', 'Gy', gray),
 
     # information - bit and byte
     ('mebibit', 'bit', _Mul(1048576, bit)),

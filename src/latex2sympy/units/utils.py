@@ -1,6 +1,6 @@
 import sympy.physics.units as sympy_units
 from latex2sympy.utils.expression import is_or_contains_instance
-from latex2sympy.units.unit_definitions import sievert
+from latex2sympy.units.unit_definitions import gray, sievert
 from latex2sympy.units.unit_aliases import UNIT_ALIASES
 from latex2sympy.units.prefixes import PREFIX_ALIASES
 from latex2sympy.units.sie import SIE
@@ -33,7 +33,7 @@ def convert_to(expr, target_units):
 
     If not able to convert, expr is returned unchanged.
     '''
-    # do not convert gray with sievert
-    if expr == sympy_units.gray and target_units == sievert or expr == sievert and target_units == sympy_units.gray:
+    # do not convert between gray and sievert
+    if expr == gray and target_units == sievert or expr == sievert and target_units == gray:
         return expr
     return sympy_units.convert_to(expr, target_units, SIE)

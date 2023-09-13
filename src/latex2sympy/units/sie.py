@@ -23,7 +23,7 @@ from latex2sympy.units.dimensions import (
     solid_angle, luminous_flux
 )
 from latex2sympy.units.unit_definitions import (
-    liter, calorie, lumen, mph, knot, cfm, rood, acre, sievert, cc, molar
+    liter, gray, lumen, mph, knot, cfm, rood, acre, sievert, cc, molar
 )
 from latex2sympy.units.prefixes import SI_PREFIXES, prefix_unit, create_prefixed_unit
 
@@ -71,6 +71,10 @@ SIE.set_quantity_scale_factor(lux, lumen / meter**2)
 # define new fixed version of liter
 SIE.set_quantity_dimension(liter, volume)
 SIE.set_quantity_scale_factor(liter, 1000 * cm**3)
+
+# define new fixed verion of gray
+SIE.set_quantity_dimension(gray, energy / mass)
+SIE.set_quantity_scale_factor(gray, meter**2 / second**2)
 
 # define angular_mil/mil/mrad to rad conversion
 angular_mil.set_global_relative_scale_factor(Rational(1, 1000), rad)
