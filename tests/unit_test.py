@@ -481,6 +481,10 @@ bad_unit_examples = [
 
     'PPS',  # pulses per second
     'kN.m',
+
+    '.',
+    '..',
+    'gram\\: .'
 ]
 
 

@@ -254,12 +254,17 @@ class LatexToSympy:
             if self.parse_as_unit and '\\: ' in atom_text:
                 atom_text_split = atom_text.split('\\: ')
                 for t in atom_text_split:
+                    if t == '.':
+                        raise Exception('"." is an invalid symbol')
                     if len(t) > 0:
                         new_list_items.append({'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}})
             elif not self.parse_as_unit:
                 if '\\%' in atom_text:
                     raise Exception('"\\%" symbol is invalid when "parse_as_unit" is False')
-                new_list_items = [{'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}} for t in list(atom_text)]
+                for t in list(atom_text):
+                    if t == '.':
+                        raise Exception('"." is an invalid symbol')
+                    new_list_items.append({'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}})
 
             if len(new_list_items) > 0:
                 # combine the last new list item with the `list_item`, to preserve other properties on `list_item`, e.g. "postfix_op"

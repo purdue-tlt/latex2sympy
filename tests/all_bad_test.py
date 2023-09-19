@@ -64,7 +64,10 @@ class TestAllBad(object):
         "a\\%",
         "\\%100",
         # dollar signs without numbers after
-        "\\$"
+        "\\$",
+        # should not allow periods as symbols
+        ".",
+        ".."
     ]
 
     def test_bad_string(self, s):
