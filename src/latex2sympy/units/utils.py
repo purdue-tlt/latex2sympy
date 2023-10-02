@@ -22,7 +22,11 @@ def find_unit(text):
 
 def is_unit(expr):
     '''
-    Check if the expr is or contains a `Quantity`
+    Check if the expr is or contains a `Quantity`.
+
+    A single unit will be `Quantity` object, e.g. `kg`.
+
+    A unit expression will contain a `Quantity`, e.g. `m^{2}`.
     '''
     return is_or_contains_instance(expr, sympy_units.Quantity)
 
@@ -31,9 +35,16 @@ def convert_to(expr, target_units):
     '''
     Convert the given expr to the target units using the "SI Extended" unit system.
 
-    If not able to convert, expr is returned unchanged.
+    If not able to convert, an exception is raised.
     '''
-    # do not convert between gray and sievert
+    # do not convert between gray and sievert, as they measure different kinds of radiation doses
     if expr == gray and target_units == sievert or expr == sievert and target_units == gray:
-        return expr
-    return sympy_units.convert_to(expr, target_units, SIE)
+        raise Exception(f'Could not convert "{str(expr)}" to "{str(target_units)}"')
+
+    converted_expr = sympy_units.convert_to(expr, target_units, SIE)
+
+    # if the expressions are equal, that means they could not convert
+    if converted_expr == expr:
+        raise Exception(f'Could not convert "{str(expr)}" to "{str(target_units)}"')
+
+    return converted_expr

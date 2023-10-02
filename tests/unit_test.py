@@ -568,6 +568,5 @@ convert_to_unit_incompatible_examples = [
 def test_covert_to_unit_should_fail(src, dest):
     src_unit = process_sympy(src, parse_as_unit=True)
     dest_unit = process_sympy(dest, parse_as_unit=True)
-    src_unit_converted = convert_to(src_unit, dest_unit)
-    # if units are incompatible, the src unit will not change
-    compare(src_unit, src_unit_converted)
+    with pytest.raises(Exception):
+        convert_to(src_unit, dest_unit)
