@@ -40,7 +40,7 @@ custom_unit_aliases[liter] = ['litre', 'litres', 'Litre', 'Litres']
 gray = additional_units.gray
 gray_prefixed_units = prefix_unit(gray, SI_PREFIXES)
 
-# the default liter unit does not correctly define "bit" as its abbrev
+# the default bit unit does not correctly define "bit" as its abbrev
 bit = additional_units.bit
 # define all binary and SI prefixes for bit
 bit_prefixed_units = prefix_unit(bit, BIN_PREFIXES)
@@ -53,7 +53,7 @@ for bit_prefixed_unit in [*bit_prefixed_units, *bit_si_prefixed_units]:
         bit_prefixed_unit_abbrev[:-2]
     ]
 
-# the default liter unit does not correctly define "B" as its abbrev
+# the default byte unit does not correctly define "B" as its abbrev
 byte = additional_units.byte
 # define all binary and SI prefixes for byte
 byte_prefixed_units = prefix_unit(byte, BIN_PREFIXES)

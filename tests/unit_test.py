@@ -557,7 +557,7 @@ convert_to_unit_incompatible_examples = [
     # rpm cannot convert
     ('rpm', 'Hz'),
     ('rpm', 'rad/s'),
-    # cannot covert degC or degF
+    # cannot convert degC or degF
     ('degC', 'K'),
     ('degF', 'K'),
     ('degC', 'degF'),
