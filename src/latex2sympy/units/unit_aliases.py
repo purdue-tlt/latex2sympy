@@ -1,3 +1,6 @@
+import os.path
+import pickle
+
 from sympy import latex
 import sympy.physics.units.definitions.unit_definitions as sympy_units
 from sympy.physics.units.quantities import Quantity, PhysicalConstant
@@ -271,48 +274,59 @@ def get_aliases_for_unit(unit, dir_module=None, attr_name=None):
 # -------------------------------------------------------------------------------------------------
 # construct a dict of every allowed string alias of each unit
 # -------------------------------------------------------------------------------------------------
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+pickle_file_path = f'{ROOT_DIR}/unit_aliases.pkl'
+pickle_file_exists = os.path.isfile(pickle_file_path)
+if pickle_file_exists:
+    pickle_file = open(pickle_file_path, 'rb')
+    UNIT_ALIASES = pickle.load(pickle_file)
+    pickle_file.close()
+else:
+    UNIT_ALIASES = {}
 
-UNIT_ALIASES = {}
+    # add aliases for defined attributes
+    for attr in dir(sympy_units):
+        u = getattr(sympy_units, attr)
+        if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and attr not in aliases_to_exclude and u not in units_to_exclude:
+            # override sympy units that have been fixed
+            if str(u.name) in fixed_sympy_units:
+                u = fixed_sympy_units[str(u.name)]
+            for alias in get_aliases_for_unit(u, sympy_units, attr):
+                if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):  # pragma: no cover
+                    raise Exception(f'attr: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
+                UNIT_ALIASES[alias] = u
 
-# add aliases for defined attributes
-for attr in dir(sympy_units):
-    u = getattr(sympy_units, attr)
-    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and attr not in aliases_to_exclude and u not in units_to_exclude:
-        # override sympy units that have been fixed
-        if str(u.name) in fixed_sympy_units:
-            u = fixed_sympy_units[str(u.name)]
-        for alias in get_aliases_for_unit(u, sympy_units, attr):
-            if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):  # pragma: no cover
-                raise Exception(f'attr: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
-            UNIT_ALIASES[alias] = u
+    # `all_si_units` contains every MKS/MKSA/SI unit and each possible prefixed variation
+    all_si_units = set([
+        *mks_units,
+        *mksa_units,
+        *si_units,
+        *sie_units,
+        *additional_sympy_prefixed_units,
+    ])
+    # add aliases for all prefixed units
+    for u in all_si_units:
+        if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and u not in units_to_exclude:
+            # override sympy units that have been fixed
+            if str(u.name) in fixed_sympy_units:
+                u = fixed_sympy_units[str(u.name)]
+            for alias in get_aliases_for_unit(u):
+                if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):  # pragma: no cover
+                    raise Exception(f'unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
+                UNIT_ALIASES[alias] = u
 
-# `all_si_units` contains every MKS/MKSA/SI unit and each possible prefixed variation
-all_si_units = set([
-    *mks_units,
-    *mksa_units,
-    *si_units,
-    *sie_units,
-    *additional_sympy_prefixed_units,
-])
-# add aliases for all prefixed units
-for u in all_si_units:
-    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and u not in units_to_exclude:
-        # override sympy units that have been fixed
-        if str(u.name) in fixed_sympy_units:
-            u = fixed_sympy_units[str(u.name)]
-        for alias in get_aliases_for_unit(u):
-            if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):  # pragma: no cover
-                raise Exception(f'unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
-            UNIT_ALIASES[alias] = u
-
-# add aliases for additional units
-for attr in dir(additional_units):
-    u = getattr(additional_units, attr)
-    if isinstance(u, Quantity):
-        for alias in get_aliases_for_unit(u, additional_units, attr):
-            if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):  # pragma: no cover
-                raise Exception(f'additional unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
-            UNIT_ALIASES[alias] = u
+    # add aliases for additional units
+    for attr in dir(additional_units):
+        u = getattr(additional_units, attr)
+        if isinstance(u, Quantity):
+            for alias in get_aliases_for_unit(u, additional_units, attr):
+                if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):  # pragma: no cover
+                    raise Exception(f'additional unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
+                UNIT_ALIASES[alias] = u
+if not pickle_file_exists:
+    pickle_file = open(pickle_file_path, 'wb')
+    pickle.dump(UNIT_ALIASES, pickle_file)
+    pickle_file.close()
 
 # -------------------------------------------------------------------------------------------------
 # test output
