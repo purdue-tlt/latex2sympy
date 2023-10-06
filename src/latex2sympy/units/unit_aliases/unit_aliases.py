@@ -1,3 +1,6 @@
+import json
+import os.path
+import pickle
 from sympy import latex
 import sympy.physics.units.definitions.unit_definitions as sympy_units
 from sympy.physics.units.quantities import Quantity, PhysicalConstant
@@ -14,8 +17,6 @@ from latex2sympy.units.prefixed_unit_definitions import (
     bit_prefixed_units, bit_si_prefixed_units,
     byte_prefixed_units
 )
-import os.path
-import json
 
 # -------------------------------------------------------------------------------------------------
 # define fixed sympy units / additional unit aliases
@@ -277,7 +278,17 @@ for attr in dir(additional_units):
             UNIT_ALIASES[alias] = u
 
 # -------------------------------------------------------------------------------------------------
-# JSON test output
+# output pickled file
+# -------------------------------------------------------------------------------------------------
+
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
+
+pickle_file = open(f'{ROOT_DIR}/unit_aliases.pkl', 'wb')
+pickle.dump(UNIT_ALIASES, pickle_file)
+pickle_file.close()
+
+# -------------------------------------------------------------------------------------------------
+# output JSON debug file
 # -------------------------------------------------------------------------------------------------
 
 ALIASES_BY_UNIT = {}
@@ -309,6 +320,5 @@ for alias, unit in UNIT_ALIASES.items():
     unit_obj['aliases'] = aliases
     ALIASES_BY_UNIT[unit_name] = unit_obj
 
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 with open(f'{ROOT_DIR}/unit_aliases.json', 'w', encoding='utf-8') as f:
     json.dump(ALIASES_BY_UNIT, f, ensure_ascii=False, indent=4)
