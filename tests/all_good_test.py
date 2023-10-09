@@ -236,6 +236,7 @@ class TestAllGood(object):
         ("\\sum _{k=1}^{3}c", Sum(c, (k, 1, 3))),
         ("\\sum _{k=1}^3c", Sum(c, (k, 1, 3))),
         ("\\sum _{k=1}^\\theta c", Sum(c, (k, 1, theta))),
+        ("\\sum _{k=1}^{\\theta }c", Sum(c, (k, 1, theta))),
         ("\\sum ^{3}_{k=1}c", Sum(c, (k, 1, 3))),
         ("\\sum ^3_{k=1}c", Sum(c, (k, 1, 3))),
         ("\\sum _{k=1}^{10}k^2", Sum(k**2, (k, 1, 10))),
