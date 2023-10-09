@@ -1,6 +1,4 @@
 import pytest
-import os
-import hashlib
 from sympy import Rational, pi
 from sympy.physics.units.definitions.unit_definitions import (
     # MKS - "meter, kilogram, second"
@@ -572,15 +570,3 @@ def test_covert_to_unit_should_fail(src, dest):
     dest_unit = process_sympy(dest, parse_as_unit=True)
     with pytest.raises(Exception):
         convert_to(src_unit, dest_unit)
-
-
-def test_ensure_aliases_are_pickled():
-    tests_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
-    unit_aliases_file = open(f'{tests_dir}/../src/latex2sympy/units/unit_aliases/unit_aliases.py', 'r')
-    h = hashlib.new('sha256')
-    h.update(unit_aliases_file.read().encode('utf-8'))
-    unit_aliases_file.close()
-    file_hash = h.hexdigest()
-    assert file_hash == 'b35d020318717bcf65105f83e5a4d1b39785c7a8db7da6f8a4241d2722d2f5af', \
-        'unit_aliases.py has changed. Please update the pickled aliases by running unit_aliases.py then update the hash' + \
-        f'in this test to {file_hash}'

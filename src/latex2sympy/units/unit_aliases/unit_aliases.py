@@ -321,4 +321,4 @@ for alias, unit in UNIT_ALIASES.items():
     ALIASES_BY_UNIT[unit_name] = unit_obj
 
 with open(f'{ROOT_DIR}/unit_aliases.json', 'w', encoding='utf-8') as f:
-    json.dump(ALIASES_BY_UNIT, f, ensure_ascii=False, indent=4)
+    json.dump(dict(sorted(ALIASES_BY_UNIT.items())), f, ensure_ascii=False, indent=4)

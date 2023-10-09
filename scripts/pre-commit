@@ -18,6 +18,14 @@ then . .env/Scripts/activate && echo "venv activated."
 else exit 1
 fi
 
+# Pickle `latex2sympy/units/unit_aliases/unit_aliases.py`, then add those changes
+echo "running unit_aliases to update pickle and json files..."
+python src/latex2sympy/units/unit_aliases/unit_aliases.py
+git add src/latex2sympy/units/unit_aliases/unit_aliases.py
+git add src/latex2sympy/units/unit_aliases/unit_aliases.pkl
+git add src/latex2sympy/units/unit_aliases/unit_aliases.json
+echo "completed running unit_aliases."
+
 # Run auto formatting on all staged python files, then add those changes
 echo "auto-formatting code..."
 if autopep8 --in-place `git diff --name-status --cached | grep '.*\.py$' | awk 'match($1, "A|M"){print $2}'` && git add `git diff --name-status --cached | grep '.*\.py$' | awk 'match($1, "A|M"){print $2}'`

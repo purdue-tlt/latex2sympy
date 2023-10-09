@@ -1,4 +1,20 @@
 {
+    "Btu": {
+        "aliases": [
+            "btu",
+            "Btu",
+            "btus",
+            "Btus"
+        ]
+    },
+    "acre": {
+        "aliases": [
+            "acre",
+            "Acre",
+            "acres",
+            "Acres"
+        ]
+    },
     "ampere": {
         "aliases": [
             "A",
@@ -183,6 +199,226 @@
             ]
         }
     },
+    "angstrom": {
+        "aliases": [
+            "angstrom",
+            "Angstrom",
+            "angstroms",
+            "Angstroms"
+        ]
+    },
+    "angular_mil": {
+        "aliases": [
+            "mil",
+            "mrad"
+        ]
+    },
+    "astronomical_unit": {
+        "aliases": [
+            "AU",
+            "au"
+        ]
+    },
+    "atmosphere": {
+        "aliases": [
+            "atm",
+            "atmosphere",
+            "Atmosphere",
+            "atmospheres",
+            "Atmospheres"
+        ]
+    },
+    "atomic_mass_constant": {
+        "aliases": [
+            "Da",
+            "u",
+            "amu",
+            "amus",
+            "dalton",
+            "daltons",
+            "Dalton",
+            "Daltons"
+        ]
+    },
+    "bar": {
+        "aliases": [
+            "bar",
+            "Bar",
+            "bars",
+            "Bars"
+        ],
+        "prefixes": {
+            "0-yotta": [
+                "Ybar",
+                "yottabar",
+                "Yottabar",
+                "yottabars",
+                "Yottabars"
+            ],
+            "1-zetta": [
+                "Zbar",
+                "zettabar",
+                "Zettabar",
+                "zettabars",
+                "Zettabars"
+            ],
+            "2-exa": [
+                "Ebar",
+                "exabar",
+                "Exabar",
+                "exabars",
+                "Exabars"
+            ],
+            "3-peta": [
+                "Pbar",
+                "petabar",
+                "Petabar",
+                "petabars",
+                "Petabars"
+            ],
+            "4-tera": [
+                "Tbar",
+                "terabar",
+                "Terabar",
+                "terabars",
+                "Terabars"
+            ],
+            "5-giga": [
+                "Gbar",
+                "gigabar",
+                "Gigabar",
+                "gigabars",
+                "Gigabars"
+            ],
+            "6-mega": [
+                "Mbar",
+                "megabar",
+                "Megabar",
+                "megabars",
+                "Megabars"
+            ],
+            "7-kilo": [
+                "kbar",
+                "kilobar",
+                "Kilobar",
+                "kilobars",
+                "Kilobars"
+            ],
+            "8-hecto": [
+                "hbar",
+                "hectobar",
+                "Hectobar",
+                "hectobars",
+                "Hectobars"
+            ],
+            "9-deca": [
+                "dabar",
+                "decabar",
+                "Decabar",
+                "decabars",
+                "Decabars"
+            ],
+            "10-deci": [
+                "dbar",
+                "decibar",
+                "Decibar",
+                "decibars",
+                "Decibars"
+            ],
+            "11-centi": [
+                "cbar",
+                "centibar",
+                "Centibar",
+                "centibars",
+                "Centibars"
+            ],
+            "12-milli": [
+                "mbar",
+                "millibar",
+                "Millibar",
+                "millibars",
+                "Millibars"
+            ],
+            "13-micro": [
+                "mubar",
+                "microbar",
+                "Microbar",
+                "microbars",
+                "Microbars",
+                "ubar"
+            ],
+            "14-nano": [
+                "nbar",
+                "nanobar",
+                "Nanobar",
+                "nanobars",
+                "Nanobars"
+            ],
+            "15-pico": [
+                "pbar",
+                "picobar",
+                "Picobar",
+                "picobars",
+                "Picobars"
+            ],
+            "16-femto": [
+                "fbar",
+                "femtobar",
+                "Femtobar",
+                "femtobars",
+                "Femtobars"
+            ],
+            "17-atto": [
+                "abar",
+                "attobar",
+                "Attobar",
+                "attobars",
+                "Attobars"
+            ],
+            "18-zepto": [
+                "zbar",
+                "zeptobar",
+                "Zeptobar",
+                "zeptobars",
+                "Zeptobars"
+            ],
+            "19-yocto": [
+                "ybar",
+                "yoctobar",
+                "Yoctobar",
+                "yoctobars",
+                "Yoctobars"
+            ],
+            "20-quetta": [
+                "Qbar",
+                "quettabar",
+                "Quettabar",
+                "quettabars",
+                "Quettabars"
+            ],
+            "21-ronna": [
+                "Rbar",
+                "ronnabar",
+                "Ronnabar",
+                "ronnabars",
+                "Ronnabars"
+            ],
+            "22-ronto": [
+                "rbar",
+                "rontobar",
+                "Rontobar",
+                "rontobars",
+                "Rontobars"
+            ],
+            "23-quecto": [
+                "qbar",
+                "quectobar",
+                "Quectobar",
+                "quectobars",
+                "Quectobars"
+            ]
+        }
+    },
     "becquerel": {
         "aliases": [
             "Bq",
@@ -360,6 +596,598 @@
                 "Quectobecquerel",
                 "quectobecquerels",
                 "Quectobecquerels"
+            ]
+        }
+    },
+    "bit": {
+        "aliases": [
+            "bit",
+            "Bit",
+            "b",
+            "bits",
+            "Bits"
+        ],
+        "prefixes": {
+            "0-yotta": [
+                "Ybit",
+                "yottabit",
+                "Yottabit",
+                "Yb"
+            ],
+            "1-zetta": [
+                "Zbit",
+                "zettabit",
+                "Zettabit",
+                "Zb"
+            ],
+            "2-exa": [
+                "Ebit",
+                "exabit",
+                "Exabit",
+                "Eb"
+            ],
+            "3-peta": [
+                "Pbit",
+                "petabit",
+                "Petabit",
+                "Pb"
+            ],
+            "4-tera": [
+                "Tbit",
+                "terabit",
+                "Terabit",
+                "Tb"
+            ],
+            "5-giga": [
+                "Gbit",
+                "gigabit",
+                "Gigabit",
+                "Gb"
+            ],
+            "6-mega": [
+                "Mbit",
+                "megabit",
+                "Megabit",
+                "Mb"
+            ],
+            "7-kilo": [
+                "kbit",
+                "kilobit",
+                "Kilobit",
+                "kb"
+            ],
+            "20-quetta": [
+                "Qbit",
+                "quettabit",
+                "Quettabit",
+                "Qb"
+            ],
+            "21-ronna": [
+                "Rbit",
+                "ronnabit",
+                "Ronnabit",
+                "Rb"
+            ],
+            "24-kibi": [
+                "Kibit",
+                "kibibit",
+                "Kibibit",
+                "Kib"
+            ],
+            "25-mebi": [
+                "Mibit",
+                "mebibit",
+                "Mebibit",
+                "Mib"
+            ],
+            "26-gibi": [
+                "Gibit",
+                "gibibit",
+                "Gibibit",
+                "Gib"
+            ],
+            "27-tebi": [
+                "Tibit",
+                "tebibit",
+                "Tebibit",
+                "Tib"
+            ],
+            "28-pebi": [
+                "Pibit",
+                "pebibit",
+                "Pebibit",
+                "Pib"
+            ],
+            "29-exbi": [
+                "Eibit",
+                "exbibit",
+                "Exbibit",
+                "Eib"
+            ],
+            "30-zebi": [
+                "Zibit",
+                "zebibit",
+                "Zebibit",
+                "Zib"
+            ],
+            "31-yobi": [
+                "Yibit",
+                "yobibit",
+                "Yobibit",
+                "Yib"
+            ]
+        }
+    },
+    "byte": {
+        "aliases": [
+            "B",
+            "byte",
+            "Byte",
+            "bytes",
+            "Bytes"
+        ],
+        "prefixes": {
+            "0-yotta": [
+                "YB",
+                "yottabyte",
+                "Yottabyte"
+            ],
+            "1-zetta": [
+                "ZB",
+                "zettabyte",
+                "Zettabyte"
+            ],
+            "2-exa": [
+                "EB",
+                "exabyte",
+                "Exabyte"
+            ],
+            "3-peta": [
+                "PB",
+                "petabyte",
+                "Petabyte"
+            ],
+            "4-tera": [
+                "TB",
+                "terabyte",
+                "Terabyte"
+            ],
+            "5-giga": [
+                "GB",
+                "gigabyte",
+                "Gigabyte"
+            ],
+            "6-mega": [
+                "MB",
+                "megabyte",
+                "Megabyte"
+            ],
+            "7-kilo": [
+                "kB",
+                "kilobyte",
+                "Kilobyte"
+            ],
+            "20-quetta": [
+                "QB",
+                "quettabyte",
+                "Quettabyte"
+            ],
+            "21-ronna": [
+                "RB",
+                "ronnabyte",
+                "Ronnabyte"
+            ],
+            "24-kibi": [
+                "KiB",
+                "kibibyte",
+                "Kibibyte",
+                "kibibytes",
+                "Kibibytes"
+            ],
+            "25-mebi": [
+                "MiB",
+                "mebibyte",
+                "Mebibyte",
+                "mebibytes",
+                "Mebibytes"
+            ],
+            "26-gibi": [
+                "GiB",
+                "gibibyte",
+                "Gibibyte",
+                "gibibytes",
+                "Gibibytes"
+            ],
+            "27-tebi": [
+                "TiB",
+                "tebibyte",
+                "Tebibyte",
+                "tebibytes",
+                "Tebibytes"
+            ],
+            "28-pebi": [
+                "PiB",
+                "pebibyte",
+                "Pebibyte",
+                "pebibytes",
+                "Pebibytes"
+            ],
+            "29-exbi": [
+                "EiB",
+                "exbibyte",
+                "Exbibyte",
+                "exbibytes",
+                "Exbibytes"
+            ],
+            "30-zebi": [
+                "ZiB",
+                "zebibyte",
+                "Zebibyte"
+            ],
+            "31-yobi": [
+                "YiB",
+                "yobibyte",
+                "Yobibyte"
+            ]
+        }
+    },
+    "calorie": {
+        "prefixes": {
+            "0-yotta": [
+                "Ycal",
+                "yottacalorie",
+                "Yottacalorie",
+                "yottacalories",
+                "Yottacalories"
+            ],
+            "1-zetta": [
+                "Zcal",
+                "zettacalorie",
+                "Zettacalorie",
+                "zettacalories",
+                "Zettacalories"
+            ],
+            "2-exa": [
+                "Ecal",
+                "exacalorie",
+                "Exacalorie",
+                "exacalories",
+                "Exacalories"
+            ],
+            "3-peta": [
+                "Pcal",
+                "petacalorie",
+                "Petacalorie",
+                "petacalories",
+                "Petacalories"
+            ],
+            "4-tera": [
+                "Tcal",
+                "teracalorie",
+                "Teracalorie",
+                "teracalories",
+                "Teracalories"
+            ],
+            "5-giga": [
+                "Gcal",
+                "gigacalorie",
+                "Gigacalorie",
+                "gigacalories",
+                "Gigacalories"
+            ],
+            "6-mega": [
+                "Mcal",
+                "megacalorie",
+                "Megacalorie",
+                "megacalories",
+                "Megacalories"
+            ],
+            "7-kilo": [
+                "kcal",
+                "kilocalorie",
+                "Kilocalorie",
+                "kilocalories",
+                "Kilocalories"
+            ],
+            "8-hecto": [
+                "hcal",
+                "hectocalorie",
+                "Hectocalorie",
+                "hectocalories",
+                "Hectocalories"
+            ],
+            "9-deca": [
+                "dacal",
+                "decacalorie",
+                "Decacalorie",
+                "decacalories",
+                "Decacalories"
+            ],
+            "10-deci": [
+                "dcal",
+                "decicalorie",
+                "Decicalorie",
+                "decicalories",
+                "Decicalories"
+            ],
+            "11-centi": [
+                "ccal",
+                "centicalorie",
+                "Centicalorie",
+                "centicalories",
+                "Centicalories"
+            ],
+            "12-milli": [
+                "mcal",
+                "millicalorie",
+                "Millicalorie",
+                "millicalories",
+                "Millicalories"
+            ],
+            "13-micro": [
+                "mucal",
+                "microcalorie",
+                "Microcalorie",
+                "microcalories",
+                "Microcalories",
+                "ucal"
+            ],
+            "14-nano": [
+                "ncal",
+                "nanocalorie",
+                "Nanocalorie",
+                "nanocalories",
+                "Nanocalories"
+            ],
+            "15-pico": [
+                "pcal",
+                "picocalorie",
+                "Picocalorie",
+                "picocalories",
+                "Picocalories"
+            ],
+            "16-femto": [
+                "fcal",
+                "femtocalorie",
+                "Femtocalorie",
+                "femtocalories",
+                "Femtocalories"
+            ],
+            "17-atto": [
+                "acal",
+                "attocalorie",
+                "Attocalorie",
+                "attocalories",
+                "Attocalories"
+            ],
+            "18-zepto": [
+                "zcal",
+                "zeptocalorie",
+                "Zeptocalorie",
+                "zeptocalories",
+                "Zeptocalories"
+            ],
+            "19-yocto": [
+                "ycal",
+                "yoctocalorie",
+                "Yoctocalorie",
+                "yoctocalories",
+                "Yoctocalories"
+            ],
+            "20-quetta": [
+                "Qcal",
+                "quettacalorie",
+                "Quettacalorie",
+                "quettacalories",
+                "Quettacalories"
+            ],
+            "21-ronna": [
+                "Rcal",
+                "ronnacalorie",
+                "Ronnacalorie",
+                "ronnacalories",
+                "Ronnacalories"
+            ],
+            "22-ronto": [
+                "rcal",
+                "rontocalorie",
+                "Rontocalorie",
+                "rontocalories",
+                "Rontocalories"
+            ],
+            "23-quecto": [
+                "qcal",
+                "quectocalorie",
+                "Quectocalorie",
+                "quectocalories",
+                "Quectocalories"
+            ]
+        },
+        "aliases": [
+            "cal",
+            "calorie",
+            "Calorie",
+            "calories",
+            "Calories"
+        ]
+    },
+    "candela": {
+        "aliases": [
+            "cd",
+            "candela",
+            "Candela",
+            "candelas",
+            "Candelas"
+        ],
+        "prefixes": {
+            "0-yotta": [
+                "Ycd",
+                "yottacandela",
+                "Yottacandela",
+                "yottacandelas",
+                "Yottacandelas"
+            ],
+            "1-zetta": [
+                "Zcd",
+                "zettacandela",
+                "Zettacandela",
+                "zettacandelas",
+                "Zettacandelas"
+            ],
+            "2-exa": [
+                "Ecd",
+                "exacandela",
+                "Exacandela",
+                "exacandelas",
+                "Exacandelas"
+            ],
+            "3-peta": [
+                "Pcd",
+                "petacandela",
+                "Petacandela",
+                "petacandelas",
+                "Petacandelas"
+            ],
+            "4-tera": [
+                "Tcd",
+                "teracandela",
+                "Teracandela",
+                "teracandelas",
+                "Teracandelas"
+            ],
+            "5-giga": [
+                "Gcd",
+                "gigacandela",
+                "Gigacandela",
+                "gigacandelas",
+                "Gigacandelas"
+            ],
+            "6-mega": [
+                "Mcd",
+                "megacandela",
+                "Megacandela",
+                "megacandelas",
+                "Megacandelas"
+            ],
+            "7-kilo": [
+                "kcd",
+                "kilocandela",
+                "Kilocandela",
+                "kilocandelas",
+                "Kilocandelas"
+            ],
+            "8-hecto": [
+                "hcd",
+                "hectocandela",
+                "Hectocandela",
+                "hectocandelas",
+                "Hectocandelas"
+            ],
+            "9-deca": [
+                "dacd",
+                "decacandela",
+                "Decacandela",
+                "decacandelas",
+                "Decacandelas"
+            ],
+            "10-deci": [
+                "dcd",
+                "decicandela",
+                "Decicandela",
+                "decicandelas",
+                "Decicandelas"
+            ],
+            "11-centi": [
+                "ccd",
+                "centicandela",
+                "Centicandela",
+                "centicandelas",
+                "Centicandelas"
+            ],
+            "12-milli": [
+                "mcd",
+                "millicandela",
+                "Millicandela",
+                "millicandelas",
+                "Millicandelas"
+            ],
+            "13-micro": [
+                "mucd",
+                "microcandela",
+                "Microcandela",
+                "microcandelas",
+                "Microcandelas",
+                "ucd"
+            ],
+            "14-nano": [
+                "ncd",
+                "nanocandela",
+                "Nanocandela",
+                "nanocandelas",
+                "Nanocandelas"
+            ],
+            "15-pico": [
+                "pcd",
+                "picocandela",
+                "Picocandela",
+                "picocandelas",
+                "Picocandelas"
+            ],
+            "16-femto": [
+                "fcd",
+                "femtocandela",
+                "Femtocandela",
+                "femtocandelas",
+                "Femtocandelas"
+            ],
+            "17-atto": [
+                "acd",
+                "attocandela",
+                "Attocandela",
+                "attocandelas",
+                "Attocandelas"
+            ],
+            "18-zepto": [
+                "zcd",
+                "zeptocandela",
+                "Zeptocandela",
+                "zeptocandelas",
+                "Zeptocandelas"
+            ],
+            "19-yocto": [
+                "ycd",
+                "yoctocandela",
+                "Yoctocandela",
+                "yoctocandelas",
+                "Yoctocandelas"
+            ],
+            "20-quetta": [
+                "Qcd",
+                "quettacandela",
+                "Quettacandela",
+                "quettacandelas",
+                "Quettacandelas"
+            ],
+            "21-ronna": [
+                "Rcd",
+                "ronnacandela",
+                "Ronnacandela",
+                "ronnacandelas",
+                "Ronnacandelas"
+            ],
+            "22-ronto": [
+                "rcd",
+                "rontocandela",
+                "Rontocandela",
+                "rontocandelas",
+                "Rontocandelas"
+            ],
+            "23-quecto": [
+                "qcd",
+                "quectocandela",
+                "Quectocandela",
+                "quectocandelas",
+                "Quectocandelas"
             ]
         }
     },
@@ -543,6 +1371,24 @@
             ]
         }
     },
+    "cubic_centimeter": {
+        "aliases": [
+            "cc",
+            "ccs"
+        ]
+    },
+    "cubic_feet_per_minute": {
+        "aliases": [
+            "cfm",
+            "CFM"
+        ]
+    },
+    "cubic_feet_per_second": {
+        "aliases": [
+            "cfs",
+            "CFS"
+        ]
+    },
     "curie": {
         "aliases": [
             "Ci",
@@ -723,6 +1569,57 @@
             ]
         }
     },
+    "day": {
+        "aliases": [
+            "day",
+            "Day",
+            "days",
+            "Days"
+        ]
+    },
+    "decibel": {
+        "aliases": [
+            "dB",
+            "decibel",
+            "Decibel",
+            "decibels",
+            "Decibels"
+        ]
+    },
+    "degree": {
+        "aliases": [
+            "deg",
+            "degree",
+            "Degree",
+            "\\degree",
+            "degrees",
+            "Degrees"
+        ]
+    },
+    "degreeCelsius": {
+        "aliases": [
+            "degC",
+            "degreeCelsius",
+            "DegreeCelsius",
+            "\\degree C",
+            "celsius",
+            "Celsius",
+            "degreesCelsius",
+            "DegreesCelsius"
+        ]
+    },
+    "degreeFahrenheit": {
+        "aliases": [
+            "degF",
+            "degreeFahrenheit",
+            "DegreeFahrenheit",
+            "\\degree F",
+            "degreesFahrenheit",
+            "DegreesFahrenheit",
+            "fahrenheit",
+            "Fahrenheit"
+        ]
+    },
     "dioptre": {
         "aliases": [
             "dioptre",
@@ -736,16 +1633,194 @@
             "Diopters"
         ]
     },
-    "atomic_mass_constant": {
+    "electron_rest_mass": {
         "aliases": [
-            "Da",
-            "u",
-            "amu",
-            "amus",
-            "dalton",
-            "daltons",
-            "Dalton",
-            "Daltons"
+            "me"
+        ]
+    },
+    "electronvolt": {
+        "aliases": [
+            "eV",
+            "electronvolt",
+            "Electronvolt",
+            "electronvolts",
+            "Electronvolts"
+        ],
+        "prefixes": {
+            "0-yotta": [
+                "YeV",
+                "yottaelectronvolt",
+                "Yottaelectronvolt",
+                "yottaelectronvolts",
+                "Yottaelectronvolts"
+            ],
+            "1-zetta": [
+                "ZeV",
+                "zettaelectronvolt",
+                "Zettaelectronvolt",
+                "zettaelectronvolts",
+                "Zettaelectronvolts"
+            ],
+            "2-exa": [
+                "EeV",
+                "exaelectronvolt",
+                "Exaelectronvolt",
+                "exaelectronvolts",
+                "Exaelectronvolts"
+            ],
+            "3-peta": [
+                "PeV",
+                "petaelectronvolt",
+                "Petaelectronvolt",
+                "petaelectronvolts",
+                "Petaelectronvolts"
+            ],
+            "4-tera": [
+                "TeV",
+                "teraelectronvolt",
+                "Teraelectronvolt",
+                "teraelectronvolts",
+                "Teraelectronvolts"
+            ],
+            "5-giga": [
+                "GeV",
+                "gigaelectronvolt",
+                "Gigaelectronvolt",
+                "gigaelectronvolts",
+                "Gigaelectronvolts"
+            ],
+            "6-mega": [
+                "MeV",
+                "megaelectronvolt",
+                "Megaelectronvolt",
+                "megaelectronvolts",
+                "Megaelectronvolts"
+            ],
+            "7-kilo": [
+                "keV",
+                "kiloelectronvolt",
+                "Kiloelectronvolt",
+                "kiloelectronvolts",
+                "Kiloelectronvolts"
+            ],
+            "8-hecto": [
+                "heV",
+                "hectoelectronvolt",
+                "Hectoelectronvolt",
+                "hectoelectronvolts",
+                "Hectoelectronvolts"
+            ],
+            "9-deca": [
+                "daeV",
+                "decaelectronvolt",
+                "Decaelectronvolt",
+                "decaelectronvolts",
+                "Decaelectronvolts"
+            ],
+            "10-deci": [
+                "deV",
+                "decielectronvolt",
+                "Decielectronvolt",
+                "decielectronvolts",
+                "Decielectronvolts"
+            ],
+            "11-centi": [
+                "ceV",
+                "centielectronvolt",
+                "Centielectronvolt",
+                "centielectronvolts",
+                "Centielectronvolts"
+            ],
+            "12-milli": [
+                "meV",
+                "millielectronvolt",
+                "Millielectronvolt",
+                "millielectronvolts",
+                "Millielectronvolts"
+            ],
+            "13-micro": [
+                "mueV",
+                "microelectronvolt",
+                "Microelectronvolt",
+                "microelectronvolts",
+                "Microelectronvolts",
+                "ueV"
+            ],
+            "14-nano": [
+                "neV",
+                "nanoelectronvolt",
+                "Nanoelectronvolt",
+                "nanoelectronvolts",
+                "Nanoelectronvolts"
+            ],
+            "15-pico": [
+                "peV",
+                "picoelectronvolt",
+                "Picoelectronvolt",
+                "picoelectronvolts",
+                "Picoelectronvolts"
+            ],
+            "16-femto": [
+                "feV",
+                "femtoelectronvolt",
+                "Femtoelectronvolt",
+                "femtoelectronvolts",
+                "Femtoelectronvolts"
+            ],
+            "17-atto": [
+                "aeV",
+                "attoelectronvolt",
+                "Attoelectronvolt",
+                "attoelectronvolts",
+                "Attoelectronvolts"
+            ],
+            "18-zepto": [
+                "zeV",
+                "zeptoelectronvolt",
+                "Zeptoelectronvolt",
+                "zeptoelectronvolts",
+                "Zeptoelectronvolts"
+            ],
+            "19-yocto": [
+                "yeV",
+                "yoctoelectronvolt",
+                "Yoctoelectronvolt",
+                "yoctoelectronvolts",
+                "Yoctoelectronvolts"
+            ],
+            "20-quetta": [
+                "QeV",
+                "quettaelectronvolt",
+                "Quettaelectronvolt",
+                "quettaelectronvolts",
+                "Quettaelectronvolts"
+            ],
+            "21-ronna": [
+                "ReV",
+                "ronnaelectronvolt",
+                "Ronnaelectronvolt",
+                "ronnaelectronvolts",
+                "Ronnaelectronvolts"
+            ],
+            "22-ronto": [
+                "reV",
+                "rontoelectronvolt",
+                "Rontoelectronvolt",
+                "rontoelectronvolts",
+                "Rontoelectronvolts"
+            ],
+            "23-quecto": [
+                "qeV",
+                "quectoelectronvolt",
+                "Quectoelectronvolt",
+                "quectoelectronvolts",
+                "Quectoelectronvolts"
+            ]
+        }
+    },
+    "elementary_charge": {
+        "aliases": [
+            "e"
         ]
     },
     "farad": {
@@ -928,6 +2003,196 @@
             ]
         }
     },
+    "foot": {
+        "aliases": [
+            "ft",
+            "foot",
+            "Foot",
+            "feet",
+            "Feet"
+        ]
+    },
+    "gram": {
+        "aliases": [
+            "g",
+            "gram",
+            "Gram",
+            "grams",
+            "Grams"
+        ],
+        "prefixes": {
+            "0-yotta": [
+                "Yg",
+                "yottagram",
+                "Yottagram",
+                "yottagrams",
+                "Yottagrams"
+            ],
+            "1-zetta": [
+                "Zg",
+                "zettagram",
+                "Zettagram",
+                "zettagrams",
+                "Zettagrams"
+            ],
+            "2-exa": [
+                "Eg",
+                "exagram",
+                "Exagram",
+                "exagrams",
+                "Exagrams"
+            ],
+            "3-peta": [
+                "Pg",
+                "petagram",
+                "Petagram",
+                "petagrams",
+                "Petagrams"
+            ],
+            "4-tera": [
+                "Tg",
+                "teragram",
+                "Teragram",
+                "teragrams",
+                "Teragrams"
+            ],
+            "5-giga": [
+                "Gg",
+                "gigagram",
+                "Gigagram",
+                "gigagrams",
+                "Gigagrams"
+            ],
+            "6-mega": [
+                "Mg",
+                "megagram",
+                "Megagram",
+                "megagrams",
+                "Megagrams"
+            ],
+            "7-kilo": [
+                "kg",
+                "kilogram",
+                "Kilogram",
+                "kilograms",
+                "Kilograms"
+            ],
+            "8-hecto": [
+                "hg",
+                "hectogram",
+                "Hectogram",
+                "hectograms",
+                "Hectograms"
+            ],
+            "9-deca": [
+                "dag",
+                "decagram",
+                "Decagram",
+                "decagrams",
+                "Decagrams"
+            ],
+            "10-deci": [
+                "dg",
+                "decigram",
+                "Decigram",
+                "decigrams",
+                "Decigrams"
+            ],
+            "11-centi": [
+                "cg",
+                "centigram",
+                "Centigram",
+                "centigrams",
+                "Centigrams"
+            ],
+            "12-milli": [
+                "mg",
+                "milligram",
+                "Milligram",
+                "milligrams",
+                "Milligrams"
+            ],
+            "13-micro": [
+                "ug",
+                "microgram",
+                "Microgram",
+                "micrograms",
+                "Micrograms",
+                "mcg",
+                "mug"
+            ],
+            "14-nano": [
+                "ng",
+                "nanogram",
+                "Nanogram",
+                "nanograms",
+                "Nanograms"
+            ],
+            "15-pico": [
+                "pg",
+                "picogram",
+                "Picogram",
+                "picograms",
+                "Picograms"
+            ],
+            "16-femto": [
+                "fg",
+                "femtogram",
+                "Femtogram",
+                "femtograms",
+                "Femtograms"
+            ],
+            "17-atto": [
+                "ag",
+                "attogram",
+                "Attogram",
+                "attograms",
+                "Attograms"
+            ],
+            "18-zepto": [
+                "zg",
+                "zeptogram",
+                "Zeptogram",
+                "zeptograms",
+                "Zeptograms"
+            ],
+            "19-yocto": [
+                "yg",
+                "yoctogram",
+                "Yoctogram",
+                "yoctograms",
+                "Yoctograms"
+            ],
+            "20-quetta": [
+                "Qg",
+                "quettagram",
+                "Quettagram",
+                "quettagrams",
+                "Quettagrams"
+            ],
+            "21-ronna": [
+                "Rg",
+                "ronnagram",
+                "Ronnagram",
+                "ronnagrams",
+                "Ronnagrams"
+            ],
+            "22-ronto": [
+                "rg",
+                "rontogram",
+                "Rontogram",
+                "rontograms",
+                "Rontograms"
+            ],
+            "23-quecto": [
+                "qg",
+                "quectogram",
+                "Quectogram",
+                "quectograms",
+                "Quectograms"
+            ]
+        }
+    },
     "gray": {
         "aliases": [
             "Gy",
@@ -1107,6 +2372,15 @@
                 "Quectograys"
             ]
         }
+    },
+    "hectare": {
+        "aliases": [
+            "ha",
+            "hectare",
+            "hectares",
+            "Hectare",
+            "Hectares"
+        ]
     },
     "henry": {
         "aliases": [
@@ -1418,6 +2692,28 @@
             ]
         }
     },
+    "hour": {
+        "aliases": [
+            "hour",
+            "Hour",
+            "h",
+            "hr",
+            "hrs",
+            "Hr",
+            "Hrs",
+            "hours",
+            "Hours"
+        ]
+    },
+    "inch": {
+        "aliases": [
+            "inch",
+            "Inch",
+            "in",
+            "inches",
+            "Inches"
+        ]
+    },
     "joule": {
         "aliases": [
             "J",
@@ -1595,6 +2891,186 @@
                 "Quectojoule",
                 "quectojoules",
                 "Quectojoules"
+            ]
+        }
+    },
+    "katal": {
+        "aliases": [
+            "kat",
+            "katal",
+            "katals",
+            "Katal",
+            "Katals"
+        ],
+        "prefixes": {
+            "0-yotta": [
+                "Ykat",
+                "yottakatal",
+                "Yottakatal",
+                "yottakatals",
+                "Yottakatals"
+            ],
+            "1-zetta": [
+                "Zkat",
+                "zettakatal",
+                "Zettakatal",
+                "zettakatals",
+                "Zettakatals"
+            ],
+            "2-exa": [
+                "Ekat",
+                "exakatal",
+                "Exakatal",
+                "exakatals",
+                "Exakatals"
+            ],
+            "3-peta": [
+                "Pkat",
+                "petakatal",
+                "Petakatal",
+                "petakatals",
+                "Petakatals"
+            ],
+            "4-tera": [
+                "Tkat",
+                "terakatal",
+                "Terakatal",
+                "terakatals",
+                "Terakatals"
+            ],
+            "5-giga": [
+                "Gkat",
+                "gigakatal",
+                "Gigakatal",
+                "gigakatals",
+                "Gigakatals"
+            ],
+            "6-mega": [
+                "Mkat",
+                "megakatal",
+                "Megakatal",
+                "megakatals",
+                "Megakatals"
+            ],
+            "7-kilo": [
+                "kkat",
+                "kilokatal",
+                "Kilokatal",
+                "kilokatals",
+                "Kilokatals"
+            ],
+            "8-hecto": [
+                "hkat",
+                "hectokatal",
+                "Hectokatal",
+                "hectokatals",
+                "Hectokatals"
+            ],
+            "9-deca": [
+                "dakat",
+                "decakatal",
+                "Decakatal",
+                "decakatals",
+                "Decakatals"
+            ],
+            "10-deci": [
+                "dkat",
+                "decikatal",
+                "Decikatal",
+                "decikatals",
+                "Decikatals"
+            ],
+            "11-centi": [
+                "ckat",
+                "centikatal",
+                "Centikatal",
+                "centikatals",
+                "Centikatals"
+            ],
+            "12-milli": [
+                "mkat",
+                "millikatal",
+                "Millikatal",
+                "millikatals",
+                "Millikatals"
+            ],
+            "13-micro": [
+                "mukat",
+                "microkatal",
+                "Microkatal",
+                "microkatals",
+                "Microkatals",
+                "ukat"
+            ],
+            "14-nano": [
+                "nkat",
+                "nanokatal",
+                "Nanokatal",
+                "nanokatals",
+                "Nanokatals"
+            ],
+            "15-pico": [
+                "pkat",
+                "picokatal",
+                "Picokatal",
+                "picokatals",
+                "Picokatals"
+            ],
+            "16-femto": [
+                "fkat",
+                "femtokatal",
+                "Femtokatal",
+                "femtokatals",
+                "Femtokatals"
+            ],
+            "17-atto": [
+                "akat",
+                "attokatal",
+                "Attokatal",
+                "attokatals",
+                "Attokatals"
+            ],
+            "18-zepto": [
+                "zkat",
+                "zeptokatal",
+                "Zeptokatal",
+                "zeptokatals",
+                "Zeptokatals"
+            ],
+            "19-yocto": [
+                "ykat",
+                "yoctokatal",
+                "Yoctokatal",
+                "yoctokatals",
+                "Yoctokatals"
+            ],
+            "20-quetta": [
+                "Qkat",
+                "quettakatal",
+                "Quettakatal",
+                "quettakatals",
+                "Quettakatals"
+            ],
+            "21-ronna": [
+                "Rkat",
+                "ronnakatal",
+                "Ronnakatal",
+                "ronnakatals",
+                "Ronnakatals"
+            ],
+            "22-ronto": [
+                "rkat",
+                "rontokatal",
+                "Rontokatal",
+                "rontokatals",
+                "Rontokatals"
+            ],
+            "23-quecto": [
+                "qkat",
+                "quectokatal",
+                "Quectokatal",
+                "quectokatals",
+                "Quectokatals"
             ]
         }
     },
@@ -1777,6 +3253,25 @@
                 "Quectokelvins"
             ]
         }
+    },
+    "knot": {
+        "aliases": [
+            "kn",
+            "knot",
+            "Knot",
+            "knots",
+            "Knots",
+            "kt"
+        ]
+    },
+    "lightyear": {
+        "aliases": [
+            "ly",
+            "lightyear",
+            "Lightyear",
+            "lightyears",
+            "Lightyears"
+        ]
     },
     "liter": {
         "aliases": [
@@ -1974,6 +3469,955 @@
             ]
         }
     },
+    "lumen": {
+        "prefixes": {
+            "0-yotta": [
+                "Ylm",
+                "yottalumen",
+                "Yottalumen",
+                "yottalumens",
+                "Yottalumens"
+            ],
+            "1-zetta": [
+                "Zlm",
+                "zettalumen",
+                "Zettalumen",
+                "zettalumens",
+                "Zettalumens"
+            ],
+            "2-exa": [
+                "Elm",
+                "exalumen",
+                "Exalumen",
+                "exalumens",
+                "Exalumens"
+            ],
+            "3-peta": [
+                "Plm",
+                "petalumen",
+                "Petalumen",
+                "petalumens",
+                "Petalumens"
+            ],
+            "4-tera": [
+                "Tlm",
+                "teralumen",
+                "Teralumen",
+                "teralumens",
+                "Teralumens"
+            ],
+            "5-giga": [
+                "Glm",
+                "gigalumen",
+                "Gigalumen",
+                "gigalumens",
+                "Gigalumens"
+            ],
+            "6-mega": [
+                "Mlm",
+                "megalumen",
+                "Megalumen",
+                "megalumens",
+                "Megalumens"
+            ],
+            "7-kilo": [
+                "klm",
+                "kilolumen",
+                "Kilolumen",
+                "kilolumens",
+                "Kilolumens"
+            ],
+            "8-hecto": [
+                "hlm",
+                "hectolumen",
+                "Hectolumen",
+                "hectolumens",
+                "Hectolumens"
+            ],
+            "9-deca": [
+                "dalm",
+                "decalumen",
+                "Decalumen",
+                "decalumens",
+                "Decalumens"
+            ],
+            "10-deci": [
+                "dlm",
+                "decilumen",
+                "Decilumen",
+                "decilumens",
+                "Decilumens"
+            ],
+            "11-centi": [
+                "clm",
+                "centilumen",
+                "Centilumen",
+                "centilumens",
+                "Centilumens"
+            ],
+            "12-milli": [
+                "mlm",
+                "millilumen",
+                "Millilumen",
+                "millilumens",
+                "Millilumens"
+            ],
+            "13-micro": [
+                "mulm",
+                "microlumen",
+                "Microlumen",
+                "microlumens",
+                "Microlumens",
+                "ulm"
+            ],
+            "14-nano": [
+                "nlm",
+                "nanolumen",
+                "Nanolumen",
+                "nanolumens",
+                "Nanolumens"
+            ],
+            "15-pico": [
+                "plm",
+                "picolumen",
+                "Picolumen",
+                "picolumens",
+                "Picolumens"
+            ],
+            "16-femto": [
+                "flm",
+                "femtolumen",
+                "Femtolumen",
+                "femtolumens",
+                "Femtolumens"
+            ],
+            "17-atto": [
+                "alm",
+                "attolumen",
+                "Attolumen",
+                "attolumens",
+                "Attolumens"
+            ],
+            "18-zepto": [
+                "zlm",
+                "zeptolumen",
+                "Zeptolumen",
+                "zeptolumens",
+                "Zeptolumens"
+            ],
+            "19-yocto": [
+                "ylm",
+                "yoctolumen",
+                "Yoctolumen",
+                "yoctolumens",
+                "Yoctolumens"
+            ],
+            "20-quetta": [
+                "Qlm",
+                "quettalumen",
+                "Quettalumen",
+                "quettalumens",
+                "Quettalumens"
+            ],
+            "21-ronna": [
+                "Rlm",
+                "ronnalumen",
+                "Ronnalumen",
+                "ronnalumens",
+                "Ronnalumens"
+            ],
+            "22-ronto": [
+                "rlm",
+                "rontolumen",
+                "Rontolumen",
+                "rontolumens",
+                "Rontolumens"
+            ],
+            "23-quecto": [
+                "qlm",
+                "quectolumen",
+                "Quectolumen",
+                "quectolumens",
+                "Quectolumens"
+            ]
+        },
+        "aliases": [
+            "lm",
+            "lumen",
+            "Lumen",
+            "lumens",
+            "Lumens"
+        ]
+    },
+    "lux": {
+        "aliases": [
+            "lx",
+            "lux",
+            "Lux"
+        ],
+        "prefixes": {
+            "0-yotta": [
+                "Ylx",
+                "yottalux",
+                "Yottalux"
+            ],
+            "1-zetta": [
+                "Zlx",
+                "zettalux",
+                "Zettalux"
+            ],
+            "2-exa": [
+                "Elx",
+                "exalux",
+                "Exalux"
+            ],
+            "3-peta": [
+                "Plx",
+                "petalux",
+                "Petalux"
+            ],
+            "4-tera": [
+                "Tlx",
+                "teralux",
+                "Teralux"
+            ],
+            "5-giga": [
+                "Glx",
+                "gigalux",
+                "Gigalux"
+            ],
+            "6-mega": [
+                "Mlx",
+                "megalux",
+                "Megalux"
+            ],
+            "7-kilo": [
+                "klx",
+                "kilolux",
+                "Kilolux"
+            ],
+            "8-hecto": [
+                "hlx",
+                "hectolux",
+                "Hectolux"
+            ],
+            "9-deca": [
+                "dalx",
+                "decalux",
+                "Decalux"
+            ],
+            "10-deci": [
+                "dlx",
+                "decilux",
+                "Decilux"
+            ],
+            "11-centi": [
+                "clx",
+                "centilux",
+                "Centilux"
+            ],
+            "12-milli": [
+                "mlx",
+                "millilux",
+                "Millilux"
+            ],
+            "13-micro": [
+                "mulx",
+                "microlux",
+                "Microlux",
+                "ulx"
+            ],
+            "14-nano": [
+                "nlx",
+                "nanolux",
+                "Nanolux"
+            ],
+            "15-pico": [
+                "plx",
+                "picolux",
+                "Picolux"
+            ],
+            "16-femto": [
+                "flx",
+                "femtolux",
+                "Femtolux"
+            ],
+            "17-atto": [
+                "alx",
+                "attolux",
+                "Attolux"
+            ],
+            "18-zepto": [
+                "zlx",
+                "zeptolux",
+                "Zeptolux"
+            ],
+            "19-yocto": [
+                "ylx",
+                "yoctolux",
+                "Yoctolux"
+            ],
+            "20-quetta": [
+                "Qlx",
+                "quettalux",
+                "Quettalux"
+            ],
+            "21-ronna": [
+                "Rlx",
+                "ronnalux",
+                "Ronnalux"
+            ],
+            "22-ronto": [
+                "rlx",
+                "rontolux",
+                "Rontolux"
+            ],
+            "23-quecto": [
+                "qlx",
+                "quectolux",
+                "Quectolux"
+            ]
+        }
+    },
+    "meter": {
+        "prefixes": {
+            "0-yotta": [
+                "Ym",
+                "yottameter",
+                "Yottameter",
+                "yottameters",
+                "Yottameters",
+                "yottametre",
+                "Yottametre",
+                "yottametres",
+                "Yottametres"
+            ],
+            "1-zetta": [
+                "Zm",
+                "zettameter",
+                "Zettameter",
+                "zettameters",
+                "Zettameters",
+                "zettametre",
+                "Zettametre",
+                "zettametres",
+                "Zettametres"
+            ],
+            "2-exa": [
+                "Em",
+                "exameter",
+                "Exameter",
+                "exameters",
+                "Exameters",
+                "exametre",
+                "Exametre",
+                "exametres",
+                "Exametres"
+            ],
+            "3-peta": [
+                "Pm",
+                "petameter",
+                "Petameter",
+                "petameters",
+                "Petameters",
+                "petametre",
+                "Petametre",
+                "petametres",
+                "Petametres"
+            ],
+            "4-tera": [
+                "Tm",
+                "terameter",
+                "Terameter",
+                "terameters",
+                "Terameters",
+                "terametre",
+                "Terametre",
+                "terametres",
+                "Terametres"
+            ],
+            "5-giga": [
+                "Gm",
+                "gigameter",
+                "Gigameter",
+                "gigameters",
+                "Gigameters",
+                "gigametre",
+                "Gigametre",
+                "gigametres",
+                "Gigametres"
+            ],
+            "6-mega": [
+                "Mm",
+                "megameter",
+                "Megameter",
+                "megameters",
+                "Megameters",
+                "megametre",
+                "Megametre",
+                "megametres",
+                "Megametres"
+            ],
+            "7-kilo": [
+                "km",
+                "kilometer",
+                "Kilometer",
+                "kilometers",
+                "Kilometers",
+                "kilometre",
+                "Kilometre",
+                "kilometres",
+                "Kilometres"
+            ],
+            "8-hecto": [
+                "hm",
+                "hectometer",
+                "Hectometer",
+                "hectometers",
+                "Hectometers",
+                "hectometre",
+                "Hectometre",
+                "hectometres",
+                "Hectometres"
+            ],
+            "9-deca": [
+                "dam",
+                "decameter",
+                "Decameter",
+                "decameters",
+                "Decameters",
+                "decametre",
+                "Decametre",
+                "decametres",
+                "Decametres"
+            ],
+            "10-deci": [
+                "dm",
+                "decimeter",
+                "Decimeter",
+                "decimeters",
+                "Decimeters",
+                "decimetre",
+                "Decimetre",
+                "decimetres",
+                "Decimetres"
+            ],
+            "11-centi": [
+                "cm",
+                "centimeter",
+                "Centimeter",
+                "centimeters",
+                "Centimeters",
+                "centimetre",
+                "Centimetre",
+                "centimetres",
+                "Centimetres"
+            ],
+            "12-milli": [
+                "mm",
+                "millimeter",
+                "Millimeter",
+                "millimeters",
+                "Millimeters",
+                "millimetre",
+                "Millimetre",
+                "millimetres",
+                "Millimetres"
+            ],
+            "13-micro": [
+                "um",
+                "micrometer",
+                "Micrometer",
+                "micrometers",
+                "Micrometers",
+                "micrometre",
+                "Micrometre",
+                "micrometres",
+                "Micrometres",
+                "micron",
+                "microns",
+                "mum"
+            ],
+            "14-nano": [
+                "nm",
+                "nanometer",
+                "Nanometer",
+                "nanometers",
+                "Nanometers",
+                "nanometre",
+                "Nanometre",
+                "nanometres",
+                "Nanometres"
+            ],
+            "15-pico": [
+                "pm",
+                "picometer",
+                "Picometer",
+                "picometers",
+                "Picometers",
+                "picometre",
+                "Picometre",
+                "picometres",
+                "Picometres"
+            ],
+            "16-femto": [
+                "fm",
+                "femtometer",
+                "Femtometer",
+                "femtometers",
+                "Femtometers",
+                "femtometre",
+                "Femtometre",
+                "femtometres",
+                "Femtometres"
+            ],
+            "17-atto": [
+                "am",
+                "attometer",
+                "Attometer",
+                "attometers",
+                "Attometers",
+                "attometre",
+                "Attometre",
+                "attometres",
+                "Attometres"
+            ],
+            "18-zepto": [
+                "zm",
+                "zeptometer",
+                "Zeptometer",
+                "zeptometers",
+                "Zeptometers",
+                "zeptometre",
+                "Zeptometre",
+                "zeptometres",
+                "Zeptometres"
+            ],
+            "19-yocto": [
+                "ym",
+                "yoctometer",
+                "Yoctometer",
+                "yoctometers",
+                "Yoctometers",
+                "yoctometre",
+                "Yoctometre",
+                "yoctometres",
+                "Yoctometres"
+            ],
+            "20-quetta": [
+                "Qm",
+                "quettameter",
+                "Quettameter",
+                "quettameters",
+                "Quettameters",
+                "quettametre",
+                "Quettametre",
+                "quettametres",
+                "Quettametres"
+            ],
+            "21-ronna": [
+                "Rm",
+                "ronnameter",
+                "Ronnameter",
+                "ronnameters",
+                "Ronnameters",
+                "ronnametre",
+                "Ronnametre",
+                "ronnametres",
+                "Ronnametres"
+            ],
+            "22-ronto": [
+                "rm",
+                "rontometer",
+                "Rontometer",
+                "rontometers",
+                "Rontometers",
+                "rontometre",
+                "Rontometre",
+                "rontometres",
+                "Rontometres"
+            ],
+            "23-quecto": [
+                "qm",
+                "quectometer",
+                "Quectometer",
+                "quectometers",
+                "Quectometers",
+                "quectometre",
+                "Quectometre",
+                "quectometres",
+                "Quectometres"
+            ]
+        },
+        "aliases": [
+            "m",
+            "meter",
+            "Meter",
+            "metre",
+            "metres",
+            "Metre",
+            "Metres",
+            "meters",
+            "Meters"
+        ]
+    },
+    "mile": {
+        "aliases": [
+            "mile",
+            "Mile",
+            "mi",
+            "miles",
+            "Miles"
+        ]
+    },
+    "miles_per_hour": {
+        "aliases": [
+            "mph",
+            "MPH"
+        ]
+    },
+    "milli_mass_unit": {
+        "aliases": [
+            "mmu",
+            "mmus"
+        ]
+    },
+    "minute": {
+        "aliases": [
+            "minute",
+            "Minute",
+            "min",
+            "mins",
+            "Min",
+            "Mins",
+            "minutes",
+            "Minutes"
+        ]
+    },
+    "mmHg": {
+        "aliases": [
+            "mmHg",
+            "torr",
+            "torrs",
+            "Torr",
+            "Torrs"
+        ]
+    },
+    "molar": {
+        "prefixes": {
+            "0-yotta": [
+                "YM",
+                "yottamolar",
+                "Yottamolar"
+            ],
+            "1-zetta": [
+                "ZM",
+                "zettamolar",
+                "Zettamolar"
+            ],
+            "2-exa": [
+                "EM",
+                "examolar",
+                "Examolar"
+            ],
+            "3-peta": [
+                "PM",
+                "petamolar",
+                "Petamolar"
+            ],
+            "4-tera": [
+                "TM",
+                "teramolar",
+                "Teramolar"
+            ],
+            "5-giga": [
+                "GM",
+                "gigamolar",
+                "Gigamolar"
+            ],
+            "6-mega": [
+                "MM",
+                "megamolar",
+                "Megamolar"
+            ],
+            "7-kilo": [
+                "kM",
+                "kilomolar",
+                "Kilomolar"
+            ],
+            "8-hecto": [
+                "hM",
+                "hectomolar",
+                "Hectomolar"
+            ],
+            "9-deca": [
+                "daM",
+                "decamolar",
+                "Decamolar"
+            ],
+            "10-deci": [
+                "dM",
+                "decimolar",
+                "Decimolar"
+            ],
+            "11-centi": [
+                "cM",
+                "centimolar",
+                "Centimolar"
+            ],
+            "12-milli": [
+                "mM",
+                "millimolar",
+                "Millimolar"
+            ],
+            "13-micro": [
+                "muM",
+                "micromolar",
+                "Micromolar",
+                "uM"
+            ],
+            "14-nano": [
+                "nM",
+                "nanomolar",
+                "Nanomolar"
+            ],
+            "15-pico": [
+                "pM",
+                "picomolar",
+                "Picomolar"
+            ],
+            "16-femto": [
+                "fM",
+                "femtomolar",
+                "Femtomolar"
+            ],
+            "17-atto": [
+                "aM",
+                "attomolar",
+                "Attomolar"
+            ],
+            "18-zepto": [
+                "zM",
+                "zeptomolar",
+                "Zeptomolar"
+            ],
+            "19-yocto": [
+                "yM",
+                "yoctomolar",
+                "Yoctomolar"
+            ],
+            "20-quetta": [
+                "QM",
+                "quettamolar",
+                "Quettamolar"
+            ],
+            "21-ronna": [
+                "RM",
+                "ronnamolar",
+                "Ronnamolar"
+            ],
+            "22-ronto": [
+                "rM",
+                "rontomolar",
+                "Rontomolar"
+            ],
+            "23-quecto": [
+                "qM",
+                "quectomolar",
+                "Quectomolar"
+            ]
+        },
+        "aliases": [
+            "M",
+            "molar",
+            "Molar"
+        ]
+    },
+    "mole": {
+        "aliases": [
+            "mol",
+            "mole",
+            "Mole",
+            "moles",
+            "Moles"
+        ],
+        "prefixes": {
+            "0-yotta": [
+                "Ymol",
+                "yottamole",
+                "Yottamole",
+                "yottamoles",
+                "Yottamoles"
+            ],
+            "1-zetta": [
+                "Zmol",
+                "zettamole",
+                "Zettamole",
+                "zettamoles",
+                "Zettamoles"
+            ],
+            "2-exa": [
+                "Emol",
+                "examole",
+                "Examole",
+                "examoles",
+                "Examoles"
+            ],
+            "3-peta": [
+                "Pmol",
+                "petamole",
+                "Petamole",
+                "petamoles",
+                "Petamoles"
+            ],
+            "4-tera": [
+                "Tmol",
+                "teramole",
+                "Teramole",
+                "teramoles",
+                "Teramoles"
+            ],
+            "5-giga": [
+                "Gmol",
+                "gigamole",
+                "Gigamole",
+                "gigamoles",
+                "Gigamoles"
+            ],
+            "6-mega": [
+                "Mmol",
+                "megamole",
+                "Megamole",
+                "megamoles",
+                "Megamoles"
+            ],
+            "7-kilo": [
+                "kmol",
+                "kilomole",
+                "Kilomole",
+                "kilomoles",
+                "Kilomoles"
+            ],
+            "8-hecto": [
+                "hmol",
+                "hectomole",
+                "Hectomole",
+                "hectomoles",
+                "Hectomoles"
+            ],
+            "9-deca": [
+                "damol",
+                "decamole",
+                "Decamole",
+                "decamoles",
+                "Decamoles"
+            ],
+            "10-deci": [
+                "dmol",
+                "decimole",
+                "Decimole",
+                "decimoles",
+                "Decimoles"
+            ],
+            "11-centi": [
+                "cmol",
+                "centimole",
+                "Centimole",
+                "centimoles",
+                "Centimoles"
+            ],
+            "12-milli": [
+                "mmol",
+                "millimole",
+                "Millimole",
+                "millimoles",
+                "Millimoles"
+            ],
+            "13-micro": [
+                "mumol",
+                "micromole",
+                "Micromole",
+                "micromoles",
+                "Micromoles",
+                "umol"
+            ],
+            "14-nano": [
+                "nmol",
+                "nanomole",
+                "Nanomole",
+                "nanomoles",
+                "Nanomoles"
+            ],
+            "15-pico": [
+                "pmol",
+                "picomole",
+                "Picomole",
+                "picomoles",
+                "Picomoles"
+            ],
+            "16-femto": [
+                "fmol",
+                "femtomole",
+                "Femtomole",
+                "femtomoles",
+                "Femtomoles"
+            ],
+            "17-atto": [
+                "amol",
+                "attomole",
+                "Attomole",
+                "attomoles",
+                "Attomoles"
+            ],
+            "18-zepto": [
+                "zmol",
+                "zeptomole",
+                "Zeptomole",
+                "zeptomoles",
+                "Zeptomoles"
+            ],
+            "19-yocto": [
+                "ymol",
+                "yoctomole",
+                "Yoctomole",
+                "yoctomoles",
+                "Yoctomoles"
+            ],
+            "20-quetta": [
+                "Qmol",
+                "quettamole",
+                "Quettamole",
+                "quettamoles",
+                "Quettamoles"
+            ],
+            "21-ronna": [
+                "Rmol",
+                "ronnamole",
+                "Ronnamole",
+                "ronnamoles",
+                "Ronnamoles"
+            ],
+            "22-ronto": [
+                "rmol",
+                "rontomole",
+                "Rontomole",
+                "rontomoles",
+                "Rontomoles"
+            ],
+            "23-quecto": [
+                "qmol",
+                "quectomole",
+                "Quectomole",
+                "quectomoles",
+                "Quectomoles"
+            ]
+        }
+    },
+    "nautical_mile": {
+        "aliases": [
+            "nmi"
+        ]
+    },
     "newton": {
         "aliases": [
             "N",
@@ -2153,6 +4597,195 @@
                 "Quectonewtons"
             ]
         }
+    },
+    "ohm": {
+        "aliases": [
+            "ohm",
+            "Ohm",
+            "\\Omega",
+            "ohms",
+            "Ohms"
+        ],
+        "prefixes": {
+            "0-yotta": [
+                "Yohm",
+                "yottaohm",
+                "Yottaohm",
+                "yottaohms",
+                "Yottaohms"
+            ],
+            "1-zetta": [
+                "Zohm",
+                "zettaohm",
+                "Zettaohm",
+                "zettaohms",
+                "Zettaohms"
+            ],
+            "2-exa": [
+                "Eohm",
+                "exaohm",
+                "Exaohm",
+                "exaohms",
+                "Exaohms"
+            ],
+            "3-peta": [
+                "Pohm",
+                "petaohm",
+                "Petaohm",
+                "petaohms",
+                "Petaohms"
+            ],
+            "4-tera": [
+                "Tohm",
+                "teraohm",
+                "Teraohm",
+                "teraohms",
+                "Teraohms"
+            ],
+            "5-giga": [
+                "Gohm",
+                "gigaohm",
+                "Gigaohm",
+                "gigaohms",
+                "Gigaohms"
+            ],
+            "6-mega": [
+                "Mohm",
+                "megaohm",
+                "Megaohm",
+                "megaohms",
+                "Megaohms"
+            ],
+            "7-kilo": [
+                "kohm",
+                "kiloohm",
+                "Kiloohm",
+                "kiloohms",
+                "Kiloohms"
+            ],
+            "8-hecto": [
+                "hohm",
+                "hectoohm",
+                "Hectoohm",
+                "hectoohms",
+                "Hectoohms"
+            ],
+            "9-deca": [
+                "daohm",
+                "decaohm",
+                "Decaohm",
+                "decaohms",
+                "Decaohms"
+            ],
+            "10-deci": [
+                "dohm",
+                "deciohm",
+                "Deciohm",
+                "deciohms",
+                "Deciohms"
+            ],
+            "11-centi": [
+                "cohm",
+                "centiohm",
+                "Centiohm",
+                "centiohms",
+                "Centiohms"
+            ],
+            "12-milli": [
+                "mohm",
+                "milliohm",
+                "Milliohm",
+                "milliohms",
+                "Milliohms"
+            ],
+            "13-micro": [
+                "muohm",
+                "microohm",
+                "Microohm",
+                "microohms",
+                "Microohms",
+                "uohm"
+            ],
+            "14-nano": [
+                "nohm",
+                "nanoohm",
+                "Nanoohm",
+                "nanoohms",
+                "Nanoohms"
+            ],
+            "15-pico": [
+                "pohm",
+                "picoohm",
+                "Picoohm",
+                "picoohms",
+                "Picoohms"
+            ],
+            "16-femto": [
+                "fohm",
+                "femtoohm",
+                "Femtoohm",
+                "femtoohms",
+                "Femtoohms"
+            ],
+            "17-atto": [
+                "aohm",
+                "attoohm",
+                "Attoohm",
+                "attoohms",
+                "Attoohms"
+            ],
+            "18-zepto": [
+                "zohm",
+                "zeptoohm",
+                "Zeptoohm",
+                "zeptoohms",
+                "Zeptoohms"
+            ],
+            "19-yocto": [
+                "yohm",
+                "yoctoohm",
+                "Yoctoohm",
+                "yoctoohms",
+                "Yoctoohms"
+            ],
+            "20-quetta": [
+                "Qohm",
+                "quettaohm",
+                "Quettaohm",
+                "quettaohms",
+                "Quettaohms"
+            ],
+            "21-ronna": [
+                "Rohm",
+                "ronnaohm",
+                "Ronnaohm",
+                "ronnaohms",
+                "Ronnaohms"
+            ],
+            "22-ronto": [
+                "rohm",
+                "rontoohm",
+                "Rontoohm",
+                "rontoohms",
+                "Rontoohms"
+            ],
+            "23-quecto": [
+                "qohm",
+                "quectoohm",
+                "Quectoohm",
+                "quectoohms",
+                "Quectoohms"
+            ]
+        }
+    },
+    "parsec": {
+        "aliases": [
+            "pc",
+            "parsec",
+            "Parsec",
+            "parsecs",
+            "Parsecs"
+        ]
     },
     "pascal": {
         "aliases": [
@@ -2334,6 +4967,66 @@
             ]
         }
     },
+    "percent": {
+        "aliases": [
+            "percent",
+            "Percent",
+            "\\%",
+            "percents",
+            "Percents"
+        ]
+    },
+    "permille": {
+        "aliases": [
+            "permille",
+            "permilles",
+            "Permille",
+            "Permilles"
+        ]
+    },
+    "pound": {
+        "aliases": [
+            "pound",
+            "Pound",
+            "lb",
+            "lbs",
+            "pounds",
+            "Pounds"
+        ]
+    },
+    "pound_force": {
+        "aliases": [
+            "lbf"
+        ]
+    },
+    "psi": {
+        "aliases": [
+            "psi"
+        ]
+    },
+    "radian": {
+        "aliases": [
+            "rad",
+            "radian",
+            "Radian",
+            "radians",
+            "Radians"
+        ]
+    },
+    "rood": {
+        "aliases": [
+            "rood",
+            "Rood",
+            "roods",
+            "Roods"
+        ]
+    },
+    "rotations_per_minute": {
+        "aliases": [
+            "rpm",
+            "rpms"
+        ]
+    },
     "rutherford": {
         "aliases": [
             "Rd",
@@ -2341,6 +5034,190 @@
             "rutherfords",
             "Rutherford",
             "Rutherfords"
+        ]
+    },
+    "second": {
+        "prefixes": {
+            "0-yotta": [
+                "Ys",
+                "yottasecond",
+                "Yottasecond",
+                "yottaseconds",
+                "Yottaseconds"
+            ],
+            "1-zetta": [
+                "Zs",
+                "zettasecond",
+                "Zettasecond",
+                "zettaseconds",
+                "Zettaseconds"
+            ],
+            "2-exa": [
+                "Es",
+                "exasecond",
+                "Exasecond",
+                "exaseconds",
+                "Exaseconds"
+            ],
+            "3-peta": [
+                "Ps",
+                "petasecond",
+                "Petasecond",
+                "petaseconds",
+                "Petaseconds"
+            ],
+            "4-tera": [
+                "Ts",
+                "terasecond",
+                "Terasecond",
+                "teraseconds",
+                "Teraseconds"
+            ],
+            "5-giga": [
+                "Gs",
+                "gigasecond",
+                "Gigasecond",
+                "gigaseconds",
+                "Gigaseconds"
+            ],
+            "6-mega": [
+                "Ms",
+                "megasecond",
+                "Megasecond",
+                "megaseconds",
+                "Megaseconds"
+            ],
+            "7-kilo": [
+                "ks",
+                "kilosecond",
+                "Kilosecond",
+                "kiloseconds",
+                "Kiloseconds"
+            ],
+            "8-hecto": [
+                "hs",
+                "hectosecond",
+                "Hectosecond",
+                "hectoseconds",
+                "Hectoseconds"
+            ],
+            "9-deca": [
+                "das",
+                "decasecond",
+                "Decasecond",
+                "decaseconds",
+                "Decaseconds"
+            ],
+            "10-deci": [
+                "ds",
+                "decisecond",
+                "Decisecond",
+                "deciseconds",
+                "Deciseconds"
+            ],
+            "11-centi": [
+                "cs",
+                "centisecond",
+                "Centisecond",
+                "centiseconds",
+                "Centiseconds"
+            ],
+            "12-milli": [
+                "ms",
+                "millisecond",
+                "Millisecond",
+                "milliseconds",
+                "Milliseconds"
+            ],
+            "13-micro": [
+                "us",
+                "microsecond",
+                "Microsecond",
+                "microseconds",
+                "Microseconds",
+                "mus"
+            ],
+            "14-nano": [
+                "ns",
+                "nanosecond",
+                "Nanosecond",
+                "nanoseconds",
+                "Nanoseconds"
+            ],
+            "15-pico": [
+                "ps",
+                "picosecond",
+                "Picosecond",
+                "picoseconds",
+                "Picoseconds"
+            ],
+            "16-femto": [
+                "fs",
+                "femtosecond",
+                "Femtosecond",
+                "femtoseconds",
+                "Femtoseconds"
+            ],
+            "17-atto": [
+                "as",
+                "attosecond",
+                "Attosecond",
+                "attoseconds",
+                "Attoseconds"
+            ],
+            "18-zepto": [
+                "zs",
+                "zeptosecond",
+                "Zeptosecond",
+                "zeptoseconds",
+                "Zeptoseconds"
+            ],
+            "19-yocto": [
+                "ys",
+                "yoctosecond",
+                "Yoctosecond",
+                "yoctoseconds",
+                "Yoctoseconds"
+            ],
+            "20-quetta": [
+                "Qs",
+                "quettasecond",
+                "Quettasecond",
+                "quettaseconds",
+                "Quettaseconds"
+            ],
+            "21-ronna": [
+                "Rs",
+                "ronnasecond",
+                "Ronnasecond",
+                "ronnaseconds",
+                "Ronnaseconds"
+            ],
+            "22-ronto": [
+                "rs",
+                "rontosecond",
+                "Rontosecond",
+                "rontoseconds",
+                "Rontoseconds"
+            ],
+            "23-quecto": [
+                "qs",
+                "quectosecond",
+                "Quectosecond",
+                "quectoseconds",
+                "Quectoseconds"
+            ]
+        },
+        "aliases": [
+            "s",
+            "second",
+            "Second",
+            "sec",
+            "secs",
+            "Sec",
+            "Secs",
+            "seconds",
+            "Seconds"
         ]
     },
     "siemens": {
@@ -2474,6 +5351,225 @@
                 "qS",
                 "quectosiemens",
                 "Quectosiemens"
+            ]
+        }
+    },
+    "sievert": {
+        "prefixes": {
+            "0-yotta": [
+                "YSv",
+                "yottasievert",
+                "Yottasievert",
+                "yottasieverts",
+                "Yottasieverts"
+            ],
+            "1-zetta": [
+                "ZSv",
+                "zettasievert",
+                "Zettasievert",
+                "zettasieverts",
+                "Zettasieverts"
+            ],
+            "2-exa": [
+                "ESv",
+                "exasievert",
+                "Exasievert",
+                "exasieverts",
+                "Exasieverts"
+            ],
+            "3-peta": [
+                "PSv",
+                "petasievert",
+                "Petasievert",
+                "petasieverts",
+                "Petasieverts"
+            ],
+            "4-tera": [
+                "TSv",
+                "terasievert",
+                "Terasievert",
+                "terasieverts",
+                "Terasieverts"
+            ],
+            "5-giga": [
+                "GSv",
+                "gigasievert",
+                "Gigasievert",
+                "gigasieverts",
+                "Gigasieverts"
+            ],
+            "6-mega": [
+                "MSv",
+                "megasievert",
+                "Megasievert",
+                "megasieverts",
+                "Megasieverts"
+            ],
+            "7-kilo": [
+                "kSv",
+                "kilosievert",
+                "Kilosievert",
+                "kilosieverts",
+                "Kilosieverts"
+            ],
+            "8-hecto": [
+                "hSv",
+                "hectosievert",
+                "Hectosievert",
+                "hectosieverts",
+                "Hectosieverts"
+            ],
+            "9-deca": [
+                "daSv",
+                "decasievert",
+                "Decasievert",
+                "decasieverts",
+                "Decasieverts"
+            ],
+            "10-deci": [
+                "dSv",
+                "decisievert",
+                "Decisievert",
+                "decisieverts",
+                "Decisieverts"
+            ],
+            "11-centi": [
+                "cSv",
+                "centisievert",
+                "Centisievert",
+                "centisieverts",
+                "Centisieverts"
+            ],
+            "12-milli": [
+                "mSv",
+                "millisievert",
+                "Millisievert",
+                "millisieverts",
+                "Millisieverts"
+            ],
+            "13-micro": [
+                "muSv",
+                "microsievert",
+                "Microsievert",
+                "microsieverts",
+                "Microsieverts",
+                "uSv"
+            ],
+            "14-nano": [
+                "nSv",
+                "nanosievert",
+                "Nanosievert",
+                "nanosieverts",
+                "Nanosieverts"
+            ],
+            "15-pico": [
+                "pSv",
+                "picosievert",
+                "Picosievert",
+                "picosieverts",
+                "Picosieverts"
+            ],
+            "16-femto": [
+                "fSv",
+                "femtosievert",
+                "Femtosievert",
+                "femtosieverts",
+                "Femtosieverts"
+            ],
+            "17-atto": [
+                "aSv",
+                "attosievert",
+                "Attosievert",
+                "attosieverts",
+                "Attosieverts"
+            ],
+            "18-zepto": [
+                "zSv",
+                "zeptosievert",
+                "Zeptosievert",
+                "zeptosieverts",
+                "Zeptosieverts"
+            ],
+            "19-yocto": [
+                "ySv",
+                "yoctosievert",
+                "Yoctosievert",
+                "yoctosieverts",
+                "Yoctosieverts"
+            ],
+            "20-quetta": [
+                "QSv",
+                "quettasievert",
+                "Quettasievert",
+                "quettasieverts",
+                "Quettasieverts"
+            ],
+            "21-ronna": [
+                "RSv",
+                "ronnasievert",
+                "Ronnasievert",
+                "ronnasieverts",
+                "Ronnasieverts"
+            ],
+            "22-ronto": [
+                "rSv",
+                "rontosievert",
+                "Rontosievert",
+                "rontosieverts",
+                "Rontosieverts"
+            ],
+            "23-quecto": [
+                "qSv",
+                "quectosievert",
+                "Quectosievert",
+                "quectosieverts",
+                "Quectosieverts"
+            ]
+        },
+        "aliases": [
+            "Sv",
+            "sievert",
+            "Sievert",
+            "sieverts",
+            "Sieverts"
+        ]
+    },
+    "slug": {
+        "aliases": [
+            "slug",
+            "Slug",
+            "slugs",
+            "Slugs"
+        ]
+    },
+    "speed_of_light": {
+        "aliases": [
+            "c"
+        ]
+    },
+    "steradian": {
+        "aliases": [
+            "sr",
+            "steradian",
+            "Steradian",
+            "steradians",
+            "Steradians"
+        ],
+        "prefixes": {
+            "12-milli": [
+                "msr",
+                "millisteradian",
+                "Millisteradian",
+                "millisteradians",
+                "Millisteradians"
+            ],
+            "13-micro": [
+                "musr",
+                "microsteradian",
+                "Microsteradian",
+                "microsteradians",
+                "Microsteradians",
+                "usr"
             ]
         }
     },
@@ -2656,6 +5752,27 @@
                 "Quectoteslas"
             ]
         }
+    },
+    "tonne": {
+        "aliases": [
+            "t",
+            "tonne",
+            "tonnes",
+            "Tonne",
+            "Tonnes"
+        ]
+    },
+    "tropical_year": {
+        "aliases": [
+            "yr",
+            "yrs",
+            "Yr",
+            "Yrs",
+            "year",
+            "Year",
+            "years",
+            "Years"
+        ]
     },
     "volt": {
         "aliases": [
@@ -3197,2334 +6314,6 @@
             ]
         }
     },
-    "angstrom": {
-        "aliases": [
-            "angstrom",
-            "Angstrom",
-            "angstroms",
-            "Angstroms"
-        ]
-    },
-    "angular_mil": {
-        "aliases": [
-            "mil",
-            "mrad"
-        ]
-    },
-    "astronomical_unit": {
-        "aliases": [
-            "AU",
-            "au"
-        ]
-    },
-    "atmosphere": {
-        "aliases": [
-            "atm",
-            "atmosphere",
-            "Atmosphere",
-            "atmospheres",
-            "Atmospheres"
-        ]
-    },
-    "bar": {
-        "aliases": [
-            "bar",
-            "Bar",
-            "bars",
-            "Bars"
-        ],
-        "prefixes": {
-            "0-yotta": [
-                "Ybar",
-                "yottabar",
-                "Yottabar",
-                "yottabars",
-                "Yottabars"
-            ],
-            "1-zetta": [
-                "Zbar",
-                "zettabar",
-                "Zettabar",
-                "zettabars",
-                "Zettabars"
-            ],
-            "2-exa": [
-                "Ebar",
-                "exabar",
-                "Exabar",
-                "exabars",
-                "Exabars"
-            ],
-            "3-peta": [
-                "Pbar",
-                "petabar",
-                "Petabar",
-                "petabars",
-                "Petabars"
-            ],
-            "4-tera": [
-                "Tbar",
-                "terabar",
-                "Terabar",
-                "terabars",
-                "Terabars"
-            ],
-            "5-giga": [
-                "Gbar",
-                "gigabar",
-                "Gigabar",
-                "gigabars",
-                "Gigabars"
-            ],
-            "6-mega": [
-                "Mbar",
-                "megabar",
-                "Megabar",
-                "megabars",
-                "Megabars"
-            ],
-            "7-kilo": [
-                "kbar",
-                "kilobar",
-                "Kilobar",
-                "kilobars",
-                "Kilobars"
-            ],
-            "8-hecto": [
-                "hbar",
-                "hectobar",
-                "Hectobar",
-                "hectobars",
-                "Hectobars"
-            ],
-            "9-deca": [
-                "dabar",
-                "decabar",
-                "Decabar",
-                "decabars",
-                "Decabars"
-            ],
-            "10-deci": [
-                "dbar",
-                "decibar",
-                "Decibar",
-                "decibars",
-                "Decibars"
-            ],
-            "11-centi": [
-                "cbar",
-                "centibar",
-                "Centibar",
-                "centibars",
-                "Centibars"
-            ],
-            "12-milli": [
-                "mbar",
-                "millibar",
-                "Millibar",
-                "millibars",
-                "Millibars"
-            ],
-            "13-micro": [
-                "mubar",
-                "microbar",
-                "Microbar",
-                "microbars",
-                "Microbars",
-                "ubar"
-            ],
-            "14-nano": [
-                "nbar",
-                "nanobar",
-                "Nanobar",
-                "nanobars",
-                "Nanobars"
-            ],
-            "15-pico": [
-                "pbar",
-                "picobar",
-                "Picobar",
-                "picobars",
-                "Picobars"
-            ],
-            "16-femto": [
-                "fbar",
-                "femtobar",
-                "Femtobar",
-                "femtobars",
-                "Femtobars"
-            ],
-            "17-atto": [
-                "abar",
-                "attobar",
-                "Attobar",
-                "attobars",
-                "Attobars"
-            ],
-            "18-zepto": [
-                "zbar",
-                "zeptobar",
-                "Zeptobar",
-                "zeptobars",
-                "Zeptobars"
-            ],
-            "19-yocto": [
-                "ybar",
-                "yoctobar",
-                "Yoctobar",
-                "yoctobars",
-                "Yoctobars"
-            ],
-            "20-quetta": [
-                "Qbar",
-                "quettabar",
-                "Quettabar",
-                "quettabars",
-                "Quettabars"
-            ],
-            "21-ronna": [
-                "Rbar",
-                "ronnabar",
-                "Ronnabar",
-                "ronnabars",
-                "Ronnabars"
-            ],
-            "22-ronto": [
-                "rbar",
-                "rontobar",
-                "Rontobar",
-                "rontobars",
-                "Rontobars"
-            ],
-            "23-quecto": [
-                "qbar",
-                "quectobar",
-                "Quectobar",
-                "quectobars",
-                "Quectobars"
-            ]
-        }
-    },
-    "bit": {
-        "aliases": [
-            "bit",
-            "Bit",
-            "b",
-            "bits",
-            "Bits"
-        ],
-        "prefixes": {
-            "0-yotta": [
-                "Ybit",
-                "yottabit",
-                "Yottabit",
-                "Yb"
-            ],
-            "1-zetta": [
-                "Zbit",
-                "zettabit",
-                "Zettabit",
-                "Zb"
-            ],
-            "2-exa": [
-                "Ebit",
-                "exabit",
-                "Exabit",
-                "Eb"
-            ],
-            "3-peta": [
-                "Pbit",
-                "petabit",
-                "Petabit",
-                "Pb"
-            ],
-            "4-tera": [
-                "Tbit",
-                "terabit",
-                "Terabit",
-                "Tb"
-            ],
-            "5-giga": [
-                "Gbit",
-                "gigabit",
-                "Gigabit",
-                "Gb"
-            ],
-            "6-mega": [
-                "Mbit",
-                "megabit",
-                "Megabit",
-                "Mb"
-            ],
-            "7-kilo": [
-                "kbit",
-                "kilobit",
-                "Kilobit",
-                "kb"
-            ],
-            "20-quetta": [
-                "Qbit",
-                "quettabit",
-                "Quettabit",
-                "Qb"
-            ],
-            "21-ronna": [
-                "Rbit",
-                "ronnabit",
-                "Ronnabit",
-                "Rb"
-            ],
-            "24-kibi": [
-                "Kibit",
-                "kibibit",
-                "Kibibit",
-                "Kib"
-            ],
-            "25-mebi": [
-                "Mibit",
-                "mebibit",
-                "Mebibit",
-                "Mib"
-            ],
-            "26-gibi": [
-                "Gibit",
-                "gibibit",
-                "Gibibit",
-                "Gib"
-            ],
-            "27-tebi": [
-                "Tibit",
-                "tebibit",
-                "Tebibit",
-                "Tib"
-            ],
-            "28-pebi": [
-                "Pibit",
-                "pebibit",
-                "Pebibit",
-                "Pib"
-            ],
-            "29-exbi": [
-                "Eibit",
-                "exbibit",
-                "Exbibit",
-                "Eib"
-            ],
-            "30-zebi": [
-                "Zibit",
-                "zebibit",
-                "Zebibit",
-                "Zib"
-            ],
-            "31-yobi": [
-                "Yibit",
-                "yobibit",
-                "Yobibit",
-                "Yib"
-            ]
-        }
-    },
-    "byte": {
-        "aliases": [
-            "B",
-            "byte",
-            "Byte",
-            "bytes",
-            "Bytes"
-        ],
-        "prefixes": {
-            "0-yotta": [
-                "YB",
-                "yottabyte",
-                "Yottabyte"
-            ],
-            "1-zetta": [
-                "ZB",
-                "zettabyte",
-                "Zettabyte"
-            ],
-            "2-exa": [
-                "EB",
-                "exabyte",
-                "Exabyte"
-            ],
-            "3-peta": [
-                "PB",
-                "petabyte",
-                "Petabyte"
-            ],
-            "4-tera": [
-                "TB",
-                "terabyte",
-                "Terabyte"
-            ],
-            "5-giga": [
-                "GB",
-                "gigabyte",
-                "Gigabyte"
-            ],
-            "6-mega": [
-                "MB",
-                "megabyte",
-                "Megabyte"
-            ],
-            "7-kilo": [
-                "kB",
-                "kilobyte",
-                "Kilobyte"
-            ],
-            "20-quetta": [
-                "QB",
-                "quettabyte",
-                "Quettabyte"
-            ],
-            "21-ronna": [
-                "RB",
-                "ronnabyte",
-                "Ronnabyte"
-            ],
-            "24-kibi": [
-                "KiB",
-                "kibibyte",
-                "Kibibyte",
-                "kibibytes",
-                "Kibibytes"
-            ],
-            "25-mebi": [
-                "MiB",
-                "mebibyte",
-                "Mebibyte",
-                "mebibytes",
-                "Mebibytes"
-            ],
-            "26-gibi": [
-                "GiB",
-                "gibibyte",
-                "Gibibyte",
-                "gibibytes",
-                "Gibibytes"
-            ],
-            "27-tebi": [
-                "TiB",
-                "tebibyte",
-                "Tebibyte",
-                "tebibytes",
-                "Tebibytes"
-            ],
-            "28-pebi": [
-                "PiB",
-                "pebibyte",
-                "Pebibyte",
-                "pebibytes",
-                "Pebibytes"
-            ],
-            "29-exbi": [
-                "EiB",
-                "exbibyte",
-                "Exbibyte",
-                "exbibytes",
-                "Exbibytes"
-            ],
-            "30-zebi": [
-                "ZiB",
-                "zebibyte",
-                "Zebibyte"
-            ],
-            "31-yobi": [
-                "YiB",
-                "yobibyte",
-                "Yobibyte"
-            ]
-        }
-    },
-    "speed_of_light": {
-        "aliases": [
-            "c"
-        ]
-    },
-    "candela": {
-        "aliases": [
-            "cd",
-            "candela",
-            "Candela",
-            "candelas",
-            "Candelas"
-        ],
-        "prefixes": {
-            "0-yotta": [
-                "Ycd",
-                "yottacandela",
-                "Yottacandela",
-                "yottacandelas",
-                "Yottacandelas"
-            ],
-            "1-zetta": [
-                "Zcd",
-                "zettacandela",
-                "Zettacandela",
-                "zettacandelas",
-                "Zettacandelas"
-            ],
-            "2-exa": [
-                "Ecd",
-                "exacandela",
-                "Exacandela",
-                "exacandelas",
-                "Exacandelas"
-            ],
-            "3-peta": [
-                "Pcd",
-                "petacandela",
-                "Petacandela",
-                "petacandelas",
-                "Petacandelas"
-            ],
-            "4-tera": [
-                "Tcd",
-                "teracandela",
-                "Teracandela",
-                "teracandelas",
-                "Teracandelas"
-            ],
-            "5-giga": [
-                "Gcd",
-                "gigacandela",
-                "Gigacandela",
-                "gigacandelas",
-                "Gigacandelas"
-            ],
-            "6-mega": [
-                "Mcd",
-                "megacandela",
-                "Megacandela",
-                "megacandelas",
-                "Megacandelas"
-            ],
-            "7-kilo": [
-                "kcd",
-                "kilocandela",
-                "Kilocandela",
-                "kilocandelas",
-                "Kilocandelas"
-            ],
-            "8-hecto": [
-                "hcd",
-                "hectocandela",
-                "Hectocandela",
-                "hectocandelas",
-                "Hectocandelas"
-            ],
-            "9-deca": [
-                "dacd",
-                "decacandela",
-                "Decacandela",
-                "decacandelas",
-                "Decacandelas"
-            ],
-            "10-deci": [
-                "dcd",
-                "decicandela",
-                "Decicandela",
-                "decicandelas",
-                "Decicandelas"
-            ],
-            "11-centi": [
-                "ccd",
-                "centicandela",
-                "Centicandela",
-                "centicandelas",
-                "Centicandelas"
-            ],
-            "12-milli": [
-                "mcd",
-                "millicandela",
-                "Millicandela",
-                "millicandelas",
-                "Millicandelas"
-            ],
-            "13-micro": [
-                "mucd",
-                "microcandela",
-                "Microcandela",
-                "microcandelas",
-                "Microcandelas",
-                "ucd"
-            ],
-            "14-nano": [
-                "ncd",
-                "nanocandela",
-                "Nanocandela",
-                "nanocandelas",
-                "Nanocandelas"
-            ],
-            "15-pico": [
-                "pcd",
-                "picocandela",
-                "Picocandela",
-                "picocandelas",
-                "Picocandelas"
-            ],
-            "16-femto": [
-                "fcd",
-                "femtocandela",
-                "Femtocandela",
-                "femtocandelas",
-                "Femtocandelas"
-            ],
-            "17-atto": [
-                "acd",
-                "attocandela",
-                "Attocandela",
-                "attocandelas",
-                "Attocandelas"
-            ],
-            "18-zepto": [
-                "zcd",
-                "zeptocandela",
-                "Zeptocandela",
-                "zeptocandelas",
-                "Zeptocandelas"
-            ],
-            "19-yocto": [
-                "ycd",
-                "yoctocandela",
-                "Yoctocandela",
-                "yoctocandelas",
-                "Yoctocandelas"
-            ],
-            "20-quetta": [
-                "Qcd",
-                "quettacandela",
-                "Quettacandela",
-                "quettacandelas",
-                "Quettacandelas"
-            ],
-            "21-ronna": [
-                "Rcd",
-                "ronnacandela",
-                "Ronnacandela",
-                "ronnacandelas",
-                "Ronnacandelas"
-            ],
-            "22-ronto": [
-                "rcd",
-                "rontocandela",
-                "Rontocandela",
-                "rontocandelas",
-                "Rontocandelas"
-            ],
-            "23-quecto": [
-                "qcd",
-                "quectocandela",
-                "Quectocandela",
-                "quectocandelas",
-                "Quectocandelas"
-            ]
-        }
-    },
-    "meter": {
-        "prefixes": {
-            "0-yotta": [
-                "Ym",
-                "yottameter",
-                "Yottameter",
-                "yottameters",
-                "Yottameters",
-                "yottametre",
-                "Yottametre",
-                "yottametres",
-                "Yottametres"
-            ],
-            "1-zetta": [
-                "Zm",
-                "zettameter",
-                "Zettameter",
-                "zettameters",
-                "Zettameters",
-                "zettametre",
-                "Zettametre",
-                "zettametres",
-                "Zettametres"
-            ],
-            "2-exa": [
-                "Em",
-                "exameter",
-                "Exameter",
-                "exameters",
-                "Exameters",
-                "exametre",
-                "Exametre",
-                "exametres",
-                "Exametres"
-            ],
-            "3-peta": [
-                "Pm",
-                "petameter",
-                "Petameter",
-                "petameters",
-                "Petameters",
-                "petametre",
-                "Petametre",
-                "petametres",
-                "Petametres"
-            ],
-            "4-tera": [
-                "Tm",
-                "terameter",
-                "Terameter",
-                "terameters",
-                "Terameters",
-                "terametre",
-                "Terametre",
-                "terametres",
-                "Terametres"
-            ],
-            "5-giga": [
-                "Gm",
-                "gigameter",
-                "Gigameter",
-                "gigameters",
-                "Gigameters",
-                "gigametre",
-                "Gigametre",
-                "gigametres",
-                "Gigametres"
-            ],
-            "6-mega": [
-                "Mm",
-                "megameter",
-                "Megameter",
-                "megameters",
-                "Megameters",
-                "megametre",
-                "Megametre",
-                "megametres",
-                "Megametres"
-            ],
-            "7-kilo": [
-                "km",
-                "kilometer",
-                "Kilometer",
-                "kilometers",
-                "Kilometers",
-                "kilometre",
-                "Kilometre",
-                "kilometres",
-                "Kilometres"
-            ],
-            "8-hecto": [
-                "hm",
-                "hectometer",
-                "Hectometer",
-                "hectometers",
-                "Hectometers",
-                "hectometre",
-                "Hectometre",
-                "hectometres",
-                "Hectometres"
-            ],
-            "9-deca": [
-                "dam",
-                "decameter",
-                "Decameter",
-                "decameters",
-                "Decameters",
-                "decametre",
-                "Decametre",
-                "decametres",
-                "Decametres"
-            ],
-            "10-deci": [
-                "dm",
-                "decimeter",
-                "Decimeter",
-                "decimeters",
-                "Decimeters",
-                "decimetre",
-                "Decimetre",
-                "decimetres",
-                "Decimetres"
-            ],
-            "11-centi": [
-                "cm",
-                "centimeter",
-                "Centimeter",
-                "centimeters",
-                "Centimeters",
-                "centimetre",
-                "Centimetre",
-                "centimetres",
-                "Centimetres"
-            ],
-            "12-milli": [
-                "mm",
-                "millimeter",
-                "Millimeter",
-                "millimeters",
-                "Millimeters",
-                "millimetre",
-                "Millimetre",
-                "millimetres",
-                "Millimetres"
-            ],
-            "13-micro": [
-                "um",
-                "micrometer",
-                "Micrometer",
-                "micrometers",
-                "Micrometers",
-                "micrometre",
-                "Micrometre",
-                "micrometres",
-                "Micrometres",
-                "micron",
-                "microns",
-                "mum"
-            ],
-            "14-nano": [
-                "nm",
-                "nanometer",
-                "Nanometer",
-                "nanometers",
-                "Nanometers",
-                "nanometre",
-                "Nanometre",
-                "nanometres",
-                "Nanometres"
-            ],
-            "15-pico": [
-                "pm",
-                "picometer",
-                "Picometer",
-                "picometers",
-                "Picometers",
-                "picometre",
-                "Picometre",
-                "picometres",
-                "Picometres"
-            ],
-            "16-femto": [
-                "fm",
-                "femtometer",
-                "Femtometer",
-                "femtometers",
-                "Femtometers",
-                "femtometre",
-                "Femtometre",
-                "femtometres",
-                "Femtometres"
-            ],
-            "17-atto": [
-                "am",
-                "attometer",
-                "Attometer",
-                "attometers",
-                "Attometers",
-                "attometre",
-                "Attometre",
-                "attometres",
-                "Attometres"
-            ],
-            "18-zepto": [
-                "zm",
-                "zeptometer",
-                "Zeptometer",
-                "zeptometers",
-                "Zeptometers",
-                "zeptometre",
-                "Zeptometre",
-                "zeptometres",
-                "Zeptometres"
-            ],
-            "19-yocto": [
-                "ym",
-                "yoctometer",
-                "Yoctometer",
-                "yoctometers",
-                "Yoctometers",
-                "yoctometre",
-                "Yoctometre",
-                "yoctometres",
-                "Yoctometres"
-            ],
-            "20-quetta": [
-                "Qm",
-                "quettameter",
-                "Quettameter",
-                "quettameters",
-                "Quettameters",
-                "quettametre",
-                "Quettametre",
-                "quettametres",
-                "Quettametres"
-            ],
-            "21-ronna": [
-                "Rm",
-                "ronnameter",
-                "Ronnameter",
-                "ronnameters",
-                "Ronnameters",
-                "ronnametre",
-                "Ronnametre",
-                "ronnametres",
-                "Ronnametres"
-            ],
-            "22-ronto": [
-                "rm",
-                "rontometer",
-                "Rontometer",
-                "rontometers",
-                "Rontometers",
-                "rontometre",
-                "Rontometre",
-                "rontometres",
-                "Rontometres"
-            ],
-            "23-quecto": [
-                "qm",
-                "quectometer",
-                "Quectometer",
-                "quectometers",
-                "Quectometers",
-                "quectometre",
-                "Quectometre",
-                "quectometres",
-                "Quectometres"
-            ]
-        },
-        "aliases": [
-            "m",
-            "meter",
-            "Meter",
-            "metre",
-            "metres",
-            "Metre",
-            "Metres",
-            "meters",
-            "Meters"
-        ]
-    },
-    "day": {
-        "aliases": [
-            "day",
-            "Day",
-            "days",
-            "Days"
-        ]
-    },
-    "degree": {
-        "aliases": [
-            "deg",
-            "degree",
-            "Degree",
-            "\\degree",
-            "degrees",
-            "Degrees"
-        ]
-    },
-    "electronvolt": {
-        "aliases": [
-            "eV",
-            "electronvolt",
-            "Electronvolt",
-            "electronvolts",
-            "Electronvolts"
-        ],
-        "prefixes": {
-            "0-yotta": [
-                "YeV",
-                "yottaelectronvolt",
-                "Yottaelectronvolt",
-                "yottaelectronvolts",
-                "Yottaelectronvolts"
-            ],
-            "1-zetta": [
-                "ZeV",
-                "zettaelectronvolt",
-                "Zettaelectronvolt",
-                "zettaelectronvolts",
-                "Zettaelectronvolts"
-            ],
-            "2-exa": [
-                "EeV",
-                "exaelectronvolt",
-                "Exaelectronvolt",
-                "exaelectronvolts",
-                "Exaelectronvolts"
-            ],
-            "3-peta": [
-                "PeV",
-                "petaelectronvolt",
-                "Petaelectronvolt",
-                "petaelectronvolts",
-                "Petaelectronvolts"
-            ],
-            "4-tera": [
-                "TeV",
-                "teraelectronvolt",
-                "Teraelectronvolt",
-                "teraelectronvolts",
-                "Teraelectronvolts"
-            ],
-            "5-giga": [
-                "GeV",
-                "gigaelectronvolt",
-                "Gigaelectronvolt",
-                "gigaelectronvolts",
-                "Gigaelectronvolts"
-            ],
-            "6-mega": [
-                "MeV",
-                "megaelectronvolt",
-                "Megaelectronvolt",
-                "megaelectronvolts",
-                "Megaelectronvolts"
-            ],
-            "7-kilo": [
-                "keV",
-                "kiloelectronvolt",
-                "Kiloelectronvolt",
-                "kiloelectronvolts",
-                "Kiloelectronvolts"
-            ],
-            "8-hecto": [
-                "heV",
-                "hectoelectronvolt",
-                "Hectoelectronvolt",
-                "hectoelectronvolts",
-                "Hectoelectronvolts"
-            ],
-            "9-deca": [
-                "daeV",
-                "decaelectronvolt",
-                "Decaelectronvolt",
-                "decaelectronvolts",
-                "Decaelectronvolts"
-            ],
-            "10-deci": [
-                "deV",
-                "decielectronvolt",
-                "Decielectronvolt",
-                "decielectronvolts",
-                "Decielectronvolts"
-            ],
-            "11-centi": [
-                "ceV",
-                "centielectronvolt",
-                "Centielectronvolt",
-                "centielectronvolts",
-                "Centielectronvolts"
-            ],
-            "12-milli": [
-                "meV",
-                "millielectronvolt",
-                "Millielectronvolt",
-                "millielectronvolts",
-                "Millielectronvolts"
-            ],
-            "13-micro": [
-                "mueV",
-                "microelectronvolt",
-                "Microelectronvolt",
-                "microelectronvolts",
-                "Microelectronvolts",
-                "ueV"
-            ],
-            "14-nano": [
-                "neV",
-                "nanoelectronvolt",
-                "Nanoelectronvolt",
-                "nanoelectronvolts",
-                "Nanoelectronvolts"
-            ],
-            "15-pico": [
-                "peV",
-                "picoelectronvolt",
-                "Picoelectronvolt",
-                "picoelectronvolts",
-                "Picoelectronvolts"
-            ],
-            "16-femto": [
-                "feV",
-                "femtoelectronvolt",
-                "Femtoelectronvolt",
-                "femtoelectronvolts",
-                "Femtoelectronvolts"
-            ],
-            "17-atto": [
-                "aeV",
-                "attoelectronvolt",
-                "Attoelectronvolt",
-                "attoelectronvolts",
-                "Attoelectronvolts"
-            ],
-            "18-zepto": [
-                "zeV",
-                "zeptoelectronvolt",
-                "Zeptoelectronvolt",
-                "zeptoelectronvolts",
-                "Zeptoelectronvolts"
-            ],
-            "19-yocto": [
-                "yeV",
-                "yoctoelectronvolt",
-                "Yoctoelectronvolt",
-                "yoctoelectronvolts",
-                "Yoctoelectronvolts"
-            ],
-            "20-quetta": [
-                "QeV",
-                "quettaelectronvolt",
-                "Quettaelectronvolt",
-                "quettaelectronvolts",
-                "Quettaelectronvolts"
-            ],
-            "21-ronna": [
-                "ReV",
-                "ronnaelectronvolt",
-                "Ronnaelectronvolt",
-                "ronnaelectronvolts",
-                "Ronnaelectronvolts"
-            ],
-            "22-ronto": [
-                "reV",
-                "rontoelectronvolt",
-                "Rontoelectronvolt",
-                "rontoelectronvolts",
-                "Rontoelectronvolts"
-            ],
-            "23-quecto": [
-                "qeV",
-                "quectoelectronvolt",
-                "Quectoelectronvolt",
-                "quectoelectronvolts",
-                "Quectoelectronvolts"
-            ]
-        }
-    },
-    "electron_rest_mass": {
-        "aliases": [
-            "me"
-        ]
-    },
-    "elementary_charge": {
-        "aliases": [
-            "e"
-        ]
-    },
-    "foot": {
-        "aliases": [
-            "ft",
-            "foot",
-            "Foot",
-            "feet",
-            "Feet"
-        ]
-    },
-    "gram": {
-        "aliases": [
-            "g",
-            "gram",
-            "Gram",
-            "grams",
-            "Grams"
-        ],
-        "prefixes": {
-            "0-yotta": [
-                "Yg",
-                "yottagram",
-                "Yottagram",
-                "yottagrams",
-                "Yottagrams"
-            ],
-            "1-zetta": [
-                "Zg",
-                "zettagram",
-                "Zettagram",
-                "zettagrams",
-                "Zettagrams"
-            ],
-            "2-exa": [
-                "Eg",
-                "exagram",
-                "Exagram",
-                "exagrams",
-                "Exagrams"
-            ],
-            "3-peta": [
-                "Pg",
-                "petagram",
-                "Petagram",
-                "petagrams",
-                "Petagrams"
-            ],
-            "4-tera": [
-                "Tg",
-                "teragram",
-                "Teragram",
-                "teragrams",
-                "Teragrams"
-            ],
-            "5-giga": [
-                "Gg",
-                "gigagram",
-                "Gigagram",
-                "gigagrams",
-                "Gigagrams"
-            ],
-            "6-mega": [
-                "Mg",
-                "megagram",
-                "Megagram",
-                "megagrams",
-                "Megagrams"
-            ],
-            "7-kilo": [
-                "kg",
-                "kilogram",
-                "Kilogram",
-                "kilograms",
-                "Kilograms"
-            ],
-            "8-hecto": [
-                "hg",
-                "hectogram",
-                "Hectogram",
-                "hectograms",
-                "Hectograms"
-            ],
-            "9-deca": [
-                "dag",
-                "decagram",
-                "Decagram",
-                "decagrams",
-                "Decagrams"
-            ],
-            "10-deci": [
-                "dg",
-                "decigram",
-                "Decigram",
-                "decigrams",
-                "Decigrams"
-            ],
-            "11-centi": [
-                "cg",
-                "centigram",
-                "Centigram",
-                "centigrams",
-                "Centigrams"
-            ],
-            "12-milli": [
-                "mg",
-                "milligram",
-                "Milligram",
-                "milligrams",
-                "Milligrams"
-            ],
-            "13-micro": [
-                "ug",
-                "microgram",
-                "Microgram",
-                "micrograms",
-                "Micrograms",
-                "mcg",
-                "mug"
-            ],
-            "14-nano": [
-                "ng",
-                "nanogram",
-                "Nanogram",
-                "nanograms",
-                "Nanograms"
-            ],
-            "15-pico": [
-                "pg",
-                "picogram",
-                "Picogram",
-                "picograms",
-                "Picograms"
-            ],
-            "16-femto": [
-                "fg",
-                "femtogram",
-                "Femtogram",
-                "femtograms",
-                "Femtograms"
-            ],
-            "17-atto": [
-                "ag",
-                "attogram",
-                "Attogram",
-                "attograms",
-                "Attograms"
-            ],
-            "18-zepto": [
-                "zg",
-                "zeptogram",
-                "Zeptogram",
-                "zeptograms",
-                "Zeptograms"
-            ],
-            "19-yocto": [
-                "yg",
-                "yoctogram",
-                "Yoctogram",
-                "yoctograms",
-                "Yoctograms"
-            ],
-            "20-quetta": [
-                "Qg",
-                "quettagram",
-                "Quettagram",
-                "quettagrams",
-                "Quettagrams"
-            ],
-            "21-ronna": [
-                "Rg",
-                "ronnagram",
-                "Ronnagram",
-                "ronnagrams",
-                "Ronnagrams"
-            ],
-            "22-ronto": [
-                "rg",
-                "rontogram",
-                "Rontogram",
-                "rontograms",
-                "Rontograms"
-            ],
-            "23-quecto": [
-                "qg",
-                "quectogram",
-                "Quectogram",
-                "quectograms",
-                "Quectograms"
-            ]
-        }
-    },
-    "hour": {
-        "aliases": [
-            "hour",
-            "Hour",
-            "h",
-            "hr",
-            "hrs",
-            "Hr",
-            "Hrs",
-            "hours",
-            "Hours"
-        ]
-    },
-    "hectare": {
-        "aliases": [
-            "ha",
-            "hectare",
-            "hectares",
-            "Hectare",
-            "Hectares"
-        ]
-    },
-    "inch": {
-        "aliases": [
-            "inch",
-            "Inch",
-            "in",
-            "inches",
-            "Inches"
-        ]
-    },
-    "katal": {
-        "aliases": [
-            "kat",
-            "katal",
-            "katals",
-            "Katal",
-            "Katals"
-        ],
-        "prefixes": {
-            "0-yotta": [
-                "Ykat",
-                "yottakatal",
-                "Yottakatal",
-                "yottakatals",
-                "Yottakatals"
-            ],
-            "1-zetta": [
-                "Zkat",
-                "zettakatal",
-                "Zettakatal",
-                "zettakatals",
-                "Zettakatals"
-            ],
-            "2-exa": [
-                "Ekat",
-                "exakatal",
-                "Exakatal",
-                "exakatals",
-                "Exakatals"
-            ],
-            "3-peta": [
-                "Pkat",
-                "petakatal",
-                "Petakatal",
-                "petakatals",
-                "Petakatals"
-            ],
-            "4-tera": [
-                "Tkat",
-                "terakatal",
-                "Terakatal",
-                "terakatals",
-                "Terakatals"
-            ],
-            "5-giga": [
-                "Gkat",
-                "gigakatal",
-                "Gigakatal",
-                "gigakatals",
-                "Gigakatals"
-            ],
-            "6-mega": [
-                "Mkat",
-                "megakatal",
-                "Megakatal",
-                "megakatals",
-                "Megakatals"
-            ],
-            "7-kilo": [
-                "kkat",
-                "kilokatal",
-                "Kilokatal",
-                "kilokatals",
-                "Kilokatals"
-            ],
-            "8-hecto": [
-                "hkat",
-                "hectokatal",
-                "Hectokatal",
-                "hectokatals",
-                "Hectokatals"
-            ],
-            "9-deca": [
-                "dakat",
-                "decakatal",
-                "Decakatal",
-                "decakatals",
-                "Decakatals"
-            ],
-            "10-deci": [
-                "dkat",
-                "decikatal",
-                "Decikatal",
-                "decikatals",
-                "Decikatals"
-            ],
-            "11-centi": [
-                "ckat",
-                "centikatal",
-                "Centikatal",
-                "centikatals",
-                "Centikatals"
-            ],
-            "12-milli": [
-                "mkat",
-                "millikatal",
-                "Millikatal",
-                "millikatals",
-                "Millikatals"
-            ],
-            "13-micro": [
-                "mukat",
-                "microkatal",
-                "Microkatal",
-                "microkatals",
-                "Microkatals",
-                "ukat"
-            ],
-            "14-nano": [
-                "nkat",
-                "nanokatal",
-                "Nanokatal",
-                "nanokatals",
-                "Nanokatals"
-            ],
-            "15-pico": [
-                "pkat",
-                "picokatal",
-                "Picokatal",
-                "picokatals",
-                "Picokatals"
-            ],
-            "16-femto": [
-                "fkat",
-                "femtokatal",
-                "Femtokatal",
-                "femtokatals",
-                "Femtokatals"
-            ],
-            "17-atto": [
-                "akat",
-                "attokatal",
-                "Attokatal",
-                "attokatals",
-                "Attokatals"
-            ],
-            "18-zepto": [
-                "zkat",
-                "zeptokatal",
-                "Zeptokatal",
-                "zeptokatals",
-                "Zeptokatals"
-            ],
-            "19-yocto": [
-                "ykat",
-                "yoctokatal",
-                "Yoctokatal",
-                "yoctokatals",
-                "Yoctokatals"
-            ],
-            "20-quetta": [
-                "Qkat",
-                "quettakatal",
-                "Quettakatal",
-                "quettakatals",
-                "Quettakatals"
-            ],
-            "21-ronna": [
-                "Rkat",
-                "ronnakatal",
-                "Ronnakatal",
-                "ronnakatals",
-                "Ronnakatals"
-            ],
-            "22-ronto": [
-                "rkat",
-                "rontokatal",
-                "Rontokatal",
-                "rontokatals",
-                "Rontokatals"
-            ],
-            "23-quecto": [
-                "qkat",
-                "quectokatal",
-                "Quectokatal",
-                "quectokatals",
-                "Quectokatals"
-            ]
-        }
-    },
-    "lightyear": {
-        "aliases": [
-            "ly",
-            "lightyear",
-            "Lightyear",
-            "lightyears",
-            "Lightyears"
-        ]
-    },
-    "lux": {
-        "aliases": [
-            "lx",
-            "lux",
-            "Lux"
-        ],
-        "prefixes": {
-            "0-yotta": [
-                "Ylx",
-                "yottalux",
-                "Yottalux"
-            ],
-            "1-zetta": [
-                "Zlx",
-                "zettalux",
-                "Zettalux"
-            ],
-            "2-exa": [
-                "Elx",
-                "exalux",
-                "Exalux"
-            ],
-            "3-peta": [
-                "Plx",
-                "petalux",
-                "Petalux"
-            ],
-            "4-tera": [
-                "Tlx",
-                "teralux",
-                "Teralux"
-            ],
-            "5-giga": [
-                "Glx",
-                "gigalux",
-                "Gigalux"
-            ],
-            "6-mega": [
-                "Mlx",
-                "megalux",
-                "Megalux"
-            ],
-            "7-kilo": [
-                "klx",
-                "kilolux",
-                "Kilolux"
-            ],
-            "8-hecto": [
-                "hlx",
-                "hectolux",
-                "Hectolux"
-            ],
-            "9-deca": [
-                "dalx",
-                "decalux",
-                "Decalux"
-            ],
-            "10-deci": [
-                "dlx",
-                "decilux",
-                "Decilux"
-            ],
-            "11-centi": [
-                "clx",
-                "centilux",
-                "Centilux"
-            ],
-            "12-milli": [
-                "mlx",
-                "millilux",
-                "Millilux"
-            ],
-            "13-micro": [
-                "mulx",
-                "microlux",
-                "Microlux",
-                "ulx"
-            ],
-            "14-nano": [
-                "nlx",
-                "nanolux",
-                "Nanolux"
-            ],
-            "15-pico": [
-                "plx",
-                "picolux",
-                "Picolux"
-            ],
-            "16-femto": [
-                "flx",
-                "femtolux",
-                "Femtolux"
-            ],
-            "17-atto": [
-                "alx",
-                "attolux",
-                "Attolux"
-            ],
-            "18-zepto": [
-                "zlx",
-                "zeptolux",
-                "Zeptolux"
-            ],
-            "19-yocto": [
-                "ylx",
-                "yoctolux",
-                "Yoctolux"
-            ],
-            "20-quetta": [
-                "Qlx",
-                "quettalux",
-                "Quettalux"
-            ],
-            "21-ronna": [
-                "Rlx",
-                "ronnalux",
-                "Ronnalux"
-            ],
-            "22-ronto": [
-                "rlx",
-                "rontolux",
-                "Rontolux"
-            ],
-            "23-quecto": [
-                "qlx",
-                "quectolux",
-                "Quectolux"
-            ]
-        }
-    },
-    "tonne": {
-        "aliases": [
-            "t",
-            "tonne",
-            "tonnes",
-            "Tonne",
-            "Tonnes"
-        ]
-    },
-    "mile": {
-        "aliases": [
-            "mile",
-            "Mile",
-            "mi",
-            "miles",
-            "Miles"
-        ]
-    },
-    "second": {
-        "prefixes": {
-            "0-yotta": [
-                "Ys",
-                "yottasecond",
-                "Yottasecond",
-                "yottaseconds",
-                "Yottaseconds"
-            ],
-            "1-zetta": [
-                "Zs",
-                "zettasecond",
-                "Zettasecond",
-                "zettaseconds",
-                "Zettaseconds"
-            ],
-            "2-exa": [
-                "Es",
-                "exasecond",
-                "Exasecond",
-                "exaseconds",
-                "Exaseconds"
-            ],
-            "3-peta": [
-                "Ps",
-                "petasecond",
-                "Petasecond",
-                "petaseconds",
-                "Petaseconds"
-            ],
-            "4-tera": [
-                "Ts",
-                "terasecond",
-                "Terasecond",
-                "teraseconds",
-                "Teraseconds"
-            ],
-            "5-giga": [
-                "Gs",
-                "gigasecond",
-                "Gigasecond",
-                "gigaseconds",
-                "Gigaseconds"
-            ],
-            "6-mega": [
-                "Ms",
-                "megasecond",
-                "Megasecond",
-                "megaseconds",
-                "Megaseconds"
-            ],
-            "7-kilo": [
-                "ks",
-                "kilosecond",
-                "Kilosecond",
-                "kiloseconds",
-                "Kiloseconds"
-            ],
-            "8-hecto": [
-                "hs",
-                "hectosecond",
-                "Hectosecond",
-                "hectoseconds",
-                "Hectoseconds"
-            ],
-            "9-deca": [
-                "das",
-                "decasecond",
-                "Decasecond",
-                "decaseconds",
-                "Decaseconds"
-            ],
-            "10-deci": [
-                "ds",
-                "decisecond",
-                "Decisecond",
-                "deciseconds",
-                "Deciseconds"
-            ],
-            "11-centi": [
-                "cs",
-                "centisecond",
-                "Centisecond",
-                "centiseconds",
-                "Centiseconds"
-            ],
-            "12-milli": [
-                "ms",
-                "millisecond",
-                "Millisecond",
-                "milliseconds",
-                "Milliseconds"
-            ],
-            "13-micro": [
-                "us",
-                "microsecond",
-                "Microsecond",
-                "microseconds",
-                "Microseconds",
-                "mus"
-            ],
-            "14-nano": [
-                "ns",
-                "nanosecond",
-                "Nanosecond",
-                "nanoseconds",
-                "Nanoseconds"
-            ],
-            "15-pico": [
-                "ps",
-                "picosecond",
-                "Picosecond",
-                "picoseconds",
-                "Picoseconds"
-            ],
-            "16-femto": [
-                "fs",
-                "femtosecond",
-                "Femtosecond",
-                "femtoseconds",
-                "Femtoseconds"
-            ],
-            "17-atto": [
-                "as",
-                "attosecond",
-                "Attosecond",
-                "attoseconds",
-                "Attoseconds"
-            ],
-            "18-zepto": [
-                "zs",
-                "zeptosecond",
-                "Zeptosecond",
-                "zeptoseconds",
-                "Zeptoseconds"
-            ],
-            "19-yocto": [
-                "ys",
-                "yoctosecond",
-                "Yoctosecond",
-                "yoctoseconds",
-                "Yoctoseconds"
-            ],
-            "20-quetta": [
-                "Qs",
-                "quettasecond",
-                "Quettasecond",
-                "quettaseconds",
-                "Quettaseconds"
-            ],
-            "21-ronna": [
-                "Rs",
-                "ronnasecond",
-                "Ronnasecond",
-                "ronnaseconds",
-                "Ronnaseconds"
-            ],
-            "22-ronto": [
-                "rs",
-                "rontosecond",
-                "Rontosecond",
-                "rontoseconds",
-                "Rontoseconds"
-            ],
-            "23-quecto": [
-                "qs",
-                "quectosecond",
-                "Quectosecond",
-                "quectoseconds",
-                "Quectoseconds"
-            ]
-        },
-        "aliases": [
-            "s",
-            "second",
-            "Second",
-            "sec",
-            "secs",
-            "Sec",
-            "Secs",
-            "seconds",
-            "Seconds"
-        ]
-    },
-    "minute": {
-        "aliases": [
-            "minute",
-            "Minute",
-            "min",
-            "mins",
-            "Min",
-            "Mins",
-            "minutes",
-            "Minutes"
-        ]
-    },
-    "mmHg": {
-        "aliases": [
-            "mmHg",
-            "torr",
-            "torrs",
-            "Torr",
-            "Torrs"
-        ]
-    },
-    "milli_mass_unit": {
-        "aliases": [
-            "mmu",
-            "mmus"
-        ]
-    },
-    "mole": {
-        "aliases": [
-            "mol",
-            "mole",
-            "Mole",
-            "moles",
-            "Moles"
-        ],
-        "prefixes": {
-            "0-yotta": [
-                "Ymol",
-                "yottamole",
-                "Yottamole",
-                "yottamoles",
-                "Yottamoles"
-            ],
-            "1-zetta": [
-                "Zmol",
-                "zettamole",
-                "Zettamole",
-                "zettamoles",
-                "Zettamoles"
-            ],
-            "2-exa": [
-                "Emol",
-                "examole",
-                "Examole",
-                "examoles",
-                "Examoles"
-            ],
-            "3-peta": [
-                "Pmol",
-                "petamole",
-                "Petamole",
-                "petamoles",
-                "Petamoles"
-            ],
-            "4-tera": [
-                "Tmol",
-                "teramole",
-                "Teramole",
-                "teramoles",
-                "Teramoles"
-            ],
-            "5-giga": [
-                "Gmol",
-                "gigamole",
-                "Gigamole",
-                "gigamoles",
-                "Gigamoles"
-            ],
-            "6-mega": [
-                "Mmol",
-                "megamole",
-                "Megamole",
-                "megamoles",
-                "Megamoles"
-            ],
-            "7-kilo": [
-                "kmol",
-                "kilomole",
-                "Kilomole",
-                "kilomoles",
-                "Kilomoles"
-            ],
-            "8-hecto": [
-                "hmol",
-                "hectomole",
-                "Hectomole",
-                "hectomoles",
-                "Hectomoles"
-            ],
-            "9-deca": [
-                "damol",
-                "decamole",
-                "Decamole",
-                "decamoles",
-                "Decamoles"
-            ],
-            "10-deci": [
-                "dmol",
-                "decimole",
-                "Decimole",
-                "decimoles",
-                "Decimoles"
-            ],
-            "11-centi": [
-                "cmol",
-                "centimole",
-                "Centimole",
-                "centimoles",
-                "Centimoles"
-            ],
-            "12-milli": [
-                "mmol",
-                "millimole",
-                "Millimole",
-                "millimoles",
-                "Millimoles"
-            ],
-            "13-micro": [
-                "mumol",
-                "micromole",
-                "Micromole",
-                "micromoles",
-                "Micromoles",
-                "umol"
-            ],
-            "14-nano": [
-                "nmol",
-                "nanomole",
-                "Nanomole",
-                "nanomoles",
-                "Nanomoles"
-            ],
-            "15-pico": [
-                "pmol",
-                "picomole",
-                "Picomole",
-                "picomoles",
-                "Picomoles"
-            ],
-            "16-femto": [
-                "fmol",
-                "femtomole",
-                "Femtomole",
-                "femtomoles",
-                "Femtomoles"
-            ],
-            "17-atto": [
-                "amol",
-                "attomole",
-                "Attomole",
-                "attomoles",
-                "Attomoles"
-            ],
-            "18-zepto": [
-                "zmol",
-                "zeptomole",
-                "Zeptomole",
-                "zeptomoles",
-                "Zeptomoles"
-            ],
-            "19-yocto": [
-                "ymol",
-                "yoctomole",
-                "Yoctomole",
-                "yoctomoles",
-                "Yoctomoles"
-            ],
-            "20-quetta": [
-                "Qmol",
-                "quettamole",
-                "Quettamole",
-                "quettamoles",
-                "Quettamoles"
-            ],
-            "21-ronna": [
-                "Rmol",
-                "ronnamole",
-                "Ronnamole",
-                "ronnamoles",
-                "Ronnamoles"
-            ],
-            "22-ronto": [
-                "rmol",
-                "rontomole",
-                "Rontomole",
-                "rontomoles",
-                "Rontomoles"
-            ],
-            "23-quecto": [
-                "qmol",
-                "quectomole",
-                "Quectomole",
-                "quectomoles",
-                "Quectomoles"
-            ]
-        }
-    },
-    "nautical_mile": {
-        "aliases": [
-            "nmi"
-        ]
-    },
-    "ohm": {
-        "aliases": [
-            "ohm",
-            "Ohm",
-            "\\Omega",
-            "ohms",
-            "Ohms"
-        ],
-        "prefixes": {
-            "0-yotta": [
-                "Yohm",
-                "yottaohm",
-                "Yottaohm",
-                "yottaohms",
-                "Yottaohms"
-            ],
-            "1-zetta": [
-                "Zohm",
-                "zettaohm",
-                "Zettaohm",
-                "zettaohms",
-                "Zettaohms"
-            ],
-            "2-exa": [
-                "Eohm",
-                "exaohm",
-                "Exaohm",
-                "exaohms",
-                "Exaohms"
-            ],
-            "3-peta": [
-                "Pohm",
-                "petaohm",
-                "Petaohm",
-                "petaohms",
-                "Petaohms"
-            ],
-            "4-tera": [
-                "Tohm",
-                "teraohm",
-                "Teraohm",
-                "teraohms",
-                "Teraohms"
-            ],
-            "5-giga": [
-                "Gohm",
-                "gigaohm",
-                "Gigaohm",
-                "gigaohms",
-                "Gigaohms"
-            ],
-            "6-mega": [
-                "Mohm",
-                "megaohm",
-                "Megaohm",
-                "megaohms",
-                "Megaohms"
-            ],
-            "7-kilo": [
-                "kohm",
-                "kiloohm",
-                "Kiloohm",
-                "kiloohms",
-                "Kiloohms"
-            ],
-            "8-hecto": [
-                "hohm",
-                "hectoohm",
-                "Hectoohm",
-                "hectoohms",
-                "Hectoohms"
-            ],
-            "9-deca": [
-                "daohm",
-                "decaohm",
-                "Decaohm",
-                "decaohms",
-                "Decaohms"
-            ],
-            "10-deci": [
-                "dohm",
-                "deciohm",
-                "Deciohm",
-                "deciohms",
-                "Deciohms"
-            ],
-            "11-centi": [
-                "cohm",
-                "centiohm",
-                "Centiohm",
-                "centiohms",
-                "Centiohms"
-            ],
-            "12-milli": [
-                "mohm",
-                "milliohm",
-                "Milliohm",
-                "milliohms",
-                "Milliohms"
-            ],
-            "13-micro": [
-                "muohm",
-                "microohm",
-                "Microohm",
-                "microohms",
-                "Microohms",
-                "uohm"
-            ],
-            "14-nano": [
-                "nohm",
-                "nanoohm",
-                "Nanoohm",
-                "nanoohms",
-                "Nanoohms"
-            ],
-            "15-pico": [
-                "pohm",
-                "picoohm",
-                "Picoohm",
-                "picoohms",
-                "Picoohms"
-            ],
-            "16-femto": [
-                "fohm",
-                "femtoohm",
-                "Femtoohm",
-                "femtoohms",
-                "Femtoohms"
-            ],
-            "17-atto": [
-                "aohm",
-                "attoohm",
-                "Attoohm",
-                "attoohms",
-                "Attoohms"
-            ],
-            "18-zepto": [
-                "zohm",
-                "zeptoohm",
-                "Zeptoohm",
-                "zeptoohms",
-                "Zeptoohms"
-            ],
-            "19-yocto": [
-                "yohm",
-                "yoctoohm",
-                "Yoctoohm",
-                "yoctoohms",
-                "Yoctoohms"
-            ],
-            "20-quetta": [
-                "Qohm",
-                "quettaohm",
-                "Quettaohm",
-                "quettaohms",
-                "Quettaohms"
-            ],
-            "21-ronna": [
-                "Rohm",
-                "ronnaohm",
-                "Ronnaohm",
-                "ronnaohms",
-                "Ronnaohms"
-            ],
-            "22-ronto": [
-                "rohm",
-                "rontoohm",
-                "Rontoohm",
-                "rontoohms",
-                "Rontoohms"
-            ],
-            "23-quecto": [
-                "qohm",
-                "quectoohm",
-                "Quectoohm",
-                "quectoohms",
-                "Quectoohms"
-            ]
-        }
-    },
-    "percent": {
-        "aliases": [
-            "percent",
-            "Percent",
-            "\\%",
-            "percents",
-            "Percents"
-        ]
-    },
-    "permille": {
-        "aliases": [
-            "permille",
-            "permilles",
-            "Permille",
-            "Permilles"
-        ]
-    },
-    "pound": {
-        "aliases": [
-            "pound",
-            "Pound",
-            "lb",
-            "lbs",
-            "pounds",
-            "Pounds"
-        ]
-    },
-    "psi": {
-        "aliases": [
-            "psi"
-        ]
-    },
-    "radian": {
-        "aliases": [
-            "rad",
-            "radian",
-            "Radian",
-            "radians",
-            "Radians"
-        ]
-    },
-    "steradian": {
-        "aliases": [
-            "sr",
-            "steradian",
-            "Steradian",
-            "steradians",
-            "Steradians"
-        ],
-        "prefixes": {
-            "12-milli": [
-                "msr",
-                "millisteradian",
-                "Millisteradian",
-                "millisteradians",
-                "Millisteradians"
-            ],
-            "13-micro": [
-                "musr",
-                "microsteradian",
-                "Microsteradian",
-                "microsteradians",
-                "Microsteradians",
-                "usr"
-            ]
-        }
-    },
-    "tropical_year": {
-        "aliases": [
-            "yr",
-            "yrs",
-            "Yr",
-            "Yrs",
-            "year",
-            "Year",
-            "years",
-            "Years"
-        ]
-    },
     "yard": {
         "aliases": [
             "yd",
@@ -5532,795 +6321,6 @@
             "Yard",
             "yards",
             "Yards"
-        ]
-    },
-    "calorie": {
-        "prefixes": {
-            "0-yotta": [
-                "Ycal",
-                "yottacalorie",
-                "Yottacalorie",
-                "yottacalories",
-                "Yottacalories"
-            ],
-            "1-zetta": [
-                "Zcal",
-                "zettacalorie",
-                "Zettacalorie",
-                "zettacalories",
-                "Zettacalories"
-            ],
-            "2-exa": [
-                "Ecal",
-                "exacalorie",
-                "Exacalorie",
-                "exacalories",
-                "Exacalories"
-            ],
-            "3-peta": [
-                "Pcal",
-                "petacalorie",
-                "Petacalorie",
-                "petacalories",
-                "Petacalories"
-            ],
-            "4-tera": [
-                "Tcal",
-                "teracalorie",
-                "Teracalorie",
-                "teracalories",
-                "Teracalories"
-            ],
-            "5-giga": [
-                "Gcal",
-                "gigacalorie",
-                "Gigacalorie",
-                "gigacalories",
-                "Gigacalories"
-            ],
-            "6-mega": [
-                "Mcal",
-                "megacalorie",
-                "Megacalorie",
-                "megacalories",
-                "Megacalories"
-            ],
-            "7-kilo": [
-                "kcal",
-                "kilocalorie",
-                "Kilocalorie",
-                "kilocalories",
-                "Kilocalories"
-            ],
-            "8-hecto": [
-                "hcal",
-                "hectocalorie",
-                "Hectocalorie",
-                "hectocalories",
-                "Hectocalories"
-            ],
-            "9-deca": [
-                "dacal",
-                "decacalorie",
-                "Decacalorie",
-                "decacalories",
-                "Decacalories"
-            ],
-            "10-deci": [
-                "dcal",
-                "decicalorie",
-                "Decicalorie",
-                "decicalories",
-                "Decicalories"
-            ],
-            "11-centi": [
-                "ccal",
-                "centicalorie",
-                "Centicalorie",
-                "centicalories",
-                "Centicalories"
-            ],
-            "12-milli": [
-                "mcal",
-                "millicalorie",
-                "Millicalorie",
-                "millicalories",
-                "Millicalories"
-            ],
-            "13-micro": [
-                "mucal",
-                "microcalorie",
-                "Microcalorie",
-                "microcalories",
-                "Microcalories",
-                "ucal"
-            ],
-            "14-nano": [
-                "ncal",
-                "nanocalorie",
-                "Nanocalorie",
-                "nanocalories",
-                "Nanocalories"
-            ],
-            "15-pico": [
-                "pcal",
-                "picocalorie",
-                "Picocalorie",
-                "picocalories",
-                "Picocalories"
-            ],
-            "16-femto": [
-                "fcal",
-                "femtocalorie",
-                "Femtocalorie",
-                "femtocalories",
-                "Femtocalories"
-            ],
-            "17-atto": [
-                "acal",
-                "attocalorie",
-                "Attocalorie",
-                "attocalories",
-                "Attocalories"
-            ],
-            "18-zepto": [
-                "zcal",
-                "zeptocalorie",
-                "Zeptocalorie",
-                "zeptocalories",
-                "Zeptocalories"
-            ],
-            "19-yocto": [
-                "ycal",
-                "yoctocalorie",
-                "Yoctocalorie",
-                "yoctocalories",
-                "Yoctocalories"
-            ],
-            "20-quetta": [
-                "Qcal",
-                "quettacalorie",
-                "Quettacalorie",
-                "quettacalories",
-                "Quettacalories"
-            ],
-            "21-ronna": [
-                "Rcal",
-                "ronnacalorie",
-                "Ronnacalorie",
-                "ronnacalories",
-                "Ronnacalories"
-            ],
-            "22-ronto": [
-                "rcal",
-                "rontocalorie",
-                "Rontocalorie",
-                "rontocalories",
-                "Rontocalories"
-            ],
-            "23-quecto": [
-                "qcal",
-                "quectocalorie",
-                "Quectocalorie",
-                "quectocalories",
-                "Quectocalories"
-            ]
-        },
-        "aliases": [
-            "cal",
-            "calorie",
-            "Calorie",
-            "calories",
-            "Calories"
-        ]
-    },
-    "lumen": {
-        "prefixes": {
-            "0-yotta": [
-                "Ylm",
-                "yottalumen",
-                "Yottalumen",
-                "yottalumens",
-                "Yottalumens"
-            ],
-            "1-zetta": [
-                "Zlm",
-                "zettalumen",
-                "Zettalumen",
-                "zettalumens",
-                "Zettalumens"
-            ],
-            "2-exa": [
-                "Elm",
-                "exalumen",
-                "Exalumen",
-                "exalumens",
-                "Exalumens"
-            ],
-            "3-peta": [
-                "Plm",
-                "petalumen",
-                "Petalumen",
-                "petalumens",
-                "Petalumens"
-            ],
-            "4-tera": [
-                "Tlm",
-                "teralumen",
-                "Teralumen",
-                "teralumens",
-                "Teralumens"
-            ],
-            "5-giga": [
-                "Glm",
-                "gigalumen",
-                "Gigalumen",
-                "gigalumens",
-                "Gigalumens"
-            ],
-            "6-mega": [
-                "Mlm",
-                "megalumen",
-                "Megalumen",
-                "megalumens",
-                "Megalumens"
-            ],
-            "7-kilo": [
-                "klm",
-                "kilolumen",
-                "Kilolumen",
-                "kilolumens",
-                "Kilolumens"
-            ],
-            "8-hecto": [
-                "hlm",
-                "hectolumen",
-                "Hectolumen",
-                "hectolumens",
-                "Hectolumens"
-            ],
-            "9-deca": [
-                "dalm",
-                "decalumen",
-                "Decalumen",
-                "decalumens",
-                "Decalumens"
-            ],
-            "10-deci": [
-                "dlm",
-                "decilumen",
-                "Decilumen",
-                "decilumens",
-                "Decilumens"
-            ],
-            "11-centi": [
-                "clm",
-                "centilumen",
-                "Centilumen",
-                "centilumens",
-                "Centilumens"
-            ],
-            "12-milli": [
-                "mlm",
-                "millilumen",
-                "Millilumen",
-                "millilumens",
-                "Millilumens"
-            ],
-            "13-micro": [
-                "mulm",
-                "microlumen",
-                "Microlumen",
-                "microlumens",
-                "Microlumens",
-                "ulm"
-            ],
-            "14-nano": [
-                "nlm",
-                "nanolumen",
-                "Nanolumen",
-                "nanolumens",
-                "Nanolumens"
-            ],
-            "15-pico": [
-                "plm",
-                "picolumen",
-                "Picolumen",
-                "picolumens",
-                "Picolumens"
-            ],
-            "16-femto": [
-                "flm",
-                "femtolumen",
-                "Femtolumen",
-                "femtolumens",
-                "Femtolumens"
-            ],
-            "17-atto": [
-                "alm",
-                "attolumen",
-                "Attolumen",
-                "attolumens",
-                "Attolumens"
-            ],
-            "18-zepto": [
-                "zlm",
-                "zeptolumen",
-                "Zeptolumen",
-                "zeptolumens",
-                "Zeptolumens"
-            ],
-            "19-yocto": [
-                "ylm",
-                "yoctolumen",
-                "Yoctolumen",
-                "yoctolumens",
-                "Yoctolumens"
-            ],
-            "20-quetta": [
-                "Qlm",
-                "quettalumen",
-                "Quettalumen",
-                "quettalumens",
-                "Quettalumens"
-            ],
-            "21-ronna": [
-                "Rlm",
-                "ronnalumen",
-                "Ronnalumen",
-                "ronnalumens",
-                "Ronnalumens"
-            ],
-            "22-ronto": [
-                "rlm",
-                "rontolumen",
-                "Rontolumen",
-                "rontolumens",
-                "Rontolumens"
-            ],
-            "23-quecto": [
-                "qlm",
-                "quectolumen",
-                "Quectolumen",
-                "quectolumens",
-                "Quectolumens"
-            ]
-        },
-        "aliases": [
-            "lm",
-            "lumen",
-            "Lumen",
-            "lumens",
-            "Lumens"
-        ]
-    },
-    "molar": {
-        "prefixes": {
-            "0-yotta": [
-                "YM",
-                "yottamolar",
-                "Yottamolar"
-            ],
-            "1-zetta": [
-                "ZM",
-                "zettamolar",
-                "Zettamolar"
-            ],
-            "2-exa": [
-                "EM",
-                "examolar",
-                "Examolar"
-            ],
-            "3-peta": [
-                "PM",
-                "petamolar",
-                "Petamolar"
-            ],
-            "4-tera": [
-                "TM",
-                "teramolar",
-                "Teramolar"
-            ],
-            "5-giga": [
-                "GM",
-                "gigamolar",
-                "Gigamolar"
-            ],
-            "6-mega": [
-                "MM",
-                "megamolar",
-                "Megamolar"
-            ],
-            "7-kilo": [
-                "kM",
-                "kilomolar",
-                "Kilomolar"
-            ],
-            "8-hecto": [
-                "hM",
-                "hectomolar",
-                "Hectomolar"
-            ],
-            "9-deca": [
-                "daM",
-                "decamolar",
-                "Decamolar"
-            ],
-            "10-deci": [
-                "dM",
-                "decimolar",
-                "Decimolar"
-            ],
-            "11-centi": [
-                "cM",
-                "centimolar",
-                "Centimolar"
-            ],
-            "12-milli": [
-                "mM",
-                "millimolar",
-                "Millimolar"
-            ],
-            "13-micro": [
-                "muM",
-                "micromolar",
-                "Micromolar",
-                "uM"
-            ],
-            "14-nano": [
-                "nM",
-                "nanomolar",
-                "Nanomolar"
-            ],
-            "15-pico": [
-                "pM",
-                "picomolar",
-                "Picomolar"
-            ],
-            "16-femto": [
-                "fM",
-                "femtomolar",
-                "Femtomolar"
-            ],
-            "17-atto": [
-                "aM",
-                "attomolar",
-                "Attomolar"
-            ],
-            "18-zepto": [
-                "zM",
-                "zeptomolar",
-                "Zeptomolar"
-            ],
-            "19-yocto": [
-                "yM",
-                "yoctomolar",
-                "Yoctomolar"
-            ],
-            "20-quetta": [
-                "QM",
-                "quettamolar",
-                "Quettamolar"
-            ],
-            "21-ronna": [
-                "RM",
-                "ronnamolar",
-                "Ronnamolar"
-            ],
-            "22-ronto": [
-                "rM",
-                "rontomolar",
-                "Rontomolar"
-            ],
-            "23-quecto": [
-                "qM",
-                "quectomolar",
-                "Quectomolar"
-            ]
-        },
-        "aliases": [
-            "M",
-            "molar",
-            "Molar"
-        ]
-    },
-    "sievert": {
-        "prefixes": {
-            "0-yotta": [
-                "YSv",
-                "yottasievert",
-                "Yottasievert",
-                "yottasieverts",
-                "Yottasieverts"
-            ],
-            "1-zetta": [
-                "ZSv",
-                "zettasievert",
-                "Zettasievert",
-                "zettasieverts",
-                "Zettasieverts"
-            ],
-            "2-exa": [
-                "ESv",
-                "exasievert",
-                "Exasievert",
-                "exasieverts",
-                "Exasieverts"
-            ],
-            "3-peta": [
-                "PSv",
-                "petasievert",
-                "Petasievert",
-                "petasieverts",
-                "Petasieverts"
-            ],
-            "4-tera": [
-                "TSv",
-                "terasievert",
-                "Terasievert",
-                "terasieverts",
-                "Terasieverts"
-            ],
-            "5-giga": [
-                "GSv",
-                "gigasievert",
-                "Gigasievert",
-                "gigasieverts",
-                "Gigasieverts"
-            ],
-            "6-mega": [
-                "MSv",
-                "megasievert",
-                "Megasievert",
-                "megasieverts",
-                "Megasieverts"
-            ],
-            "7-kilo": [
-                "kSv",
-                "kilosievert",
-                "Kilosievert",
-                "kilosieverts",
-                "Kilosieverts"
-            ],
-            "8-hecto": [
-                "hSv",
-                "hectosievert",
-                "Hectosievert",
-                "hectosieverts",
-                "Hectosieverts"
-            ],
-            "9-deca": [
-                "daSv",
-                "decasievert",
-                "Decasievert",
-                "decasieverts",
-                "Decasieverts"
-            ],
-            "10-deci": [
-                "dSv",
-                "decisievert",
-                "Decisievert",
-                "decisieverts",
-                "Decisieverts"
-            ],
-            "11-centi": [
-                "cSv",
-                "centisievert",
-                "Centisievert",
-                "centisieverts",
-                "Centisieverts"
-            ],
-            "12-milli": [
-                "mSv",
-                "millisievert",
-                "Millisievert",
-                "millisieverts",
-                "Millisieverts"
-            ],
-            "13-micro": [
-                "muSv",
-                "microsievert",
-                "Microsievert",
-                "microsieverts",
-                "Microsieverts",
-                "uSv"
-            ],
-            "14-nano": [
-                "nSv",
-                "nanosievert",
-                "Nanosievert",
-                "nanosieverts",
-                "Nanosieverts"
-            ],
-            "15-pico": [
-                "pSv",
-                "picosievert",
-                "Picosievert",
-                "picosieverts",
-                "Picosieverts"
-            ],
-            "16-femto": [
-                "fSv",
-                "femtosievert",
-                "Femtosievert",
-                "femtosieverts",
-                "Femtosieverts"
-            ],
-            "17-atto": [
-                "aSv",
-                "attosievert",
-                "Attosievert",
-                "attosieverts",
-                "Attosieverts"
-            ],
-            "18-zepto": [
-                "zSv",
-                "zeptosievert",
-                "Zeptosievert",
-                "zeptosieverts",
-                "Zeptosieverts"
-            ],
-            "19-yocto": [
-                "ySv",
-                "yoctosievert",
-                "Yoctosievert",
-                "yoctosieverts",
-                "Yoctosieverts"
-            ],
-            "20-quetta": [
-                "QSv",
-                "quettasievert",
-                "Quettasievert",
-                "quettasieverts",
-                "Quettasieverts"
-            ],
-            "21-ronna": [
-                "RSv",
-                "ronnasievert",
-                "Ronnasievert",
-                "ronnasieverts",
-                "Ronnasieverts"
-            ],
-            "22-ronto": [
-                "rSv",
-                "rontosievert",
-                "Rontosievert",
-                "rontosieverts",
-                "Rontosieverts"
-            ],
-            "23-quecto": [
-                "qSv",
-                "quectosievert",
-                "Quectosievert",
-                "quectosieverts",
-                "Quectosieverts"
-            ]
-        },
-        "aliases": [
-            "Sv",
-            "sievert",
-            "Sievert",
-            "sieverts",
-            "Sieverts"
-        ]
-    },
-    "knot": {
-        "aliases": [
-            "kn",
-            "knot",
-            "Knot",
-            "knots",
-            "Knots",
-            "kt"
-        ]
-    },
-    "parsec": {
-        "aliases": [
-            "pc",
-            "parsec",
-            "Parsec",
-            "parsecs",
-            "Parsecs"
-        ]
-    },
-    "pound_force": {
-        "aliases": [
-            "lbf"
-        ]
-    },
-    "degreeCelsius": {
-        "aliases": [
-            "degC",
-            "degreeCelsius",
-            "DegreeCelsius",
-            "\\degree C",
-            "celsius",
-            "Celsius",
-            "degreesCelsius",
-            "DegreesCelsius"
-        ]
-    },
-    "rotations_per_minute": {
-        "aliases": [
-            "rpm",
-            "rpms"
-        ]
-    },
-    "miles_per_hour": {
-        "aliases": [
-            "mph",
-            "MPH"
-        ]
-    },
-    "acre": {
-        "aliases": [
-            "acre",
-            "Acre",
-            "acres",
-            "Acres"
-        ]
-    },
-    "slug": {
-        "aliases": [
-            "slug",
-            "Slug",
-            "slugs",
-            "Slugs"
-        ]
-    },
-    "rood": {
-        "aliases": [
-            "rood",
-            "Rood",
-            "roods",
-            "Roods"
-        ]
-    },
-    "cubic_feet_per_minute": {
-        "aliases": [
-            "cfm",
-            "CFM"
-        ]
-    },
-    "cubic_feet_per_second": {
-        "aliases": [
-            "cfs",
-            "CFS"
-        ]
-    },
-    "Btu": {
-        "aliases": [
-            "btu",
-            "Btu",
-            "btus",
-            "Btus"
-        ]
-    },
-    "degreeFahrenheit": {
-        "aliases": [
-            "degF",
-            "degreeFahrenheit",
-            "DegreeFahrenheit",
-            "\\degree F",
-            "degreesFahrenheit",
-            "DegreesFahrenheit",
-            "fahrenheit",
-            "Fahrenheit"
-        ]
-    },
-    "decibel": {
-        "aliases": [
-            "dB",
-            "decibel",
-            "Decibel",
-            "decibels",
-            "Decibels"
-        ]
-    },
-    "cubic_centimeter": {
-        "aliases": [
-            "cc",
-            "ccs"
         ]
     }
 }
