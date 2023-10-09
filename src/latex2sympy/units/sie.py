@@ -23,24 +23,19 @@ from latex2sympy.units.dimensions import (
     solid_angle, luminous_flux
 )
 from latex2sympy.units.unit_definitions import (
-    liter, gray, lumen, mph, knot, cfm, rood, acre, sievert, cc, molar
+    liter, gray, bit, byte,
+    lumen,
+    lbf, slug, calorie, btu, degC, degF, dB, mph, knot, cfm, cfs, rood, acre, sievert, pc, cc, molar, rpm
 )
-from latex2sympy.units.prefixes import SI_PREFIXES, prefix_unit, create_prefixed_unit
+from latex2sympy.units.prefixed_unit_definitions import additional_prefixed_units
 
-units = [lumen]
-
-all_units: list[Quantity] = []
-for u in units:
-    all_units.extend(prefix_unit(u, SI_PREFIXES))
-
-# only add milli and micro prefixed steradians
-all_units.extend([
-    create_prefixed_unit(steradian, SI_PREFIXES['m']),
-    create_prefixed_unit(steradian, SI_PREFIXES['mu'])
-])
-
-all_units.extend(units)
-all_units.extend([steradian, lumen])
+# define units to include in SIE that are not in SI, or are new versions
+all_units: list[Quantity] = [
+    steradian, lumen,
+    liter, gray, bit, byte,
+    lbf, slug, calorie, btu, degC, degF, dB, mph, knot, cfm, cfs, rood, acre, sievert, pc, cc, molar, rpm
+]
+all_units.extend(additional_prefixed_units)
 
 dimsys_SIE = dimsys_SI.extend(
     [

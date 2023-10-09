@@ -3,6 +3,8 @@ import sympy.physics.units.definitions.unit_definitions as sympy_units
 import sympy.physics.units.definitions.dimension_definitions as sympy_dimensions
 from sympy.physics.units.quantities import Quantity
 
+# -------------------------------------------------------------------------------------------------
+
 # redefine liter to add "L" as its abbrev, to work with prefixes
 liter = Quantity('liter', abbrev='L')
 
@@ -17,8 +19,10 @@ bit.set_global_dimension(sympy_dimensions.information)
 byte = Quantity('byte', abbrev='B')
 byte.set_global_relative_scale_factor(8, bit)
 
+# -------------------------------------------------------------------------------------------------
 # define additional units, scale factors taken from LON-CAPA / CAPA / Wikipedia
 # https://loncapa04.purdue.edu/adm/help/Physical_Units.hlp
+# -------------------------------------------------------------------------------------------------
 
 lbf = pound_force = Quantity('pound_force', abbrev='lbf')
 pound_force.set_global_relative_scale_factor(Rational('4.44822'), sympy_units.newton)

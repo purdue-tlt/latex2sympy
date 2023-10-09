@@ -1,16 +1,25 @@
+import json
+import os.path
+import pickle
 from sympy import latex
 import sympy.physics.units.definitions.unit_definitions as sympy_units
 from sympy.physics.units.quantities import Quantity, PhysicalConstant
-from sympy.physics.units.systems.mks import all_units as mks_units, units as mks_base_units
-from sympy.physics.units.systems.mksa import all_units as mksa_units, units as mksa_base_units
-from sympy.physics.units.systems.si import all_units as si_units, units as si_base_units
+from sympy.physics.units.systems.mks import all_units as mks_units
+from sympy.physics.units.systems.mksa import all_units as mksa_units
+from sympy.physics.units.systems.si import all_units as si_units
 from latex2sympy.units.sie import all_units as sie_units
-from latex2sympy.units.prefixes import NEW_SI_PREFIXES, SI_PREFIXES, INFORMATION_SI_PREFIXES, BIN_PREFIXES, ALL_PREFIXES, PREFIX_ALIASES, prefix_unit
+from latex2sympy.units.prefixes import ALL_PREFIXES, PREFIX_ALIASES
 import latex2sympy.units.unit_definitions as additional_units
-import json
+from latex2sympy.units.unit_definitions import liter, gray, bit, byte
+from latex2sympy.units.prefixed_unit_definitions import (
+    liter_prefixed_units,
+    gray_prefixed_units,
+    bit_prefixed_units, bit_si_prefixed_units,
+    byte_prefixed_units
+)
 
 # -------------------------------------------------------------------------------------------------
-# define fixed sympy units / additional prefixed units
+# define fixed sympy units / additional unit aliases
 # -------------------------------------------------------------------------------------------------
 
 # define additional aliases for sympy units
@@ -30,21 +39,8 @@ custom_unit_aliases = {
     sympy_units.meter: ['metre', 'metres', 'Metre', 'Metres']
 }
 
-# the default liter unit does not correctly define "L" as its abbrev
-liter = additional_units.liter
-liter_prefixed_units = prefix_unit(liter, SI_PREFIXES)
 # add alternate spelling
 custom_unit_aliases[liter] = ['litre', 'litres', 'Litre', 'Litres']
-
-# the default gray unit does not correctly define "Gy" as its abbrev
-gray = additional_units.gray
-gray_prefixed_units = prefix_unit(gray, SI_PREFIXES)
-
-# the default bit unit does not correctly define "bit" as its abbrev
-bit = additional_units.bit
-# define all binary and SI prefixes for bit
-bit_prefixed_units = prefix_unit(bit, BIN_PREFIXES)
-bit_si_prefixed_units = prefix_unit(bit, INFORMATION_SI_PREFIXES)
 # also add "b" as an alternate abbrev for bit, and all its prefixed forms
 custom_unit_aliases[bit] = ['b']
 for bit_prefixed_unit in [*bit_prefixed_units, *bit_si_prefixed_units]:
@@ -52,38 +48,6 @@ for bit_prefixed_unit in [*bit_prefixed_units, *bit_si_prefixed_units]:
     custom_unit_aliases[bit_prefixed_unit] = [
         bit_prefixed_unit_abbrev[:-2]
     ]
-
-# the default byte unit does not correctly define "B" as its abbrev
-byte = additional_units.byte
-# define all binary and SI prefixes for byte
-byte_prefixed_units = prefix_unit(byte, BIN_PREFIXES)
-byte_si_prefixed_units = prefix_unit(byte, INFORMATION_SI_PREFIXES)
-
-# define additional prefixed units
-additional_sympy_prefixed_units = [
-    *liter_prefixed_units,
-    *gray_prefixed_units,
-    *bit_prefixed_units,
-    *bit_si_prefixed_units,
-    *byte_prefixed_units,
-    *byte_si_prefixed_units,
-]
-
-units_to_prefix = [
-    sympy_units.eV,
-    sympy_units.Ci,
-    sympy_units.bar,
-    additional_units.molar,
-    additional_units.calorie,
-    additional_units.sievert
-]
-for u in units_to_prefix:
-    additional_sympy_prefixed_units.extend(prefix_unit(u, SI_PREFIXES))
-
-# add new SI prefixed versions of all SI base units
-base_units = [*mks_base_units, *mksa_base_units, *si_base_units]
-for base_unit in base_units:
-    additional_sympy_prefixed_units.extend(prefix_unit(base_unit, NEW_SI_PREFIXES))
 
 # units that will replace the original sympy versions
 fixed_sympy_units = {}
@@ -291,8 +255,7 @@ all_si_units = set([
     *mks_units,
     *mksa_units,
     *si_units,
-    *sie_units,
-    *additional_sympy_prefixed_units,
+    *sie_units
 ])
 # add aliases for all prefixed units
 for u in all_si_units:
@@ -315,39 +278,47 @@ for attr in dir(additional_units):
             UNIT_ALIASES[alias] = u
 
 # -------------------------------------------------------------------------------------------------
-# test output
+# output pickled file
 # -------------------------------------------------------------------------------------------------
 
-# ALIASES_BY_UNIT = {}
-# for alias, unit in UNIT_ALIASES.items():
-#     base_sympy_unit = get_base_unit(unit, sympy_units)
-#     base_unit = get_base_unit(unit, additional_units) if base_sympy_unit is None else base_sympy_unit
-#     unit_name = str(unit.name) if base_unit is None else str(base_unit.name)
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 
-#     unit_obj = ALIASES_BY_UNIT.get(unit_name, {})
-#     aliases = unit_obj.get('aliases', [])
+pickle_file = open(f'{ROOT_DIR}/unit_aliases.pkl', 'wb')
+pickle.dump(UNIT_ALIASES, pickle_file)
+pickle_file.close()
 
-#     if unit.is_prefixed and base_unit is not None:
-#         prefixes = unit_obj.get('prefixes', {})
+# -------------------------------------------------------------------------------------------------
+# output JSON debug file
+# -------------------------------------------------------------------------------------------------
 
-#         prefix_name = str(unit.name).replace(str(base_unit.name), '')
-#         prefix = PREFIX_ALIASES[prefix_name]
-#         prefix_index = [*ALL_PREFIXES.keys()].index(str(prefix.abbrev))
-#         prefixes_key = f'{prefix_index}-{prefix_name}'
-#         prefix_aliases = prefixes.get(prefixes_key, [])
+ALIASES_BY_UNIT = {}
+for alias, unit in UNIT_ALIASES.items():
+    base_sympy_unit = get_base_unit(unit, sympy_units)
+    base_unit = get_base_unit(unit, additional_units) if base_sympy_unit is None else base_sympy_unit
+    unit_name = str(unit.name) if base_unit is None else str(base_unit.name)
 
-#         prefix_aliases.append(alias)
+    unit_obj = ALIASES_BY_UNIT.get(unit_name, {})
+    aliases = unit_obj.get('aliases', [])
 
-#         prefixes[prefixes_key] = prefix_aliases
-#         prefixes = dict(sorted(prefixes.items(), key=lambda kvp: int(kvp[0][:kvp[0].find('-')])))
-#         unit_obj['prefixes'] = prefixes
-#     else:
-#         aliases.append(alias)
+    if unit.is_prefixed and base_unit is not None:
+        prefixes = unit_obj.get('prefixes', {})
 
-#     unit_obj['aliases'] = aliases
-#     ALIASES_BY_UNIT[unit_name] = unit_obj
+        prefix_name = str(unit.name).replace(str(base_unit.name), '')
+        prefix = PREFIX_ALIASES[prefix_name]
+        prefix_index = [*ALL_PREFIXES.keys()].index(str(prefix.abbrev))
+        prefixes_key = f'{prefix_index}-{prefix_name}'
+        prefix_aliases = prefixes.get(prefixes_key, [])
 
-# with open('src/latex2sympy/units/unit_aliases.json', 'w', encoding='utf-8') as f:
-#     json.dump(ALIASES_BY_UNIT, f, ensure_ascii=False, indent=4)
+        prefix_aliases.append(alias)
 
-# print(ALIASES_BY_UNIT)
+        prefixes[prefixes_key] = prefix_aliases
+        prefixes = dict(sorted(prefixes.items(), key=lambda kvp: int(kvp[0][:kvp[0].find('-')])))
+        unit_obj['prefixes'] = prefixes
+    else:
+        aliases.append(alias)
+
+    unit_obj['aliases'] = aliases
+    ALIASES_BY_UNIT[unit_name] = unit_obj
+
+with open(f'{ROOT_DIR}/unit_aliases.json', 'w', encoding='utf-8') as f:
+    json.dump(dict(sorted(ALIASES_BY_UNIT.items())), f, ensure_ascii=False, indent=4)
