@@ -1,6 +1,6 @@
-from sympy import *
 from latex2sympy.latex2sympy import process_sympy
 from latex2sympy.lib import parseToJson
+from sympy import srepr
 
 latex = '\\variable{a}^{\\variable{b}}'
 

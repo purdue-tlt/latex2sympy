@@ -1,9 +1,10 @@
 # .coveragerc to control coverage.py
 [run]
 branch = True
-omit = 
+omit =
     sandbox/*
     setup.py
+    src/latex2sympy/units/unit_aliases/unit_aliases.py
 
 [report]
 # Regexes for lines to exclude from consideration
