@@ -19,7 +19,7 @@ setup(
         'latex2sympy.lib.macOS.arm64': 'src/latex2sympy/lib/macOS/arm64',
         'latex2sympy.lib.macOS.x86_64': 'src/latex2sympy/lib/macOS/x86_64',
         'latex2sympy.units': 'src/latex2sympy/units',
-        'latex2sympy.units': 'src/latex2sympy/units/unit_aliases',
+        'latex2sympy.units.unit_aliases': 'src/latex2sympy/units/unit_aliases',
         'latex2sympy.utils': 'src/latex2sympy/utils'
     },
     package_data={
