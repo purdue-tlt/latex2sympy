@@ -26,7 +26,7 @@ from sympy.physics.units.definitions.unit_definitions import (
     astronomical_unit, elementary_charge,
     dioptre
 )
-from latex2sympy.latex2sympy import process_sympy
+from latex2sympy.latex2sympyAsUnit import process_sympy_as_unit
 from latex2sympy.units.prefixes import SI_PREFIXES, BIN_PREFIXES
 from latex2sympy.units.unit_definitions import (
     liter,
@@ -368,7 +368,8 @@ unit_examples = [
 
 @pytest.mark.parametrize('input, output', unit_examples)
 def test_parse_as_unit_should_succeed(input, output):
-    assert_equal(input, output, parse_as_unit=True)
+    parsed = process_sympy_as_unit(input)
+    compare(parsed, output)
 
 
 bad_unit_examples = [
@@ -491,7 +492,7 @@ bad_unit_examples = [
 @pytest.mark.parametrize('input', bad_unit_examples)
 def test_parse_as_unit_should_fail(input):
     with pytest.raises(Exception):
-        process_sympy(input, parse_as_unit=True)
+        process_sympy_as_unit(input)
 
 
 convert_to_unit_examples = [
@@ -543,8 +544,8 @@ convert_to_unit_examples = [
 
 @pytest.mark.parametrize('src, dest, expected', convert_to_unit_examples)
 def test_covert_to_unit_should_succeed(src, dest, expected):
-    src_unit = process_sympy(src, parse_as_unit=True)
-    dest_unit = process_sympy(dest, parse_as_unit=True)
+    src_unit = process_sympy_as_unit(src)
+    dest_unit = process_sympy_as_unit(dest)
     src_unit_converted = convert_to(src_unit, dest_unit)
     compare(src_unit_converted, expected)
 
@@ -566,7 +567,7 @@ convert_to_unit_incompatible_examples = [
 
 @pytest.mark.parametrize('src, dest', convert_to_unit_incompatible_examples)
 def test_covert_to_unit_should_fail(src, dest):
-    src_unit = process_sympy(src, parse_as_unit=True)
-    dest_unit = process_sympy(dest, parse_as_unit=True)
+    src_unit = process_sympy_as_unit(src)
+    dest_unit = process_sympy_as_unit(dest)
     with pytest.raises(Exception):
         convert_to(src_unit, dest_unit)
