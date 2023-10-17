@@ -3470,13 +3470,6 @@
         }
     },
     "lumen": {
-        "aliases": [
-            "lm",
-            "lumen",
-            "Lumen",
-            "lumens",
-            "Lumens"
-        ],
         "prefixes": {
             "0-yotta": [
                 "Ylm",
@@ -3647,7 +3640,14 @@
                 "quectolumens",
                 "Quectolumens"
             ]
-        }
+        },
+        "aliases": [
+            "lm",
+            "lumen",
+            "Lumen",
+            "lumens",
+            "Lumens"
+        ]
     },
     "lux": {
         "aliases": [
