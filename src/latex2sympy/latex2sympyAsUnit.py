@@ -49,21 +49,16 @@ class LatexToSympyAsUnit(LatexToSympy):
         return super().convert_atom(atom)
 
     def get_atom_symbol_for_atom_expr(self, atom_name, type):
-        # by default use parent class
-        atom_symbol = super().get_atom_symbol_for_atom_expr(atom_name, type)
-
+        # do not call parent class
         search_name = '\\' + atom_name if type == LATEXLexerToken.GREEK_CMD else atom_name
         unit = find_unit(search_name)
         if unit is not None:
-            atom_symbol = unit
-        else:
-            # prefixes can be combined in `convert_postfix_list`
-            prefix = find_prefix(search_name)
-            if prefix is not None:
-                return prefix
-            raise Exception('Unrecognized unit')
-
-        return atom_symbol
+            return unit
+        # prefixes can be combined in `convert_postfix_list`
+        prefix = find_prefix(search_name)
+        if prefix is not None:
+            return prefix
+        raise Exception('Unrecognized unit')
 
     def handle_mul_flat(self, lh, rh, lh_atom=None):
         # check if an adjacent items should be combined into a prefixed unit
