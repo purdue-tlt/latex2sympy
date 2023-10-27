@@ -8,7 +8,7 @@ CARET: '^';
 COLON: ':';
 SEMICOLON: ';';
 COMMA: ',';
-PERIOD: '.';
+fragment PERIOD: '.';
 
 ADD: '+';
 SUB: '-';
@@ -149,7 +149,8 @@ fragment PERCENT_SIGN: '\\%' [ ]?;
 fragment DEGREE: '\\degree';
 
 LETTER: [a-zA-Z];
-LETTERS: (LETTER | SPACE | PERCENT_SIGN | DEGREE [ ]? | PERIOD)+;
+
+UNIT_SYMBOL: SPACE | PERCENT_SIGN | DEGREE [ ]? | PERIOD;
 
 NUMBER:
     DIGIT+ (COMMA DIGIT DIGIT DIGIT)*
@@ -446,7 +447,7 @@ atom:
     | DIFFERENTIAL_D
     | VARIABLE
     | COMPLEX_NUMBER_POLAR_ANGLE
-    | LETTERS
+    | UNIT_SYMBOL
     | mathit;
 
 frac:
