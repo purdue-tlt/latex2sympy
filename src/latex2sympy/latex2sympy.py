@@ -178,7 +178,7 @@ class LatexToSympy:
             if lh.is_Matrix or rh.is_Matrix:
                 return mat_mul_flat(lh, rh)
             else:
-                return self.handle_mul_flat(lh, rh)
+                return mul_flat(lh, rh)
         elif type == LATEXLexerToken.DIV or type == LATEXLexerToken.CMD_DIV or type == LATEXLexerToken.COLON:
             lh = self.convert_mp(mp_left)
             rh = self.convert_mp(mp_right)
@@ -232,30 +232,6 @@ class LatexToSympy:
             raise Exception('Index out of bounds')
 
         list_item = arr[i]
-
-        # if the list item contains a "LETTERS" atom, split the atom into multiple "LETTER" atoms and insert them into the list
-        atom = list_item.get('exp', {}).get('comp', {}).get('atom')
-        nested_exp_atom = list_item.get('exp', {}).get('exp', {}).get('comp', {}).get('atom')
-        if atom and has_type_or_token(atom, LATEXLexerToken.LETTERS) or \
-                nested_exp_atom and has_type_or_token(nested_exp_atom, LATEXLexerToken.LETTERS):
-            is_nested_exp = nested_exp_atom is not None
-            # get atom text
-            atom_text = (atom if atom else nested_exp_atom).get('text')
-
-            # split the atom text into multiple LETTER list items, if needed
-            new_list_items = self.convert_letters_to_postfix_list_items(atom_text)
-
-            if len(new_list_items) > 0:
-                # combine the last new list item with the `list_item`, to preserve other properties on `list_item`, e.g. "postfix_op"
-                last_new_list_item = new_list_items.pop()
-                if is_nested_exp:
-                    list_item['exp']['exp'] = last_new_list_item.get('exp')
-                else:
-                    list_item['exp'] = last_new_list_item.get('exp')
-                # construct a new array of list items: items before (if any), new letter items, updated current item, items after (if any)
-                new_arr = [*arr[:i], *new_list_items, list_item, *arr[i + 1:]]
-                return self.convert_postfix_list(new_arr, i)
-
         res = self.convert_postfix(list_item)
 
         if isinstance(res, sympy.Expr) or isinstance(res, sympy.Matrix) or res is EmptySet:
@@ -268,7 +244,7 @@ class LatexToSympy:
                 if res.is_Matrix or rh.is_Matrix:
                     return mat_mul_flat(res, rh)
                 else:
-                    return self.handle_mul_flat(res, rh, nested_exp_atom if nested_exp_atom is not None else atom)
+                    return mul_flat(res, rh)
         else:  # must be derivative
             wrt = res[0]
             if i == len(arr) - 1:
@@ -786,21 +762,6 @@ class LatexToSympy:
         else:
             return sympy.E
 
-    def convert_letters_to_postfix_list_items(self, atom_text):
-        # subclassed in LatexToSympyAsUnit to handle space splitting when unit parsing
-        new_list_items = []
-        if '\\%' in atom_text:
-            raise Exception('"\\%" symbol is invalid when not parsing as unit')
-        for t in list(atom_text):
-            if t == '.':
-                raise Exception('"." is an invalid symbol')
-            new_list_items.append({'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}})
-        return new_list_items
-
     def get_atom_symbol_for_atom_expr(self, atom_name, type):
         # subclassed in LatexToSympyAsUnit to handle unit parsing
         return sympy.Symbol(atom_name, real=True, positive=True)
-
-    def handle_mul_flat(self, lh, rh, lh_atom=None):
-        # subclassed in LatexToSympyAsUnit to handle unit parsing
-        return mul_flat(lh, rh)
