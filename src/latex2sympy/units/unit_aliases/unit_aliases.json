@@ -835,13 +835,6 @@
         }
     },
     "calorie": {
-        "aliases": [
-            "cal",
-            "calorie",
-            "Calorie",
-            "calories",
-            "Calories"
-        ],
         "prefixes": {
             "0-yotta": [
                 "Ycal",
@@ -1013,7 +1006,14 @@
                 "quectocalories",
                 "Quectocalories"
             ]
-        }
+        },
+        "aliases": [
+            "cal",
+            "calorie",
+            "Calorie",
+            "calories",
+            "Calories"
+        ]
     },
     "candela": {
         "aliases": [
@@ -4124,6 +4124,11 @@
         ]
     },
     "molar": {
+        "aliases": [
+            "M",
+            "molar",
+            "Molar"
+        ],
         "prefixes": {
             "0-yotta": [
                 "YM",
@@ -4247,12 +4252,7 @@
                 "quectomolar",
                 "Quectomolar"
             ]
-        },
-        "aliases": [
-            "M",
-            "molar",
-            "Molar"
-        ]
+        }
     },
     "mole": {
         "aliases": [
