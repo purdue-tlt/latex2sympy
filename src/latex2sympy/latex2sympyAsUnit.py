@@ -1,7 +1,7 @@
 from latex2sympy.latex2sympy import LatexToSympy
 from latex2sympy.lib import LATEXLexerToken
 from latex2sympy.utils.json import has_type_or_token
-from latex2sympy.units import find_unit, find_prefix, is_unit
+from latex2sympy.units import find_unit, is_unit
 
 
 def process_sympy_as_unit(latex: str, variable_values: dict = {}):
@@ -78,12 +78,10 @@ class LatexToSympyAsUnit(LatexToSympy):
     def get_atom_symbol_for_atom_expr(self, atom_name, type):
         # do not call parent class
         search_name = '\\' + atom_name if type == LATEXLexerToken.GREEK_CMD else atom_name
+        # all valid units and prefixed units are accounted for here
         unit = find_unit(search_name)
         if unit is not None:
             return unit
-        prefix = find_prefix(search_name)
-        if prefix is not None:
-            return prefix
         raise Exception('Unrecognized unit')
 
 
