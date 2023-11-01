@@ -9,7 +9,7 @@ def test_ensure_grammar_file_is_built():
     h.update(grammar_file.read().encode('utf-8'))
     grammar_file.close()
     file_hash = h.hexdigest()
-    assert file_hash == '34fd3da163f21caeea5f485c2798c312c10d0c92fc92a13d629c0e423d1c1ff5', \
+    assert file_hash == '4f1521a4c3336514bf37de6c90e05eba8318f02ef06771b6d192801244db5950', \
         'LATEX.g4 has changed. Please run the compile.sh script for all architectures then update the hash' + \
         f'in this test to {file_hash}'
 

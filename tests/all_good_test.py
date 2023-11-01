@@ -204,6 +204,16 @@ class TestAllGood(object):
         ("\\int \\differentialD x_1", Integral(1, Symbol('x_1', real=True, positive=True))),
         ("\\frac{\\differentialD }{\\differentialD x_1}x_1", Derivative(Symbol('x_1', real=True, positive=True), Symbol('x_1', real=True, positive=True))),
 
+        # differentials outside of frac and int
+        (
+            "2*\\differentialD x^2_1+4*\\differentialD x_1*\\differentialD x_2+18^2*\\differentialD x^2_2",
+            _Add(
+                _Mul(2, _Pow(Symbol('differentialD-x_1', real=True, positive=True), 2)),
+                _Mul(_Pow(18, 2), _Pow(Symbol('differentialD-x_2', real=True, positive=True), 2)),
+                _Mul(4, Symbol('differentialD-x_1', real=True, positive=True), Symbol('differentialD-x_2', real=True, positive=True))
+            )
+        ),
+
         ("x_0", Symbol('x_0', real=True, positive=True)),
         ("x_{1}", Symbol('x_1', real=True, positive=True)),
         ("x_a", Symbol('x_a', real=True, positive=True)),

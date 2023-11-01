@@ -436,7 +436,7 @@ mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
 
 atom_expr: (LETTER | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
 
-differential_atom_expr: DIFFERENTIAL_D (LETTER | GREEK_CMD) subexpr?;
+differential_atom_expr: DIFFERENTIAL_D atom_expr;
 
 atom:
     atom_expr

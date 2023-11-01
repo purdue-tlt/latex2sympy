@@ -417,8 +417,11 @@ class LatexToSympy:
             return atom_symbol
         elif 'differential_atom_expr' in atom:
             # prefix the nested symbol so that it is handled correctly in `convert_func_integral`
-            atom_symbol = self.convert_differential_atom_expr(atom.get('differential_atom_expr'))
-            return sympy.Symbol(DIFFERENTIAL_PREFIX + atom_symbol.name, real=True, positive=True)
+            atom_expr = atom.get('differential_atom_expr').get('atom_expr')
+            result = self.convert_atom({'atom_expr': atom_expr})
+            atom_symbol = result.args[0] if isinstance(result, sympy.Pow) else result
+            diff_atom_symbol = sympy.Symbol(DIFFERENTIAL_PREFIX + atom_symbol.name, real=True, positive=True)
+            return sympy.Pow(diff_atom_symbol, result.args[1], evaluate=False) if isinstance(result, sympy.Pow) else diff_atom_symbol
         elif has_type_or_token(atom, LATEXLexerToken.SYMBOL):
             # remove dollar sign, percentage symbol, and whitespace
             s = atom.get('text').replace('\\$', '').replace('\\%', '').strip()
@@ -517,16 +520,6 @@ class LatexToSympy:
             return sympy.exp(sympy.Mul(sympy.I, angle, evaluate=False), evaluate=False)
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
-
-    def convert_differential_atom_expr(self, differential_atom_expr):
-        # `differential_atom_expr` contains a specific subset of `atom_expr` parse options, to enforce limits (e.g. no supexpr)
-        # construct an atom_expr atom in order to call `convert_atom`
-        letter = get_token(differential_atom_expr, LATEXLexerToken.LETTER)
-        greek_cmd = get_token(differential_atom_expr, LATEXLexerToken.GREEK_CMD)
-        atom_expr = letter if letter is not None else greek_cmd
-        if 'subexpr' in differential_atom_expr:
-            atom_expr['subexpr'] = differential_atom_expr.get('subexpr')
-        return self.convert_atom({'atom_expr': atom_expr})
 
     def convert_frac(self, frac):
         frac_upper = frac.get('upper')
@@ -698,7 +691,8 @@ class LatexToSympy:
 
         int_var = None
         if 'differential_atom_expr' in func:
-            int_var = self.convert_differential_atom_expr(func.get('differential_atom_expr'))
+            atom_expr = func.get('differential_atom_expr').get('atom_expr')
+            int_var = self.convert_atom({'atom_expr': atom_expr})
         else:
             for sym in integrand.atoms(sympy.Symbol):
                 if is_differential_var(sym):
