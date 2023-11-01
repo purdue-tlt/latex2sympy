@@ -9,5 +9,5 @@ def is_differential_var(expr):
 
 
 def get_differential_var(expr):
-    symbol_name = expr.name[14:]
+    symbol_name = expr.name[len(DIFFERENTIAL_PREFIX):]
     return Symbol(symbol_name, real=True, positive=True)

@@ -195,8 +195,8 @@ class TestAllGood(object):
         ("\\int \\frac{\\differentialD z}{z}", Integral(_Pow(z, -1), z)),
         ("\\int \\frac{\\differentialD \\theta }{\\theta }", Integral(_Pow(theta, -1), theta)),
         ("\\int \\frac{3\\differentialD z}{z}", Integral(3 * _Pow(z, -1), z)),
-        ("\\int \\frac{1}{x}\\differentialD x", Integral(_Pow(x, -1), x)),
-        ("\\int \\frac{1}{a}+\\frac{1}{b} \\differentialD x", Integral(_Add(_Pow(a, -1), _Pow(b, -1)), x)),
+        ("\\int \\frac{1}{x}\\differentialD x", Integral(_Mul(1, _Pow(x, -1)), x)),
+        ("\\int \\frac{1}{a}+\\frac{1}{b} \\differentialD x", Integral(_Add(_Mul(1, _Pow(a, -1)), _Mul(1, _Pow(b, -1))), x)),
         ("\\int \\frac{3 \\cdot \\differentialD \\theta }{\\theta }", Integral(3 * _Mul(1, _Pow(theta, -1)), theta)),
         ("\\int \\frac{1}{x}+1\\differentialD x", Integral(_Add(_Mul(1, _Pow(x, -1)), 1), x)),
 

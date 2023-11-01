@@ -358,11 +358,7 @@ class LatexToSympy:
 
             # find the atom's text
             atom_text = ''
-            if has_type_or_token(atom_expr, LATEXLexerToken.DIFFERENTIAL_D):
-                letter = get_token(atom_expr, LATEXLexerToken.LETTER)
-                greek_cmd = get_token(atom_expr, LATEXLexerToken.GREEK_CMD)
-                atom_text = DIFFERENTIAL_PREFIX + (letter.get('text') if letter is not None else greek_cmd.get('text')[1:].strip())
-            elif type == LATEXLexerToken.LETTER:
+            if type == LATEXLexerToken.LETTER:
                 atom_text = atom_expr.get('text')
             elif type == LATEXLexerToken.GREEK_CMD:
                 atom_text = atom_expr.get('text')[1:].strip()
@@ -376,9 +372,11 @@ class LatexToSympy:
                 else:  # pragma: no cover
                     raise Exception('Unrecognized accent')
                 # get the base (variable)
-                base = atom_accent.get('expr').get('text')
+                letter = get_token(atom_accent, LATEXLexerToken.LETTER)
+                greek_cmd = get_token(atom_accent, LATEXLexerToken.GREEK_CMD)
+                base = letter if letter is not None else greek_cmd
                 # set string to base+name
-                atom_text = base + name
+                atom_text = base.get('text') + name
             else:  # pragma: no cover
                 raise Exception('Unrecognized atom_expr')
 
@@ -417,6 +415,10 @@ class LatexToSympy:
                 return sympy.Pow(atom_symbol, func_pow, evaluate=False)
 
             return atom_symbol
+        elif 'differential_atom_expr' in atom:
+            # prefix the nested symbol so that it is handled correctly in `convert_func_integral`
+            atom_symbol = self.convert_differential_atom_expr(atom.get('differential_atom_expr'))
+            return sympy.Symbol(DIFFERENTIAL_PREFIX + atom_symbol.name, real=True, positive=True)
         elif has_type_or_token(atom, LATEXLexerToken.SYMBOL):
             # remove dollar sign, percentage symbol, and whitespace
             s = atom.get('text').replace('\\$', '').replace('\\%', '').strip()
@@ -515,6 +517,16 @@ class LatexToSympy:
             return sympy.exp(sympy.Mul(sympy.I, angle, evaluate=False), evaluate=False)
         else:  # pragma: no cover
             raise Exception('Unrecognized atom')
+
+    def convert_differential_atom_expr(self, differential_atom_expr):
+        # `differential_atom_expr` contains a specific subset of `atom_expr` parse options, to enforce limits (e.g. no supexpr)
+        # construct an atom_expr atom in order to call `convert_atom`
+        letter = get_token(differential_atom_expr, LATEXLexerToken.LETTER)
+        greek_cmd = get_token(differential_atom_expr, LATEXLexerToken.GREEK_CMD)
+        atom_expr = letter if letter is not None else greek_cmd
+        if 'subexpr' in differential_atom_expr:
+            atom_expr['subexpr'] = differential_atom_expr.get('subexpr')
+        return self.convert_atom({'atom_expr': atom_expr})
 
     def convert_frac(self, frac):
         frac_upper = frac.get('upper')
@@ -677,18 +689,26 @@ class LatexToSympy:
             return self.convert_mp(arg.get('mp_nofunc'))
 
     def convert_func_integral(self, func):
-        integrand = self.convert_expr(func.get('expr'))
+        if 'additive' in func:
+            integrand = self.convert_add(func.get('additive'))
+        elif 'frac' in func:
+            integrand = self.convert_frac(func.get('frac'))
+        else:
+            integrand = 1
 
         int_var = None
-        for sym in integrand.atoms(sympy.Symbol):
-            if is_differential_var(sym):
-                int_var = get_differential_var(sym)
-                int_sym = sym
-        if int_var:
-            integrand = integrand.subs(int_sym, 1)
+        if 'differential_atom_expr' in func:
+            int_var = self.convert_differential_atom_expr(func.get('differential_atom_expr'))
         else:
-            # Assume dx by default
-            int_var = sympy.Symbol('x', real=True, positive=True)
+            for sym in integrand.atoms(sympy.Symbol):
+                if is_differential_var(sym):
+                    int_var = get_differential_var(sym)
+                    int_sym = sym
+            if int_var:
+                integrand = integrand.subs(int_sym, 1)
+            else:
+                # Assume dx by default
+                int_var = sympy.Symbol('x', real=True, positive=True)
 
         if 'subexpr' in func:
             subexpr = func.get('subexpr')
