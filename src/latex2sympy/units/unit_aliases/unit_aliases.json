@@ -5382,13 +5382,6 @@
         }
     },
     "sievert": {
-        "aliases": [
-            "Sv",
-            "sievert",
-            "Sievert",
-            "sieverts",
-            "Sieverts"
-        ],
         "prefixes": {
             "0-yotta": [
                 "YSv",
@@ -5560,7 +5553,14 @@
                 "quectosieverts",
                 "Quectosieverts"
             ]
-        }
+        },
+        "aliases": [
+            "Sv",
+            "sievert",
+            "Sievert",
+            "sieverts",
+            "Sieverts"
+        ]
     },
     "slug": {
         "aliases": [
