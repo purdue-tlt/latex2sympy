@@ -215,9 +215,16 @@ def get_aliases_for_unit(unit, dir_module=None, attr_name=None):
                     alt_unit_aliases.append(ua.replace(base_unit_name, alt_base_unit_name))
             unit_aliases.extend(alt_unit_aliases)
 
-    # add "u" as an additional "micro" prefix
+        # add latex abbrev for ohm prefixed units
+        if base_unit_name == 'ohm':
+            unit_aliases.remove(unit_abbrev)
+            unit_abbrev = unit_abbrev[:-3] + '\\Omega'
+            unit_aliases.append(unit_abbrev)
+
+    # add "u" and "\\mu" as additional "micro" prefixed units
     if unit.is_prefixed and unit_abbrev.startswith('mu'):
         unit_aliases.append('u' + unit_abbrev[2:])
+        unit_aliases.append('\\mu ' + unit_abbrev[2:])
 
     # latex
     # except when value contains "\text{}" or "\r{}" or "\circ"

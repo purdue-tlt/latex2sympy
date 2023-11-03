@@ -178,7 +178,7 @@ class LatexToSympy:
             if lh.is_Matrix or rh.is_Matrix:
                 return mat_mul_flat(lh, rh)
             else:
-                return self.handle_mul_flat(lh, rh)
+                return mul_flat(lh, rh)
         elif type == LATEXLexerToken.DIV or type == LATEXLexerToken.CMD_DIV or type == LATEXLexerToken.COLON:
             lh = self.convert_mp(mp_left)
             rh = self.convert_mp(mp_right)
@@ -232,30 +232,6 @@ class LatexToSympy:
             raise Exception('Index out of bounds')
 
         list_item = arr[i]
-
-        # if the list item contains a "LETTERS" atom, split the atom into multiple "LETTER" atoms and insert them into the list
-        atom = list_item.get('exp', {}).get('comp', {}).get('atom')
-        nested_exp_atom = list_item.get('exp', {}).get('exp', {}).get('comp', {}).get('atom')
-        if atom and has_type_or_token(atom, LATEXLexerToken.LETTERS) or \
-                nested_exp_atom and has_type_or_token(nested_exp_atom, LATEXLexerToken.LETTERS):
-            is_nested_exp = nested_exp_atom is not None
-            # get atom text
-            atom_text = (atom if atom else nested_exp_atom).get('text')
-
-            # split the atom text into multiple LETTER list items, if needed
-            new_list_items = self.convert_letters_to_postfix_list_items(atom_text)
-
-            if len(new_list_items) > 0:
-                # combine the last new list item with the `list_item`, to preserve other properties on `list_item`, e.g. "postfix_op"
-                last_new_list_item = new_list_items.pop()
-                if is_nested_exp:
-                    list_item['exp']['exp'] = last_new_list_item.get('exp')
-                else:
-                    list_item['exp'] = last_new_list_item.get('exp')
-                # construct a new array of list items: items before (if any), new letter items, updated current item, items after (if any)
-                new_arr = [*arr[:i], *new_list_items, list_item, *arr[i + 1:]]
-                return self.convert_postfix_list(new_arr, i)
-
         res = self.convert_postfix(list_item)
 
         if isinstance(res, sympy.Expr) or isinstance(res, sympy.Matrix) or res is EmptySet:
@@ -268,7 +244,7 @@ class LatexToSympy:
                 if res.is_Matrix or rh.is_Matrix:
                     return mat_mul_flat(res, rh)
                 else:
-                    return self.handle_mul_flat(res, rh, nested_exp_atom if nested_exp_atom is not None else atom)
+                    return mul_flat(res, rh)
         else:  # must be derivative
             wrt = res[0]
             if i == len(arr) - 1:
@@ -382,11 +358,7 @@ class LatexToSympy:
 
             # find the atom's text
             atom_text = ''
-            if has_type_or_token(atom_expr, LATEXLexerToken.DIFFERENTIAL_D):
-                letter = get_token(atom_expr, LATEXLexerToken.LETTER)
-                greek_cmd = get_token(atom_expr, LATEXLexerToken.GREEK_CMD)
-                atom_text = DIFFERENTIAL_PREFIX + (letter.get('text') if letter is not None else greek_cmd.get('text')[1:].strip())
-            elif type == LATEXLexerToken.LETTER:
+            if type == LATEXLexerToken.LETTER:
                 atom_text = atom_expr.get('text')
             elif type == LATEXLexerToken.GREEK_CMD:
                 atom_text = atom_expr.get('text')[1:].strip()
@@ -400,9 +372,11 @@ class LatexToSympy:
                 else:  # pragma: no cover
                     raise Exception('Unrecognized accent')
                 # get the base (variable)
-                base = atom_accent.get('expr').get('text')
+                letter = get_token(atom_accent, LATEXLexerToken.LETTER)
+                greek_cmd = get_token(atom_accent, LATEXLexerToken.GREEK_CMD)
+                base = letter if letter is not None else greek_cmd
                 # set string to base+name
-                atom_text = base + name
+                atom_text = base.get('text') + name
             else:  # pragma: no cover
                 raise Exception('Unrecognized atom_expr')
 
@@ -441,6 +415,13 @@ class LatexToSympy:
                 return sympy.Pow(atom_symbol, func_pow, evaluate=False)
 
             return atom_symbol
+        elif 'differential_atom_expr' in atom:
+            # prefix the nested symbol so that it is handled correctly in `convert_func_integral`
+            atom_expr = atom.get('differential_atom_expr').get('atom_expr')
+            result = self.convert_atom({'atom_expr': atom_expr})
+            atom_symbol = result.args[0] if isinstance(result, sympy.Pow) else result
+            diff_atom_symbol = sympy.Symbol(DIFFERENTIAL_PREFIX + atom_symbol.name, real=True, positive=True)
+            return sympy.Pow(diff_atom_symbol, result.args[1], evaluate=False) if isinstance(result, sympy.Pow) else diff_atom_symbol
         elif has_type_or_token(atom, LATEXLexerToken.SYMBOL):
             # remove dollar sign, percentage symbol, and whitespace
             s = atom.get('text').replace('\\$', '').replace('\\%', '').strip()
@@ -701,18 +682,27 @@ class LatexToSympy:
             return self.convert_mp(arg.get('mp_nofunc'))
 
     def convert_func_integral(self, func):
-        integrand = self.convert_expr(func.get('expr'))
+        if 'additive' in func:
+            integrand = self.convert_add(func.get('additive'))
+        elif 'frac' in func:
+            integrand = self.convert_frac(func.get('frac'))
+        else:
+            integrand = 1
 
         int_var = None
-        for sym in integrand.atoms(sympy.Symbol):
-            if is_differential_var(sym):
-                int_var = get_differential_var(sym)
-                int_sym = sym
-        if int_var:
-            integrand = integrand.subs(int_sym, 1)
+        if 'differential_atom_expr' in func:
+            atom_expr = func.get('differential_atom_expr').get('atom_expr')
+            int_var = self.convert_atom({'atom_expr': atom_expr})
         else:
-            # Assume dx by default
-            int_var = sympy.Symbol('x', real=True, positive=True)
+            for sym in integrand.atoms(sympy.Symbol):
+                if is_differential_var(sym):
+                    int_var = get_differential_var(sym)
+                    int_sym = sym
+            if int_var:
+                integrand = integrand.subs(int_sym, 1)
+            else:
+                # Assume dx by default
+                int_var = sympy.Symbol('x', real=True, positive=True)
 
         if 'subexpr' in func:
             subexpr = func.get('subexpr')
@@ -786,21 +776,6 @@ class LatexToSympy:
         else:
             return sympy.E
 
-    def convert_letters_to_postfix_list_items(self, atom_text):
-        # subclassed in LatexToSympyAsUnit to handle space splitting when unit parsing
-        new_list_items = []
-        if '\\%' in atom_text:
-            raise Exception('"\\%" symbol is invalid when not parsing as unit')
-        for t in list(atom_text):
-            if t == '.':
-                raise Exception('"." is an invalid symbol')
-            new_list_items.append({'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}})
-        return new_list_items
-
     def get_atom_symbol_for_atom_expr(self, atom_name, type):
         # subclassed in LatexToSympyAsUnit to handle unit parsing
         return sympy.Symbol(atom_name, real=True, positive=True)
-
-    def handle_mul_flat(self, lh, rh, lh_atom=None):
-        # subclassed in LatexToSympyAsUnit to handle unit parsing
-        return mul_flat(lh, rh)

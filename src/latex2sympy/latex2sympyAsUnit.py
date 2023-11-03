@@ -1,9 +1,7 @@
-import sympy
-import sympy.physics.units as sympy_physics_units
 from latex2sympy.latex2sympy import LatexToSympy
 from latex2sympy.lib import LATEXLexerToken
 from latex2sympy.utils.json import has_type_or_token
-from latex2sympy.units import UNIT_ALIASES, PREFIX_ALIASES, find_unit, find_prefix, is_unit
+from latex2sympy.units import find_unit, is_unit
 
 
 def process_sympy_as_unit(latex: str, variable_values: dict = {}):
@@ -21,70 +19,76 @@ class LatexToSympyAsUnit(LatexToSympy):
             raise Exception('Unrecognized unit')
         return return_data
 
-    def convert_letters_to_postfix_list_items(self, atom_text):
-        # do not call parent class
+    def convert_postfix_list(self, arr, i=0):
+        if i >= len(arr):  # pragma: no cover
+            raise Exception('Index out of bounds')
+
+        # only run the merge logic once
+        if i > 0:
+            return super().convert_postfix_list(arr, i)
+
+        # loop through list and merge adjacent atoms into a single LETTER atom_expr
         new_list_items = []
-        if '\\: ' in atom_text:
-            atom_text_split = atom_text.split('\\: ')
-            for t in atom_text_split:
-                if t == '.':
+        new_atom_text = None
+        for list_item in arr:
+            atom = list_item.get('exp', {}).get('comp', {}).get('atom', {})
+            atom_target = atom.get('atom_expr', {}) if 'atom_expr' in atom else atom
+            if atom_target is not None and (has_type_or_token(atom_target, LATEXLexerToken.LETTER) or
+                                            has_type_or_token(atom_target, LATEXLexerToken.GREEK_CMD) or
+                                            has_type_or_token(atom_target, LATEXLexerToken.UNIT_SYMBOL)):
+                atom_text = atom_target.get('text')
+
+                # UNIT_SYMBOL contains a period to allow parsing chars after the period, but will be blocked here
+                if atom_text == '.':
                     raise Exception('"." is an invalid symbol')
-                if len(t) > 0:
-                    new_list_items.append({'exp': {'comp': {'atom': {'atom_expr': {'text': t, 'type': LATEXLexerToken.LETTER.value}}}}})
-        return new_list_items
 
-    def convert_atom(self, atom):
-        if has_type_or_token(atom, LATEXLexerToken.LETTERS):
-            atom_text = atom.get('text')
-            unit = find_unit(atom_text)
-            if unit is not None:
-                return unit
-            # prefixes can be combined in `convert_postfix_list`
-            prefix = find_prefix(atom_text)
-            if prefix is not None:
-                return prefix
-            raise Exception('Unrecognized unit')
+                # a space means multiplication, so add the new list item with all text before the space, if any
+                if atom_text == '\\: ':
+                    if new_atom_text is not None:
+                        new_list_items.append(create_new_list_item(new_atom_text))
+                    new_atom_text = None
+                    continue
 
-        # fallback to parent class
-        return super().convert_atom(atom)
+                # begin tracking text for a new list item or append text to the existing string
+                if new_atom_text is None:
+                    new_atom_text = atom_text
+                else:
+                    new_atom_text += atom_text
+
+                # if this atom has a sub or sup, complete the list item and include the sub and sup
+                if 'subexpr' in atom_target or 'supexpr' in atom_target:
+                    new_list_items.append(create_new_list_item(new_atom_text, atom_target))
+                    new_atom_text = None
+                    continue
+            else:
+                # this `list_item` is NOT able to merge
+                # add a new list item with the previously tracked text, if any
+                if new_atom_text is not None:
+                    new_list_items.append(create_new_list_item(new_atom_text))
+                    new_atom_text = None
+                # preserve the current item as-is
+                new_list_items.append(list_item)
+
+        # add a new list item with the previously tracked text, if any
+        if new_atom_text is not None:
+            new_list_items.append(create_new_list_item(new_atom_text))
+
+        return super().convert_postfix_list(new_list_items, i)
 
     def get_atom_symbol_for_atom_expr(self, atom_name, type):
         # do not call parent class
         search_name = '\\' + atom_name if type == LATEXLexerToken.GREEK_CMD else atom_name
+        # all valid units and prefixed units are accounted for here
         unit = find_unit(search_name)
         if unit is not None:
             return unit
-        # prefixes can be combined in `convert_postfix_list`
-        prefix = find_prefix(search_name)
-        if prefix is not None:
-            return prefix
         raise Exception('Unrecognized unit')
 
-    def handle_mul_flat(self, lh, rh, lh_atom=None):
-        # check if an adjacent items should be combined into a prefixed unit
-        # this happens with a prefix or unit that uses a greek letter latex command
-        # .e.g. "\mu H" or "k\Omega "
-        lh_is_prefix = isinstance(lh, sympy_physics_units.prefixes.Prefix)
-        lh_is_quantity = isinstance(lh, sympy_physics_units.Quantity)
-        rh_is_quantity = isinstance(rh, sympy_physics_units.Quantity)
-        # prefix without a quantity after it is invalid
-        if lh_is_prefix and not rh_is_quantity:
-            raise Exception('Only a prefix and a quantity can be combined')
-        prefix_text = None
-        if lh_is_prefix:
-            prefix_text = str(lh.name)
-        # handle the edge case where a unit’s abbrev is the same as a prefix
-        # e.g. "M\Omega ", where "M" is parsed as "molar", but should become "megaohm"
-        # `is_postfix_list` excludes the case of explicit multiplication e.g. "molar*ohm"
-        elif lh_is_quantity and lh_atom is not None and lh_atom.get('atom_expr', {}).get('text') in PREFIX_ALIASES:
-            prefix_text = str(PREFIX_ALIASES[lh_atom.get('atom_expr').get('text')].name)
-        if prefix_text is not None and rh_is_quantity:
-            unit_name = prefix_text + str(rh.name)
-            # check if the combined prefix name + unit name are valid
-            if unit_name in UNIT_ALIASES:
-                return UNIT_ALIASES[unit_name]
-            else:
-                raise Exception('Unrecognized unit')
 
-        # fallback to parent class
-        return super().handle_mul_flat(lh, rh, lh_atom)
+def create_new_list_item(text, atom_expr=None):
+    new_atom_expr = {'text': text, 'type': LATEXLexerToken.LETTER}
+    if atom_expr is not None and 'subexpr' in atom_expr:
+        new_atom_expr['subexpr'] = atom_expr.get('subexpr')
+    if atom_expr is not None and 'supexpr' in atom_expr:
+        new_atom_expr['supexpr'] = atom_expr.get('supexpr')
+    return {'exp': {'comp': {'atom': {'atom_expr': new_atom_expr}}}}
