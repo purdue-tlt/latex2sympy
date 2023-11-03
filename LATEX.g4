@@ -8,7 +8,7 @@ CARET: '^';
 COLON: ':';
 SEMICOLON: ';';
 COMMA: ',';
-PERIOD: '.';
+fragment PERIOD: '.';
 
 ADD: '+';
 SUB: '-';
@@ -149,7 +149,8 @@ fragment PERCENT_SIGN: '\\%' [ ]?;
 fragment DEGREE: '\\degree';
 
 LETTER: [a-zA-Z];
-LETTERS: (LETTER | SPACE | PERCENT_SIGN | DEGREE [ ]? | PERIOD)+;
+
+UNIT_SYMBOL: SPACE | PERCENT_SIGN | DEGREE [ ]? | PERIOD;
 
 NUMBER:
     DIGIT+ (COMMA DIGIT DIGIT DIGIT)*
@@ -425,29 +426,33 @@ ceil_group:
     | ML_LEFT UL_CORNER expr MR_RIGHT UR_CORNER;
 
 
-// indicate an accent
+
 accent:
     accent_symbol
-    L_BRACE base=expr R_BRACE;
+    L_BRACE base=(LETTER | GREEK_CMD) R_BRACE;
 
 mathit_text: LETTER+;
 mathit: CMD_MATHIT L_BRACE mathit_text R_BRACE;
 
-atom_expr: DIFFERENTIAL_D? (LETTER | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
+atom_expr: (LETTER | GREEK_CMD | accent) (supexpr subexpr | subexpr supexpr | subexpr | supexpr)?;
+
+differential_atom_expr: DIFFERENTIAL_D atom_expr;
 
 atom:
     atom_expr
+    | differential_atom_expr
     | SYMBOL
     | NUMBER
     | SCI_NOTATION_NUMBER
     | FRACTION_NUMBER
     | PERCENT_NUMBER
     | E_NOTATION
-    | DIFFERENTIAL_D
     | VARIABLE
     | COMPLEX_NUMBER_POLAR_ANGLE
-    | LETTERS
-    | mathit;
+    | UNIT_SYMBOL
+    | mathit
+    // only here for use in `convert_frac`, not `convert_atom`
+    | DIFFERENTIAL_D;
 
 frac:
     CMD_FRAC L_BRACE
@@ -526,7 +531,7 @@ func:
 
     | FUNC_INT
     (subexpr supexpr | supexpr subexpr | (UNDERSCORE L_BRACE R_BRACE) (CARET L_BRACE R_BRACE) | (CARET L_BRACE R_BRACE) (UNDERSCORE L_BRACE R_BRACE) )?
-    expr
+    (additive? differential_atom_expr | frac | additive)
 
     | FUNC_SQRT
     (L_BRACKET root=expr R_BRACKET)?

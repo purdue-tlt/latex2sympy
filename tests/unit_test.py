@@ -394,6 +394,9 @@ bad_unit_examples = [
     # invalid prefix + quantity
     '\\mu slug',
 
+    # prefix after a compound Quantity
+    '\\frac{m}{s}d',
+
     # unsupported constant or prefix w/o Quantity
     'G',
     'giga',
