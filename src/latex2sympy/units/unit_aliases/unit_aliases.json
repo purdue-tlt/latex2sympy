@@ -125,7 +125,8 @@
                 "Microampere",
                 "microamperes",
                 "Microamperes",
-                "uA"
+                "uA",
+                "\\mu A"
             ],
             "14-nano": [
                 "nA",
@@ -345,7 +346,8 @@
                 "Microbar",
                 "microbars",
                 "Microbars",
-                "ubar"
+                "ubar",
+                "\\mu bar"
             ],
             "14-nano": [
                 "nbar",
@@ -525,7 +527,8 @@
                 "Microbecquerel",
                 "microbecquerels",
                 "Microbecquerels",
-                "uBq"
+                "uBq",
+                "\\mu Bq"
             ],
             "14-nano": [
                 "nBq",
@@ -930,7 +933,8 @@
                 "Microcalorie",
                 "microcalories",
                 "Microcalories",
-                "ucal"
+                "ucal",
+                "\\mu cal"
             ],
             "14-nano": [
                 "ncal",
@@ -1117,7 +1121,8 @@
                 "Microcandela",
                 "microcandelas",
                 "Microcandelas",
-                "ucd"
+                "ucd",
+                "\\mu cd"
             ],
             "14-nano": [
                 "ncd",
@@ -1297,7 +1302,8 @@
                 "Microcoulomb",
                 "microcoulombs",
                 "Microcoulombs",
-                "uC"
+                "uC",
+                "\\mu C"
             ],
             "14-nano": [
                 "nC",
@@ -1495,7 +1501,8 @@
                 "Microcurie",
                 "microcuries",
                 "Microcuries",
-                "uCi"
+                "uCi",
+                "\\mu Ci"
             ],
             "14-nano": [
                 "nCi",
@@ -1744,7 +1751,8 @@
                 "Microelectronvolt",
                 "microelectronvolts",
                 "Microelectronvolts",
-                "ueV"
+                "ueV",
+                "\\mu eV"
             ],
             "14-nano": [
                 "neV",
@@ -1929,7 +1937,8 @@
                 "Microfarad",
                 "microfarads",
                 "Microfarads",
-                "uF"
+                "uF",
+                "\\mu F"
             ],
             "14-nano": [
                 "nF",
@@ -2119,7 +2128,8 @@
                 "micrograms",
                 "Micrograms",
                 "mcg",
-                "mug"
+                "mug",
+                "\\mu g"
             ],
             "14-nano": [
                 "ng",
@@ -2299,7 +2309,8 @@
                 "Microgray",
                 "micrograys",
                 "Micrograys",
-                "uGy"
+                "uGy",
+                "\\mu Gy"
             ],
             "14-nano": [
                 "nGy",
@@ -2488,7 +2499,8 @@
                 "Microhenry",
                 "microhenrys",
                 "Microhenrys",
-                "uH"
+                "uH",
+                "\\mu H"
             ],
             "14-nano": [
                 "nH",
@@ -2638,7 +2650,8 @@
                 "muHz",
                 "microhertz",
                 "Microhertz",
-                "uHz"
+                "uHz",
+                "\\mu Hz"
             ],
             "14-nano": [
                 "nHz",
@@ -2820,7 +2833,8 @@
                 "Microjoule",
                 "microjoules",
                 "Microjoules",
-                "uJ"
+                "uJ",
+                "\\mu J"
             ],
             "14-nano": [
                 "nJ",
@@ -3000,7 +3014,8 @@
                 "Microkatal",
                 "microkatals",
                 "Microkatals",
-                "ukat"
+                "ukat",
+                "\\mu kat"
             ],
             "14-nano": [
                 "nkat",
@@ -3180,7 +3195,8 @@
                 "Microkelvin",
                 "microkelvins",
                 "Microkelvins",
-                "uK"
+                "uK",
+                "\\mu K"
             ],
             "14-nano": [
                 "nK",
@@ -3395,7 +3411,8 @@
                 "Microliter",
                 "microlitre",
                 "Microlitre",
-                "uL"
+                "uL",
+                "\\mu L"
             ],
             "14-nano": [
                 "nL",
@@ -3568,7 +3585,8 @@
                 "Microlumen",
                 "microlumens",
                 "Microlumens",
-                "ulm"
+                "ulm",
+                "\\mu lm"
             ],
             "14-nano": [
                 "nlm",
@@ -3725,7 +3743,8 @@
                 "mulx",
                 "microlux",
                 "Microlux",
-                "ulx"
+                "ulx",
+                "\\mu lx"
             ],
             "14-nano": [
                 "nlx",
@@ -3936,7 +3955,8 @@
                 "Micrometres",
                 "micron",
                 "microns",
-                "mum"
+                "mum",
+                "\\mu m"
             ],
             "14-nano": [
                 "nm",
@@ -4174,7 +4194,8 @@
                 "muM",
                 "micromolar",
                 "Micromolar",
-                "uM"
+                "uM",
+                "\\mu M"
             ],
             "14-nano": [
                 "nM",
@@ -4339,7 +4360,8 @@
                 "Micromole",
                 "micromoles",
                 "Micromoles",
-                "umol"
+                "umol",
+                "\\mu mol"
             ],
             "14-nano": [
                 "nmol",
@@ -4524,7 +4546,8 @@
                 "Micronewton",
                 "micronewtons",
                 "Micronewtons",
-                "uN"
+                "uN",
+                "\\mu N"
             ],
             "14-nano": [
                 "nN",
@@ -4608,173 +4631,174 @@
         ],
         "prefixes": {
             "0-yotta": [
-                "Yohm",
                 "yottaohm",
                 "Yottaohm",
                 "yottaohms",
-                "Yottaohms"
+                "Yottaohms",
+                "Y\\Omega"
             ],
             "1-zetta": [
-                "Zohm",
                 "zettaohm",
                 "Zettaohm",
                 "zettaohms",
-                "Zettaohms"
+                "Zettaohms",
+                "Z\\Omega"
             ],
             "2-exa": [
-                "Eohm",
                 "exaohm",
                 "Exaohm",
                 "exaohms",
-                "Exaohms"
+                "Exaohms",
+                "E\\Omega"
             ],
             "3-peta": [
-                "Pohm",
                 "petaohm",
                 "Petaohm",
                 "petaohms",
-                "Petaohms"
+                "Petaohms",
+                "P\\Omega"
             ],
             "4-tera": [
-                "Tohm",
                 "teraohm",
                 "Teraohm",
                 "teraohms",
-                "Teraohms"
+                "Teraohms",
+                "T\\Omega"
             ],
             "5-giga": [
-                "Gohm",
                 "gigaohm",
                 "Gigaohm",
                 "gigaohms",
-                "Gigaohms"
+                "Gigaohms",
+                "G\\Omega"
             ],
             "6-mega": [
-                "Mohm",
                 "megaohm",
                 "Megaohm",
                 "megaohms",
-                "Megaohms"
+                "Megaohms",
+                "M\\Omega"
             ],
             "7-kilo": [
-                "kohm",
                 "kiloohm",
                 "Kiloohm",
                 "kiloohms",
-                "Kiloohms"
+                "Kiloohms",
+                "k\\Omega"
             ],
             "8-hecto": [
-                "hohm",
                 "hectoohm",
                 "Hectoohm",
                 "hectoohms",
-                "Hectoohms"
+                "Hectoohms",
+                "h\\Omega"
             ],
             "9-deca": [
-                "daohm",
                 "decaohm",
                 "Decaohm",
                 "decaohms",
-                "Decaohms"
+                "Decaohms",
+                "da\\Omega"
             ],
             "10-deci": [
-                "dohm",
                 "deciohm",
                 "Deciohm",
                 "deciohms",
-                "Deciohms"
+                "Deciohms",
+                "d\\Omega"
             ],
             "11-centi": [
-                "cohm",
                 "centiohm",
                 "Centiohm",
                 "centiohms",
-                "Centiohms"
+                "Centiohms",
+                "c\\Omega"
             ],
             "12-milli": [
-                "mohm",
                 "milliohm",
                 "Milliohm",
                 "milliohms",
-                "Milliohms"
+                "Milliohms",
+                "m\\Omega"
             ],
             "13-micro": [
-                "muohm",
                 "microohm",
                 "Microohm",
                 "microohms",
                 "Microohms",
-                "uohm"
+                "mu\\Omega",
+                "u\\Omega",
+                "\\mu \\Omega"
             ],
             "14-nano": [
-                "nohm",
                 "nanoohm",
                 "Nanoohm",
                 "nanoohms",
-                "Nanoohms"
+                "Nanoohms",
+                "n\\Omega"
             ],
             "15-pico": [
-                "pohm",
                 "picoohm",
                 "Picoohm",
                 "picoohms",
-                "Picoohms"
+                "Picoohms",
+                "p\\Omega"
             ],
             "16-femto": [
-                "fohm",
                 "femtoohm",
                 "Femtoohm",
                 "femtoohms",
-                "Femtoohms"
+                "Femtoohms",
+                "f\\Omega"
             ],
             "17-atto": [
-                "aohm",
                 "attoohm",
                 "Attoohm",
                 "attoohms",
-                "Attoohms"
+                "Attoohms",
+                "a\\Omega"
             ],
             "18-zepto": [
-                "zohm",
                 "zeptoohm",
                 "Zeptoohm",
                 "zeptoohms",
-                "Zeptoohms"
+                "Zeptoohms",
+                "z\\Omega"
             ],
             "19-yocto": [
-                "yohm",
                 "yoctoohm",
                 "Yoctoohm",
                 "yoctoohms",
-                "Yoctoohms"
+                "Yoctoohms",
+                "y\\Omega"
             ],
             "20-quetta": [
-                "Qohm",
                 "quettaohm",
                 "Quettaohm",
                 "quettaohms",
-                "Quettaohms"
+                "Quettaohms",
+                "Q\\Omega"
             ],
             "21-ronna": [
-                "Rohm",
                 "ronnaohm",
                 "Ronnaohm",
                 "ronnaohms",
-                "Ronnaohms"
+                "Ronnaohms",
+                "R\\Omega"
             ],
             "22-ronto": [
-                "rohm",
                 "rontoohm",
                 "Rontoohm",
                 "rontoohms",
-                "Rontoohms"
+                "Rontoohms",
+                "r\\Omega"
             ],
             "23-quecto": [
-                "qohm",
                 "quectoohm",
                 "Quectoohm",
                 "quectoohms",
-                "Quectoohms"
+                "Quectoohms",
+                "q\\Omega"
             ]
         }
     },
@@ -4893,7 +4917,8 @@
                 "Micropascal",
                 "micropascals",
                 "Micropascals",
-                "uPa"
+                "uPa",
+                "\\mu Pa"
             ],
             "14-nano": [
                 "nPa",
@@ -5135,7 +5160,8 @@
                 "Microsecond",
                 "microseconds",
                 "Microseconds",
-                "mus"
+                "mus",
+                "\\mu s"
             ],
             "14-nano": [
                 "ns",
@@ -5300,7 +5326,8 @@
                 "muS",
                 "microsiemens",
                 "Microsiemens",
-                "uS"
+                "uS",
+                "\\mu S"
             ],
             "14-nano": [
                 "nS",
@@ -5453,7 +5480,8 @@
                 "Microsievert",
                 "microsieverts",
                 "Microsieverts",
-                "uSv"
+                "uSv",
+                "\\mu Sv"
             ],
             "14-nano": [
                 "nSv",
@@ -5569,7 +5597,8 @@
                 "Microsteradian",
                 "microsteradians",
                 "Microsteradians",
-                "usr"
+                "usr",
+                "\\mu sr"
             ]
         }
     },
@@ -5679,7 +5708,8 @@
                 "Microtesla",
                 "microteslas",
                 "Microteslas",
-                "uT"
+                "uT",
+                "\\mu T"
             ],
             "14-nano": [
                 "nT",
@@ -5880,7 +5910,8 @@
                 "Microvolt",
                 "microvolts",
                 "Microvolts",
-                "uV"
+                "uV",
+                "\\mu V"
             ],
             "14-nano": [
                 "nV",
@@ -6060,7 +6091,8 @@
                 "Microwatt",
                 "microwatts",
                 "Microwatts",
-                "uW"
+                "uW",
+                "\\mu W"
             ],
             "14-nano": [
                 "nW",
@@ -6240,7 +6272,8 @@
                 "Microweber",
                 "microwebers",
                 "Microwebers",
-                "uWb"
+                "uWb",
+                "\\mu Wb"
             ],
             "14-nano": [
                 "nWb",

@@ -173,9 +173,11 @@ class TestAllGood(object):
         ("\\exponentialE ^{\\imaginaryI \\pi }", exp(_Mul(I, pi), evaluate=False)),
         ("\\exponentialE ^\\pi ", exp(pi, evaluate=False)),
         ("\\int x\\differentialD x", Integral(x, x)),
-        ("\\int x\\differentialD \\theta ", Integral(x, theta)),
+        ("\\int \\differentialD \\theta x", _Mul(Integral(1, theta), x)),
         ("\\int (x^2 - y)\\differentialD x", Integral(x**2 - y, x)),
         ("\\int x+a\\differentialD x", Integral(_Add(x, a), x)),
+        ("\\int \\differentialD xa", _Mul(Integral(1, x), a)),
+        ("\\int \\differentialD x*a", _Mul(Integral(1, x), a)),
         ("\\int \\differentialD a", Integral(1, a)),
         ("\\int _0^7 \\differentialD x", Integral(1, (x, 0, 7))),
         ("\\int _a^b x \\differentialD x", Integral(x, (x, a, b))),
@@ -193,14 +195,24 @@ class TestAllGood(object):
         ("\\int \\frac{\\differentialD z}{z}", Integral(_Pow(z, -1), z)),
         ("\\int \\frac{\\differentialD \\theta }{\\theta }", Integral(_Pow(theta, -1), theta)),
         ("\\int \\frac{3\\differentialD z}{z}", Integral(3 * _Pow(z, -1), z)),
-        ("\\int \\frac{1}{x}\\differentialD x", Integral(_Pow(x, -1), x)),
-        ("\\int \\frac{1}{a}+\\frac{1}{b} \\differentialD x", Integral(_Add(_Pow(a, -1), _Pow(b, -1)), x)),
+        ("\\int \\frac{1}{x}\\differentialD x", Integral(_Mul(1, _Pow(x, -1)), x)),
+        ("\\int \\frac{1}{a}+\\frac{1}{b} \\differentialD x", Integral(_Add(_Mul(1, _Pow(a, -1)), _Mul(1, _Pow(b, -1))), x)),
         ("\\int \\frac{3 \\cdot \\differentialD \\theta }{\\theta }", Integral(3 * _Mul(1, _Pow(theta, -1)), theta)),
         ("\\int \\frac{1}{x}+1\\differentialD x", Integral(_Add(_Mul(1, _Pow(x, -1)), 1), x)),
 
         # differentials with subscripts
         ("\\int \\differentialD x_1", Integral(1, Symbol('x_1', real=True, positive=True))),
         ("\\frac{\\differentialD }{\\differentialD x_1}x_1", Derivative(Symbol('x_1', real=True, positive=True), Symbol('x_1', real=True, positive=True))),
+
+        # differentials outside of frac and int
+        (
+            "2*\\differentialD x^2_1+4*\\differentialD x_1*\\differentialD x_2+18^2*\\differentialD x^2_2",
+            _Add(
+                _Mul(2, _Pow(Symbol('differentialD-x_1', real=True, positive=True), 2)),
+                _Mul(_Pow(18, 2), _Pow(Symbol('differentialD-x_2', real=True, positive=True), 2)),
+                _Mul(4, Symbol('differentialD-x_1', real=True, positive=True), Symbol('differentialD-x_2', real=True, positive=True))
+            )
+        ),
 
         ("x_0", Symbol('x_0', real=True, positive=True)),
         ("x_{1}", Symbol('x_1', real=True, positive=True)),
