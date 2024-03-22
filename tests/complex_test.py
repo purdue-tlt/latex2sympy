@@ -1,7 +1,7 @@
 from .context import _Mul, assert_equal, get_variable_symbol
 import pytest
 import hashlib
-from sympy import Sum, I, Symbol, Integer, Add, Mul, Rational, exp, pi, Pow, re, im, arg, Abs
+from sympy import Sum, I, Symbol, Integer, Add, Mul, Rational, exp, pi, Pow, re, im, arg, Abs, conjugate
 
 a = Symbol('a', real=True, positive=True)
 b = Symbol('b', real=True, positive=True)
@@ -96,3 +96,7 @@ def test_complex_abs():
 
 def test_complex_arg():
     assert_equal('\\operatorname{Arg}{50\\angle 60\\degree }', arg(Mul(50, exp(Mul(I, Mul(60, Pow(180, -1, evaluate=False), pi, evaluate=False), evaluate=False), evaluate=False), evaluate=False), evaluate=False))
+
+
+def test_complex_conjugate():
+    assert_equal('\\operatorname{conjugate}{3+\\imaginaryI 4}', conjugate(Add(3, Mul(I, 4, evaluate=False), evaluate=False), evaluate=False))
