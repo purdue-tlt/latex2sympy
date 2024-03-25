@@ -4124,6 +4124,11 @@
         ]
     },
     "molar": {
+        "aliases": [
+            "M",
+            "molar",
+            "Molar"
+        ],
         "prefixes": {
             "0-yotta": [
                 "YM",
@@ -4247,12 +4252,7 @@
                 "quectomolar",
                 "Quectomolar"
             ]
-        },
-        "aliases": [
-            "M",
-            "molar",
-            "Molar"
-        ]
+        }
     },
     "mole": {
         "aliases": [
