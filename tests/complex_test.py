@@ -99,4 +99,4 @@ def test_complex_arg():
 
 
 def test_complex_conjugate():
-    assert_equal('\\operatorname{conjugate}{3+\\imaginaryI 4}', conjugate(Add(3, Mul(I, 4, evaluate=False), evaluate=False), evaluate=False))
+    assert_equal('\\operatorname{conj}{3+\\imaginaryI 4}', conjugate(Add(3, Mul(I, 4, evaluate=False), evaluate=False), evaluate=False))

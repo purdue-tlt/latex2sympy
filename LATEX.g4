@@ -114,7 +114,7 @@ FUNC_RE_NAME: 'Re';
 FUNC_IM_NAME: 'Im';
 FUNC_ARG_NAME: 'Arg';
 FUNC_ABS_NAME: 'Abs';
-FUNC_CONJ_NAME: 'conjugate';
+FUNC_CONJ_NAME: 'conj';
 
 // commands
 CMD_TIMES: '\\times';
