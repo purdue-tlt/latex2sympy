@@ -620,6 +620,8 @@ class LatexToSympy:
                 expr = sympy.Abs(arg, evaluate=False)
             elif name == 'Arg':
                 expr = sympy.arg(arg, evaluate=False)
+            elif name == 'conj':
+                expr = sympy.conjugate(arg, evaluate=False)
 
             # multi-arg functions
             if name in ['gcd', 'lcm']:
