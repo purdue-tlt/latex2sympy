@@ -13,6 +13,12 @@
 	],
 	"[python]": {
 		"editor.defaultFormatter": "ms-python.autopep8",
-		"editor.formatOnSave": true
-	}
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": "explicit"
+		}
+	},
+	"autopep8.importStrategy": "fromEnvironment",
+	"flake8.importStrategy": "fromEnvironment",
+	"isort.importStrategy": "fromEnvironment"
 }

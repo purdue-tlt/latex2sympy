@@ -1,22 +1,22 @@
 import json
 import os.path
 import pickle
-from sympy import latex
+
 import sympy.physics.units.definitions.unit_definitions as sympy_units
-from sympy.physics.units.quantities import Quantity, PhysicalConstant
+from sympy import latex
+from sympy.physics.units.quantities import PhysicalConstant, Quantity
 from sympy.physics.units.systems.mks import all_units as mks_units
 from sympy.physics.units.systems.mksa import all_units as mksa_units
 from sympy.physics.units.systems.si import all_units as si_units
-from latex2sympy.units.sie import all_units as sie_units
-from latex2sympy.units.prefixes import ALL_PREFIXES, PREFIX_ALIASES
+
 import latex2sympy.units.unit_definitions as additional_units
-from latex2sympy.units.unit_definitions import liter, gray, bit, byte
 from latex2sympy.units.prefixed_unit_definitions import (
-    liter_prefixed_units,
-    gray_prefixed_units,
-    bit_prefixed_units, bit_si_prefixed_units,
-    byte_prefixed_units
+    bit_prefixed_units, bit_si_prefixed_units, byte_prefixed_units,
+    gray_prefixed_units, liter_prefixed_units
 )
+from latex2sympy.units.prefixes import ALL_PREFIXES, PREFIX_ALIASES
+from latex2sympy.units.sie import all_units as sie_units
+from latex2sympy.units.unit_definitions import bit, byte, gray, liter
 
 # -------------------------------------------------------------------------------------------------
 # define fixed sympy units / additional unit aliases
@@ -190,7 +190,8 @@ def get_aliases_for_unit(unit, dir_module=None, attr_name=None):
                 unit_aliases.append(f'{attr_capitalized}s')
 
     # check if the unit is prefixed
-    # if the base unit is found and is pluralized, add the pluralized name and pluralized capital name of the prefixed unit
+    # if the base unit is found and is pluralized,
+    # add the pluralized name and pluralized capital name of the prefixed unit
     if unit.is_prefixed:
         # if dir_module is not provided, attempt to find the base unit in either location
         if dir_module is None:
@@ -248,13 +249,15 @@ UNIT_ALIASES = {}
 # add aliases for defined attributes
 for attr in dir(sympy_units):
     u = getattr(sympy_units, attr)
-    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and attr not in aliases_to_exclude and u not in units_to_exclude:
+    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and \
+            attr not in aliases_to_exclude and u not in units_to_exclude:
         # override sympy units that have been fixed
         if str(u.name) in fixed_sympy_units:
             u = fixed_sympy_units[str(u.name)]
         for alias in get_aliases_for_unit(u, sympy_units, attr):
             if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):  # pragma: no cover
-                raise Exception(f'attr: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
+                raise Exception(
+                    f'attr: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
             UNIT_ALIASES[alias] = u
 
 # `all_si_units` contains every MKS/MKSA/SI unit and each possible prefixed variation
@@ -266,13 +269,15 @@ all_si_units = set([
 ])
 # add aliases for all prefixed units
 for u in all_si_units:
-    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and u not in units_to_exclude:
+    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and \
+            u not in units_to_exclude:
         # override sympy units that have been fixed
         if str(u.name) in fixed_sympy_units:
             u = fixed_sympy_units[str(u.name)]
         for alias in get_aliases_for_unit(u):
             if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):  # pragma: no cover
-                raise Exception(f'unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
+                raise Exception(
+                    f'unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
             UNIT_ALIASES[alias] = u
 
 # add aliases for additional units
@@ -281,7 +286,8 @@ for attr in dir(additional_units):
     if isinstance(u, Quantity):
         for alias in get_aliases_for_unit(u, additional_units, attr):
             if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):  # pragma: no cover
-                raise Exception(f'additional unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
+                raise Exception(
+                    f'additional unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')  # noqa: E501
             UNIT_ALIASES[alias] = u
 
 # -------------------------------------------------------------------------------------------------

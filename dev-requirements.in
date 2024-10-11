@@ -5,6 +5,8 @@ pytest
 pytest-cov
 pycodestyle
 autopep8
+flake8
+isort
 cmake
 conan<2
 -e .
