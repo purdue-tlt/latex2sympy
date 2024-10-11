@@ -12,13 +12,13 @@
 		"tests"
 	],
 	"[python]": {
-		"editor.defaultFormatter": "ms-python.autopep8",
+		"editor.defaultFormatter": "ms-python.black-formatter",
 		"editor.formatOnSave": true,
 		"editor.codeActionsOnSave": {
 			"source.organizeImports": "explicit"
 		}
 	},
-	"autopep8.importStrategy": "fromEnvironment",
+	"black-formatter.importStrategy": "fromEnvironment",
 	"flake8.importStrategy": "fromEnvironment",
 	"isort.importStrategy": "fromEnvironment"
 }

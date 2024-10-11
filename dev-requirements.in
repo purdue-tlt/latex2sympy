@@ -3,9 +3,9 @@
 pip-tools
 pytest
 pytest-cov
-pycodestyle
-autopep8
+black
 flake8
+flake8-bugbear
 isort
 cmake
 conan<2
