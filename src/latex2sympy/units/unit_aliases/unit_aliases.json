@@ -835,6 +835,13 @@
         }
     },
     "calorie": {
+        "aliases": [
+            "cal",
+            "calorie",
+            "Calorie",
+            "calories",
+            "Calories"
+        ],
         "prefixes": {
             "0-yotta": [
                 "Ycal",
@@ -1006,14 +1013,7 @@
                 "quectocalories",
                 "Quectocalories"
             ]
-        },
-        "aliases": [
-            "cal",
-            "calorie",
-            "Calorie",
-            "calories",
-            "Calories"
-        ]
+        }
     },
     "candela": {
         "aliases": [
