@@ -121,7 +121,7 @@ six==1.16.0
     #   python-dateutil
 stdlibs==2024.5.15
     # via usort
-sympy==1.12
+sympy==1.13.3
     # via
     #   -r requirements.txt
     #   latex2sympy

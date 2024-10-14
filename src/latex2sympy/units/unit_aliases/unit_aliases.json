@@ -835,13 +835,6 @@
         }
     },
     "calorie": {
-        "aliases": [
-            "cal",
-            "calorie",
-            "Calorie",
-            "calories",
-            "Calories"
-        ],
         "prefixes": {
             "0-yotta": [
                 "Ycal",
@@ -1013,7 +1006,14 @@
                 "quectocalories",
                 "Quectocalories"
             ]
-        }
+        },
+        "aliases": [
+            "cal",
+            "calorie",
+            "Calorie",
+            "calories",
+            "Calories"
+        ]
     },
     "candela": {
         "aliases": [
@@ -4441,13 +4441,6 @@
         ]
     },
     "newton": {
-        "aliases": [
-            "N",
-            "newton",
-            "Newton",
-            "newtons",
-            "Newtons"
-        ],
         "prefixes": {
             "0-yotta": [
                 "YN",
@@ -4619,7 +4612,14 @@
                 "quectonewtons",
                 "Quectonewtons"
             ]
-        }
+        },
+        "aliases": [
+            "N",
+            "newton",
+            "Newton",
+            "newtons",
+            "Newtons"
+        ]
     },
     "ohm": {
         "aliases": [
