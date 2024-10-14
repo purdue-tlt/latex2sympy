@@ -1,6 +1,7 @@
-from .context import assert_equal, get_gcd_lcm_examples
 import pytest
-from sympy import UnevaluatedExpr, gcd, igcd
+from sympy import gcd, igcd, UnevaluatedExpr
+
+from .context import assert_equal, get_gcd_lcm_examples
 
 
 def _gcd(a, b):

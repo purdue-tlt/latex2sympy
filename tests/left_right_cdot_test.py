@@ -1,6 +1,6 @@
-from .context import assert_equal
-import pytest
 from sympy import sin, Symbol
+
+from .context import assert_equal
 
 x = Symbol('x', real=True, positive=True)
 

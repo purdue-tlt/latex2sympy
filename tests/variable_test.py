@@ -1,6 +1,7 @@
-from .context import assert_equal, get_variable_symbol
 import pytest
-from sympy import UnevaluatedExpr, Symbol, Mul, Pow, Max, Min, gcd, lcm, floor, ceiling, Rational
+from sympy import ceiling, floor, gcd, lcm, Max, Min, Mul, Pow, Rational, Symbol, UnevaluatedExpr
+
+from .context import assert_equal, get_variable_symbol
 
 x = Symbol('x', real=True, positive=True)
 y = Symbol('y', real=True, positive=True)
@@ -56,11 +57,16 @@ def test_variable_in_expr():
 
 
 def test_variable_greek_letter():
-    assert_equal("\\variable{\\alpha }\\alpha", get_variable_symbol('\\alpha ') * Symbol('alpha', real=True, positive=True))
+    assert_equal(
+        "\\variable{\\alpha }\\alpha", get_variable_symbol('\\alpha ') * Symbol('alpha', real=True, positive=True)
+    )
 
 
 def test_variable_greek_letter_subscript():
-    assert_equal("\\variable{\\alpha _{\\beta }}\\alpha ", get_variable_symbol('\\alpha _{\\beta }') * Symbol('alpha', real=True, positive=True))
+    assert_equal(
+        "\\variable{\\alpha _{\\beta }}\\alpha ",
+        get_variable_symbol('\\alpha _{\\beta }') * Symbol('alpha', real=True, positive=True),
+    )
 
 
 def test_variable_bad_unbraced_long_subscript():
@@ -78,7 +84,10 @@ def test_variable_braced_subscript():
 
 
 def test_variable_complex_expr():
-    assert_equal("4\\cdot\\variable{value1}\\frac{\\variable{value_2}}{\\variable{a}}\\cdot x^2", 4 * get_variable_symbol('value1') * get_variable_symbol('value_2') / get_variable_symbol('a') * x**2)
+    assert_equal(
+        "4\\cdot\\variable{value1}\\frac{\\variable{value_2}}{\\variable{a}}\\cdot x^2",
+        4 * get_variable_symbol('value1') * get_variable_symbol('value_2') / get_variable_symbol('a') * x**2,
+    )
 
 
 def test_variable_dollars():
@@ -95,10 +104,18 @@ def test_variable_single_arg_func():
 
 
 def test_variable_multi_arg_func():
-    assert_equal("\\gcd(\\variable{x}, \\variable{y})", UnevaluatedExpr(gcd(x_variable_symbol, get_variable_symbol('y'))))
-    assert_equal("\\lcm(\\variable{x}, \\variable{y})", UnevaluatedExpr(lcm(x_variable_symbol, get_variable_symbol('y'))))
-    assert_equal("\\max(\\variable{x}, \\variable{y})", Max(x_variable_symbol, get_variable_symbol('y'), evaluate=False))
-    assert_equal("\\min(\\variable{x}, \\variable{y})", Min(x_variable_symbol, get_variable_symbol('y'), evaluate=False))
+    assert_equal(
+        "\\gcd(\\variable{x}, \\variable{y})", UnevaluatedExpr(gcd(x_variable_symbol, get_variable_symbol('y')))
+    )
+    assert_equal(
+        "\\lcm(\\variable{x}, \\variable{y})", UnevaluatedExpr(lcm(x_variable_symbol, get_variable_symbol('y')))
+    )
+    assert_equal(
+        "\\max(\\variable{x}, \\variable{y})", Max(x_variable_symbol, get_variable_symbol('y'), evaluate=False)
+    )
+    assert_equal(
+        "\\min(\\variable{x}, \\variable{y})", Min(x_variable_symbol, get_variable_symbol('y'), evaluate=False)
+    )
 
 
 def test_variable_substitute_sympy_value():

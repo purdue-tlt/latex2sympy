@@ -1,6 +1,6 @@
-from sympy import Rational, pi
-import sympy.physics.units.definitions.unit_definitions as sympy_units
 import sympy.physics.units.definitions.dimension_definitions as sympy_dimensions
+import sympy.physics.units.definitions.unit_definitions as sympy_units
+from sympy import pi, Rational
 from sympy.physics.units.quantities import Quantity
 
 # -------------------------------------------------------------------------------------------------
@@ -38,7 +38,9 @@ btu.set_global_relative_scale_factor(Rational('1.05506E3'), sympy_units.joule)
 
 degC = celsius = degreesCelsius = degreeCelsius = Quantity('degreeCelsius', abbrev='degC', latex_repr=r'\degree C')
 
-degF = fahrenheit = degreesFahrenheit = degreeFahrenheit = Quantity('degreeFahrenheit', abbrev='degF', latex_repr=r'\degree F')
+degF = fahrenheit = degreesFahrenheit = degreeFahrenheit = Quantity(
+    'degreeFahrenheit', abbrev='degF', latex_repr=r'\degree F'
+)
 
 dB = decibels = decibel = Quantity('decibel', abbrev='dB')
 

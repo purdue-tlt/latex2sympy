@@ -1,6 +1,6 @@
-from sympy import *
 from latex2sympy.latex2sympy import process_sympy
 from latex2sympy.lib import parseToJson
+from sympy import Abs, arg, im, N, Rational, re, srepr
 
 MAX_PREC = 631
 
@@ -19,7 +19,7 @@ latex_strings = [
     '50\\angle 2.1\\pi ',
     '50\\angle \\frac{\\pi}{4} ',
     '50\\angle -3.14',
-    '5\\sqrt{2}\\angle 60\\degree '
+    '5\\sqrt{2}\\angle 60\\degree ',
 ]
 
 for s in latex_strings:
@@ -42,7 +42,7 @@ def compute_expr(expr):
     try:
         rational_value = Rational(str(evaluated_value))
         return rational_value
-    except Exception as e:
+    except Exception as e:  # noqa: F841
         # print(e)
         return evaluated_value
 
@@ -74,14 +74,7 @@ Ra = process_sympy('0.2')
 Xs = process_sympy('0.55')
 pf2 = process_sympy('0.92')
 
-variable_values = {
-    'PT': PT,
-    'pf': pf,
-    'VLL': VLL,
-    'Ra': Ra,
-    'Xs': Xs,
-    'pf2': pf2
-}
+variable_values = {'PT': PT, 'pf': pf, 'VLL': VLL, 'Ra': Ra, 'Xs': Xs, 'pf2': pf2}
 
 print('variables:', [(key, value) for key, value in variable_values.items()])
 
@@ -109,14 +102,21 @@ print('phirad =', phirad, ', evalf() =>', N(phirad, 15), ', expected = 0.7227342
 
 # $Imag=$P/($VT*$pf);
 # $Imag=615.840287135601
-Imag_expr = process_sympy('\\frac{\\variable{P}}{\\variable{VT}\\variable{pf}}', variable_values=variable_values | {'P': P, 'VT': VT})
+Imag_expr = process_sympy(
+    '\\frac{\\variable{P}}{\\variable{VT}\\variable{pf}}', variable_values=variable_values | {'P': P, 'VT': VT}
+)
 Imag = compute_expr(Imag_expr)
 print('Imag =', Imag, ', evalf() =>', N(Imag, 15), ', expected = 615.840287135601')
 
 # $I=cplxe($Imag,-$phirad);
 # $I=[615.840287135601,-0.722734247813416]
-# I_var = process_sympy('\\variable{Imag}*(\\cos{-\\variable{phirad}}+I*\\sin{-\\variable{phirad}})', variable_values=variable_values | {'Imag': Imag, 'phirad': phirad})
-I_expr = process_sympy('\\variable{Imag}\\angle -\\variable{phirad}', variable_values=variable_values | {'Imag': Imag, 'phirad': phirad})
+# I_var = process_sympy(
+#     '\\variable{Imag}*(\\cos{-\\variable{phirad}}+I*\\sin{-\\variable{phirad}})',
+#     variable_values=variable_values | {'Imag': Imag, 'phirad': phirad},
+# )
+I_expr = process_sympy(
+    '\\variable{Imag}\\angle -\\variable{phirad}', variable_values=variable_values | {'Imag': Imag, 'phirad': phirad}
+)
 I_var = compute_expr(I_expr)
 print('I_var =', I_expr, ', evalf() =>', N(I_var, 15), ', expected = [615.840287135601,-0.722734247813416]')
 
@@ -133,7 +133,9 @@ print('VRmag =', VRmag, ', evalf() =>', N(VRmag, 15), ', expected = 123.16805742
 
 # $VRphase=arg($VR)*180/pi;
 # $VRphase=-41.4096221092709
-VRphase_expr = process_sympy('\\operatorname{Arg}(\\variable{VR})\\frac{180}{\\pi }', variable_values=variable_values | {'VR': VR})
+VRphase_expr = process_sympy(
+    '\\operatorname{Arg}(\\variable{VR})\\frac{180}{\\pi }', variable_values=variable_values | {'VR': VR}
+)
 VRphase = compute_expr(VRphase_expr)
 print('VRphase =', VRphase, ', evalf() =>', N(VRphase, 15), ', expected = -41.4096221092709')
 
@@ -151,13 +153,17 @@ print('VXSmag =', VXSmag, ', evalf() =>', N(VXSmag, 15), ', expected = 338.71215
 
 # $VXSphase=arg($VXS)*180/pi;
 # $VXSphase=48.5903778907291
-VXSphase_expr = process_sympy('\\operatorname{Arg}(\\variable{VXS})\\frac{180}{\\pi }', variable_values=variable_values | {'VXS': VXS})
+VXSphase_expr = process_sympy(
+    '\\operatorname{Arg}(\\variable{VXS})\\frac{180}{\\pi }', variable_values=variable_values | {'VXS': VXS}
+)
 VXSphase = compute_expr(VXSphase_expr)
 print('VXSphase =', VXSphase, ', evalf() =>', N(VXSphase, 15), ', expected = 48.5903778907291')
 
 # $Ef=$VT+$VR+$VXS;
 # $Ef=6089.91576894222+172.566106088665i
-Ef_expr = process_sympy('\\variable{VT}+\\variable{VR}+\\variable{VXS}', variable_values=variable_values | {'VT': VT, 'VR': VR, 'VXS': VXS})
+Ef_expr = process_sympy(
+    '\\variable{VT}+\\variable{VR}+\\variable{VXS}', variable_values=variable_values | {'VT': VT, 'VR': VR, 'VXS': VXS}
+)
 Ef = compute_expr(Ef_expr)
 print('Ef =', Ef, ', evalf() =>', N(Ef, 15), ', expected = 6089.91576894222+172.566106088665i')
 
@@ -169,7 +175,9 @@ print('Efmag =', Efmag, ', evalf() =>', N(Efmag, 15), ', expected = 6092.3602268
 
 # $Efphase=arg($Ef)*180/pi;
 # $Efphase=1.62312006884331
-Efphase_expr = process_sympy('\\operatorname{Arg}(\\variable{Ef})\\frac{180}{\\pi }', variable_values=variable_values | {'Ef': Ef})
+Efphase_expr = process_sympy(
+    '\\operatorname{Arg}(\\variable{Ef})\\frac{180}{\\pi }', variable_values=variable_values | {'Ef': Ef}
+)
 Efphase = compute_expr(Efphase_expr)
 print('Efphase =', Efphase, ', evalf() =>', N(Efphase, 15), ', expected = 1.62312006884331')
 
@@ -190,21 +198,31 @@ print('phirad2 =', phirad2, ', evalf() =>', N(phirad2, 15), ', expected = 0.4027
 
 # $I2=cplxe($Imag,-$phirad2);
 # $I2=[615.840287135601,-0.402715841580661]
-# I2 = process_sympy('\\variable{Imag}*(\\cos{-\\variable{phirad2}}+I*\\sin{-\\variable{phirad2}})', variable_values=variable_values | {'Imag': Imag, 'phirad2': phirad2})
-I2_expr = process_sympy('\\variable{Imag}\\angle -\\variable{phirad2}', variable_values=variable_values | {'Imag': Imag, 'phirad2': phirad2})
+# I2 = process_sympy(
+#     '\\variable{Imag}*(\\cos{-\\variable{phirad2}}+I*\\sin{-\\variable{phirad2}})',
+#     variable_values=variable_values | {'Imag': Imag, 'phirad2': phirad2},
+# )
+I2_expr = process_sympy(
+    '\\variable{Imag}\\angle -\\variable{phirad2}', variable_values=variable_values | {'Imag': Imag, 'phirad2': phirad2}
+)
 I2 = compute_expr(I2_expr)
 print('I2 =', I2, ', evalf() =>', N(I2, 15), ', expected = [615.840287135601,-0.402715841580661]')
 
 # $VXS2=$I2*i*$Xs;
 # $VXS2=132.747513054755+311.615185290614i
-VXS2_expr = process_sympy('\\variable{I2}\\imaginaryI \\variable{Xs}', variable_values=variable_values | {'I2': I2, 'Xs': Xs})
+VXS2_expr = process_sympy(
+    '\\variable{I2}\\imaginaryI \\variable{Xs}', variable_values=variable_values | {'I2': I2, 'Xs': Xs}
+)
 VXS2 = compute_expr(VXS2_expr)
 print('VXS2 =', VXS2, ', evalf() =>', N(VXS2, 15), ', expected = 132.747513054755+311.615185290614i')
 
 # $VT2=(($Efmag)**2-(Im($VXS2))**2)**0.5-Re($VXS2);
 # $VT2=5951.6381675278
 # VT2_expr = ((Efmag)**2 - (im(VXS2))**2)**0.5 - re(VXS2)
-VT2_expr = process_sympy('(\\variable{Efmag}^{2} - \\operatorname{Im}(\\variable{VXS2})^{2})^{0.5} - \\operatorname{Re}(\\variable{VXS2})', variable_values=variable_values | {'Efmag': Efmag, 'VXS2': VXS2})
+VT2_expr = process_sympy(
+    '(\\variable{Efmag}^{2} - \\operatorname{Im}(\\variable{VXS2})^{2})^{0.5} - \\operatorname{Re}(\\variable{VXS2})',
+    variable_values=variable_values | {'Efmag': Efmag, 'VXS2': VXS2},
+)
 VT2 = compute_expr(VT2_expr)
 print('VT2 =', VT2, ', evalf() =>', N(VT2, 15), ', expected = 5951.6381675278')
 
@@ -223,19 +241,27 @@ print('VLL2ang =', VLL2ang, ', evalf() =>', N(VLL2ang, 15), ', expected = 0')
 # $delta=acos(($VT2+Re($VXS2))/$Efmag)*180/pi;
 # $delta=2.93187343130811
 # delta_expr = acos((VT2 + re(VXS2)) / Efmag) * 180 / pi
-delta_expr = process_sympy('\\arccos{\\frac{\\variable{VT2} + \\operatorname{Re}(\\variable{VXS2})}{\\variable{Efmag}}}\\frac{180}{\\pi }', variable_values=variable_values | {'VT2': VT2, 'Efmag': Efmag, 'VXS2': VXS2})
+delta_expr = process_sympy(
+    '\\arccos{\\frac{\\variable{VT2} + \\operatorname{Re}(\\variable{VXS2})}{\\variable{Efmag}}}\\frac{180}{\\pi }',
+    variable_values=variable_values | {'VT2': VT2, 'Efmag': Efmag, 'VXS2': VXS2},
+)
 delta = compute_expr(delta_expr)
 print('delta =', delta, ', evalf() =>', N(delta, 15), ', expected = 2.93187343130811')
 
 # $VR_ans=($Efmag-$VT2)/$VT2*100;
 # $VR_ans=2.36442564832618
-VR_ans_expr = process_sympy('(\\variable{Efmag}-\\variable{VT2})/\\variable{VT2}*100', variable_values=variable_values | {'VT2': VT2, 'Efmag': Efmag})
+VR_ans_expr = process_sympy(
+    '(\\variable{Efmag}-\\variable{VT2})/\\variable{VT2}*100',
+    variable_values=variable_values | {'VT2': VT2, 'Efmag': Efmag},
+)
 VR_ans = compute_expr(VR_ans_expr)
 print('VR_ans =', VR_ans, ', evalf() =>', N(VR_ans, 15), ', expected = 2.36442564832618')
 
 # $Pmax=3*$VT2*$Efmag/$Xs;
 # $Pmax=197779219.944474
-Pmax_expr = process_sympy('3*\\variable{VT2}*\\variable{Efmag}/\\variable{Xs}', variable_values=variable_values | {'VT2': VT2, 'Efmag': Efmag})
+Pmax_expr = process_sympy(
+    '3*\\variable{VT2}*\\variable{Efmag}/\\variable{Xs}', variable_values=variable_values | {'VT2': VT2, 'Efmag': Efmag}
+)
 Pmax = compute_expr(Pmax_expr)
 print('Pmax =', Pmax, ', evalf() =>', N(Pmax, 15), ', expected = 197779219.944474')
 

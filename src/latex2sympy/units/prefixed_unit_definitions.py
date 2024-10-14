@@ -1,13 +1,17 @@
+from sympy.physics.units.definitions.unit_definitions import bar, Ci, eV, steradian
 from sympy.physics.units.systems.mks import units as mks_base_units
 from sympy.physics.units.systems.mksa import units as mksa_base_units
 from sympy.physics.units.systems.si import units as si_base_units
-from latex2sympy.units.prefixes import NEW_SI_PREFIXES, SI_PREFIXES, INFORMATION_SI_PREFIXES, BIN_PREFIXES, prefix_unit, create_prefixed_unit
-from sympy.physics.units.definitions.unit_definitions import (
-    steradian, eV, Ci, bar
+
+from latex2sympy.units.prefixes import (
+    BIN_PREFIXES,
+    create_prefixed_unit,
+    INFORMATION_SI_PREFIXES,
+    NEW_SI_PREFIXES,
+    prefix_unit,
+    SI_PREFIXES,
 )
-from latex2sympy.units.unit_definitions import (
-    lumen, liter, gray, bit, byte, molar, calorie, sievert
-)
+from latex2sympy.units.unit_definitions import bit, byte, calorie, gray, liter, lumen, molar, sievert
 
 # explicitly create these prefixed units for use in UNIT_ALIASES
 liter_prefixed_units = prefix_unit(liter, SI_PREFIXES)
@@ -22,7 +26,7 @@ byte_si_prefixed_units = prefix_unit(byte, INFORMATION_SI_PREFIXES)
 # only create milli and micro prefixed steradians
 steradian_prefixed_units = [
     create_prefixed_unit(steradian, SI_PREFIXES['m']),
-    create_prefixed_unit(steradian, SI_PREFIXES['mu'])
+    create_prefixed_unit(steradian, SI_PREFIXES['mu']),
 ]
 
 # define additional prefixed units
@@ -33,19 +37,11 @@ additional_prefixed_units = [
     *bit_si_prefixed_units,
     *byte_prefixed_units,
     *byte_si_prefixed_units,
-    *steradian_prefixed_units
+    *steradian_prefixed_units,
 ]
 
 # create all SI prefixed versions of these units
-units_to_prefix = [
-    lumen,
-    eV,
-    Ci,
-    bar,
-    molar,
-    calorie,
-    sievert
-]
+units_to_prefix = [lumen, eV, Ci, bar, molar, calorie, sievert]
 for u in units_to_prefix:
     additional_prefixed_units.extend(prefix_unit(u, SI_PREFIXES))
 

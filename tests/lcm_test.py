@@ -1,6 +1,7 @@
-from .context import assert_equal, get_gcd_lcm_examples
 import pytest
-from sympy import UnevaluatedExpr, lcm, ilcm
+from sympy import ilcm, lcm, UnevaluatedExpr
+
+from .context import assert_equal, get_gcd_lcm_examples
 
 
 def _lcm(*args):

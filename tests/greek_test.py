@@ -1,6 +1,6 @@
-from .context import assert_equal
-import pytest
 from sympy import Symbol
+
+from .context import assert_equal
 
 epsilon_upper = Symbol('char"000190', real=True, positive=True)
 epsilon_lower = Symbol('epsilon', real=True, positive=True)
