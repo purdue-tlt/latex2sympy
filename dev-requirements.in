@@ -1,12 +1,17 @@
 -r requirements.txt
-# Development
+# dev requirements
 pip-tools
+# testing
 pytest
 pytest-cov
+# formatting
 black
+usort
+ufmt
+# linting
 flake8
 flake8-bugbear
-isort
+# compiling
 cmake
 conan<2
 -e .
