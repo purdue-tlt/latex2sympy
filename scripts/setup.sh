@@ -17,8 +17,6 @@ echo ''
 echo "activating venv..."
 if test -f .env/bin/activate
 then . .env/bin/activate && echo "venv activate (bin)"
-elif test -f .env/Scripts/activate
-then . .env/Scripts/activate && echo "venv activated (Scripts)"
 else exit 1
 fi
 

@@ -36,7 +36,7 @@ Run `compile.sh` on an Intel Mac, or inside a "Rosetta" Terminal on an M1 Mac
 
 ### azure-functions-python / Debian GNU / Linux 11
 
-1. Use docker to get the azure function image from https://hub.docker.com/_/microsoft-azure-functions-python, e.g. `mcr.microsoft.com/azure-functions/python:4-python3.9`
+1. Use docker to get the azure function image from https://hub.docker.com/_/microsoft-azure-functions-python, e.g. `mcr.microsoft.com/azure-functions/python:4-python3.11`
 1. Start a new instance and open its terminal
 1. Install git, build-essentials, default-jre
 	```sh
