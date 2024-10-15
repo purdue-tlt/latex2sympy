@@ -6,51 +6,102 @@ Added solid_angle and luminous_flux dimensions, plus other additional quantities
 """
 
 from sympy import Rational
-from sympy.physics.units.quantities import Quantity
-from sympy.physics.units.systems.si import SI, dimsys_SI
 from sympy.physics.units.definitions.dimension_definitions import (
-    mass, length, time, velocity, energy, area, volume, amount_of_substance
+    amount_of_substance,
+    area,
+    energy,
+    length,
+    mass,
+    time,
+    velocity,
+    volume,
 )
 from sympy.physics.units.definitions.unit_definitions import (
-    meter, cm, foot, mile, nautical_mile,
+    angular_mil,
+    candela,
+    cm,
+    foot,
+    hour,
+    lux,
+    meter,
+    mile,
+    minute,
+    mole,
+    nautical_mile,
+    rad,
+    second,
+    steradian,
     yard,
-    rad, angular_mil,
-    steradian, candela, lux,
-    second, minute, hour,
-    mole
 )
-from latex2sympy.units.dimensions import (
-    solid_angle, luminous_flux
-)
-from latex2sympy.units.unit_definitions import (
-    liter, gray, bit, byte,
-    lumen,
-    lbf, slug, calorie, btu, degC, degF, dB, mph, knot, cfm, cfs, rood, acre, sievert, pc, cc, molar, rpm
-)
+from sympy.physics.units.quantities import Quantity
+from sympy.physics.units.systems.si import dimsys_SI, SI
+
+from latex2sympy.units.dimensions import luminous_flux, solid_angle
 from latex2sympy.units.prefixed_unit_definitions import additional_prefixed_units
+from latex2sympy.units.unit_definitions import (
+    acre,
+    bit,
+    btu,
+    byte,
+    calorie,
+    cc,
+    cfm,
+    cfs,
+    dB,
+    degC,
+    degF,
+    gray,
+    knot,
+    lbf,
+    liter,
+    lumen,
+    molar,
+    mph,
+    pc,
+    rood,
+    rpm,
+    sievert,
+    slug,
+)
 
 # define units to include in SIE that are not in SI, or are new versions
 all_units: list[Quantity] = [
-    steradian, lumen,
-    liter, gray, bit, byte,
-    lbf, slug, calorie, btu, degC, degF, dB, mph, knot, cfm, cfs, rood, acre, sievert, pc, cc, molar, rpm
+    steradian,
+    lumen,
+    liter,
+    gray,
+    bit,
+    byte,
+    lbf,
+    slug,
+    calorie,
+    btu,
+    degC,
+    degF,
+    dB,
+    mph,
+    knot,
+    cfm,
+    cfs,
+    rood,
+    acre,
+    sievert,
+    pc,
+    cc,
+    molar,
+    rpm,
 ]
 all_units.extend(additional_prefixed_units)
 
 dimsys_SIE = dimsys_SI.extend(
-    [
-        solid_angle
-    ],
-    new_derived_dims=[
-        luminous_flux
-    ],
-    new_dim_deps={
-        'luminous_flux': {'luminous_intensity': 1, 'solid_angle': 1}
-    })
+    [solid_angle],
+    new_derived_dims=[luminous_flux],
+    new_dim_deps={'luminous_flux': {'luminous_intensity': 1, 'solid_angle': 1}},
+)
 
-SIE = SI.extend(base=(steradian,), units=all_units, name='SIE', dimension_system=dimsys_SIE, derived_units={
-    luminous_flux: lumen
-})
+SIE = SI.extend(
+    base=(steradian,), units=all_units, name='SIE', dimension_system=dimsys_SIE, derived_units={luminous_flux: lumen}
+)
 
 # steradian
 SIE.set_quantity_dimension(steradian, solid_angle)

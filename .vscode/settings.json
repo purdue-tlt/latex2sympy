@@ -12,13 +12,9 @@
 		"tests"
 	],
 	"[python]": {
-		"editor.defaultFormatter": "ms-python.autopep8",
-		"editor.formatOnSave": true,
-		"editor.codeActionsOnSave": {
-			"source.organizeImports": "explicit"
-		}
+		"editor.defaultFormatter": "omnilib.ufmt",
+		"editor.formatOnSave": true
 	},
-	"autopep8.importStrategy": "fromEnvironment",
-	"flake8.importStrategy": "fromEnvironment",
-	"isort.importStrategy": "fromEnvironment"
+	"ufmt.importStrategy": "fromEnvironment",
+	"flake8.importStrategy": "fromEnvironment"
 }

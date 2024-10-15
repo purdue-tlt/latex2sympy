@@ -1,5 +1,8 @@
-from sympy import *
+# flake8: noqa
 import sys
+
+from sympy import sec, simplify, Symbol, tan
+
 sys.path.append("..")
 
 # # x^2\cdot \left(3\cdot \tan \left([!a!]\cdot x+[!c!]\right)+[!a!]\cdot x\left(\sec \left([!a!]\cdot x+[!c!]\right)\right)^2\right)
@@ -33,8 +36,8 @@ x = Symbol('x', real=True)
 y = Symbol('y', real=True)
 
 # BUG: 1 + tan^2(x+1) should be == sec^2(x+1) but isnt
-lhs = (1 + (tan(x + 1))**2)
-rhs = (sec(x + 1))**2
+lhs = 1 + (tan(x + 1)) ** 2
+rhs = (sec(x + 1)) ** 2
 eq = lhs - rhs
 print(simplify(lhs))
 print(simplify(rhs))
@@ -42,8 +45,8 @@ print(simplify(eq))
 print(simplify(lhs) == simplify(rhs))
 
 # 1 + tan^2(x) == sec^2(x) but isnt
-lhs = (1 + (tan(x))**2)
-rhs = (sec(x))**2
+lhs = 1 + (tan(x)) ** 2
+rhs = (sec(x)) ** 2
 eq = lhs - rhs
 print(simplify(lhs))
 print(simplify(rhs))

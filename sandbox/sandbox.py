@@ -1,5 +1,4 @@
 from latex2sympy.latex2sympy import process_sympy
-from latex2sympy.lib import parseToJson
 from sympy import srepr
 
 # latex = '\\variable{a}^{\\variable{b}}'
@@ -18,7 +17,21 @@ expr = process_sympy('\\int \\differentialD xy')
 print(expr)
 print(srepr(expr))
 
-# numeric_responses = ['1', '1.0', '-1', '-1.0', '.5', '-.5', '3x10^3', '3E3', '3,000x10^{-3}', '0.5E-1', '\\frac{1}{3}', '(5\\times 3)^3', '\\sin(1)']
+# numeric_responses = [
+#     '1',
+#     '1.0',
+#     '-1',
+#     '-1.0',
+#     '.5',
+#     '-.5',
+#     '3x10^3',
+#     '3E3',
+#     '3,000x10^{-3}',
+#     '0.5E-1',
+#     '\\frac{1}{3}',
+#     '(5\\times 3)^3',
+#     '\\sin(1)',
+# ]
 # for latex in numeric_responses:
 #     parsed = process_sympy(latex)
 #     print('latex: ', latex)

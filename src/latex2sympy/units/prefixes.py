@@ -1,6 +1,6 @@
-from sympy import latex, Symbol
-from sympy.physics.units.prefixes import Prefix, micro, prefix_unit
 import sympy.physics.units.prefixes as sympy_prefixes
+from sympy import latex, Symbol
+from sympy.physics.units.prefixes import micro, Prefix, prefix_unit
 
 # correctly define the binary prefix abbreviations
 # sympy had them all defined as 'Y' in the `Prefix` classes (but were correct in `BIN_PREFIXES`)
@@ -16,16 +16,7 @@ yobi = Prefix('yobi', 'Yi', 80, 2)
 
 # https://physics.nist.gov/cuu/Units/binary.html
 # https://en.wikipedia.org/wiki/Byte#Multiple-byte_units
-BIN_PREFIXES = {
-    'Ki': kibi,
-    'Mi': mebi,
-    'Gi': gibi,
-    'Ti': tebi,
-    'Pi': pebi,
-    'Ei': exbi,
-    'Zi': zebi,
-    'Yi': yobi
-}
+BIN_PREFIXES = {'Ki': kibi, 'Mi': mebi, 'Gi': gibi, 'Ti': tebi, 'Pi': pebi, 'Ei': exbi, 'Zi': zebi, 'Yi': yobi}
 
 # define addtional SI / Metric prefixes, added in 2022
 # https://www.nist.gov/pml/owm/metric-si-prefixes
@@ -34,17 +25,9 @@ ronna = Prefix('ronna', 'R', 27)
 ronto = Prefix('ronto', 'r', -27)
 quecto = Prefix('quecto', 'q', -30)
 
-NEW_SI_PREFIXES = {
-    'Q': quetta,
-    'R': ronna,
-    'r': ronto,
-    'q': quecto
-}
+NEW_SI_PREFIXES = {'Q': quetta, 'R': ronna, 'r': ronto, 'q': quecto}
 
-SI_PREFIXES = {
-    **sympy_prefixes.PREFIXES,
-    **NEW_SI_PREFIXES
-}
+SI_PREFIXES = {**sympy_prefixes.PREFIXES, **NEW_SI_PREFIXES}
 
 # filter si prefixes to the subset allowed for information (bit, byte)
 INFORMATION_SI_PREFIXES = {}

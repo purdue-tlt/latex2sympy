@@ -1,6 +1,7 @@
-from .context import assert_equal, get_simple_examples
 import pytest
 from sympy import ceiling
+
+from .context import assert_equal, get_simple_examples
 
 
 def _ceiling(*args):

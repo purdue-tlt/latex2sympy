@@ -1,16 +1,16 @@
 from latex2sympy.latex2sympy import LatexToSympy
 from latex2sympy.lib import LATEXLexerToken
-from latex2sympy.utils.json import has_type_or_token
 from latex2sympy.units import find_unit, is_unit
+from latex2sympy.utils.json import has_type_or_token
 
 
-def process_sympy_as_unit(latex: str, variable_values: dict = {}):
+def process_sympy_as_unit(latex: str, variable_values: dict = None):
     instance = LatexToSympyAsUnit(latex, variable_values)
     return instance.process_sympy()
 
 
 class LatexToSympyAsUnit(LatexToSympy):
-    def __init__(self, latex: str, variable_values: dict = {}):
+    def __init__(self, latex: str, variable_values: dict = None):
         super().__init__(latex, variable_values)
 
     def process_sympy(self):
@@ -33,9 +33,11 @@ class LatexToSympyAsUnit(LatexToSympy):
         for list_item in arr:
             atom = list_item.get('exp', {}).get('comp', {}).get('atom', {})
             atom_target = atom.get('atom_expr', {}) if 'atom_expr' in atom else atom
-            if atom_target is not None and (has_type_or_token(atom_target, LATEXLexerToken.LETTER) or
-                                            has_type_or_token(atom_target, LATEXLexerToken.GREEK_CMD) or
-                                            has_type_or_token(atom_target, LATEXLexerToken.UNIT_SYMBOL)):
+            if atom_target is not None and (
+                has_type_or_token(atom_target, LATEXLexerToken.LETTER)
+                or has_type_or_token(atom_target, LATEXLexerToken.GREEK_CMD)
+                or has_type_or_token(atom_target, LATEXLexerToken.UNIT_SYMBOL)
+            ):
                 atom_text = atom_target.get('text')
 
                 # UNIT_SYMBOL contains a period to allow parsing chars after the period, but will be blocked here

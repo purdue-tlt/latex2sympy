@@ -1,6 +1,8 @@
-from latex2sympy import process_sympy
-from sympy import *
 import sys
+
+from latex2sympy import process_sympy
+from sympy import Symbol
+
 sys.path.append("..")
 
 theta = Symbol('theta', real=True)

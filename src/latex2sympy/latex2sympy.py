@@ -1,24 +1,37 @@
 import hashlib
 import json
 import re
+
 import sympy
-from latex2sympy.lib import parseToJson, LATEXLexerToken
-from latex2sympy.utils.differential import DIFFERENTIAL_PREFIX, is_differential_var, get_differential_var
-from latex2sympy.utils.expression import create_rational_or_number, add_flat, mat_add_flat, mul_flat, mat_mul_flat, create_ceil, create_floor, create_gcd_lcm
-from latex2sympy.utils.json import has_type_or_token, get_token
+
+from latex2sympy.lib import LATEXLexerToken, parseToJson
+from latex2sympy.utils.differential import DIFFERENTIAL_PREFIX, get_differential_var, is_differential_var
+from latex2sympy.utils.expression import (
+    add_flat,
+    create_ceil,
+    create_floor,
+    create_gcd_lcm,
+    create_rational_or_number,
+    mat_add_flat,
+    mat_mul_flat,
+    mul_flat,
+)
+from latex2sympy.utils.json import get_token, has_type_or_token
 
 # replacement for `sympy.S.EmptySet` which can be printed to a string, or used in expression comparisons
 EmptySet = sympy.Symbol('emptyset')
 
 
-def process_sympy(latex: str, variable_values: dict = {}):
+def process_sympy(latex: str, variable_values: dict = None):
     instance = LatexToSympy(latex, variable_values)
     return instance.process_sympy()
 
 
 class LatexToSympy:
-    def __init__(self, latex: str, variable_values: dict = {}):
+    def __init__(self, latex: str, variable_values: dict = None):
         self.latex = latex
+        if variable_values is None:
+            variable_values = {}
         if len(variable_values) > 0:
             self.variable_values = variable_values
         else:
@@ -421,7 +434,11 @@ class LatexToSympy:
             result = self.convert_atom({'atom_expr': atom_expr})
             atom_symbol = result.args[0] if isinstance(result, sympy.Pow) else result
             diff_atom_symbol = sympy.Symbol(DIFFERENTIAL_PREFIX + atom_symbol.name, real=True, positive=True)
-            return sympy.Pow(diff_atom_symbol, result.args[1], evaluate=False) if isinstance(result, sympy.Pow) else diff_atom_symbol
+            return (
+                sympy.Pow(diff_atom_symbol, result.args[1], evaluate=False)
+                if isinstance(result, sympy.Pow)
+                else diff_atom_symbol
+            )
         elif has_type_or_token(atom, LATEXLexerToken.SYMBOL):
             # remove dollar sign, percentage symbol, and whitespace
             s = atom.get('text').replace('\\$', '').replace('\\%', '').strip()
@@ -466,8 +483,16 @@ class LatexToSympy:
 
             # parse variables if either part is a variable
             if '\\variable' in parts[0] or '\\variable' in parts[1]:
-                v1 = process_sympy(parts[0], variable_values=self.variable_values) if '\\variable' in parts[0] else create_rational_or_number(parts[0])
-                v2 = process_sympy(parts[1], variable_values=self.variable_values) if '\\variable' in parts[1] else create_rational_or_number(parts[1])
+                v1 = (
+                    process_sympy(parts[0], variable_values=self.variable_values)
+                    if '\\variable' in parts[0]
+                    else create_rational_or_number(parts[0])
+                )
+                v2 = (
+                    process_sympy(parts[1], variable_values=self.variable_values)
+                    if '\\variable' in parts[1]
+                    else create_rational_or_number(parts[1])
+                )
                 return sympy.Mul(v1, sympy.Pow(10, v2, evaluate=False), evaluate=False)
 
             return create_rational_or_number(text)
@@ -479,7 +504,7 @@ class LatexToSympy:
             is_percent = text.endswith('\\%')
             trim_amount = 3 if is_percent else 1
             name = text[10:]
-            name = name[0:len(name) - trim_amount]
+            name = name[0 : len(name) - trim_amount]
 
             # revert to the 'original' variable name stored from `pre_process_latex`
             # original name might be the same if it already had a wrapped single char sub

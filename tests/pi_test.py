@@ -1,6 +1,6 @@
-from .context import assert_equal, _Mul, _Pow
-import pytest
-from sympy import pi, Symbol, acos, cos
+from sympy import acos, cos, pi
+
+from .context import _Mul, _Pow, assert_equal
 
 
 def test_pi_frac():

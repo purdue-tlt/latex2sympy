@@ -1,9 +1,10 @@
 import sympy.physics.units as sympy_units
-from latex2sympy.utils.expression import is_or_contains_instance
-from latex2sympy.units.unit_definitions import gray, sievert
-from latex2sympy.units.unit_aliases import UNIT_ALIASES
+
 from latex2sympy.units.prefixes import PREFIX_ALIASES
 from latex2sympy.units.sie import SIE
+from latex2sympy.units.unit_aliases import UNIT_ALIASES
+from latex2sympy.units.unit_definitions import gray, sievert
+from latex2sympy.utils.expression import is_or_contains_instance
 
 
 def find_prefix(text):

@@ -1,6 +1,6 @@
 from latex2sympy.latex2sympy import process_sympy
 from latex2sympy.units import convert_to
-from sympy import srepr, simplify, Mul, re, im
+from sympy import im, Mul, re, simplify, srepr
 
 unit_examples = [
     ({'value': '1000', 'unit': 'g'}, {'value': '1,000', 'unit': 'g'}),
@@ -64,7 +64,11 @@ for unit_example in unit_examples:
 
     a_converted_val = a_converted.args[0]
     a_converted_unit = a_converted.args[1]
-    are_equal_values = re(c_val) == re(a_converted_val) and im(c_val) == im(a_converted_val) if c_val.is_complex else c_val == a_converted_val
+    are_equal_values = (
+        re(c_val) == re(a_converted_val) and im(c_val) == im(a_converted_val)
+        if c_val.is_complex
+        else c_val == a_converted_val
+    )
     print('are_equal values (c == a_converted):', are_equal_values)
     are_equal_units = c_unit == a_converted_unit
     print('are_equal units (c == a_converted):', are_equal_units)

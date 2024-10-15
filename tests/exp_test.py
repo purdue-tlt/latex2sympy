@@ -1,5 +1,6 @@
+from sympy import E, exp, sin, Symbol
+
 from .context import assert_equal
-from sympy import exp, sin, Symbol, E
 
 x = Symbol('x', real=True, positive=True)
 y = Symbol('y', real=True, positive=True)

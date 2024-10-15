@@ -1,6 +1,6 @@
-from .context import assert_equal, _Add, _Mul, _Pow
-import pytest
-from sympy import binomial, Symbol, Rational
+from sympy import binomial, Rational, Symbol
+
+from .context import _Add, assert_equal
 
 x = Symbol('x', real=True, positive=True)
 y = Symbol('y', real=True, positive=True)

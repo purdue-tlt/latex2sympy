@@ -1,6 +1,25 @@
+from sympy import (
+    acos,
+    acosh,
+    acot,
+    acsc,
+    asec,
+    asin,
+    asinh,
+    atan,
+    atanh,
+    cos,
+    cosh,
+    cot,
+    csc,
+    sec,
+    sin,
+    sinh,
+    tan,
+    tanh,
+)
+
 from .context import assert_equal
-import pytest
-from sympy import asinh, acos, acosh, acot, acsc, asec, asin, atan, atanh, cos, cosh, cot, csc, sec, sin, sinh, tan, tanh
 
 
 def test_trig():
