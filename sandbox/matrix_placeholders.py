@@ -1,8 +1,9 @@
-from latex2sympy import process_sympy
-from sympy import *
-import sys
 import hashlib
+import sys
 import time
+
+from latex2sympy import process_sympy
+from sympy import MatMul, Matrix, Mul, srepr, Symbol
 
 sys.path.append("..")
 
@@ -42,7 +43,10 @@ sub_settings_symbols[Symbol('M' + hashlib.md5('M'.encode()).hexdigest(), commuta
 sub_settings_symbols[Symbol('v' + hashlib.md5('v'.encode()).hexdigest(), commutative=False)] = v
 
 latex = "[!M!]\\cdot[!v!]"
-math_check = Mul(Symbol('M' + hashlib.md5('M'.encode()).hexdigest(), commutative=False), Symbol('v' + hashlib.md5('v'.encode()).hexdigest(), commutative=False))
+math_check = Mul(
+    Symbol('M' + hashlib.md5('M'.encode()).hexdigest(), commutative=False),
+    Symbol('v' + hashlib.md5('v'.encode()).hexdigest(), commutative=False),
+)
 # placeholders
 equation_sympy = process_sympy(latex)
 print(latex)

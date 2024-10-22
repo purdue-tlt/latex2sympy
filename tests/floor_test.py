@@ -1,6 +1,7 @@
-from .context import assert_equal, get_simple_examples
 import pytest
 from sympy import floor
+
+from .context import assert_equal, get_simple_examples
 
 
 def _floor(*args):

@@ -1,37 +1,32 @@
 from setuptools import setup
 
 setup(
-    version="1.11.2",
+    version="1.12.0",
     name="latex2sympy",
     packages=[
         'latex2sympy',
         'latex2sympy.lib',
         'latex2sympy.lib.linux',
         'latex2sympy.lib.macOS',
-        'latex2sympy.lib.macOS.arm64',
-        'latex2sympy.lib.macOS.x86_64',
         'latex2sympy.units',
         'latex2sympy.units.unit_aliases',
-        'latex2sympy.utils'],
+        'latex2sympy.utils',
+    ],
     package_dir={
         'latex2sympy': 'src/latex2sympy',
         'latex2sympy.lib.linux': 'src/latex2sympy/lib/linux',
-        'latex2sympy.lib.macOS.arm64': 'src/latex2sympy/lib/macOS/arm64',
-        'latex2sympy.lib.macOS.x86_64': 'src/latex2sympy/lib/macOS/x86_64',
+        'latex2sympy.lib.macOS': 'src/latex2sympy/lib/macOS',
         'latex2sympy.units': 'src/latex2sympy/units',
         'latex2sympy.units.unit_aliases': 'src/latex2sympy/units/unit_aliases',
-        'latex2sympy.utils': 'src/latex2sympy/utils'
+        'latex2sympy.utils': 'src/latex2sympy/utils',
     },
     package_data={
         'latex2sympy': [],
         'latex2sympy.lib.linux': ['latex2antlrJson.so'],
-        'latex2sympy.lib.macOS.arm64': ['latex2antlrJson.so'],
-        'latex2sympy.lib.macOS.x86_64': ['latex2antlrJson.so'],
+        'latex2sympy.lib.macOS': ['latex2antlrJson.so'],
         'latex2sympy.units': [],
         'latex2sympy.units.unit_aliases': [],
-        'latex2sympy.utils': []
+        'latex2sympy.utils': [],
     },
-    install_requires=[
-        'sympy==1.12'
-    ]
+    install_requires=['sympy==1.13.3'],
 )

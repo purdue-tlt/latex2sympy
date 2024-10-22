@@ -1,5 +1,5 @@
-from sympy import *
 from latex2sympy import process_sympy
+from sympy import simplify, srepr
 
 
 #
@@ -9,13 +9,7 @@ from latex2sympy import process_sympy
 answer_sets = [
     {
         'correct_answer': '(x-y)(x+2y)',
-        'student_answers': [
-            'x^2+xy-2y^2',
-            '(x-y)(x+2y)',
-            '(x+2y)(x-y)',
-            '(2\\times y+x)(-y+x)',
-            '(y\\cdot 2+x)(-y+x)'
-        ]
+        'student_answers': ['x^2+xy-2y^2', '(x-y)(x+2y)', '(x+2y)(x-y)', '(2\\times y+x)(-y+x)', '(y\\cdot 2+x)(-y+x)'],
     },
     {
         'correct_answer': '2\\pi \\variable{r}^2',
@@ -23,36 +17,13 @@ answer_sets = [
             '2\\pi \\variable{r}^2',
             '\\pi 2\\variable{r}^2',
             '2\\times \\pi \\times \\variable{r}^2',
-            '2\\pi \\variable{r} \\times \\variable{r}'
-        ]
+            '2\\pi \\variable{r} \\times \\variable{r}',
+        ],
     },
-    {
-        'correct_answer': '2x - 3y',
-        'student_answers': [
-            '-3y + 2x'
-        ]
-    },
-    {
-        'correct_answer': 'x\\times x',
-        'student_answers': [
-            'x\\times x',
-            'x\\cdot x',
-            'x^2',
-            '(\\sqrt{x})^{4}'
-        ]
-    },
-    {
-        'correct_answer': '23e^{-1\\times \\sqrt{t^2}}',
-        'student_answers': [
-            '23e^{-t}'
-        ]
-    },
-    {
-        'correct_answer': 'a=x^2+1',
-        'student_answers': [
-            'x^2+1=a'
-        ]
-    }
+    {'correct_answer': '2x - 3y', 'student_answers': ['-3y + 2x']},
+    {'correct_answer': 'x\\times x', 'student_answers': ['x\\times x', 'x\\cdot x', 'x^2', '(\\sqrt{x})^{4}']},
+    {'correct_answer': '23e^{-1\\times \\sqrt{t^2}}', 'student_answers': ['23e^{-t}']},
+    {'correct_answer': 'a=x^2+1', 'student_answers': ['x^2+1=a']},
 ]
 
 for answer_set in answer_sets:

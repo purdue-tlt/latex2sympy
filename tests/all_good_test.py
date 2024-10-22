@@ -1,13 +1,60 @@
-from .context import assert_equal, _Add, _Mul, _Pow, get_variable_symbol
 from latex2sympy.latex2sympy import EmptySet
 from sympy import (
-    E, I, oo, pi, sqrt, root, Symbol, Add, Mul, Pow, Abs, factorial, log, Eq, Ne, S, Rational, Integer, UnevaluatedExpr,
-    sin, cos, tan, sinh, cosh, tanh, asin, acos, atan, asinh, acosh, atanh,
-    csc, sec, Sum, Product, Limit, Integral, Derivative,
-    LessThan, StrictLessThan, GreaterThan, StrictGreaterThan,
-    exp, binomial, Matrix, MatMul, MatAdd,
-    Mod, gcd, lcm, floor, ceiling, Max, Min
+    Abs,
+    acos,
+    acosh,
+    Add,
+    asin,
+    asinh,
+    atan,
+    atanh,
+    ceiling,
+    cos,
+    cosh,
+    csc,
+    Derivative,
+    E,
+    Eq,
+    exp,
+    factorial,
+    floor,
+    gcd,
+    GreaterThan,
+    I,
+    Integer,
+    Integral,
+    lcm,
+    LessThan,
+    Limit,
+    log,
+    MatAdd,
+    MatMul,
+    Matrix,
+    Max,
+    Min,
+    Mod,
+    Mul,
+    Ne,
+    oo,
+    pi,
+    Product,
+    Rational,
+    root,
+    S,
+    sec,
+    sin,
+    sinh,
+    sqrt,
+    StrictGreaterThan,
+    StrictLessThan,
+    Sum,
+    Symbol,
+    tan,
+    tanh,
+    UnevaluatedExpr,
 )
+
+from .context import _Add, _Mul, _Pow, assert_equal, get_variable_symbol
 
 x = Symbol('x', real=True, positive=True)
 y = Symbol('y', real=True, positive=True)
@@ -54,8 +101,8 @@ class TestAllGood(object):
         ("2x", 2 * x),
         ("x^2", x**2),
         ("x^\\alpha ", _Pow(x, alpha)),
-        ("x^{3 + 1}", x**_Add(3, 1)),
-        ("x^{\\left\\{3 + 1\\right\\}}", x**_Add(3, 1)),
+        ("x^{3 + 1}", x ** _Add(3, 1)),
+        ("x^{\\left\\{3 + 1\\right\\}}", x ** _Add(3, 1)),
         ("-3y + 2x", _Add(_Mul(2, x), Mul(-1, 3, y, evaluate=False))),
         ("-c", -c),
         ("a \\cdot b", a * b),
@@ -110,10 +157,10 @@ class TestAllGood(object):
         ("\\operatorname{lcm}(a,b)", UnevaluatedExpr(lcm(a, b))),
         ("\\operatorname{floor}(a)", floor(a)),
         ("\\operatorname{ceil}(b)", ceiling(b)),
-        ("\\cos ^2(x)", cos(x)**2),
-        ("\\cos ^\\theta (x)", cos(x)**theta),
-        ("\\cos ^\\theta ^\\alpha (x)", cos(x)**theta**alpha),
-        ("\\cos (x)^2", cos(x)**2),
+        ("\\cos ^2(x)", cos(x) ** 2),
+        ("\\cos ^\\theta (x)", cos(x) ** theta),
+        ("\\cos ^\\theta ^\\alpha (x)", cos(x) ** theta**alpha),
+        ("\\cos (x)^2", cos(x) ** 2),
         ("\\gcd (a,b)", UnevaluatedExpr(gcd(a, b))),
         ("\\gcd ^2(a,b)", _Pow(UnevaluatedExpr(gcd(a, b)), 2)),
         ("\\gcd ^\\theta (a,b)", _Pow(UnevaluatedExpr(gcd(a, b)), theta)),
@@ -166,7 +213,7 @@ class TestAllGood(object):
         ("||x||y||", _Abs(_Abs(x) * _Abs(y))),
         ("\\lfloor x\\rfloor ", floor(x)),
         ("\\lceil y\\rceil ", ceiling(y)),
-        ("\\pi ^{|xy|}", pi**_Abs(x * y)),
+        ("\\pi ^{|xy|}", pi ** _Abs(x * y)),
         ("\\frac{\\pi}{3}", _Mul(pi, _Pow(3, -1))),
         ("\\sin{\\frac{\\pi }{2}}", sin(_Mul(pi, _Pow(2, -1)), evaluate=False)),
         ("a+b\\imaginaryI ", a + I * b),
@@ -196,24 +243,31 @@ class TestAllGood(object):
         ("\\int \\frac{\\differentialD \\theta }{\\theta }", Integral(_Pow(theta, -1), theta)),
         ("\\int \\frac{3\\differentialD z}{z}", Integral(3 * _Pow(z, -1), z)),
         ("\\int \\frac{1}{x}\\differentialD x", Integral(_Mul(1, _Pow(x, -1)), x)),
-        ("\\int \\frac{1}{a}+\\frac{1}{b} \\differentialD x", Integral(_Add(_Mul(1, _Pow(a, -1)), _Mul(1, _Pow(b, -1))), x)),
+        (
+            "\\int \\frac{1}{a}+\\frac{1}{b} \\differentialD x",
+            Integral(_Add(_Mul(1, _Pow(a, -1)), _Mul(1, _Pow(b, -1))), x),
+        ),
         ("\\int \\frac{3 \\cdot \\differentialD \\theta }{\\theta }", Integral(3 * _Mul(1, _Pow(theta, -1)), theta)),
         ("\\int \\frac{1}{x}+1\\differentialD x", Integral(_Add(_Mul(1, _Pow(x, -1)), 1), x)),
-
         # differentials with subscripts
         ("\\int \\differentialD x_1", Integral(1, Symbol('x_1', real=True, positive=True))),
-        ("\\frac{\\differentialD }{\\differentialD x_1}x_1", Derivative(Symbol('x_1', real=True, positive=True), Symbol('x_1', real=True, positive=True))),
-
+        (
+            "\\frac{\\differentialD }{\\differentialD x_1}x_1",
+            Derivative(Symbol('x_1', real=True, positive=True), Symbol('x_1', real=True, positive=True)),
+        ),
         # differentials outside of frac and int
         (
             "2*\\differentialD x^2_1+4*\\differentialD x_1*\\differentialD x_2+18^2*\\differentialD x^2_2",
             _Add(
                 _Mul(2, _Pow(Symbol('differentialD-x_1', real=True, positive=True), 2)),
                 _Mul(_Pow(18, 2), _Pow(Symbol('differentialD-x_2', real=True, positive=True), 2)),
-                _Mul(4, Symbol('differentialD-x_1', real=True, positive=True), Symbol('differentialD-x_2', real=True, positive=True))
-            )
+                _Mul(
+                    4,
+                    Symbol('differentialD-x_1', real=True, positive=True),
+                    Symbol('differentialD-x_2', real=True, positive=True),
+                ),
+            ),
         ),
-
         ("x_0", Symbol('x_0', real=True, positive=True)),
         ("x_{1}", Symbol('x_1', real=True, positive=True)),
         ("x_a", Symbol('x_a', real=True, positive=True)),
@@ -286,19 +340,16 @@ class TestAllGood(object):
         ("\\frac{1}{2}xy(x+y)", Mul(Rational(1, 2), x, y, (x + y), evaluate=False)),
         ("\\frac{1}{2}\\theta (x+y)", Mul(Rational(1, 2), theta, (x + y), evaluate=False)),
         ("1-f(x)", 1 - f * x),
-
         ("\\begin{matrix}1&2\\\\3&4\\end{matrix}", Matrix([[1, 2], [3, 4]])),
         ("\\begin{matrix}x&x^2\\\\\\sqrt{x}&x\\end{matrix}", Matrix([[x, x**2], [_Pow(x, S.Half), x]])),
         ("\\begin{matrix}\\sqrt{x}\\\\\\sin(\\theta)\\end{matrix}", Matrix([_Pow(x, S.Half), sin(theta)])),
         ("\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}", Matrix([[1, 2], [3, 4]])),
         ("\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}", Matrix([[1, 2], [3, 4]])),
-
         # scientific notation
         ("2.5\\times 10^2", Rational(250)),
         ("1,500\\times 10^{-1}", Rational(150)),
         # sci notation with variables
         ("\\variable{a}\\times 10^{\\variable{b}}", _Mul(get_variable_symbol('a'), _Pow(10, get_variable_symbol('b')))),
-
         # e notation
         ("2.5E2", Rational(250)),
         ("1,500E-1", Rational(150)),
@@ -306,53 +357,76 @@ class TestAllGood(object):
         ("\\variable{a}E3", _Mul(get_variable_symbol('a'), _Pow(10, 3))),
         ("5E\\variable{b}", _Mul(5, _Pow(10, get_variable_symbol('b')))),
         ("\\variable{a}E\\variable{b}", _Mul(get_variable_symbol('a'), _Pow(10, get_variable_symbol('b')))),
-
         # "E" as a symbol
-        ('ER+E_C', Add(Mul(Symbol('E', real=True, positive=True), Symbol('R', real=True, positive=True), evaluate=False), Symbol('E_C', real=True, positive=True), evaluate=False)),
-
+        (
+            'ER+E_C',
+            Add(
+                Mul(Symbol('E', real=True, positive=True), Symbol('R', real=True, positive=True), evaluate=False),
+                Symbol('E_C', real=True, positive=True),
+                evaluate=False,
+            ),
+        ),
         # multiplication without cmd
         ("2x2y", Mul(2, x, 2, y, evaluate=False)),
         ("2x2", Mul(2, x, 2, evaluate=False)),
         ("x2", x * 2),
-
         # lin alg processing
         ("\\theta\\begin{matrix}1&2\\\\3&4\\end{matrix}", MatMul(theta, Matrix([[1, 2], [3, 4]]), evaluate=False)),
-        ("\\theta\\begin{matrix}1\\\\3\\end{matrix} - \\begin{matrix}-1\\\\2\\end{matrix}", MatAdd(MatMul(theta, Matrix([[1], [3]]), evaluate=False), MatMul(-1, Matrix([[-1], [2]]), evaluate=False), evaluate=False)),
-        ("\\theta\\begin{matrix}1&0\\\\0&1\\end{matrix}*\\begin{matrix}3\\\\-2\\end{matrix}", MatMul(theta, Matrix([[1, 0], [0, 1]]), Matrix([3, -2]), evaluate=False)),
-        ("\\frac{1}{9}\\theta\\begin{matrix}1&2\\\\3&4\\end{matrix}", MatMul(Rational(1, 9), theta, Matrix([[1, 2], [3, 4]]), evaluate=False)),
-        ("\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix},\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix}", [Matrix([1, 2, 3]), Matrix([4, 3, 1])]),
-        ("\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix};\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix}", [Matrix([1, 2, 3]), Matrix([4, 3, 1])]),
-        ("\\left\\{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix},\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix}\\right\\}", [Matrix([1, 2, 3]), Matrix([4, 3, 1])]),
-        ("\\left\\{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix},\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix},\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\\right\\}", [Matrix([1, 2, 3]), Matrix([4, 3, 1]), Matrix([1, 1, 1])]),
+        (
+            "\\theta\\begin{matrix}1\\\\3\\end{matrix} - \\begin{matrix}-1\\\\2\\end{matrix}",
+            MatAdd(
+                MatMul(theta, Matrix([[1], [3]]), evaluate=False),
+                MatMul(-1, Matrix([[-1], [2]]), evaluate=False),
+                evaluate=False,
+            ),
+        ),
+        (
+            "\\theta\\begin{matrix}1&0\\\\0&1\\end{matrix}*\\begin{matrix}3\\\\-2\\end{matrix}",
+            MatMul(theta, Matrix([[1, 0], [0, 1]]), Matrix([3, -2]), evaluate=False),
+        ),
+        (
+            "\\frac{1}{9}\\theta\\begin{matrix}1&2\\\\3&4\\end{matrix}",
+            MatMul(Rational(1, 9), theta, Matrix([[1, 2], [3, 4]]), evaluate=False),
+        ),
+        (
+            "\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix},\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix}",
+            [Matrix([1, 2, 3]), Matrix([4, 3, 1])],
+        ),
+        (
+            "\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix};\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix}",
+            [Matrix([1, 2, 3]), Matrix([4, 3, 1])],
+        ),
+        (
+            "\\left\\{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix},\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix}\\right\\}",
+            [Matrix([1, 2, 3]), Matrix([4, 3, 1])],
+        ),
+        (
+            "\\left\\{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix},\\begin{pmatrix}4\\\\3\\\\1\\end{pmatrix},\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\\right\\}",
+            [Matrix([1, 2, 3]), Matrix([4, 3, 1]), Matrix([1, 1, 1])],
+        ),
         ("\\left\\{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}\\right\\}", Matrix([1, 2, 3])),
         ("\\left{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}\\right}", Matrix([1, 2, 3])),
         ("{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}}", Matrix([1, 2, 3])),
-
         # us dollars
         ("\\$1,000.00", Rational(1000)),
         ("\\$543.21", Rational(54321, 100)),
         ("\\$0.009", Rational(9, 1000)),
-
         # percentages
         ("100\\%", Rational(1)),
         ("1.5\\%", Rational(15, 1000)),
         ("0.05\\%", Rational(5, 10000)),
-
         # empty set
         ("\\emptyset", EmptySet),
         ("\\emptyset ", EmptySet),
         ("1+\\emptyset ", _Add(1, EmptySet)),
-
         # divide by zero
         ("\\frac{1}{0}", _Mul(1, _Pow(0, -1))),
         ("1+\\frac{5}{0}", _Add(1, _Mul(5, _Pow(0, -1)))),
-
         # adjacent single char sub sup
         ("4^26^2", _Mul(_Pow(4, 2), _Pow(6, 2))),
         ("x_22^2", _Mul(Symbol('x_2', real=True, positive=True), _Pow(2, 2))),
-
         # mathit
-        ("\\mathit{a}", Symbol('a', real=True, positive=True))
+        ("\\mathit{a}", Symbol('a', real=True, positive=True)),
     ]
 
     def test_good_pair(self, s, eq):
