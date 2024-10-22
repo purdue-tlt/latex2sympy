@@ -1,22 +1,25 @@
 import json
 import os.path
 import pickle
-from sympy import latex
+
 import sympy.physics.units.definitions.unit_definitions as sympy_units
-from sympy.physics.units.quantities import Quantity, PhysicalConstant
+from sympy import latex
+from sympy.physics.units.quantities import PhysicalConstant, Quantity
 from sympy.physics.units.systems.mks import all_units as mks_units
 from sympy.physics.units.systems.mksa import all_units as mksa_units
 from sympy.physics.units.systems.si import all_units as si_units
-from latex2sympy.units.sie import all_units as sie_units
-from latex2sympy.units.prefixes import ALL_PREFIXES, PREFIX_ALIASES
+
 import latex2sympy.units.unit_definitions as additional_units
-from latex2sympy.units.unit_definitions import liter, gray, bit, byte
 from latex2sympy.units.prefixed_unit_definitions import (
-    liter_prefixed_units,
+    bit_prefixed_units,
+    bit_si_prefixed_units,
+    byte_prefixed_units,
     gray_prefixed_units,
-    bit_prefixed_units, bit_si_prefixed_units,
-    byte_prefixed_units
+    liter_prefixed_units,
 )
+from latex2sympy.units.prefixes import ALL_PREFIXES, PREFIX_ALIASES
+from latex2sympy.units.sie import all_units as sie_units
+from latex2sympy.units.unit_definitions import bit, byte, gray, liter
 
 # -------------------------------------------------------------------------------------------------
 # define fixed sympy units / additional unit aliases
@@ -36,7 +39,7 @@ custom_unit_aliases = {
     sympy_units.microgram: ['mcg'],
     sympy_units.amu: ['u'],
     sympy_units.mil: ['mrad'],
-    sympy_units.meter: ['metre', 'metres', 'Metre', 'Metres']
+    sympy_units.meter: ['metre', 'metres', 'Metre', 'Metres'],
 }
 
 # add alternate spelling
@@ -45,9 +48,7 @@ custom_unit_aliases[liter] = ['litre', 'litres', 'Litre', 'Litres']
 custom_unit_aliases[bit] = ['b']
 for bit_prefixed_unit in [*bit_prefixed_units, *bit_si_prefixed_units]:
     bit_prefixed_unit_abbrev = str(bit_prefixed_unit.abbrev)
-    custom_unit_aliases[bit_prefixed_unit] = [
-        bit_prefixed_unit_abbrev[:-2]
-    ]
+    custom_unit_aliases[bit_prefixed_unit] = [bit_prefixed_unit_abbrev[:-2]]
 
 # units that will replace the original sympy versions
 fixed_sympy_units = {}
@@ -65,7 +66,7 @@ allowed_constants = [
     sympy_units.speed_of_light,
     sympy_units.atomic_mass_constant,
     sympy_units.electronvolt,
-    sympy_units.elementary_charge
+    sympy_units.elementary_charge,
 ]
 
 # define with sympy units should be excluded
@@ -81,20 +82,11 @@ units_to_exclude = [
     sympy_units.gauss,
     sympy_units.maxwell,
     sympy_units.debye,
-    sympy_units.oersted
+    sympy_units.oersted,
 ]
 
 # sympy unit aliases we don't want to use
-aliases_to_exclude = [
-    'l',
-    'cl',
-    'dl',
-    'ml',
-    'v',
-    'pa',
-    'wb',
-    'hz'
-]
+aliases_to_exclude = ['l', 'cl', 'dl', 'ml', 'v', 'pa', 'wb', 'hz']
 
 # sympy unit aliases that should have a pluralized form added
 aliases_to_pluralize = [
@@ -109,25 +101,11 @@ aliases_to_pluralize = [
     'diopter',
     'dalton',
     'torr',
-    'hectare'
+    'hectare',
 ]
 
 # sympy unit aliases that should be capitalized
-aliases_to_not_capitalize = [
-    'au',
-    'h',
-    'amu',
-    'amus',
-    'nmi',
-    'mmu',
-    'mmus',
-    'mi',
-    'mmHg',
-    'psi',
-    'kt',
-    'ccs',
-    'rpms'
-]
+aliases_to_not_capitalize = ['au', 'h', 'amu', 'amus', 'nmi', 'mmu', 'mmus', 'mi', 'mmHg', 'psi', 'kt', 'ccs', 'rpms']
 
 # -------------------------------------------------------------------------------------------------
 
@@ -144,7 +122,7 @@ def get_base_unit(unit, dir_module):
     for _, prefix in ALL_PREFIXES.items():
         prefix_name = str(prefix.name)
         if unit_name.startswith(prefix_name):
-            base_unit_name = unit_name[len(prefix_name):]
+            base_unit_name = unit_name[len(prefix_name) :]
     if base_unit_name is not None and base_unit_name in dir(dir_module):
         return getattr(dir_module, base_unit_name)
     return None
@@ -175,8 +153,7 @@ def get_aliases_for_unit(unit, dir_module=None, attr_name=None):
 
     # attr name
     # except when containing underscores, e.g. "metric_ton"
-    if attr_name is not None and '_' not in attr_name and \
-            attr_name != unit_name and attr_name != unit_abbrev:
+    if attr_name is not None and '_' not in attr_name and attr_name != unit_name and attr_name != unit_abbrev:
         unit_aliases.append(attr_name)
         # plural attr name
         if attr_name in aliases_to_pluralize:
@@ -190,7 +167,8 @@ def get_aliases_for_unit(unit, dir_module=None, attr_name=None):
                 unit_aliases.append(f'{attr_capitalized}s')
 
     # check if the unit is prefixed
-    # if the base unit is found and is pluralized, add the pluralized name and pluralized capital name of the prefixed unit
+    # if the base unit is found and is pluralized,
+    # add the pluralized name and pluralized capital name of the prefixed unit
     if unit.is_prefixed:
         # if dir_module is not provided, attempt to find the base unit in either location
         if dir_module is None:
@@ -248,31 +226,39 @@ UNIT_ALIASES = {}
 # add aliases for defined attributes
 for attr in dir(sympy_units):
     u = getattr(sympy_units, attr)
-    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and attr not in aliases_to_exclude and u not in units_to_exclude:
+    if (
+        isinstance(u, Quantity)
+        and (not isinstance(u, PhysicalConstant) or u in allowed_constants)
+        and attr not in aliases_to_exclude
+        and u not in units_to_exclude
+    ):
         # override sympy units that have been fixed
         if str(u.name) in fixed_sympy_units:
             u = fixed_sympy_units[str(u.name)]
         for alias in get_aliases_for_unit(u, sympy_units, attr):
             if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):  # pragma: no cover
-                raise Exception(f'attr: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
+                raise Exception(
+                    f'attr: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}'
+                )
             UNIT_ALIASES[alias] = u
 
 # `all_si_units` contains every MKS/MKSA/SI unit and each possible prefixed variation
-all_si_units = set([
-    *mks_units,
-    *mksa_units,
-    *si_units,
-    *sie_units
-])
+all_si_units = set([*mks_units, *mksa_units, *si_units, *sie_units])
 # add aliases for all prefixed units
 for u in all_si_units:
-    if isinstance(u, Quantity) and (not isinstance(u, PhysicalConstant) or u in allowed_constants) and u not in units_to_exclude:
+    if (
+        isinstance(u, Quantity)
+        and (not isinstance(u, PhysicalConstant) or u in allowed_constants)
+        and u not in units_to_exclude
+    ):
         # override sympy units that have been fixed
         if str(u.name) in fixed_sympy_units:
             u = fixed_sympy_units[str(u.name)]
         for alias in get_aliases_for_unit(u):
             if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):  # pragma: no cover
-                raise Exception(f'unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
+                raise Exception(
+                    f'unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}'
+                )
             UNIT_ALIASES[alias] = u
 
 # add aliases for additional units
@@ -281,7 +267,9 @@ for attr in dir(additional_units):
     if isinstance(u, Quantity):
         for alias in get_aliases_for_unit(u, additional_units, attr):
             if alias in UNIT_ALIASES and str(u.name) != str(UNIT_ALIASES[alias].name):  # pragma: no cover
-                raise Exception(f'additional unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}')
+                raise Exception(
+                    f'additional unit: alias "{alias}" conflicted between {str(u.name)} and {str(UNIT_ALIASES[alias].name)}'
+                )  # noqa: E501
             UNIT_ALIASES[alias] = u
 
 # -------------------------------------------------------------------------------------------------
@@ -319,7 +307,7 @@ for alias, unit in UNIT_ALIASES.items():
         prefix_aliases.append(alias)
 
         prefixes[prefixes_key] = prefix_aliases
-        prefixes = dict(sorted(prefixes.items(), key=lambda kvp: int(kvp[0][:kvp[0].find('-')])))
+        prefixes = dict(sorted(prefixes.items(), key=lambda kvp: int(kvp[0][: kvp[0].find('-')])))
         unit_obj['prefixes'] = prefixes
     else:
         aliases.append(alias)

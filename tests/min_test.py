@@ -1,6 +1,7 @@
-from .context import assert_equal, get_min_max_examples
 import pytest
 from sympy import Min
+
+from .context import assert_equal, get_min_max_examples
 
 
 def _Min(*args):

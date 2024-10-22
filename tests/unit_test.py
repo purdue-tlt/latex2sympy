@@ -1,56 +1,98 @@
 import pytest
-from sympy import Rational, pi
-from sympy.physics.units.definitions.unit_definitions import (
-    # MKS - "meter, kilogram, second"
-    meter, gram, kilogram, second, joule, newton, watt, pascal, hertz, speed_of_light,
-    # MKSA - based on MKS, "meter, kilogram, second, ampere"
-    ampere, volt, ohm, siemens, farad, henry, coulomb, tesla, weber,
-    # SI - based on MKSA, added kelvin, candela and mole
-    mole, kelvin, lux,
-    candela, becquerel,
-    katal,
-    # Derived
-    kilometer, centimeter, millimeter, nanometer,
-    milligram, microgram,
-    millisecond, microsecond,
-    # Other
-    percent, permille,
-    degree, rad, steradian, angular_mil,
-    minute, hour, day, year,
-    foot, inch, pound, yard,
-    curie,
-    atomic_mass_constant,
-    atmosphere,
-    electronvolt,
-    bar, psi,
-    astronomical_unit, elementary_charge,
-    dioptre
-)
 from latex2sympy.latex2sympyAsUnit import process_sympy_as_unit
-from latex2sympy.units.prefixes import SI_PREFIXES, BIN_PREFIXES
+from latex2sympy.units import convert_to, create_prefixed_unit, UNIT_ALIASES
+from latex2sympy.units.prefixes import BIN_PREFIXES, SI_PREFIXES
 from latex2sympy.units.unit_definitions import (
-    liter,
-    gray,
+    acre,
     bit,
-    byte,
-    lbf,
-    slug,
-    cal,
     btu,
-    degC, degF,
-    dB,
-    mph, knot,
-    lumen,
-    cfm, cfs,
-    rood, acre,
-    sievert,
-    parsec,
+    byte,
+    cal,
     cc,
+    cfm,
+    cfs,
+    dB,
+    degC,
+    degF,
+    gray,
+    knot,
+    lbf,
+    liter,
+    lumen,
     molar,
-    rpm
+    mph,
+    parsec,
+    rood,
+    rpm,
+    sievert,
+    slug,
 )
-from latex2sympy.units import UNIT_ALIASES, create_prefixed_unit, convert_to
-from .context import _Mul, _Pow, _Add, assert_equal, compare
+from sympy import pi, Rational
+from sympy.physics.units.definitions.unit_definitions import (
+    # MKSA - based on MKS, "meter, kilogram, second, ampere"
+    ampere,
+    angular_mil,
+    astronomical_unit,
+    atmosphere,
+    atomic_mass_constant,
+    bar,
+    becquerel,
+    candela,
+    centimeter,
+    coulomb,
+    curie,
+    day,
+    degree,
+    dioptre,
+    electronvolt,
+    elementary_charge,
+    farad,
+    foot,
+    gram,
+    henry,
+    hertz,
+    hour,
+    inch,
+    joule,
+    katal,
+    kelvin,
+    kilogram,
+    # Derived
+    kilometer,
+    lux,
+    # MKS - "meter, kilogram, second"
+    meter,
+    microgram,
+    microsecond,
+    milligram,
+    millimeter,
+    millisecond,
+    minute,
+    # SI - based on MKSA, added kelvin, candela and mole
+    mole,
+    nanometer,
+    newton,
+    ohm,
+    pascal,
+    # Other
+    percent,
+    permille,
+    pound,
+    psi,
+    rad,
+    second,
+    siemens,
+    speed_of_light,
+    steradian,
+    tesla,
+    volt,
+    watt,
+    weber,
+    yard,
+    year,
+)
+
+from .context import _Mul, _Pow, compare
 
 # create local vars for prefixed units for convenience
 millivolt = UNIT_ALIASES['millivolt']
@@ -90,13 +132,11 @@ unit_examples = [
     ('ft', foot),
     ('L', liter),
     ('sr', steradian),
-
     # units by names
     ('gram', gram),
     ('grams', gram),
     ('Gram', gram),
     ('Grams', gram),
-
     # assorted unit names (from suffixes)
     ('days', day),
     ('Degrees', degree),
@@ -110,7 +150,6 @@ unit_examples = [
     ('Seconds', second),
     ('Watts', watt),
     ('years', year),
-
     # prefixed si units
     ('cm', centimeter),
     ('mm', millimeter),
@@ -121,7 +160,6 @@ unit_examples = [
     ('ms', millisecond),
     ('mV', millivolt),
     ('mL', milliliter),
-
     # assorted prefixed si units (from suffixes)
     ('Gs', create_prefixed_unit(second, SI_PREFIXES['G'])),
     ('MHz', create_prefixed_unit(hertz, SI_PREFIXES['M'])),
@@ -144,15 +182,12 @@ unit_examples = [
     ('nL', create_prefixed_unit(liter, SI_PREFIXES['n'])),
     ('pF', create_prefixed_unit(farad, SI_PREFIXES['p'])),
     ('fF', create_prefixed_unit(farad, SI_PREFIXES['f'])),
-
     # prefixed units by full name
     ('millivolt', millivolt),
     ('millivolts', millivolt),
     ('Millivolt', millivolt),
     ('Millivolts', millivolt),
-
     ('Megajoules', create_prefixed_unit(joule, SI_PREFIXES['M'])),
-
     # prefix latex + unit abbrev
     ('\\mu g', microgram),
     ('\\mu s', microsecond),
@@ -161,22 +196,18 @@ unit_examples = [
     ('\\mu C', create_prefixed_unit(coulomb, SI_PREFIXES['mu'])),
     ('\\mu F', create_prefixed_unit(farad, SI_PREFIXES['mu'])),
     ('\\mu H', create_prefixed_unit(henry, SI_PREFIXES['mu'])),
-
     # prefix latex + unit latex
     ('\\mu \\Omega ', microohm),
-
     # prefix abbrev + unit latex
     ('M\\Omega ', create_prefixed_unit(ohm, SI_PREFIXES['M'])),
     ('k\\Omega ', create_prefixed_unit(ohm, SI_PREFIXES['k'])),
     ('mu\\Omega ', microohm),
     ('u\\Omega ', microohm),
-
     # only allow certain constants
     ('c', speed_of_light),
     ('amu', atomic_mass_constant),
     ('eV', electronvolt),
     ('e', elementary_charge),
-
     # additional prefixed units (not defined in sympy)
     ('MeV', create_prefixed_unit(electronvolt, SI_PREFIXES['M'])),
     ('mCi', create_prefixed_unit(curie, SI_PREFIXES['m'])),
@@ -203,7 +234,6 @@ unit_examples = [
     ('Rm', create_prefixed_unit(meter, SI_PREFIXES['R'])),
     ('rg', create_prefixed_unit(gram, SI_PREFIXES['r'])),
     ('qm', create_prefixed_unit(meter, SI_PREFIXES['q'])),
-
     # additional aliases
     ('\\degree ', degree),
     ('\\%', percent),
@@ -232,7 +262,6 @@ unit_examples = [
     ('in', inch),
     ('mcg', microgram),
     ('u', atomic_mass_constant),
-
     ('litre', liter),
     ('Litre', liter),
     ('litres', liter),
@@ -241,7 +270,6 @@ unit_examples = [
     ('millilitres', create_prefixed_unit(liter, SI_PREFIXES['m'])),
     ('Millilitre', create_prefixed_unit(liter, SI_PREFIXES['m'])),
     ('Millilitres', create_prefixed_unit(liter, SI_PREFIXES['m'])),
-
     ('metre', meter),
     ('Metre', meter),
     ('metres', meter),
@@ -250,7 +278,6 @@ unit_examples = [
     ('millimetres', create_prefixed_unit(meter, SI_PREFIXES['m'])),
     ('Millimetre', create_prefixed_unit(meter, SI_PREFIXES['m'])),
     ('Millimetres', create_prefixed_unit(meter, SI_PREFIXES['m'])),
-
     # additional units
     ('lbf', lbf),
     ('slug', slug),
@@ -276,23 +303,18 @@ unit_examples = [
     ('cc', cc),
     ('M', molar),
     ('rpm', rpm),
-
     # trailing spaces are stripped
     ('\\degree C\\: ', degC),
     ('years\\: ', year),
-
     # compound unit expressions
     ('kg\\times \\frac{m}{s^{2}}', _Mul(kilogram, meter, _Pow(_Pow(second, 2), -1))),
     ('kg*m^{2}s^{-3}', _Mul(kilogram, _Pow(meter, 2), _Pow(second, -3))),
-
     # space as multiplication
     ('kg\\: m', _Mul(kilogram, meter)),
-
     # assorted compound unit expressions (from suffixes)
     ('deg\\: C', _Mul(degree, coulomb)),
     ('\\degree \\: C', _Mul(degree, coulomb)),
     ('degrees\\: Celsius', _Mul(degree, degC)),
-
     ('degC/W', _Mul(degC, _Pow(watt, -1))),
     ('\\degree C/W', _Mul(degC, _Pow(watt, -1))),
     ('\\frac{\\degree C}{W}', _Mul(degC, _Pow(watt, -1))),
@@ -386,28 +408,22 @@ bad_unit_examples = [
     'carbon\\: atoms',
     'Pokeballs\\: with\\: her\\: income',
     'year\\left(s\\right)\\: of\\: her\\: life\\: due\\: to\\: bickering',
-
     # prefix + non-Quantity
     '\\mu 1',
     '\\mu x',
-
     # invalid prefix + quantity
     '\\mu slug',
-
     # prefix after a compound Quantity
     '\\frac{m}{s}d',
-
     # unsupported constant or prefix w/o Quantity
     'G',
     'giga',
     'pico',
-
     # combined prefix with non-abbreviated name
     'Mohms',  # megaohms or M\\Omega
     'kohms',  # killiohms or k\\Omega
     'kg/kmole',  # kmol
     'mb',  # millibar or mbar
-
     # operatorname and other latex cmds
     '\\$',
     '\\operatorname{cm}',
@@ -415,7 +431,6 @@ bad_unit_examples = [
     '\\frac{J}{\\operatorname{kg}K}',
     '\\sec ',
     '\\min ',
-
     # letters or subscripts after valid units
     'A\\: peak',
     'ADC',
@@ -425,28 +440,23 @@ bad_unit_examples = [
     'V_{RMS}',
     'Vpeak',
     'Vrms',
-
     # unit phrases
     'cubic\\: inches',
     'meters\\: per\\: second',
     'meters\\: per\\: second\\: squared',
     'miles\\: per\\: hour',
     'square\\: inches',
-
     # unicode
     'kΩ',
     'º',
     '°C\\: ',
     'Ω',
-
     # valid unit combined with invalid unit
     'MeV/nucleon',
-
     # assorted invalid units
     '\\degree s',  # plural degrees w/ latex
     'o',  # meant to be \degree
     'msec',  # ms
-
     # unsupported CGS units
     'dyne',
     'erg',
@@ -457,11 +467,9 @@ bad_unit_examples = [
     'maxwell',
     'debye',
     'oersted',
-
     # other unsupported units
     'quart',
     'planck',
-
     'ounce',
     'oz',
     'gallon',
@@ -471,7 +479,6 @@ bad_unit_examples = [
     'dbV',
     'gpm',
     'hp',
-
     'lbf⋅ft',
     'lbf.ft',
     'lb⋅in',
@@ -480,15 +487,12 @@ bad_unit_examples = [
     'ft.lbf',
     'ft⋅lb',
     'ft.lb',
-
     'psia',
-
     'PPS',  # pulses per second
     'kN.m',
-
     '.',
     '..',
-    'gram\\: .'
+    'gram\\: .',
 ]
 
 
@@ -506,28 +510,23 @@ convert_to_unit_examples = [
     ('m^{-1}', 'dioptre', dioptre),
     ('percent', 'permille', _Mul(10, permille)),
     ('hectare', 'm', _Mul(10000, _Pow(meter, 2))),
-
     # added rad to angular_mil conversion
     ('rad', 'mil', _Mul(1000, angular_mil)),
-
     # conversion for fixed liter unit with abbrev
     ('L', 'mL', _Mul(1000, milliliter)),
     ('m^{3}', 'L', _Mul(1000, liter)),
     ('mGy', 'Gy', _Mul(Rational(1, 1000), gray)),
     ('\\frac{m^{2}}{s^{2}}', 'Gy', gray),
-
     # information - bit and byte
     ('mebibit', 'bit', _Mul(1048576, bit)),
     ('kb', 'bit', _Mul(1000, bit)),
     ('Mb/s', 'MB/s', _Mul(Rational(1, 8), _Pow(second, -1), create_prefixed_unit(byte, SI_PREFIXES['M']))),
-
     # added lumen - conversions with lux, candela, steradian
     ('lumen', 'sr*cd', _Mul(steradian, candela)),
     ('sr*cd', 'lumen', lumen),
     ('\\frac{cd*sr}{m^{2}}', 'lux', lux),
     ('lux*m^{2}', 'lumen', lumen),
     ('lux', '\\frac{lumen}{m^{2}}', _Mul(lumen, _Pow(_Pow(meter, 2), -1))),
-
     # additional units
     ('\\frac{mile}{hour}', 'mph', mph),
     ('\\frac{feet}{second}', 'mph', _Mul(mph, Rational(15, 22))),
@@ -541,7 +540,7 @@ convert_to_unit_examples = [
     ('parsec', 'AU', _Mul(648000, _Pow(pi, -1), astronomical_unit)),
     ('cm^{3}', 'cc', cc),
     ('mol/L', 'M', molar),
-    ('mmol/L', 'M', _Mul(Rational(1, 1000), molar))
+    ('mmol/L', 'M', _Mul(Rational(1, 1000), molar)),
 ]
 
 
