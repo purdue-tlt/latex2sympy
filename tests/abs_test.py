@@ -1,6 +1,7 @@
-from .context import assert_equal, get_simple_examples
 import pytest
 from sympy import Abs
+
+from .context import assert_equal, get_simple_examples
 
 
 def _Abs(*args):
@@ -9,11 +10,7 @@ def _Abs(*args):
 
 examples = get_simple_examples(_Abs)
 
-delimiter_pairs = {
-    '|': '|',
-    '\\vert': '\\vert',
-    '\\lvert': '\\rvert'
-}
+delimiter_pairs = {'|': '|', '\\vert': '\\vert', '\\lvert': '\\rvert'}
 
 
 @pytest.mark.parametrize('input, output', examples)

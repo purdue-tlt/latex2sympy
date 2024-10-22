@@ -24,18 +24,20 @@ git add src/latex2sympy/units/unit_aliases/unit_aliases.pkl
 git add src/latex2sympy/units/unit_aliases/unit_aliases.json
 echo "completed running unit_aliases."
 
-# Run import sorting using isort on all staged python files, then add those changes
-echo "auto-sorting imports..."
-if isort `git diff --name-status --cached | grep '.*\.py$' | awk 'match($1, "A|M"){print $2}'` && git add `git diff --name-status --cached | grep '.*\.py$' | awk 'match($1, "A|M"){print $2}'`
-then echo "imports were auto-sorted."
-else echo "no imports were auto-sorted."
-fi
-
-# Run auto formatting using autopep8 on all staged python files, then add those changes
-echo "auto-formatting code..."
-if autopep8 --in-place `git diff --name-status --cached | grep '.*\.py$' | awk 'match($1, "A|M"){print $2}'` && git add `git diff --name-status --cached | grep '.*\.py$' | awk 'match($1, "A|M"){print $2}'`
-then echo "code was auto-formatted."
-else echo "no code was auto-formatted."
+# Run auto formatting on all staged python files, if any, then add those changes, if any
+staged_py_files=$(git diff --name-status --cached | grep '.*\.py$' | awk 'match($1, "A|M"){print $2}')
+if [ -n "$staged_py_files" ]
+then
+	result=$(ufmt check $staged_py_files 2>&1 | grep -c 'Would format')
+	if (($result > 0))
+	then
+		echo "auto-formatting code..."
+		ufmt format $staged_py_files
+		git add $staged_py_files
+		echo "code was auto-formatted."
+	else
+		echo "no code was auto-formatted."
+	fi
 fi
 
 exit 0

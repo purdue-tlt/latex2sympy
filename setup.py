@@ -28,5 +28,5 @@ setup(
         'latex2sympy.units.unit_aliases': [],
         'latex2sympy.utils': [],
     },
-    install_requires=['sympy==1.12'],
+    install_requires=['sympy==1.13.3'],
 )

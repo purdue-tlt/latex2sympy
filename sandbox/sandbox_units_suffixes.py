@@ -1,6 +1,4 @@
 from latex2sympy.latex2sympy import process_sympy
-from sympy import srepr, latex
-
 
 suffix_examples = [
     # '-15.11',
