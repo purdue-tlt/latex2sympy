@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    version="1.11.2",
+    version="1.12.0",
     name="latex2sympy",
     packages=[
         'latex2sympy',
