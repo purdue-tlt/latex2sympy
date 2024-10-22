@@ -3487,13 +3487,6 @@
         }
     },
     "lumen": {
-        "aliases": [
-            "lm",
-            "lumen",
-            "Lumen",
-            "lumens",
-            "Lumens"
-        ],
         "prefixes": {
             "0-yotta": [
                 "Ylm",
@@ -3665,7 +3658,14 @@
                 "quectolumens",
                 "Quectolumens"
             ]
-        }
+        },
+        "aliases": [
+            "lm",
+            "lumen",
+            "Lumen",
+            "lumens",
+            "Lumens"
+        ]
     },
     "lux": {
         "aliases": [
@@ -4441,13 +4441,6 @@
         ]
     },
     "newton": {
-        "aliases": [
-            "N",
-            "newton",
-            "Newton",
-            "newtons",
-            "Newtons"
-        ],
         "prefixes": {
             "0-yotta": [
                 "YN",
@@ -4619,7 +4612,14 @@
                 "quectonewtons",
                 "Quectonewtons"
             ]
-        }
+        },
+        "aliases": [
+            "N",
+            "newton",
+            "Newton",
+            "newtons",
+            "Newtons"
+        ]
     },
     "ohm": {
         "aliases": [
